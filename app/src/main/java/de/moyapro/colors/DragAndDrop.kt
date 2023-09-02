@@ -1,6 +1,6 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,7 +76,7 @@ fun <T> DragTarget(
             )
         }
         .pointerInput(Unit) {
-            detectDragGesturesAfterLongPress(onDragStart = {
+            detectDragGestures(onDragStart = {
                 viewModel.startDragging()
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true

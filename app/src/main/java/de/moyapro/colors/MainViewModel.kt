@@ -1,10 +1,14 @@
 package de.moyapro.colors
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import kotlin.random.Random
 
-class MainViewModel :ViewModel() {
+class MainViewModel : ViewModel() {
 
     var isCurrentlyDragging by mutableStateOf(false)
         private set
@@ -17,20 +21,21 @@ class MainViewModel :ViewModel() {
 
     init {
         items = listOf(
-            PersonUiItem("Michael","1", Color.Gray),
-            PersonUiItem("Larissa","2", Color.Blue),
-            PersonUiItem("Marc","3", Color.Green),
+            PersonUiItem("Michael", "1", Color.Red, Random.nextInt(10_000)),
+            PersonUiItem("Larissa", "2", Color.Green, Random.nextInt(10_000)),
+            PersonUiItem("Marc", "3", Color.Blue, Random.nextInt(10_000)),
         )
     }
 
-    fun startDragging(){
+    fun startDragging() {
         isCurrentlyDragging = true
     }
-    fun stopDragging(){
+
+    fun stopDragging() {
         isCurrentlyDragging = false
     }
 
-    fun addPerson(personUiItem: PersonUiItem){
+    fun addPerson(personUiItem: PersonUiItem) {
         println("Added Person")
         addedPersons.add(personUiItem)
     }
