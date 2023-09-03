@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -30,7 +29,6 @@ fun <T> DropItem(
 
     Box(modifier = modifier.onGloballyPositioned {
         it.boundsInWindow().let { rect ->
-            Log.d(TAG, dragInfo.toString())
             isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
         }
     }) {

@@ -51,7 +51,7 @@ fun DragableScreen(
                         val offset = (state.dragPosition + state.dragOffset)
                         scaleX = 1.0f
                         scaleY = 1.0f
-                        alpha = if (targetSize == IntSize.Zero) 0f else .5f
+                        alpha = if (targetSize == IntSize.Zero) 0f else .9f
                         translationX = offset.x.minus(targetSize.width / 2)
                         translationY = offset.y.minus(targetSize.height / 2)
                     }
@@ -65,7 +65,7 @@ fun DragableScreen(
                     Box(
                         modifier = Modifier
                             .onGloballyPositioned { pos = it.positionInRoot() }
-                            .size(Dp(100f))
+                            .size(Dp(75f))
                             .clip(RoundedCornerShape(15.dp))
                             .shadow(5.dp, RoundedCornerShape(15.dp))
                             .background(Color.White, RoundedCornerShape(15.dp)),
@@ -73,7 +73,7 @@ fun DragableScreen(
                     ) {
                         Column {
                             Text("""${pos.x.toInt()} x ${pos.y.toInt()}
-                                |$state
+                                |${state.dragPosition.x.toInt()} x ${state.dragPosition.y.toInt()}
                             """.trimMargin())
                         }
                     }
@@ -93,7 +93,8 @@ internal class DragTargetInfo {
     var dataToDrop by mutableStateOf<Any?>(null)
 
     override fun toString(): String {
-        return """ ${dragPosition.x.toInt()} x ${dragPosition.y.toInt()}
+        return """
+            dragPosition: ${dragPosition.x} x ${dragPosition.y}
             dragOffset: $dragOffset
 //            isDragging: $isDragging
 //            draggableComposable: $draggableComposable
