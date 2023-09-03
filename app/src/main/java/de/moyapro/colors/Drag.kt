@@ -43,11 +43,11 @@ fun <T> DragTarget(
     Box(modifier = modifier
         .offset(offsetX, offsetY)
         .onGloballyPositioned {
-            if(globalStartPosition == Offset.Zero)
-                globalStartPosition =it.localToWindow(
+            if (globalStartPosition == Offset.Zero)
+                globalStartPosition = it.localToWindow(
                     Offset.Zero
                 )
-                Log.d(TAG, "set global start position: $globalStartPosition")
+            Log.d(TAG, "set global start position: $globalStartPosition")
         }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = {
@@ -55,9 +55,11 @@ fun <T> DragTarget(
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
                 currentState.dragPosition = globalStartPosition + it
-                localPosition = globalStartPosition
                 val sumn = localPosition + localOffset + it
-                Log.d(TAG, "drag start offset: $it, localPosition: $localPosition, localOffset: $localOffset, sumn: $sumn")
+                Log.d(
+                    TAG,
+                    "drag start offset: $it, localPosition: $localPosition, localOffset: $localOffset, sumn: $sumn"
+                )
                 currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
                 change.consumeAllChanges()
