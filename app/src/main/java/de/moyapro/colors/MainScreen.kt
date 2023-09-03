@@ -1,7 +1,5 @@
 package de.moyapro.colors
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +35,9 @@ fun MainScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+        ,
         verticalArrangement = Arrangement.spacedBy(50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -79,10 +79,6 @@ fun MainScreen(
                 }
             }
         }
-        AnimatedVisibility(
-            mainViewModel.isCurrentlyDragging,
-            enter = slideInHorizontally(initialOffsetX = { it })
-        ) {
             DropItem<PersonUiItem>(
                 modifier = Modifier
                     .size(Dp(screenWidth / 3.5f))
@@ -133,7 +129,6 @@ fun MainScreen(
                     }
                 }
             }
-        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
