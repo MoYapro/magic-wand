@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -24,15 +25,15 @@ fun <T> DragTarget(
     content: @Composable (() -> Unit)
 ) {
 
-    var x by remember { mutableStateOf(0f) }
-    var y by remember { mutableStateOf(0f) }
-
+    var localPosition by remember { mutableStateOf(Offset.Zero) }
+    var localOffset by remember { mutableStateOf(Offset.Zero) }
+    val currentState = LocalDragTargetInfo.current
     // The offsets that is always update, that place the component to be dragged
     val offsetX = with(LocalDensity.current) {
-        x.toDp()
+        (localPosition.x + localOffset.x).toDp()
     }
     val offsetY = with(LocalDensity.current) {
-        y.toDp()
+        (localPosition.y + localOffset.y).toDp()
     }
 
 
@@ -40,14 +41,23 @@ fun <T> DragTarget(
         .offset(offsetX, offsetY)
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = {
-//                currentOffset = it
+                viewModel.startDragging()
+                currentState.dataToDrop = dataToDrop
+                currentState.isDragging = true
+                currentState.dragPosition = localPosition + localOffset + it
+                currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
                 change.consumeAllChanges()
-
-                x += dragAmount.x
-                y += dragAmount.y
+                currentState.dragOffset += dragAmount
+                localOffset += dragAmount
             }, onDragEnd = {
+                viewModel.stopDragging()
+                currentState.isDragging = false
+                currentState.dragOffset = Offset.Zero
             }, onDragCancel = {
+                viewModel.stopDragging()
+                currentState.dragOffset = Offset.Zero
+                currentState.isDragging = false
             })
         }) {
         content()

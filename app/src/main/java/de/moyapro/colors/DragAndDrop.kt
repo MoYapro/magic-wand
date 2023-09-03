@@ -47,7 +47,7 @@ fun DragableScreen(
                         targetSize = it.size
                     }
                 ) {
-                    state.draggableComposable?.invoke()
+//                    state.draggableComposable?.invoke()
                 }
             }
         }
