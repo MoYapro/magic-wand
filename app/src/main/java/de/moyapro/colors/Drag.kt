@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 
 
@@ -25,6 +27,7 @@ fun <T> DragTarget(
     content: @Composable (() -> Unit)
 ) {
 
+    var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
     var localPosition by remember { mutableStateOf(Offset.Zero) }
     var localOffset by remember { mutableStateOf(Offset.Zero) }
     val currentState = LocalDragTargetInfo.current
@@ -39,17 +42,27 @@ fun <T> DragTarget(
 
     Box(modifier = modifier
         .offset(offsetX, offsetY)
+        .onGloballyPositioned {
+            if(globalStartPosition == Offset.Zero)
+                globalStartPosition =it.localToWindow(
+                    Offset.Zero
+                )
+                Log.d(TAG, "set global start position: $globalStartPosition")
+        }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = {
                 viewModel.startDragging()
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
-                currentState.dragPosition = localPosition + localOffset + it
+                currentState.dragPosition = globalStartPosition + it
+                localPosition = globalStartPosition
+                val sumn = localPosition + localOffset + it
+                Log.d(TAG, "drag start offset: $it, localPosition: $localPosition, localOffset: $localOffset, sumn: $sumn")
                 currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
                 change.consumeAllChanges()
-                currentState.dragOffset += dragAmount
                 localOffset += dragAmount
+                currentState.dragPosition = globalStartPosition + localOffset
             }, onDragEnd = {
                 viewModel.stopDragging()
                 currentState.isDragging = false
