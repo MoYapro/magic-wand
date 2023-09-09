@@ -9,9 +9,9 @@ data class Wand(val spells: List<Spell> = emptyList(), val wandMagic: List<Magic
             ""
 
         return """
-            --------------
-            $spellList
-            --------------
+--------------
+$spellList
+--------------
         """.trimIndent()
     }
 
@@ -20,9 +20,7 @@ data class Wand(val spells: List<Spell> = emptyList(), val wandMagic: List<Magic
             "${availableMagic.size}"
         else
             "-"
-
-
-        return "0 [ $magicGiven / 1 ] ${spell.spellName}"
+        return "0 [ $magicGiven / ${spell.requiredResources} ] ${spell.spellName}"
 
     }
 

@@ -24,6 +24,20 @@ internal class WandTest {
             --------------
         """.trimIndent()
     }
+    @Test
+    fun addTwoSpells() {
+        val spell1 = Spell(spellName +"1", 13)
+        val spell2 = Spell(spellName +"2", 11)
+        Wand()
+            .withSpell(spell1)
+            .withSpell(spell2)
+            .render() shouldBe """
+            --------------
+            0 [ - / 13 ] ${spellName}1
+            0 [ - / 11 ] ${spellName}2
+            --------------
+        """.trimIndent()
+    }
 
     @Test
     fun placeMagicInAvailableSlot() {
@@ -33,7 +47,7 @@ internal class WandTest {
         leftoverMagic shouldBe NO_MAGIC
         wandWithMagic.render() shouldBe """
             --------------
-            0 [ 1 / 1 ] $spellName
+            0 [ 1 / 2 ] $spellName
             --------------
         """.trimIndent()
     }
