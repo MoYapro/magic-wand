@@ -44,10 +44,23 @@ internal class WandTest {
         val magic = Magic()
         val wand = Wand().withSpell(Spell(spellName, 2))
         val (leftoverMagic, wandWithMagic) = wand.placeMagic(magic)
-        leftoverMagic shouldBe NO_MAGIC
+        leftoverMagic shouldBe null
         wandWithMagic.render() shouldBe """
             --------------
             0 [ 1 / 2 ] $spellName
+            --------------
+        """.trimIndent()
+    }
+
+    @Test
+    fun place_No_Magic() {
+        val magic = Magic(MagicType.NONE)
+        val wand = Wand().withSpell(Spell(spellName, 2))
+        val (leftoverMagic, wandWithMagic) = wand.placeMagic(magic)
+        leftoverMagic shouldBe null
+        wandWithMagic.render() shouldBe """
+            --------------
+            0 [ 0 / 2 ] $spellName
             --------------
         """.trimIndent()
     }
@@ -63,6 +76,16 @@ internal class WandTest {
             0 [ - / 0 ] $spellName
             --------------
         """.trimIndent()
+    }
+
+    @Test
+    fun activateWand() {
+        val (_, wand) = Wand()
+            .withSpell(Spell(spellName, 2))
+            .placeMagic(Magic())
+        wand.canActivate() shouldBe false
+        wand.placeMagic(Magic())
+        wand.canActivate() shouldBe true
     }
 
 }

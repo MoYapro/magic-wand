@@ -17,7 +17,7 @@ $spellList
 
     private fun renderSpell(spell: Spell, availableMagic: List<Magic>): String {
         val magicGiven = if (availableMagic.isNotEmpty())
-            "${availableMagic.size}"
+            "${availableMagic.sumOf(Magic::getValue)}"
         else
             "-"
         return "0 [ $magicGiven / ${spell.requiredResources} ] ${spell.spellName}"
@@ -32,15 +32,19 @@ $spellList
     fun placeMagic(magic: Magic): PlaceMagicResult {
         if (!hasSpaceForMagic(magic)) return PlaceMagicResult(magic, this)
         val wandWithMagic = this.copy(wandMagic = this.wandMagic + magic)
-        return PlaceMagicResult(NO_MAGIC, wandWithMagic)
+        return PlaceMagicResult(null, wandWithMagic)
     }
 
     private fun hasSpaceForMagic(newMagic: Magic): Boolean {
         val allAvailableMagic = this.wandMagic + newMagic
-        var sumMagicAvailable: Long = allAvailableMagic.sumOf { _ -> 1L }
+        var sumMagicAvailable = allAvailableMagic.sumOf(Magic::getValue)
         spells.forEach { spell -> sumMagicAvailable -= spell.requiredResources }
 
         return 0 >= sumMagicAvailable
+    }
+
+    fun canActivate(): Boolean {
+        TODO("Not yet implemented")
     }
 
 }
