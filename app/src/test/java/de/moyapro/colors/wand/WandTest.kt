@@ -4,6 +4,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 internal class WandTest {
+    val spellName = "::SpellName::"
 
     @Test
     fun renderEmpty() {
@@ -16,7 +17,6 @@ internal class WandTest {
 
     @Test
     fun addSpell() {
-        val spellName = "::SpellName::"
         val spell = Spell(spellName, 1)
         Wand().withSpell(spell).render() shouldBe """
             --------------
@@ -25,33 +25,18 @@ internal class WandTest {
         """.trimIndent()
     }
 
-}
-
-data class Spell(val spellName: String, val requiredResources: Int)
-
-data class Wand(val spells: List<Spell> = emptyList()) {
-    // TODO extract to console renderer
-    fun render(): String {
-        val spellList: String = if (spells.isNotEmpty())
-            spells.joinToString("\n") { spell -> renderSpell(spell) }
-        else
-            ""
-
-        return """
+    @Test
+    fun placeMagicInAvailableSlot() {
+        val magic = Magic()
+        val wand = Wand().withSpell(Spell(spellName, 2))
+        val (leftoverMagic, wandWithMagic) = wand.placeMagic(magic)
+        leftoverMagic shouldBe NO_MAGIC
+        wandWithMagic.render() shouldBe """
             --------------
-            $spellList
+            0 [ 1 / 1 ] $spellName
             --------------
         """.trimIndent()
     }
 
-    private fun renderSpell(spell: Spell): String {
-        return "0 [ - / 1 ] ${spell.spellName}"
-
-    }
-
-    fun withSpell(spell: Spell): Wand {
-        return this.copy(spells = this.spells + spell)
-
-    }
-
 }
+
