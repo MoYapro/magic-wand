@@ -52,5 +52,18 @@ internal class WandTest {
         """.trimIndent()
     }
 
+    @Test
+    fun placeMagicNoAvailableSlot() {
+        val magic = Magic()
+        val wand = Wand().withSpell(Spell(spellName, 0))
+        val (leftoverMagic, wandWithMagic) = wand.placeMagic(magic)
+        leftoverMagic shouldBe magic
+        wandWithMagic.render() shouldBe """
+            --------------
+            0 [ - / 0 ] $spellName
+            --------------
+        """.trimIndent()
+    }
+
 }
 
