@@ -1,5 +1,6 @@
 package de.moyapro.colors.wand
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
@@ -79,13 +80,33 @@ internal class WandTest {
     }
 
     @Test
-    fun activateWand() {
+    fun canActivate() {
         val (_, wand) = Wand()
             .withSpell(Spell(spellName, 2))
             .placeMagic(Magic())
         wand.canActivate() shouldBe false
         val (_, wandWithMoreMagic) = wand.placeMagic(Magic())
         wandWithMoreMagic.canActivate() shouldBe true
+    }
+
+    @Test
+    fun doActivateIfNotReady() {
+        val (_, wand) = Wand()
+            .withSpell(Spell(spellName, 2))
+            .placeMagic(Magic())
+        shouldThrow<IllegalStateException> { wand.doActivate() }
+    }
+
+    @Test
+    fun doActivate() {
+        val spell = Spell(spellName, 2)
+        val (_, wand) = Wand()
+            .withSpell(spell)
+            .placeMagic(Magic())
+            .wand
+            .placeMagic(Magic())
+        val castSpells: List<Spell> = wand.doActivate()
+        castSpells shouldBe listOf(spell)
     }
 
 }

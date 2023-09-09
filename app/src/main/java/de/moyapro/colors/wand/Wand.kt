@@ -50,4 +50,9 @@ $spellList
         return 0 <= sumMagicAvailable
     }
 
+    fun doActivate(): List<Spell> {
+        if (!canActivate()) throw IllegalStateException("cannot activate wand if it has not enough magic")
+        return this.spells
+    }
+
 }
