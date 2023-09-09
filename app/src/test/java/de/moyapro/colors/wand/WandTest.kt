@@ -84,8 +84,8 @@ internal class WandTest {
             .withSpell(Spell(spellName, 2))
             .placeMagic(Magic())
         wand.canActivate() shouldBe false
-        wand.placeMagic(Magic())
-        wand.canActivate() shouldBe true
+        val (_, wandWithMoreMagic) = wand.placeMagic(Magic())
+        wandWithMoreMagic.canActivate() shouldBe true
     }
 
 }

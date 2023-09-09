@@ -44,7 +44,10 @@ $spellList
     }
 
     fun canActivate(): Boolean {
-        TODO("Not yet implemented")
+        var sumMagicAvailable = this.wandMagic.sumOf(Magic::getValue)
+        spells.forEach { spell -> sumMagicAvailable -= spell.requiredResources }
+
+        return 0 <= sumMagicAvailable
     }
 
 }
