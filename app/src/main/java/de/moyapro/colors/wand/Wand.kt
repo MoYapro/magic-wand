@@ -1,6 +1,17 @@
 package de.moyapro.colors.wand
 
 data class Wand(val spells: List<Spell> = emptyList(), val wandMagic: List<Magic> = emptyList()) {
+
+    private val magicSlots: List<MagicSlot>
+
+    init {
+        magicSlots = spells.map(Spell::requiredMagic).flatten().map { magic -> MagicSlot(magic) }
+    }
+
+    fun withSpell(spell: Spell): Wand {
+        return this.copy(spells = this.spells + spell)
+    }
+
     // TODO extract to console renderer
     fun render(): String {
         val spellList: String = if (spells.isNotEmpty())
@@ -20,14 +31,10 @@ $spellList
             "${availableMagic.sumOf(Magic::getValue)}"
         else
             "-"
-        return "0 [ $magicGiven / ${spell.requiredResources} ] ${spell.spellName}"
+        return "0 [ $magicGiven / ${spell.requiredMagic.size} ] ${spell.spellName}"
 
     }
 
-    fun withSpell(spell: Spell): Wand {
-        return this.copy(spells = this.spells + spell)
-
-    }
 
     fun placeMagic(magic: Magic): PlaceMagicResult {
         if (!hasSpaceForMagic(magic)) return PlaceMagicResult(magic, this)
@@ -36,18 +43,12 @@ $spellList
     }
 
     private fun hasSpaceForMagic(newMagic: Magic): Boolean {
-        val allAvailableMagic = this.wandMagic + newMagic
-        var sumMagicAvailable = allAvailableMagic.sumOf(Magic::getValue)
-        spells.forEach { spell -> sumMagicAvailable -= spell.requiredResources }
-
-        return 0 >= sumMagicAvailable
+        val openMagicSlot = this.magicSlots.filter { slot -> slot.full }
+        return openMagicSlot.any { slot -> slot.magic == newMagic }
     }
 
     fun canActivate(): Boolean {
-        var sumMagicAvailable = this.wandMagic.sumOf(Magic::getValue)
-        spells.forEach { spell -> sumMagicAvailable -= spell.requiredResources }
-
-        return 0 <= sumMagicAvailable
+        return magicSlots.all(MagicSlot::full)
     }
 
     fun doActivate(): List<Spell> {
