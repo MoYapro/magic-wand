@@ -1,3 +1,4 @@
 package de.moyapro.colors.wand
 
-enum class MagicType { SIMPLE, NONE }
+enum class MagicType(val symbol: Char) {
+    SIMPLE('S'), NONE('X') }

@@ -1,49 +1,31 @@
 package de.moyapro.colors.wand
 
-data class Wand(val spells: List<Spell> = emptyList(), val wandMagic: List<Magic> = emptyList()) {
+data class Wand private constructor(
+    val spells: List<Spell> = emptyList(),
+    val magicSlots: List<MagicSlot>,
+) {
 
-    private val magicSlots: List<MagicSlot>
+    constructor(spells: List<Spell> = emptyList()) : this(spells, emptyList())
 
-    init {
-        magicSlots = spells.map(Spell::requiredMagic).flatten().map { magic -> MagicSlot(magic) }
-    }
+    private constructor(spells: List<Spell>, magicSlots: List<MagicSlot>, newMagic: Magic?) : this(
+        spells,
+        createMagicSlots(spells, magicSlots, newMagic)
+    )
 
     fun withSpell(spell: Spell): Wand {
-        return this.copy(spells = this.spells + spell)
-    }
-
-    // TODO extract to console renderer
-    fun render(): String {
-        val spellList: String = if (spells.isNotEmpty())
-            spells.joinToString("\n") { spell -> renderSpell(spell, wandMagic) }
-        else
-            ""
-
-        return """
---------------
-$spellList
---------------
-        """.trimIndent()
-    }
-
-    private fun renderSpell(spell: Spell, availableMagic: List<Magic>): String {
-        val magicGiven = if (availableMagic.isNotEmpty())
-            "${availableMagic.sumOf(Magic::getValue)}"
-        else
-            "-"
-        return "0 [ $magicGiven / ${spell.requiredMagic.size} ] ${spell.spellName}"
-
+        val newSpells = this.spells + spell
+        return Wand(newSpells, magicSlots, null)
     }
 
 
     fun placeMagic(magic: Magic): PlaceMagicResult {
         if (!hasSpaceForMagic(magic)) return PlaceMagicResult(magic, this)
-        val wandWithMagic = this.copy(wandMagic = this.wandMagic + magic)
+        val wandWithMagic = Wand(this.spells, this.magicSlots, newMagic = magic)
         return PlaceMagicResult(null, wandWithMagic)
     }
 
     private fun hasSpaceForMagic(newMagic: Magic): Boolean {
-        val openMagicSlot = this.magicSlots.filter { slot -> slot.full }
+        val openMagicSlot = this.magicSlots.filter { slot -> !slot.full }
         return openMagicSlot.any { slot -> slot.magic == newMagic }
     }
 
@@ -56,4 +38,27 @@ $spellList
         return this.spells
     }
 
+}
+
+fun createMagicSlots(
+    spells: List<Spell>,
+    magicSlots: List<MagicSlot>,
+    magic: Magic? = null
+): List<MagicSlot> {
+    val requiredMagicFromSpells = spells.map(Spell::requiredMagic).flatten()
+    val providedMagic =
+        magicSlots.map(MagicSlot::magic) + if (null != magic) listOf(magic) else emptyList()
+
+    val fullSlots = providedMagic.map { MagicSlot(it, true) }
+    val providedCountdownList = providedMagic.toMutableList()
+    val emptySlots =
+        requiredMagicFromSpells
+            .map { required ->
+                if (providedCountdownList.remove(required)) MagicSlot(
+                    required
+                ) else null
+            }
+            .filterNotNull()
+
+    return fullSlots + emptySlots
 }
