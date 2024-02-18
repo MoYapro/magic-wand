@@ -49,7 +49,7 @@ fun MainScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             mainViewModel.items.forEach { person ->
-                DragTarget(
+                Draggable(
                     dataToDrop = person,
                     viewModel = mainViewModel
                 ) {
@@ -79,12 +79,13 @@ fun MainScreen(
                 }
             }
         }
-            DropItem<PersonUiItem>(
+            DropZone<PersonUiItem>(
                 modifier = Modifier
                     .size(Dp(screenWidth / 3.5f))
             ) { isInBound, personItem ->
                 if (personItem != null) {
                     LaunchedEffect(key1 = personItem) {
+                        mainViewModel.items
                         mainViewModel.addPerson(personItem)
                     }
                 }
@@ -101,7 +102,7 @@ fun MainScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Add Person",
+                            text = " >> Add Person << ",
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.Black
                         )

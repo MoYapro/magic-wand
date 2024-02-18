@@ -15,7 +15,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 private const val TAG = "DROP_ITEM"
 
 @Composable
-fun <T> DropItem(
+fun <T> DropZone(
     modifier: Modifier,
     content: @Composable() (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
 ) {

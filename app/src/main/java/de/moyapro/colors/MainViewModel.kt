@@ -13,7 +13,7 @@ class MainViewModel : ViewModel() {
     var isCurrentlyDragging by mutableStateOf(false)
         private set
 
-    var items by mutableStateOf(emptyList<PersonUiItem>())
+    var items: List<PersonUiItem> by mutableStateOf(emptyList<PersonUiItem>())
         private set
 
     var addedPersons = mutableStateListOf<PersonUiItem>()
@@ -37,6 +37,7 @@ class MainViewModel : ViewModel() {
 
     fun addPerson(personUiItem: PersonUiItem) {
         println("Added Person")
+        items = items.filter { it != personUiItem }
         addedPersons.add(personUiItem)
     }
 

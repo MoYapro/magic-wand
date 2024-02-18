@@ -86,6 +86,7 @@ fun DragableScreen(
 
 
 internal class DragTargetInfo {
+    var dragStartPosition: Offset by mutableStateOf(Offset.Zero)
     var isDragging: Boolean by mutableStateOf(false)
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
