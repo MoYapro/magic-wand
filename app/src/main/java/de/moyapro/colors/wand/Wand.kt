@@ -15,7 +15,11 @@ data class Wand private constructor(
         createMagicSlots(listOf(spell), emptyList())
     )
 
-    private constructor(spells: List<Spell>, magicSlots: List<MagicSlot>, newMagic: Magic?) : this(
+    private constructor(
+        spells: List<Spell>,
+        magicSlots: List<MagicSlot>,
+        newMagic: Magic? = null
+    ) : this(
         UUID.randomUUID(),
         spells,
         createMagicSlots(spells, magicSlots, newMagic)
@@ -55,19 +59,14 @@ fun createMagicSlots(
 ): List<MagicSlot> {
     val requiredMagicFromSpells = spells.map(Spell::requiredMagic).flatten()
     val providedMagic =
-        magicSlots.map(MagicSlot::magic) + if (null != magic) listOf(magic) else emptyList()
+        magicSlots.filter(MagicSlot::full)
+            .map(MagicSlot::magic) + if (null != magic) listOf(magic) else emptyList()
 
-    val fullSlots = providedMagic.map { MagicSlot(it, true) }
     val providedCountdownList = providedMagic.toMutableList()
-    val emptySlots =
-        requiredMagicFromSpells
-            .map { required ->
-                if (providedCountdownList.remove(required))
-                    MagicSlot(required, true)
-                else
-                    MagicSlot(required, false)
-            }
-            .filterNotNull()
-
-    return fullSlots + emptySlots
+    return requiredMagicFromSpells.map { requiredMagic ->
+        if (providedCountdownList.remove(requiredMagic))
+            MagicSlot(requiredMagic, true)
+        else
+            MagicSlot(requiredMagic, false)
+    }
 }
