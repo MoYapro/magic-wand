@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "de.moyapro.colors"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "de.moyapro.colors"
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

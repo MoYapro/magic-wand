@@ -1,13 +1,22 @@
 package de.moyapro.colors.wand
 
+import java.util.UUID
+
 data class Wand private constructor(
+    val id: UUID,
     val spells: List<Spell> = emptyList(),
     val magicSlots: List<MagicSlot>,
 ) {
 
-    constructor(spells: List<Spell> = emptyList()) : this(spells, emptyList())
+    constructor(spells: List<Spell> = emptyList()) : this(UUID.randomUUID(), spells, emptyList())
+    constructor(spell: Spell) : this(
+        UUID.randomUUID(),
+        listOf(spell),
+        createMagicSlots(listOf(spell), emptyList())
+    )
 
     private constructor(spells: List<Spell>, magicSlots: List<MagicSlot>, newMagic: Magic?) : this(
+        UUID.randomUUID(),
         spells,
         createMagicSlots(spells, magicSlots, newMagic)
     )
@@ -16,7 +25,6 @@ data class Wand private constructor(
         val newSpells = this.spells + spell
         return Wand(newSpells, magicSlots, null)
     }
-
 
     fun placeMagic(magic: Magic): PlaceMagicResult {
         if (!hasSpaceForMagic(magic)) return PlaceMagicResult(magic, this)
@@ -54,9 +62,10 @@ fun createMagicSlots(
     val emptySlots =
         requiredMagicFromSpells
             .map { required ->
-                if (providedCountdownList.remove(required)) MagicSlot(
-                    required
-                ) else null
+                if (providedCountdownList.remove(required))
+                    MagicSlot(required, true)
+                else
+                    MagicSlot(required, false)
             }
             .filterNotNull()
 
