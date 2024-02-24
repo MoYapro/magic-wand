@@ -5,11 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,19 +37,18 @@ fun MainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-        ,
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            mainViewModel.items.forEach { person ->
+            items(items = mainViewModel.items, itemContent = { person ->
                 Draggable(
                     dataToDrop = person,
                     viewModel = mainViewModel
@@ -77,59 +77,59 @@ fun MainScreen(
                         }
                     }
                 }
+            })
+        }
+        DropZone<PersonUiItem>(
+            modifier = Modifier
+                .size(Dp(screenWidth / 3.5f))
+        ) { isInBound, personItem ->
+            if (personItem != null) {
+                LaunchedEffect(key1 = personItem) {
+                    mainViewModel.items
+                    mainViewModel.addPerson(personItem)
+                }
+            }
+            if (isInBound) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(
+                            1.dp,
+                            color = Color.Red,
+                            shape = RoundedCornerShape(15.dp)
+                        )
+                        .background(Color.Gray.copy(0.5f), RoundedCornerShape(15.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = " >> Add Person << ",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Black
+                    )
+                }
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(
+                            1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(15.dp)
+                        )
+                        .background(
+                            Color.Black.copy(0.5f),
+                            RoundedCornerShape(15.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Add Person",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                }
             }
         }
-            DropZone<PersonUiItem>(
-                modifier = Modifier
-                    .size(Dp(screenWidth / 3.5f))
-            ) { isInBound, personItem ->
-                if (personItem != null) {
-                    LaunchedEffect(key1 = personItem) {
-                        mainViewModel.items
-                        mainViewModel.addPerson(personItem)
-                    }
-                }
-                if (isInBound) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .border(
-                                1.dp,
-                                color = Color.Red,
-                                shape = RoundedCornerShape(15.dp)
-                            )
-                            .background(Color.Gray.copy(0.5f), RoundedCornerShape(15.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = " >> Add Person << ",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Black
-                        )
-                    }
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .border(
-                                1.dp,
-                                color = Color.White,
-                                shape = RoundedCornerShape(15.dp)
-                            )
-                            .background(
-                                Color.Black.copy(0.5f),
-                                RoundedCornerShape(15.dp)
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Add Person",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White
-                        )
-                    }
-                }
-            }
         Box(
             modifier = Modifier
                 .fillMaxSize()

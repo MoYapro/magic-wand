@@ -90,7 +90,6 @@ internal class DragTargetInfo {
     var isDragging: Boolean by mutableStateOf(false)
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
-    var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
     var dataToDrop by mutableStateOf<Any?>(null)
 
     override fun toString(): String {
@@ -98,7 +97,6 @@ internal class DragTargetInfo {
             dragPosition: ${dragPosition.x} x ${dragPosition.y}
             dragOffset: $dragOffset
 //            isDragging: $isDragging
-//            draggableComposable: $draggableComposable
 //            dataToDrop: $dataToDrop
         """.trimIndent()
     }

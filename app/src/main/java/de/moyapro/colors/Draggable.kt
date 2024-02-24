@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -24,7 +23,7 @@ fun <T> Draggable(
     modifier: Modifier = Modifier,
     dataToDrop: T,
     viewModel: MainViewModel,
-    content: @Composable (() -> Unit)
+    content: @Composable ((T) -> Unit)
 ) {
 
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
@@ -47,11 +46,10 @@ fun <T> Draggable(
                 globalStartPosition = it.localToWindow(
                     Offset.Zero
                 )
-            Log.d(TAG, "set global start position: $globalStartPosition")
         }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = { currentDragOffset ->
-                viewModel.startDragging()
+                viewModel.startDragging(dataToDrop as PersonUiItem)
                 currentState.dragStartPosition = Offset.Zero
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
@@ -59,9 +57,8 @@ fun <T> Draggable(
                 val sum = localPosition + localOffset + currentDragOffset
                 Log.d(
                     TAG,
-                    "drag start offset: $currentDragOffset, localPosition: $localPosition, localOffset: $localOffset, sum: $sum, startPosition: ${currentState.dragStartPosition}"
+                    "drag start offset: $currentDragOffset, localPosition: $localPosition, localOffset: $localOffset, sum: $sum, startPosition: ${currentState.dragStartPosition}, person: ${currentState.dataToDrop}"
                 )
-                currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
                 change.consume()
                 localOffset += dragAmount
@@ -87,6 +84,6 @@ fun <T> Draggable(
                 currentState.dragPosition = Offset.Zero
             })
         }) {
-        content()
+        content(dataToDrop)
     }
 }
