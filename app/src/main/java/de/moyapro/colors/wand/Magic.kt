@@ -7,6 +7,7 @@ data class Magic(val type: MagicType = MagicType.SIMPLE) {
         return when (this.type) {
             MagicType.NONE -> 0
             MagicType.SIMPLE -> 1
+            MagicType.GREEN -> 2
         }
     }
 }

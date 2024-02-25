@@ -49,7 +49,6 @@ data class Wand private constructor(
         if (!canActivate()) throw IllegalStateException("cannot activate wand if it has not enough magic")
         return this.spells
     }
-
 }
 
 fun createMagicSlots(
@@ -59,12 +58,14 @@ fun createMagicSlots(
 ): List<MagicSlot> {
     val requiredMagicFromSpells = spells.map(Spell::requiredMagic).flatten()
     val providedMagic =
-        magicSlots.filter(MagicSlot::full)
-            .map(MagicSlot::magic) + if (null != magic) listOf(magic) else emptyList()
+        (
+                magicSlots.filter(MagicSlot::full).map(MagicSlot::magic)
+                        + if (null != magic) listOf(magic) else emptyList()
+                )
+            .toMutableList()
 
-    val providedCountdownList = providedMagic.toMutableList()
     return requiredMagicFromSpells.map { requiredMagic ->
-        if (providedCountdownList.remove(requiredMagic))
+        if (providedMagic.remove(requiredMagic))
             MagicSlot(requiredMagic, true)
         else
             MagicSlot(requiredMagic, false)
