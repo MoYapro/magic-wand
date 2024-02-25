@@ -5,9 +5,10 @@ import org.junit.Test
 
 class GemTest {
 
-    private val spellName ="::SpellName::"
+    private val spellName = "::SpellName::"
 
-        private val spell = Spell(spellName, requiredMagic = Magic())
+    private val spell = Spell(spellName)
+
     @Test
     fun create() {
         val gem = Gem().withSpell(spell)

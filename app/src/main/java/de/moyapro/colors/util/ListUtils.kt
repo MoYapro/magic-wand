@@ -1,11 +1,15 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.wand.Wand
-import java.util.UUID
+import de.moyapro.colors.takeTwo.Wand
+import de.moyapro.colors.takeTwo.WandId
 
 fun List<Wand>.replace(
-    wandId: UUID,
+    wandId: WandId,
     replacementWand: Wand
 ): List<Wand> {
-    return this.map { currentWand: Wand -> if (currentWand.id == wandId) replacementWand else currentWand }
+    return this.map { currentWand -> if (currentWand.id == wandId) replacementWand else currentWand }
+}
+
+fun <T> List<T>.mapIf(predicate: (T) -> Boolean, transformer: (T) -> T): List<T> {
+    return this.map { if (predicate(it)) transformer(it) else it }
 }

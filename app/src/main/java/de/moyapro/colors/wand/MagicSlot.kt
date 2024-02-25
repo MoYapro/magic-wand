@@ -1,3 +1,6 @@
 package de.moyapro.colors.wand
 
-data class MagicSlot(val magic: Magic, val full: Boolean = false)
+data class MagicSlot(
+    val requiredMagic: Magic,
+    val placedMagic: Magic? = null,
+)

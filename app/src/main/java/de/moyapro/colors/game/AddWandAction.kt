@@ -1,6 +1,6 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.wand.Wand
+import de.moyapro.colors.takeTwo.Wand
 
 data class AddWandAction(val wand: Wand) : GameAction {
 

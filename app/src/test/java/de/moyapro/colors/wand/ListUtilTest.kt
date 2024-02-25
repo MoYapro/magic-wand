@@ -1,5 +1,6 @@
 package de.moyapro.colors.wand
 
+import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.util.replace
 import io.kotest.matchers.shouldBe
 import org.junit.Test

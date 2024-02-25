@@ -17,42 +17,34 @@ internal class GameViewModelTest {
     @Test
     fun addGemToWandAction() {
         val gameViewModel = GameViewModel()
-        val newWand = Wand(Spell("spell", Magic()))
+        val (wand, slot) = getExampleWandWithSingleSlot()
+        val magicToPutIn = Magic(MagicType.SIMPLE)
         gameViewModel
-            .addAction(AddWandAction(newWand))
-            .addAction(PlaceMagicAction(newWand.id, Magic(MagicType.SIMPLE)))
-            .getCurrentGameState().wands.single().magicSlots.single().full shouldBe true
-        gameViewModel.getCurrentGameState().wands.single().magicSlots.single().magic shouldBe Magic(
-            MagicType.SIMPLE
-        )
+            .addAction(AddWandAction(wand))
+            .addAction(PlaceMagicAction(wand.id, slot.id, magicToPutIn))
+            .getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
         gameViewModel
             .undoLastAction()
-            .addAction(PlaceMagicAction(newWand.id, Magic(MagicType.GREEN)))
-        gameViewModel.getCurrentGameState().wands.single().magicSlots.single().full shouldBe false
-        gameViewModel.getCurrentGameState().wands.single().magicSlots.single().magic shouldBe Magic(
-            MagicType.SIMPLE
-        )
+            .addAction(PlaceMagicAction(wand.id, slot.id, Magic(MagicType.GREEN)))
+        gameViewModel.getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe null
     }
 
     @Test
     fun addNonFittingMagic() {
         val gameViewModel = GameViewModel()
-        val newWand = Wand(Spell("spell", Magic(MagicType.SIMPLE)))
+        val (newWand, slot) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
             .addAction(
-                PlaceMagicAction(newWand.id, Magic(MagicType.GREEN))
+                PlaceMagicAction(newWand.id, slot.id, Magic(MagicType.GREEN))
             ) // not fitting magic type
-        gameViewModel.getCurrentGameState().wands.single().magicSlots.single().full shouldBe false
-        gameViewModel.getCurrentGameState().wands.single().magicSlots.single().magic shouldBe Magic(
-            MagicType.SIMPLE
-        ) // from the spell requirement
+        gameViewModel.getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe null
     }
 
     @Test
     fun newWandAction() {
         val gameViewModel = GameViewModel()
-        val newWand = Wand()
+        val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
             .getCurrentGameState().wands.single() shouldBe newWand
@@ -61,7 +53,7 @@ internal class GameViewModelTest {
     @Test
     fun undoLastAction() {
         val gameViewModel = GameViewModel()
-        val newWand = Wand()
+        val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
             .getCurrentGameState().wands.single() shouldBe newWand
