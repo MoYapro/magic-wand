@@ -44,10 +44,10 @@ internal class WandTest {
                 )
             )
         )
-        val wandWithMagic1 = wand.putMagic(slot.id, magic)
+        val wandWithMagic1 = wand.putMagic(slot.id, magic).getOrThrow()
         wandWithMagic1.slots.single().magicSlots.first().placedMagic shouldBe magic
         wandWithMagic1.slots.single().magicSlots.last().placedMagic shouldBe null
-        val wandWithMagic2 = wandWithMagic1.putMagic(slot.id, magic)
+        val wandWithMagic2 = wandWithMagic1.putMagic(slot.id, magic).getOrThrow()
         wandWithMagic2.slots.single().magicSlots.first().placedMagic shouldBe magic
         wandWithMagic2.slots.single().magicSlots.last().placedMagic shouldBe magic
     }
@@ -57,8 +57,8 @@ internal class WandTest {
     fun placeMagicNoAvailableSlot() {
         val magic = Magic()
         val (wand, slot) = getExampleWandWithSingleSlot()
-        val fullWand = wand.putMagic(slot.id, magic)
-        fullWand.putMagic(slot.id, magic) shouldBe null
+        val fullWand = wand.putMagic(slot.id, magic).getOrThrow()
+        fullWand.putMagic(slot.id, magic).isFailure shouldBe true
     }
 
 }

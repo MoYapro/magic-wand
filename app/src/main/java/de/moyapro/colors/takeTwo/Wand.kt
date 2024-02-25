@@ -14,8 +14,16 @@ data class Wand(
         return this.copy(slots = slots.mapIf({ it.id == slotId }, { it.copy(spell = spell) }))
     }
 
-    fun putMagic(slotId: SlotId, magic: Magic): Wand {
-        return this.copy(slots = slots.mapIf({ it.id == slotId }, { it.putMagic(magic) }))
+    fun putMagic(slotId: SlotId, magic: Magic): Result<Wand> {
+        var placedMagic = false
+        val updatedWand = Result.success(
+            this.copy(slots = slots.mapIf({ !placedMagic && it.id == slotId }, {
+                placedMagic = true
+                it.putMagic(magic)
+            }))
+        )
+        return if (placedMagic) updatedWand
+        else Result.failure(IllegalStateException("Could not place magic. No fitting free slot found."))
     }
 }
 
@@ -27,13 +35,16 @@ data class Slot(
     val magicSlots: List<MagicSlot>,
     val spell: Spell? = null,
 ) {
-    fun putMagic(magic: Magic): Slot {
+    fun putMagic(magic: Magic): Result<Slot> {
         var placed = false
-        return this.copy(magicSlots = magicSlots.mapIf({ !placed && it.placedMagic == null && it.requiredMagic == magic }) {
-            placed = true
-            it.copy(
-                placedMagic = magic
-            )
-        })
+        val updatedSlot =
+            this.copy(magicSlots = magicSlots.mapIf({ !placed && it.placedMagic == null && it.requiredMagic == magic }) {
+                placed = true
+                it.copy(
+                    placedMagic = magic
+                )
+            })
+        return if(placed) Result.success(updatedSlot)
+        else Result.failure(java.lang.IllegalStateException("Could not update slot. Magic does not fit or all places are full"))
     }
 }
