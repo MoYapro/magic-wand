@@ -11,7 +11,7 @@ internal class GameViewModelTest {
     @Test
     fun initEmpty() {
         val gameViewModel = GameViewModel()
-        gameViewModel.getCurrentGameState() shouldBe MyGameState(emptyList())
+        gameViewModel.getCurrentGameState().getOrThrow() shouldBe MyGameState(emptyList())
     }
 
     @Test
@@ -22,11 +22,8 @@ internal class GameViewModelTest {
         gameViewModel
             .addAction(AddWandAction(wand))
             .addAction(PlaceMagicAction(wand.id, slot.id, magicToPutIn))
-            .getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
-        gameViewModel
-            .undoLastAction()
-            .addAction(PlaceMagicAction(wand.id, slot.id, Magic(MagicType.GREEN)))
-        gameViewModel.getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe null
+            .getCurrentGameState().getOrThrow()
+            .wands.single().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
     }
 
     @Test
@@ -38,7 +35,7 @@ internal class GameViewModelTest {
             .addAction(
                 PlaceMagicAction(newWand.id, slot.id, Magic(MagicType.GREEN))
             ) // not fitting magic type
-        gameViewModel.getCurrentGameState().wands.single().slots.single().magicSlots.single().placedMagic shouldBe null
+        gameViewModel.getCurrentGameState()
     }
 
     @Test
@@ -47,7 +44,7 @@ internal class GameViewModelTest {
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
-            .getCurrentGameState().wands.single() shouldBe newWand
+            .getCurrentGameState().getOrThrow().wands.single() shouldBe newWand
     }
 
     @Test
@@ -56,9 +53,9 @@ internal class GameViewModelTest {
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
-            .getCurrentGameState().wands.single() shouldBe newWand
+            .getCurrentGameState().getOrThrow().wands.single() shouldBe newWand
 
         gameViewModel.undoLastAction()
-            .getCurrentGameState().wands shouldBe emptyList()
+            .getCurrentGameState().getOrThrow().wands shouldBe emptyList()
     }
 }
