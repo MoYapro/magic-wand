@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
 
 @Composable
-fun DragableScreen(
+fun DragAndDropContainer(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {

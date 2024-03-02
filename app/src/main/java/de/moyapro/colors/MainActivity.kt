@@ -24,7 +24,7 @@ import java.util.UUID
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel = MainViewModel()
+    private val mainViewModel = MainViewModel()
     private val gameViewModel = GameViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             ColorsTheme {
-                WandsView(gameViewModel)
+                WandsView(gameViewModel, mainViewModel)
 //                DragableScreen(
 //                    modifier = Modifier
 //                        .fillMaxSize()
@@ -44,38 +44,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun WandsView(viewModel: GameViewModel) {
-        val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
-
-        val currentGameState: MyGameState = currentGameStateResult.getOrElse {
-            Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-            MyGameState(emptyList(), emptyList())
-        }
-        Column {
-            Text("All Wands:")
-            Row {
-                currentGameState.wands.forEach { WandView(it) }
-            }
-            Row {
-                currentGameState.magicToPlay.forEach { MagicView(createExampleMagic()) }
-            }
-            Row {
-                Button(onClick = { viewModel.addAction(AddWandAction(createExampleWand())) }) {
-                    Text("moooore wands")
-                }
-                Button(onClick = {
-                    viewModel.addAction(
-                        PlaceMagicAction(
-                            WandId(UUID.randomUUID()),
-                            SlotId(UUID.randomUUID()),
-                            Magic()
-                        )
-                    )
-                }) {
-                    Text("error")
-                }
-            }
-        }
-    }
 }

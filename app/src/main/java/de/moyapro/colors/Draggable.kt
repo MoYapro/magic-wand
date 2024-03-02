@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalDensity
 
 
 private const val TAG = "DRAG"
-
 @Composable
 fun <T> Draggable(
     modifier: Modifier = Modifier,
@@ -49,7 +48,7 @@ fun <T> Draggable(
         }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = { currentDragOffset ->
-                viewModel.startDragging(dataToDrop as PersonUiItem)
+//                viewModel.startDragging(dataToDrop as PersonUiItem)
                 currentState.dragStartPosition = Offset.Zero
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
