@@ -7,3 +7,6 @@ value class WandId(val id: UUID = UUID.randomUUID())
 
 @JvmInline
 value class SlotId(val id: UUID = UUID.randomUUID())
+
+@JvmInline
+value class MagicId(val id: UUID = UUID.randomUUID())

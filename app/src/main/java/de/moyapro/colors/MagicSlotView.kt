@@ -12,7 +12,7 @@ import de.moyapro.colors.wand.MagicType
 @Composable
 fun MagicSlotView(magicSlot: MagicSlot = createExampleMagicSlot()) {
     Text(
-        text = "O",
+        text = "❂",
         color = if (magicSlot.requiredMagic.type == MagicType.SIMPLE) Color.Blue else Color.Green,
         fontWeight = if (null == magicSlot.placedMagic) FontWeight.ExtraBold else null
     )

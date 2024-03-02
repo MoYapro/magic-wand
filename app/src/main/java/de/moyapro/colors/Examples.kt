@@ -26,3 +26,4 @@ fun createExampleSlot(spell: Spell = Spell("Pew"), level: Int = 0, requiredMagic
 )
 
 fun createExampleMagicSlot() = MagicSlot(requiredMagic = Magic())
+fun createExampleMagic() = Magic()

@@ -50,26 +50,31 @@ class MainActivity : ComponentActivity() {
 
         val currentGameState: MyGameState = currentGameStateResult.getOrElse {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-            MyGameState(emptyList())
+            MyGameState(emptyList(), emptyList())
         }
         Column {
             Text("All Wands:")
             Row {
                 currentGameState.wands.forEach { WandView(it) }
             }
-            Button(onClick = { viewModel.addAction(AddWandAction(createExampleWand())) }) {
-                Text("moooore wands")
+            Row {
+                currentGameState.magicToPlay.forEach { MagicView(createExampleMagic()) }
             }
-            Button(onClick = {
-                viewModel.addAction(
-                    PlaceMagicAction(
-                        WandId(UUID.randomUUID()),
-                        SlotId(UUID.randomUUID()),
-                        Magic()
+            Row {
+                Button(onClick = { viewModel.addAction(AddWandAction(createExampleWand())) }) {
+                    Text("moooore wands")
+                }
+                Button(onClick = {
+                    viewModel.addAction(
+                        PlaceMagicAction(
+                            WandId(UUID.randomUUID()),
+                            SlotId(UUID.randomUUID()),
+                            Magic()
+                        )
                     )
-                )
-            }) {
-                Text("error")
+                }) {
+                    Text("error")
+                }
             }
         }
     }

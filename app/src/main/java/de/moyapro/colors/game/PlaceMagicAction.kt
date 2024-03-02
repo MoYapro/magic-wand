@@ -6,15 +6,27 @@ import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
 import de.moyapro.colors.wand.Magic
 
-data class PlaceMagicAction(val wandId: WandId, val slotId: SlotId, val magic: Magic) : GameAction {
+data class PlaceMagicAction(
+    val wandId: WandId,
+    val slotId: SlotId,
+    val magicToPlace: Magic
+) : GameAction {
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
+        val targetWandWithMagic = updateWands(oldState).onFailure { return Result.failure(it) }
+        val updatedMagicToPlay = oldState.magicToPlay.filter { magic -> magic != magicToPlace }
+        return Result.success(
+            MyGameState(
+                wands = oldState.wands.replace(wandId, targetWandWithMagic.getOrThrow()),
+                magicToPlay = updatedMagicToPlay
+            )
+        )
+    }
+
+    private fun updateWands(oldState: MyGameState): Result<Wand> {
         val targetWand: Wand = oldState.findWand(wandId)
             ?: return Result.failure(IllegalStateException("Could not find wand with id $wandId"))
-        val targetWandWithMagic = targetWand.putMagic(slotId, magic)
-        return targetWandWithMagic.map { updatedWand ->
-            MyGameState(oldState.wands.replace(wandId, updatedWand))
-        }
+        return targetWand.putMagic(slotId, magicToPlace)
     }
 
 }
