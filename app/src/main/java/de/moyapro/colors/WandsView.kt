@@ -29,7 +29,7 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
     Column {
         Text("All Wands:")
         Row {
-            currentGameState.wands.forEach { WandView(it) }
+            currentGameState.wands.forEach { WandView(it, gameViewModel) }
         }
         Row {
             currentGameState.magicToPlay.forEach {

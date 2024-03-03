@@ -44,13 +44,13 @@ data class Slot(
     fun putMagic(magic: Magic): Result<Slot> {
         var placed = false
         val updatedSlot =
-            this.copy(magicSlots = magicSlots.mapIf({ !placed && it.placedMagic == null && it.requiredMagic == magic }) {
+            this.copy(magicSlots = magicSlots.mapIf({ !placed && it.placedMagic == null && it.requiredMagic.type == magic.type }) {
                 placed = true
                 it.copy(
                     placedMagic = magic
                 )
             })
         return if (placed) Result.success(updatedSlot)
-        else Result.failure(java.lang.IllegalStateException("Could not update slot. Magic does not fit or all places are full"))
+        else Result.failure(java.lang.IllegalStateException("Could not update slot. Magic does not fit or all places are full: $magicSlots"))
     }
 }

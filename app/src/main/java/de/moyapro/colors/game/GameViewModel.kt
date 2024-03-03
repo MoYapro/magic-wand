@@ -27,6 +27,7 @@ class GameViewModel : ViewModel() {
         }
         val result = actions.fold(initial, foldingFunction)
         if (result.isFailure) {
+            Log.e(TAG, "Error in action '${actions.last()}': $result")
             undoLastAction()
         }
         return result
