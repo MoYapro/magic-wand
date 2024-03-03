@@ -10,20 +10,30 @@ data class ZapAction(
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }
-        val damage = updatedWand.map(::calculateWandDamage).getOrThrow()
+        val damage = updatedWand.map(::calculateWandDamage)
+        val updatedWand2 = removeMagicFromFullSlots(updatedWand.getOrThrow())
         val updatedEnemy =
             oldState.enemies.firstOrNull()
-                ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage) }
+                ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
         return Result.success(
             MyGameState(
                 enemies = if (null != updatedEnemy) oldState.enemies.replace(
                     updatedEnemy.id,
                     updatedEnemy
                 ) else oldState.enemies,
-                wands = oldState.wands.replace(wandId, updatedWand.getOrThrow()),
+                wands = oldState.wands.replace(wandId, updatedWand2),
                 magicToPlay = oldState.magicToPlay
             )
         )
+    }
+
+    private fun removeMagicFromFullSlots(wand: Wand): Wand {
+        val updatedSlots = wand.slots.map { slot ->
+            if (slot.hasRequiredMagic()) slot.copy(magicSlots = slot.magicSlots.map { magicSlot ->
+                magicSlot.copy(placedMagic = null)
+            }) else slot
+        }
+        return wand.copy(slots = updatedSlots)
     }
 
     private fun setWandZapped(oldState: MyGameState): Result<Wand> {
