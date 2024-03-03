@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.MagicType
 
@@ -14,6 +15,7 @@ fun MagicSlotView(magicSlot: MagicSlot = createExampleMagicSlot()) {
     Text(
         text = "❂",
         color = if (magicSlot.requiredMagic.type == MagicType.SIMPLE) Color.Blue else Color.Green,
-        fontWeight = if (null == magicSlot.placedMagic) FontWeight.ExtraBold else null
+        fontWeight = if (null == magicSlot.placedMagic) FontWeight.ExtraBold else null,
+        fontSize = 20.sp,
     )
 }

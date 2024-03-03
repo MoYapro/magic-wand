@@ -10,10 +10,15 @@ import de.moyapro.colors.wand.MagicType
 
 @Preview
 @Composable
-fun MagicView(magic: Magic = createExampleMagic()) {
-    Text(
-        text = "❂",
-        fontSize = 66.sp,
-        color = if (magic.type == MagicType.SIMPLE) Color.Blue else Color.Green,
-    )
+fun MagicView(magic: Magic = createExampleMagic(), mainViewModel: MainViewModel = MainViewModel()) {
+    Draggable(
+        viewModel = mainViewModel,
+        dataToDrop = createExampleMagic()
+    ) {
+        Text(
+            text = "❂",
+            fontSize = 66.sp,
+            color = if (magic.type == MagicType.SIMPLE) Color.Blue else Color.Green,
+        )
+    }
 }

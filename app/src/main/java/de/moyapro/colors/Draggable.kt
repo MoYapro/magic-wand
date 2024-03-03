@@ -26,7 +26,7 @@ fun <T> Draggable(
 ) {
 
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
-    var localPosition by remember { mutableStateOf(Offset.Zero) }
+    val localPosition by remember { mutableStateOf(Offset.Zero) }
     var localOffset by remember { mutableStateOf(Offset.Zero) }
     val currentState = LocalDragTargetInfo.current
     // The offsets that is always update, that place the component to be dragged

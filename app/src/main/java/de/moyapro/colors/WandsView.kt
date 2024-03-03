@@ -33,11 +33,7 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
         }
         Row {
             currentGameState.magicToPlay.forEach {
-                Draggable(
-                    viewModel = mainViewModel,
-                    dataToDrop = createExampleMagic()) {
-                    MagicView()
-                }
+                MagicView(it, mainViewModel)
             }
         }
         Row {
