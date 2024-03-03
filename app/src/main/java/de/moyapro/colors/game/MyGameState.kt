@@ -5,6 +5,7 @@ import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.wand.Magic
 
 data class MyGameState(
+    val enemies: List<Enemy>,
     val wands: List<Wand>,
     val magicToPlay: List<Magic>,
 ) {

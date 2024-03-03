@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import de.moyapro.colors.game.AddWandAction
+import de.moyapro.colors.game.EnemyView
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.PlaceMagicAction
@@ -24,9 +25,17 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
 
     val currentGameState: MyGameState = currentGameStateResult.getOrElse {
         Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-        MyGameState(emptyList(), emptyList())
+        MyGameState(emptyList(), emptyList(), emptyList())
     }
     Column {
+
+        currentGameState.enemies.forEach { enemy ->
+            EnemyView(enemy)
+        }
+
+
+
+
         Text("All Wands:")
         Row {
             currentGameState.wands.forEach { WandView(it, gameViewModel) }

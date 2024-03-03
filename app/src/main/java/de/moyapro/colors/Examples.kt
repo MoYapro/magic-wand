@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.wand.Magic
@@ -17,6 +18,8 @@ fun createExampleWand() =
             createExampleSlot(Spell("Top"), level = 2, 1),
         )
     )
+
+fun createExampleEnemy() = Enemy(health = kotlin.random.Random.nextInt(1, 10))
 
 fun createExampleSlot(spell: Spell = Spell("Pew"), level: Int = 0, requiredMagic: Int = 1) = Slot(
     level = level,

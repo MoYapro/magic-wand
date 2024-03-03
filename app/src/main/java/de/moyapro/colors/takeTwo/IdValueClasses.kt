@@ -10,3 +10,6 @@ value class SlotId(val id: UUID = UUID.randomUUID())
 
 @JvmInline
 value class MagicId(val id: UUID = UUID.randomUUID())
+
+@JvmInline
+value class EnemyId(val id: UUID = UUID.randomUUID())

@@ -2,6 +2,7 @@ package de.moyapro.colors.game
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.createExampleWand
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,7 @@ class GameViewModel : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
     private val initialState =
-        MyGameState(listOf(createExampleWand()), listOf(createExampleMagic()))
+        MyGameState(listOf(createExampleEnemy()), listOf(createExampleWand()), listOf(createExampleMagic()))
     private val _uiState: MutableStateFlow<Result<MyGameState>> =
         MutableStateFlow(Result.success(initialState))
     val uiState: StateFlow<Result<MyGameState>>
