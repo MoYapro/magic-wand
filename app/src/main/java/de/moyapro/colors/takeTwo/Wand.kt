@@ -53,4 +53,6 @@ data class Slot(
         return if (placed) Result.success(updatedSlot)
         else Result.failure(java.lang.IllegalStateException("Could not update slot. Magic does not fit or all places are full: $magicSlots"))
     }
+    
+    fun hasRequiredMagic() = this.magicSlots.none { it.placedMagic == null }
 }

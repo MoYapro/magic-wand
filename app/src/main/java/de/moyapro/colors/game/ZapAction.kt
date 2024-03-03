@@ -9,8 +9,8 @@ data class ZapAction(
 ) : GameAction {
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val targetWandWithMagic = updateWands(oldState).onFailure { return Result.failure(it) }
-        val damage = 1
+        val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }
+        val damage = updatedWand.map(::calculateWandDamage).getOrThrow()
         val updatedEnemy =
             oldState.enemies.firstOrNull()
                 ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage) }
@@ -20,16 +20,20 @@ data class ZapAction(
                     updatedEnemy.id,
                     updatedEnemy
                 ) else oldState.enemies,
-                wands = oldState.wands.replace(wandId, targetWandWithMagic.getOrThrow()),
+                wands = oldState.wands.replace(wandId, updatedWand.getOrThrow()),
                 magicToPlay = oldState.magicToPlay
             )
         )
     }
 
-    private fun updateWands(oldState: MyGameState): Result<Wand> {
+    private fun setWandZapped(oldState: MyGameState): Result<Wand> {
         val targetWand: Wand = oldState.findWand(wandId)
             ?: return Result.failure(IllegalStateException("Could not find wand with id $wandId"))
         return Result.success(targetWand.copy(zapped = true))
+    }
+
+    private fun calculateWandDamage(wand: Wand): Int {
+        return wand.slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
     }
 
 }
