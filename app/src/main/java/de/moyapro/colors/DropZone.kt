@@ -16,7 +16,7 @@ private const val TAG = "DROP_ITEM"
 
 @Composable
 fun <T> DropZone(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable() (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
 ) {
 

@@ -48,7 +48,6 @@ fun <T> Draggable(
         }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = { currentDragOffset ->
-//                viewModel.startDragging(dataToDrop as PersonUiItem)
                 currentState.dragStartPosition = Offset.Zero
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
