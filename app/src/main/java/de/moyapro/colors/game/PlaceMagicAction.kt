@@ -16,8 +16,7 @@ data class PlaceMagicAction(
         val targetWandWithMagic = updateWands(oldState).onFailure { return Result.failure(it) }
         val updatedMagicToPlay = oldState.magicToPlay.filter { magic -> magic != magicToPlace }
         return Result.success(
-            MyGameState(
-                enemies = oldState.enemies,
+            oldState.copy(
                 wands = oldState.wands.replace(wandId, targetWandWithMagic.getOrThrow()),
                 magicToPlay = updatedMagicToPlay
             )

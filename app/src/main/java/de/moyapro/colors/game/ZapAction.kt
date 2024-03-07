@@ -16,13 +16,12 @@ data class ZapAction(
             oldState.enemies.firstOrNull()
                 ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
         return Result.success(
-            MyGameState(
+            oldState.copy(
                 enemies = if (null != updatedEnemy) oldState.enemies.replace(
                     updatedEnemy.id,
                     updatedEnemy
                 ) else oldState.enemies,
                 wands = oldState.wands.replace(wandId, updatedWand2),
-                magicToPlay = oldState.magicToPlay
             )
         )
     }

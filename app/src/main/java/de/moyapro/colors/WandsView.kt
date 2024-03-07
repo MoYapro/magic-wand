@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import de.moyapro.colors.game.AddWandAction
+import de.moyapro.colors.game.EndTurnAction
 import de.moyapro.colors.game.EnemyView
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
@@ -20,16 +21,13 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
 
     val currentGameState: MyGameState = currentGameStateResult.getOrElse {
         Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-        MyGameState(emptyList(), emptyList(), emptyList())
+        MyGameState(emptyList(), emptyList(), emptyList(), emptyList(), 0)
     }
     Column {
-
+        StatusBar(currentGameState)
         currentGameState.enemies.forEach { enemy ->
             EnemyView(enemy)
         }
-
-
-
 
         Text("All Wands:")
         Row {
@@ -46,6 +44,9 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
             }
             Button(onClick = gameViewModel::undoLastAction) {
                 Text("undo")
+            }
+            Button(onClick = { gameViewModel.addAction(EndTurnAction()) }) {
+                Text("End Turn")
             }
         }
     }

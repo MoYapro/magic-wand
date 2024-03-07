@@ -18,7 +18,9 @@ class GameViewModel : ViewModel() {
         MyGameState(
             listOf(createExampleEnemy()),
             listOf(createExampleWand()),
-            listOf(createExampleMagic())
+            listOf(createExampleMagic()),
+            listOf(emptyList()), // preparedListForFirstTurnsAction
+            0
         )
     private val _uiState: MutableStateFlow<Result<MyGameState>> =
         MutableStateFlow(Result.success(initialState))
