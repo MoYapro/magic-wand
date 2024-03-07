@@ -1,29 +1,50 @@
 package de.moyapro.colors.wand
 
+import android.util.Log
 import de.moyapro.colors.game.AddWandAction
 import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.PlaceMagicAction
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
 import org.junit.Test
 
 internal class GameViewModelTest {
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            mockkStatic(Log::class)
+            every { Log.d(any(), any()) } returns 1
+            every { Log.e(any(), any()) } returns 1
+            every { Log.i(any(), any()) } returns 1
+        }
+    }
+
+
     @Test
     fun initEmpty() {
         val gameViewModel = GameViewModel()
-        gameViewModel.getCurrentGameState().getOrThrow() shouldBe MyGameState(emptyList())
+        with(gameViewModel.getCurrentGameState().getOrThrow()) {
+            enemies shouldHaveSize 1
+            wands shouldHaveSize 1
+            magicToPlay shouldHaveSize 1
+        }
     }
 
     @Test
-    fun addGemToWandAction() {
+    fun addMagicToWandAction() {
         val gameViewModel = GameViewModel()
         val (wand, slot) = getExampleWandWithSingleSlot()
-        val magicToPutIn = Magic(MagicType.SIMPLE)
+        val magicToPutIn = Magic(type = MagicType.SIMPLE)
         gameViewModel
             .addAction(AddWandAction(wand))
             .addAction(PlaceMagicAction(wand.id, slot.id, magicToPutIn))
             .getCurrentGameState().getOrThrow()
-            .wands.single().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
+            .wands.last().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
     }
 
     @Test
@@ -33,7 +54,7 @@ internal class GameViewModelTest {
         gameViewModel
             .addAction(AddWandAction(newWand))
             .addAction(
-                PlaceMagicAction(newWand.id, slot.id, Magic(MagicType.GREEN))
+                PlaceMagicAction(newWand.id, slot.id, Magic(type = MagicType.GREEN))
             ) // not fitting magic type
         gameViewModel.getCurrentGameState()
     }
@@ -44,7 +65,7 @@ internal class GameViewModelTest {
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
-            .getCurrentGameState().getOrThrow().wands.single() shouldBe newWand
+            .getCurrentGameState().getOrThrow().wands.last() shouldBe newWand
     }
 
     @Test
@@ -53,9 +74,10 @@ internal class GameViewModelTest {
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
-            .getCurrentGameState().getOrThrow().wands.single() shouldBe newWand
+            .getCurrentGameState().getOrThrow().wands.last() shouldBe newWand
+        gameViewModel.getCurrentGameState().getOrThrow().wands shouldHaveSize 2
 
         gameViewModel.undoLastAction()
-            .getCurrentGameState().getOrThrow().wands shouldBe emptyList()
+            .getCurrentGameState().getOrThrow().wands shouldHaveSize 1
     }
 }

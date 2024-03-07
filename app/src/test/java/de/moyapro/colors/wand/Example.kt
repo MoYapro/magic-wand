@@ -12,7 +12,8 @@ fun getExampleWandWithSingleSlot(slot: Slot? = null): Pair<Wand, Slot> {
 
 fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
     val slot1 = Slot(level = 0, magicSlots = listOf(MagicSlot(Magic())), power = 1)
-    val slot2 = Slot(level = 0, magicSlots = listOf(MagicSlot(Magic(MagicType.GREEN))), power = 2)
+    val slot2 =
+        Slot(level = 0, magicSlots = listOf(MagicSlot(Magic(type = MagicType.GREEN))), power = 2)
     val newWand: Wand =
         Wand(slots = listOf(slot1, slot2))
             .putSpell(slotId = slot1.id, Spell("spell"))
