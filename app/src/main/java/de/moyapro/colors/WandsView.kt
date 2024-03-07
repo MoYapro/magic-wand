@@ -60,6 +60,9 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
             }) {
                 Text("error")
             }
+            Button(onClick = gameViewModel::undoLastAction) {
+                Text("undo")
+            }
         }
     }
 }

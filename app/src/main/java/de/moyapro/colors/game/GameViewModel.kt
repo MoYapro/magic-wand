@@ -15,7 +15,11 @@ class GameViewModel : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
     private val initialState =
-        MyGameState(listOf(createExampleEnemy()), listOf(createExampleWand()), listOf(createExampleMagic()))
+        MyGameState(
+            listOf(createExampleEnemy()),
+            listOf(createExampleWand()),
+            listOf(createExampleMagic())
+        )
     private val _uiState: MutableStateFlow<Result<MyGameState>> =
         MutableStateFlow(Result.success(initialState))
     val uiState: StateFlow<Result<MyGameState>>
@@ -42,6 +46,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun undoLastAction(): GameViewModel {
+        if (this.actions.isEmpty()) return this
         val removedAction = this.actions.removeLast()
         Log.i(TAG, "removed action $removedAction")
         this._uiState.value = getCurrentGameState()
