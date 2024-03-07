@@ -18,7 +18,7 @@ import de.moyapro.colors.wand.MagicType
 fun MagicView(magic: Magic = createExampleMagic(), mainViewModel: MainViewModel = MainViewModel()) {
     Draggable(
         viewModel = mainViewModel,
-        dataToDrop = createExampleMagic()
+        dataToDrop = magic
     ) {
         Box(Modifier.size(2.dp).background(Color.Black))
         Text(

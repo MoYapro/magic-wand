@@ -13,11 +13,6 @@ import de.moyapro.colors.game.AddWandAction
 import de.moyapro.colors.game.EnemyView
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.PlaceMagicAction
-import de.moyapro.colors.takeTwo.SlotId
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.wand.Magic
-import java.util.UUID
 
 @Composable
 fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
@@ -41,24 +36,13 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
             currentGameState.wands.forEach { WandView(it, gameViewModel) }
         }
         Row {
-            currentGameState.magicToPlay.forEach {
-                MagicView(it, mainViewModel)
+            currentGameState.magicToPlay.forEach { magicToPlay ->
+                MagicView(magicToPlay, mainViewModel)
             }
         }
         Row {
             Button(onClick = { gameViewModel.addAction(AddWandAction(createExampleWand())) }) {
                 Text("moooore wands")
-            }
-            Button(onClick = {
-                gameViewModel.addAction(
-                    PlaceMagicAction(
-                        WandId(UUID.randomUUID()),
-                        SlotId(UUID.randomUUID()),
-                        Magic()
-                    )
-                )
-            }) {
-                Text("error")
             }
             Button(onClick = gameViewModel::undoLastAction) {
                 Text("undo")

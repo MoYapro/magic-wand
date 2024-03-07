@@ -39,12 +39,13 @@ internal class GameViewModelTest {
     fun addMagicToWandAction() {
         val gameViewModel = GameViewModel()
         val (wand, slot) = getExampleWandWithSingleSlot()
-        val magicToPutIn = Magic(type = MagicType.SIMPLE)
+        val magicToPutIn = gameViewModel.getCurrentGameState().getOrThrow().magicToPlay.first()
         gameViewModel
             .addAction(AddWandAction(wand))
             .addAction(PlaceMagicAction(wand.id, slot.id, magicToPutIn))
             .getCurrentGameState().getOrThrow()
             .wands.last().slots.single().magicSlots.single().placedMagic shouldBe magicToPutIn
+        gameViewModel.getCurrentGameState().getOrThrow().magicToPlay shouldBe emptyList()
     }
 
     @Test
