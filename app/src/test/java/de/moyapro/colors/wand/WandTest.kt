@@ -52,7 +52,6 @@ internal class WandTest {
         wandWithMagic2.slots.single().magicSlots.last().placedMagic shouldBe magic
     }
 
-
     @Test
     fun placeMagicNoAvailableSlot() {
         val magic = Magic()

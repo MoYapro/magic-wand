@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicType
 
 @Preview
 @Composable
@@ -22,9 +21,9 @@ fun MagicView(magic: Magic = createExampleMagic(), mainViewModel: MainViewModel 
     ) {
         Box(Modifier.size(2.dp).background(Color.Black))
         Text(
-            text = "❂",
+            text = magic.type.symbol.toString(),
             fontSize = 66.sp,
-            color = if (magic.type == MagicType.SIMPLE) Color.Blue else Color.Green,
+            color = magic.type.color
         )
     }
 }

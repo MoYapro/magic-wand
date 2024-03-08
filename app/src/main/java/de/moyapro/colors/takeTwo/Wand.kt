@@ -1,6 +1,7 @@
 package de.moyapro.colors.takeTwo
 
 import de.moyapro.colors.util.mapIf
+import de.moyapro.colors.util.replace
 import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.Spell
@@ -41,18 +42,15 @@ data class Slot(
     val magicSlots: List<MagicSlot>,
     val spell: Spell? = null,
 ) {
-    fun putMagic(magic: Magic): Result<Slot> {
-        var placed = false
+    fun putMagic(magicToPlace: Magic): Result<Slot> {
+        val suitableMagicSlot =
+            magicSlots.firstOrNull { slot -> slot.placedMagic == null && slot.requiredMagic.type == magicToPlace.type }
+                ?: return Result.failure(IllegalStateException("Could not update slot. Magic does not fit or all places are full: $magicSlots"))
+        val updatedMagicSlot = suitableMagicSlot.copy(placedMagic = magicToPlace)
         val updatedSlot =
-            this.copy(magicSlots = magicSlots.mapIf({ !placed && it.placedMagic == null && it.requiredMagic.type == magic.type }) {
-                placed = true
-                it.copy(
-                    placedMagic = magic
-                )
-            })
-        return if (placed) Result.success(updatedSlot)
-        else Result.failure(java.lang.IllegalStateException("Could not update slot. Magic does not fit or all places are full: $magicSlots"))
+            this.copy(magicSlots = this.magicSlots.replace(suitableMagicSlot, updatedMagicSlot))
+        return Result.success(updatedSlot)
     }
-    
+
     fun hasRequiredMagic() = this.magicSlots.none { it.placedMagic == null }
 }
