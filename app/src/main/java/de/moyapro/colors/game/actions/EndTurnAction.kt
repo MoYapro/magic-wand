@@ -3,6 +3,9 @@ package de.moyapro.colors.game.actions
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.flatMap
+import de.moyapro.colors.wand.Magic
+import de.moyapro.colors.wand.MagicType
+import kotlin.random.Random
 
 class EndTurnAction() : GameAction {
 
@@ -19,11 +22,15 @@ class EndTurnAction() : GameAction {
 
 
     private fun prepareNextTurn(gameState: MyGameState): MyGameState {
-        val nextTurnEnemiesWithActions = calculateEnemyTurn(gameState)
         return gameState.copy(
             currentTurn = gameState.currentTurn + 1,
-            enemies = nextTurnEnemiesWithActions
+            enemies = calculateEnemyTurn(gameState),
+            magicToPlay = refreshMagicToPlay(gameState.magicToPlay)
         )
+    }
+
+    private fun refreshMagicToPlay(leftOverMagic: List<Magic>): List<Magic> {
+        return leftOverMagic +  (1..Random.nextInt(1, 2)).map { Magic(type = MagicType.values().random()) }
     }
 
     private fun calculateEnemyTurn(gameState: MyGameState): List<Enemy> {
