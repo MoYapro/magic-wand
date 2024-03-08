@@ -21,6 +21,7 @@ fun EnemyView(enemy: Enemy) {
                     HealthView()
                 }
             }
+            Text(enemy.nextAction.name)
         }
     }
 }

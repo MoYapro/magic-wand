@@ -1,5 +1,6 @@
-package de.moyapro.colors.game
+package de.moyapro.colors.game.actions
 
+import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.SlotId
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
@@ -11,6 +12,8 @@ data class PlaceMagicAction(
     val slotId: SlotId,
     val magicToPlace: Magic
 ) : GameAction {
+
+    override val name: String = "Place Magic"
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val targetWandWithMagic = updateWands(oldState).onFailure { return Result.failure(it) }

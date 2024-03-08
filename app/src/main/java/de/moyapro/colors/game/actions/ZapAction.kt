@@ -1,5 +1,6 @@
-package de.moyapro.colors.game
+package de.moyapro.colors.game.actions
 
+import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
@@ -7,6 +8,8 @@ import de.moyapro.colors.util.replace
 data class ZapAction(
     val wandId: WandId,
 ) : GameAction {
+
+    override val name: String = "Zap"
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }

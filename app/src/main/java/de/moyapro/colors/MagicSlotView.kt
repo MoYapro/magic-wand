@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.PlaceMagicAction
+import de.moyapro.colors.game.actions.PlaceMagicAction
 import de.moyapro.colors.takeTwo.SlotId
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.wand.Magic

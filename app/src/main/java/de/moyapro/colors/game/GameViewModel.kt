@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.actions.GameAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,6 @@ class GameViewModel : ViewModel() {
             listOf(createExampleEnemy()),
             listOf(createExampleWand()),
             listOf(createExampleMagic()),
-            listOf(emptyList()), // preparedListForFirstTurnsAction
             0
         )
     private val _uiState: MutableStateFlow<Result<MyGameState>> =

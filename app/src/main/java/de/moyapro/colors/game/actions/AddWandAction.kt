@@ -1,8 +1,10 @@
-package de.moyapro.colors.game
+package de.moyapro.colors.game.actions
 
+import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.Wand
 
 data class AddWandAction(val wand: Wand) : GameAction {
+    override val name: String = "Add Wand"
 
     companion object {
         const val MAX_WANDS = 2

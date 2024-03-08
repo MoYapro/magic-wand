@@ -8,7 +8,6 @@ data class MyGameState(
     val enemies: List<Enemy>,
     val wands: List<Wand>,
     val magicToPlay: List<Magic>,
-    val enemyActionsPerTurn: List<List<GameAction>>,
     val currentTurn: Int,
 ) {
 

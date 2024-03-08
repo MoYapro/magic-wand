@@ -1,9 +1,9 @@
 package de.moyapro.colors.wand
 
 import android.util.Log
-import de.moyapro.colors.game.AddWandAction
+import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.PlaceMagicAction
+import de.moyapro.colors.game.actions.PlaceMagicAction
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.mockk.every
