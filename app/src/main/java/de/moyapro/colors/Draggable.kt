@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,9 +16,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+import de.moyapro.colors.wand.Magic
 
 
 private const val TAG = "DRAG"
+
 @Composable
 fun <T> Draggable(
     modifier: Modifier = Modifier,
@@ -40,6 +45,7 @@ fun <T> Draggable(
 
     Box(modifier = modifier
         .offset(offsetX, offsetY)
+        .size(72.dp)
         .onGloballyPositioned {
             if (globalStartPosition == Offset.Zero)
                 globalStartPosition = it.localToWindow(
@@ -83,5 +89,6 @@ fun <T> Draggable(
             })
         }) {
         content(dataToDrop)
+        Text(if (dataToDrop is Magic) dataToDrop.type.symbol.toString() else "")
     }
 }

@@ -17,7 +17,7 @@ internal class WandTest {
     fun addSpell() {
         val spell = Spell(spellName)
         val (wand, slot) = getExampleWandWithSingleSlot()
-        wand.putSpell(slot.id, spell).slots.single().magicSlots.single() shouldBe MagicSlot(Magic())
+        wand.putSpell(slot.id, spell).slots.single().magicSlots.single().requiredMagic.type shouldBe MagicType.SIMPLE
     }
 
     @Test

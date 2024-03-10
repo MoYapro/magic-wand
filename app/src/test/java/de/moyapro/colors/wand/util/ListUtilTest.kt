@@ -1,9 +1,12 @@
-package de.moyapro.colors.wand
+package de.moyapro.colors.wand.util
 
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.util.mapFirst
 import de.moyapro.colors.util.mapIf
 import de.moyapro.colors.util.replace
+import de.moyapro.colors.wand.Magic
+import de.moyapro.colors.wand.MagicSlot
+import de.moyapro.colors.wand.MagicType
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.Test

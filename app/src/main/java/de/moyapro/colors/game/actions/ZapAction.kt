@@ -4,12 +4,13 @@ import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
+import kotlin.random.Random
 
 data class ZapAction(
     val wandId: WandId,
-) : GameAction {
+) : GameAction("Zap") {
 
-    override val name: String = "Zap"
+    override val randomSeed = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }

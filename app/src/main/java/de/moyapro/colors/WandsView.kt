@@ -1,8 +1,11 @@
 package de.moyapro.colors
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +17,9 @@ import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.actions.EndTurnAction
+import de.moyapro.colors.wand.Magic
+
+private const val TAG = "WandsView"
 
 @Composable
 fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
@@ -33,11 +39,13 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
         Row {
             currentGameState.wands.forEach { WandView(it, gameViewModel) }
         }
-        Row {
-            currentGameState.magicToPlay.forEach { magicToPlay ->
-                MagicView(magicToPlay, mainViewModel)
-            }
+        Log.i(TAG, "magicToPlay: ${currentGameState.magicToPlay.map { it.type.symbol }}")
+        LazyRow {
+            items(
+                items = currentGameState.magicToPlay,
+                key = { magic: Magic -> magic.id.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
+
         Row {
             Button(onClick = { gameViewModel.addAction(AddWandAction(createExampleWand())) }) {
                 Text("moooore wands")

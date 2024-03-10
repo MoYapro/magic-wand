@@ -11,8 +11,8 @@ interface EnemyAction<TARGET> {
 
 }
 
-class SelfHealEnemyAction() : EnemyAction<EnemyId> {
-    override val name: String = "Self Heal"
+data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
+
 
     override fun init(self: EnemyId, gameState: MyGameState): GameAction {
         return SelfHealAction(self)
@@ -20,8 +20,8 @@ class SelfHealEnemyAction() : EnemyAction<EnemyId> {
 
 }
 
-private class SelfHealAction(val self: EnemyId) : GameAction {
-    override val name: String = "Self Heal"
+private data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
+    override val randomSeed = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val target: Enemy = oldState.enemies.find { enemy -> enemy.id == self }

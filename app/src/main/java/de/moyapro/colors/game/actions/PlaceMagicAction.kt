@@ -6,18 +6,20 @@ import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
 import de.moyapro.colors.wand.Magic
+import kotlin.random.Random
 
 data class PlaceMagicAction(
     val wandId: WandId,
     val slotId: SlotId,
     val magicToPlace: Magic
-) : GameAction {
+) : GameAction("Place Magic") {
 
-    override val name: String = "Place Magic"
+    override val randomSeed = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val targetWandWithMagic = updateWands(oldState).onFailure { return Result.failure(it) }
         val updatedMagicToPlay = oldState.magicToPlay.filter { magic -> magic != magicToPlace }
+        check(updatedMagicToPlay.size + 1 == oldState.magicToPlay.size) {"Not exactly one magic was used when placing magic"}
         return Result.success(
             oldState.copy(
                 wands = oldState.wands.replace(wandId, targetWandWithMagic.getOrThrow()),

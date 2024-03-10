@@ -17,7 +17,7 @@ private const val TAG = "DROP_ITEM"
 @Composable
 fun <T> DropZone(
     modifier: Modifier = Modifier,
-    content: @Composable() (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
+    content: @Composable() (BoxScope.(isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit)
 ) {
 
     val dragInfo = LocalDragTargetInfo.current
@@ -32,8 +32,21 @@ fun <T> DropZone(
             isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
         }
     }) {
-        val data =
-            if (isCurrentDropTarget && !dragInfo.isDragging) dragInfo.dataToDrop as T? else null
-        content(isCurrentDropTarget, data)
+        when {
+            !isCurrentDropTarget -> content(false, null, null)
+            isCurrentDropTarget && dragInfo.isDragging -> content(
+                true,
+                null,
+                dragInfo.dataToDrop as T?
+            )
+
+            isCurrentDropTarget && !dragInfo.isDragging -> content(
+                true,
+                dragInfo.dataToDrop as T?,
+                dragInfo.dataToDrop as T?,
+            )
+
+            else -> throw IllegalStateException("unknown drop state")
+        }
     }
 }
