@@ -42,7 +42,14 @@ class GameViewModel(
     }
 
     fun addAction(action: GameAction): GameViewModel {
-        Log.i(TAG, "add action $action")
+        if (this.actions.requireTargetSelection()) {
+            this.actions.add(ShowTargetSelectionAction(action))
+        } else if (action is TargetSelectedAction ()){
+            val showTargetSelectionAction = this.actions.removeLast()
+            this.actions.add(
+                showTargetSelectionAction.originalAction().withSelection(action.getSelection())
+            )
+        }
         this.actions.add(action)
         this._uiState.value = getCurrentGameState()
         return this

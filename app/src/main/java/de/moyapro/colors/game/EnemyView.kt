@@ -10,10 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+private const val targetSymbol = "\uD83C\uDFAF"
 
 @Composable
 fun EnemyView(enemy: Enemy) {
     Box(Modifier.size(72.dp).border(1.dp, Color.Black)) {
+        if (enemy.showTarget) Text(text = targetSymbol, color = Color.Red, fontSize = 48.sp)
         Column {
             Text("Enemy")
             Row {

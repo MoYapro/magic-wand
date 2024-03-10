@@ -16,7 +16,11 @@ import de.moyapro.colors.takeTwo.Wand
 @Composable
 fun WandView(wandData: Wand = createExampleWand(), gameViewModel: GameViewModel) {
     Column {
-        Button(onClick = {gameViewModel.addAction(ZapAction(wandData.id))}) {
+        Button(onClick = {
+            gameViewModel
+                .selectTargetFor(ZapAction(wandData.id))
+        }
+        ) {
             Text("Zap")
         }
         val slotsByLevel =
