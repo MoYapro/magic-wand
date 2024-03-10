@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,7 +38,6 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
         Row {
             currentGameState.wands.forEach { WandView(it, gameViewModel) }
         }
-        Log.i(TAG, "magicToPlay: ${currentGameState.magicToPlay.map { it.type.symbol }}")
         LazyRow {
             items(
                 items = currentGameState.magicToPlay,

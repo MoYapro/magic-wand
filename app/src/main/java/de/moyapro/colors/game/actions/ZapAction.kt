@@ -4,7 +4,6 @@ import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
-import kotlin.random.Random
 
 data class ZapAction(
     val wandId: WandId,
@@ -19,12 +18,14 @@ data class ZapAction(
         val updatedEnemy =
             oldState.enemies.firstOrNull()
                 ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
+        val updatedEnemies = if (null != updatedEnemy) oldState.enemies.replace(
+            updatedEnemy.id,
+            updatedEnemy
+        ) else oldState.enemies
+        val removedKilledEnemies = updatedEnemies.filter { enemy -> enemy.health > 0 }
         return Result.success(
             oldState.copy(
-                enemies = if (null != updatedEnemy) oldState.enemies.replace(
-                    updatedEnemy.id,
-                    updatedEnemy
-                ) else oldState.enemies,
+                enemies = removedKilledEnemies,
                 wands = oldState.wands.replace(wandId, updatedWand2),
             )
         )

@@ -17,13 +17,6 @@ class MainActivity : ComponentActivity() {
 
             ColorsTheme {
                 WandsView(gameViewModel, mainViewModel)
-//                DragableScreen(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .background(MaterialTheme.colorScheme.background)
-//                ) {
-//                    MainScreen(viewModel)
-//                }
             }
         }
     }

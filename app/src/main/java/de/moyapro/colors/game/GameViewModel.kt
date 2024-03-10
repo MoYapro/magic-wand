@@ -12,16 +12,17 @@ import kotlinx.coroutines.flow.asStateFlow
 
 private const val TAG = "GameViewModel"
 
-class GameViewModel : ViewModel() {
-
-    private val actions: MutableList<GameAction> = mutableListOf()
-    private val initialState =
+class GameViewModel(
+    private val initialState: MyGameState =
         MyGameState(
             listOf(createExampleEnemy()),
             listOf(createExampleWand()),
             listOf(createExampleMagic()),
             0
         )
+) : ViewModel() {
+
+    private val actions: MutableList<GameAction> = mutableListOf()
     private val _uiState: MutableStateFlow<Result<MyGameState>> =
         MutableStateFlow(Result.success(initialState))
     val uiState: StateFlow<Result<MyGameState>>

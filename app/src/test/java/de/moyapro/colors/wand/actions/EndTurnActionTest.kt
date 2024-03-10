@@ -28,7 +28,6 @@ class EndTurnActionTest {
 
     @Test
     fun bar() {
-
         SelfHealEnemyAction() shouldBe SelfHealEnemyAction()
     }
 }
