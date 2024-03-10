@@ -6,6 +6,7 @@ import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.MagicSlot
+import de.moyapro.colors.wand.MagicType
 import de.moyapro.colors.wand.Spell
 import java.util.Random
 
@@ -28,9 +29,9 @@ fun createExampleEnemy() = Enemy(
 fun createExampleSlot(spell: Spell = Spell("Pew"), level: Int = 0, requiredMagic: Int = 1) = Slot(
     level = level,
     spell = spell,
-    magicSlots = (1..requiredMagic).map { createExampleMagicSlot() },
+    magicSlots = (1..requiredMagic).map { createExampleMagicSlot(MagicType.values().random()) },
     power = Random().nextInt(10)
 )
 
-fun createExampleMagicSlot() = MagicSlot(requiredMagic = Magic())
+fun createExampleMagicSlot(type: MagicType = MagicType.SIMPLE) = MagicSlot(requiredMagic = Magic(type = type))
 fun createExampleMagic() = Magic()
