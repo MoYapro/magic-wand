@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.EnemyView
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
@@ -30,8 +31,13 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
     }
     Column {
         StatusBar(currentGameState)
-        currentGameState.enemies.forEach { enemy ->
-            EnemyView(enemy)
+        LazyRow {
+            items(
+                items = currentGameState.enemies,
+                key = { enemy: Enemy -> enemy.id.hashCode() }
+            ) { enemy ->
+                EnemyView(enemy, gameViewModel)
+            }
         }
 
         Text("All Wands:")

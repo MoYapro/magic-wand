@@ -7,5 +7,6 @@ abstract class GameAction(
 ) {
     abstract val randomSeed: Int
     abstract fun apply(oldState: MyGameState): Result<MyGameState>
+    open fun requireTargetSelection(): Boolean = false
 
 }

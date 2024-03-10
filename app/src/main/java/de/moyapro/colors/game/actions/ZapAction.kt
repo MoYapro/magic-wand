@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.actions
 
+import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.EnemyId
 import de.moyapro.colors.takeTwo.Wand
@@ -8,8 +9,8 @@ import de.moyapro.colors.util.replace
 
 data class ZapAction(
     val wandId: WandId,
-    val targetId: EnemyId? = null
-) : GameAction("Zap") {
+    override val target: EnemyId? = null
+) : GameAction("Zap"), RequiresTargetAction {
 
     override val randomSeed = this.hashCode()
 
@@ -18,7 +19,7 @@ data class ZapAction(
         val damage = updatedWand.map(::calculateWandDamage)
         val updatedWand2 = removeMagicFromFullSlots(updatedWand.getOrThrow())
         val updatedEnemy =
-            oldState.enemies.firstOrNull()
+            oldState.enemies.singleOrNull { it.id == target }
                 ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
         val updatedEnemies = if (null != updatedEnemy) oldState.enemies.replace(
             updatedEnemy.id,
@@ -32,6 +33,8 @@ data class ZapAction(
             )
         )
     }
+
+    override fun requireTargetSelection() = true
 
     private fun removeMagicFromFullSlots(wand: Wand): Wand {
         val updatedSlots = wand.slots.map { slot ->
@@ -50,6 +53,14 @@ data class ZapAction(
 
     private fun calculateWandDamage(wand: Wand): Int {
         return wand.slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
+    }
+
+    override fun isValidTarget(enemy: Enemy): Boolean {
+        return true
+    }
+
+    override fun withSelection(target: Enemy): GameAction {
+        return this.copy(target = target.id)
     }
 
 }

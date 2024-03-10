@@ -6,6 +6,9 @@ import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.RequiresTargetAction
+import de.moyapro.colors.game.actions.ShowTargetSelectionAction
+import de.moyapro.colors.game.actions.TargetSelectedAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,7 @@ private const val TAG = "GameViewModel"
 class GameViewModel(
     private val initialState: MyGameState =
         MyGameState(
-            listOf(createExampleEnemy()),
+            listOf(createExampleEnemy(), createExampleEnemy()),
             listOf(createExampleWand()),
             listOf(createExampleMagic()),
             0
@@ -42,15 +45,16 @@ class GameViewModel(
     }
 
     fun addAction(action: GameAction): GameViewModel {
-        if (this.actions.requireTargetSelection()) {
+        if (action is RequiresTargetAction) {
             this.actions.add(ShowTargetSelectionAction(action))
-        } else if (action is TargetSelectedAction ()){
-            val showTargetSelectionAction = this.actions.removeLast()
+        } else if (action is TargetSelectedAction && this.actions.last() is ShowTargetSelectionAction) {
+            val showTargetSelectionAction = this.actions.removeLast() as ShowTargetSelectionAction
             this.actions.add(
-                showTargetSelectionAction.originalAction().withSelection(action.getSelection())
+                showTargetSelectionAction.originalAction.withSelection(action.target)
             )
+        } else {
+            this.actions.add(action)
         }
-        this.actions.add(action)
         this._uiState.value = getCurrentGameState()
         return this
     }
