@@ -35,15 +35,15 @@ class ZapActionTest {
         val startingHealth = 10
         val exampleEnemy = createExampleEnemy(health = startingHealth)
         val state = MyGameState(
-            currentTurn = 0,
-            wands = listOf(exampleWand),
             enemies = listOf(exampleEnemy),
+            wands = listOf(exampleWand),
             magicToPlay = listOf(
                 magic,
                 Magic(type = MagicType.GREEN),
                 Magic(type = MagicType.GREEN),
                 Magic(type = MagicType.GREEN)
             ),
+            currentTurn = 0,
         )
         val viewModel = GameViewModel(state)
             .addAction(
@@ -66,15 +66,15 @@ class ZapActionTest {
         val startingHealth = 1
         val exampleEnemy = createExampleEnemy(health = startingHealth)
         val state = MyGameState(
-            currentTurn = 0,
-            wands = listOf(exampleWand),
             enemies = listOf(exampleEnemy),
+            wands = listOf(exampleWand),
             magicToPlay = listOf(
                 magic,
                 Magic(type = MagicType.GREEN),
                 Magic(type = MagicType.GREEN),
                 Magic(type = MagicType.GREEN)
             ),
+            currentTurn = 0,
         )
         val viewModel = GameViewModel(state)
             .addAction(

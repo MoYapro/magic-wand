@@ -10,14 +10,14 @@ import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
-class EndTurnActionTest {
+class EndTurn {
     @Test
     fun endTurn() {
         val state = MyGameState(
-            currentTurn = 0,
-            wands = listOf(createExampleWand()),
             enemies = listOf(createExampleEnemy()),
+            wands = listOf(createExampleWand()),
             magicToPlay = listOf(createExampleMagic()),
+            currentTurn = 0,
         )
         val endTurnAction = EndTurnAction()
         val nextTurnState1 = endTurnAction.apply(state)

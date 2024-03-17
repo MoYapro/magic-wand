@@ -21,7 +21,7 @@ class GameViewModel(
             listOf(createExampleEnemy(), createExampleEnemy()),
             listOf(createExampleWand()),
             listOf(createExampleMagic()),
-            0
+            0,
         )
 ) : ViewModel() {
 

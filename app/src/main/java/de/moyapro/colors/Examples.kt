@@ -2,6 +2,7 @@ package de.moyapro.colors
 
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.actions.SelfHealEnemyAction
+import de.moyapro.colors.takeTwo.Mage
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.wand.Magic
@@ -25,6 +26,8 @@ fun createExampleEnemy(health: Int = kotlin.random.Random.nextInt(1, 10)) = Enem
     health = health,
     possibleActions = listOf(SelfHealEnemyAction())
 )
+
+fun createExampleMage(health: Int = 1) = Mage(health = health)
 
 fun createExampleSlot(spell: Spell = Spell("Pew"), level: Int = 0, requiredMagic: Int = 1, power: Int = 1): Slot {
     val random = Random(99)
