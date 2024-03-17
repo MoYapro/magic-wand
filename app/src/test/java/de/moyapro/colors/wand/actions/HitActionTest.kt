@@ -17,9 +17,9 @@ class HitActionTest {
             wands = emptyList(),
             magicToPlay = emptyList(),
             enemies = listOf(exampleEnemy),
-            mage = mage,
+            mages = listOf(mage),
         )
         val updatedState = HitAction(mage.id).apply(state)
-        updatedState.getOrThrow().mage!!.health shouldBe 9
+        updatedState.getOrThrow().mages.first().health shouldBe 9
     }
 }

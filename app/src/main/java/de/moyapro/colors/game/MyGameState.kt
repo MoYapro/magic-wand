@@ -10,7 +10,7 @@ data class MyGameState(
     val wands: List<Wand>,
     val magicToPlay: List<Magic>,
     val currentTurn: Int,
-    val mage: Mage? = null,
+    val mages: List<Mage> = emptyList(),
 ) {
 
     fun findWand(wandId: WandId): Wand? {

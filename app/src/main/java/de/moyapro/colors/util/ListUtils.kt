@@ -2,6 +2,8 @@ package de.moyapro.colors.util
 
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.takeTwo.EnemyId
+import de.moyapro.colors.takeTwo.Mage
+import de.moyapro.colors.takeTwo.MageId
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.wand.MagicSlot
@@ -17,6 +19,13 @@ fun List<Enemy>.replace(
     enemyId: EnemyId,
     replacementEnemy: Enemy
 ): List<Enemy> {
+    return this.map { currentEnemy -> if (currentEnemy.id == enemyId) replacementEnemy else currentEnemy }
+}
+
+fun List<Mage>.replace(
+    enemyId: MageId,
+    replacementEnemy: Mage
+): List<Mage> {
     return this.map { currentEnemy -> if (currentEnemy.id == enemyId) replacementEnemy else currentEnemy }
 }
 
