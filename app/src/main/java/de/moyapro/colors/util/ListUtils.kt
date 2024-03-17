@@ -1,32 +1,11 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.game.Enemy
-import de.moyapro.colors.takeTwo.EnemyId
-import de.moyapro.colors.takeTwo.Mage
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.takeTwo.WandId
+import de.moyapro.colors.takeTwo.HasId
 import de.moyapro.colors.wand.MagicSlot
 
-fun List<Wand>.replace(
-    wandId: WandId,
-    replacementWand: Wand
-): List<Wand> {
-    return this.map { currentWand -> if (currentWand.id == wandId) replacementWand else currentWand }
-}
 
-fun List<Enemy>.replace(
-    enemyId: EnemyId,
-    replacementEnemy: Enemy
-): List<Enemy> {
-    return this.map { currentEnemy -> if (currentEnemy.id == enemyId) replacementEnemy else currentEnemy }
-}
-
-fun List<Mage>.replace(
-    enemyId: MageId,
-    replacementEnemy: Mage
-): List<Mage> {
-    return this.map { currentEnemy -> if (currentEnemy.id == enemyId) replacementEnemy else currentEnemy }
+fun <T, E: HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {
+    return this.map { oldValue -> if (oldValue.id == key) newValue else oldValue }
 }
 
 fun List<MagicSlot>.replace(

@@ -7,10 +7,10 @@ import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.Spell
 
 data class Wand(
-    val id: WandId = WandId(),
+    override val id: WandId = WandId(),
     val slots: List<Slot> = emptyList(),
     val zapped: Boolean = false,
-) {
+) : HasId<WandId> {
     fun putSpell(slotId: SlotId, spell: Spell): Wand {
         return this.copy(slots = slots.mapIf({ it.id == slotId }, { it.copy(spell = spell) }))
     }
