@@ -19,7 +19,22 @@ class HitActionTest {
             enemies = listOf(exampleEnemy),
             mages = listOf(mage),
         )
-        val updatedState = HitAction(mage.id).apply(state)
+        val updatedState = HitAction(mage.id, 1).apply(state)
         updatedState.getOrThrow().mages.first().health shouldBe 9
+    }
+
+    @Test
+    fun `min health is zero`() {
+        val exampleEnemy = createExampleEnemy()
+        val mage = createExampleMage(10)
+        val state = MyGameState(
+            currentTurn = 0,
+            wands = emptyList(),
+            magicToPlay = emptyList(),
+            enemies = listOf(exampleEnemy),
+            mages = listOf(mage),
+        )
+        val updatedState = HitAction(mage.id, damage = 99).apply(state)
+        updatedState.getOrThrow().mages.first().health shouldBe 0
     }
 }
