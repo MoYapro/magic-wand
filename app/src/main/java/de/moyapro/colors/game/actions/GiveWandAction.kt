@@ -11,8 +11,9 @@ data class GiveWandAction(val wandId: WandId, val mageId: MageId) : GameAction("
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val wandToUpdate = oldState.findWand(wandId)
         val mageToUpdate = oldState.findMage(mageId)
-        check(wandToUpdate != null)
-        check(mageToUpdate != null)
+        check(wandToUpdate != null) { "Could not find wand to give to mage" }
+        check(mageToUpdate != null) { "Could not find mage to give wand to" }
+        if (mageToUpdate.wandId != null) return Result.failure(IllegalStateException("Mage does already have a wand"))
         val updatedWand = wandToUpdate.copy(mageId = mageId)
         val updatedMage = mageToUpdate.copy(wandId = wandId)
         return Result.success(

@@ -27,4 +27,23 @@ class GiveWandActionTest {
         updatedState.findMage(wand.id)?.id shouldBe mage.id
 
     }
+
+    @Test
+    fun `don't give a second wand`() {
+        val wand = createExampleWand()
+        val mage = createExampleMage()
+        val state = MyGameState(
+            wands =  listOf(wand),
+            mages =  listOf(mage),
+            currentTurn = 0,
+            enemies = emptyList(),
+            magicToPlay = emptyList()
+        )
+        val updatedState = GiveWandAction(wand.id, mage.id).apply(state).getOrThrow()
+        val error = GiveWandAction(wand.id, mage.id).apply(updatedState)
+
+        error.isFailure shouldBe true
+
+
+    }
 }
