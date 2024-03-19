@@ -13,7 +13,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ColorsTheme {
-                MainMenu(startFightIntent = ::startFightActivity, startEditWandsIntent = ::startEditWandsActivity)
+                MainMenu(
+                    listOf(
+                        "Start fight" to ::startFightActivity,
+                        "Edit wands" to ::startEditWandsActivity
+                    )
+                )
             }
         }
     }
@@ -22,6 +27,7 @@ class MainActivity : ComponentActivity() {
     private fun startFightActivity() {
         this.startActivity(Intent(this, FightActivity::class.java))
     }
+
     private fun startEditWandsActivity() {
         this.startActivity(Intent(this, EditWandsActivity::class.java))
     }

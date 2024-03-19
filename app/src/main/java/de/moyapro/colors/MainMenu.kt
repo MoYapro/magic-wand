@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun MainMenu(
-    startFightIntent: () -> Unit,
-    startEditWandsIntent: () -> Unit,
+    menuActions: List<Pair<String, () -> Unit>>,
 ) {
     Row(
         modifier = Modifier.fillMaxSize(),
@@ -25,18 +24,13 @@ fun MainMenu(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = startFightIntent) {
-                Text("Start fight")
+            menuActions.forEach { (lable, action) ->
+
+                Button(onClick = action) {
+                    Text(lable)
+                }
             }
-            Button(onClick = startEditWandsIntent) {
-                Text("Edit wand")
-            }
-            Button(onClick = {}) {
-                Text("Settings")
-            }
-            Button(onClick = {}) {
-                Text("End run")
-            }
+
         }
     }
 }
