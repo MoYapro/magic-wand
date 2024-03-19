@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Colors</string>
     <string name="title_activity_fight">FightActivity</string>
+    <string name="title_activity_editwands">EditWands</string>
 </resources>
