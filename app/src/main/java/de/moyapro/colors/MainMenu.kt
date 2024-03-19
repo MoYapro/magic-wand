@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MainMenu() {
+fun MainMenu(startFightActivity: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically,
@@ -22,7 +22,7 @@ fun MainMenu() {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = {}) {
+            Button(onClick = startFightActivity) {
                 Text("Start fight")
             }
             Button(onClick = {}) {
@@ -37,3 +37,5 @@ fun MainMenu() {
         }
     }
 }
+
+
