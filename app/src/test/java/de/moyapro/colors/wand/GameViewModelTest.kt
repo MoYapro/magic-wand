@@ -1,8 +1,8 @@
 package de.moyapro.colors.wand
 
 import android.util.Log
-import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.actions.PlaceMagicAction
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -29,7 +29,7 @@ internal class GameViewModelTest {
     fun initEmpty() {
         val gameViewModel = GameViewModel()
         with(gameViewModel.getCurrentGameState().getOrThrow()) {
-            enemies shouldHaveSize 1
+            enemies shouldHaveSize 2
             wands shouldHaveSize 1
             magicToPlay shouldHaveSize 1
         }

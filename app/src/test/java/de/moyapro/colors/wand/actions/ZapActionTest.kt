@@ -7,9 +7,14 @@ import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.PlaceMagicAction
+import de.moyapro.colors.game.actions.TargetSelectedAction
 import de.moyapro.colors.game.actions.ZapAction
+import de.moyapro.colors.takeTwo.Slot
+import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.wand.Magic
+import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.MagicType
+import de.moyapro.colors.wand.Spell
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -31,18 +36,24 @@ class ZapActionTest {
 
     @Test
     fun `zapping a wand damages enemy`() {
-        val exampleWand = createExampleWand()
         val magic = Magic(type = MagicType.GREEN)
+        val exampleWand = Wand(
+            slots = listOf(
+                Slot(
+                    magicSlots = listOf(MagicSlot(requiredMagic = magic.copy())),
+                    spell = Spell("Top"),
+                    level = 2,
+                    power = 1
+                ),
+            )
+        )
         val startingHealth = 10
-        val exampleEnemy = createExampleEnemy(health = startingHealth)
+        val enemy = createExampleEnemy(health = startingHealth)
         val state = MyGameState(
-            enemies = listOf(exampleEnemy),
+            enemies = listOf(enemy),
             wands = listOf(exampleWand),
             magicToPlay = listOf(
-                magic,
-                Magic(type = MagicType.GREEN),
-                Magic(type = MagicType.GREEN),
-                Magic(type = MagicType.GREEN)
+                magic.copy(),
             ),
             currentTurn = 0,
         )
@@ -50,11 +61,12 @@ class ZapActionTest {
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
-                    exampleWand.slots.first { it.spell?.spellName == "Top" }.id,
+                    exampleWand.slots.single { it.spell?.spellName == "Top" }.id,
                     magicToPlace = magic
                 )
             )
             .addAction(ZapAction(exampleWand.id))
+            .addAction(TargetSelectedAction(enemy))
         viewModel.getCurrentGameState()
             .getOrThrow().enemies.first().health shouldBe (startingHealth - 1)
 
@@ -97,10 +109,10 @@ class ZapActionTest {
         val exampleWand = createExampleWand()
         val magic = Magic(type = MagicType.GREEN)
         val startingHealth = 1
-        val exampleEnemy = createExampleEnemy(health = startingHealth)
+        val enemy = createExampleEnemy(health = startingHealth)
         val exampleMage = createExampleMage()
         val state = MyGameState(
-            enemies = listOf(exampleEnemy),
+            enemies = listOf(enemy),
             wands = listOf(exampleWand),
             mages = listOf(exampleMage),
                     magicToPlay = listOf (
@@ -120,6 +132,8 @@ class ZapActionTest {
                 )
             )
             .addAction(ZapAction(exampleWand.id))
+            .addAction(TargetSelectedAction(enemy))
+
         viewModel.getCurrentGameState()
             .getOrThrow().enemies shouldBe emptyList()
 
