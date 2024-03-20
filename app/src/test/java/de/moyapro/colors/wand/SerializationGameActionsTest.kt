@@ -25,7 +25,7 @@ import org.junit.runners.Parameterized.Parameters
 class SerializationGameActionsTest(private val value: Any) {
 
     companion object {
-        @Parameters(name =  "{index}: {0}")
+        @Parameters(name = "{index}: {0}")
         @JvmStatic
         fun data(): List<GameAction> {
             return listOf(
@@ -49,13 +49,6 @@ class SerializationGameActionsTest(private val value: Any) {
     fun `de-serialize single types`() {
         val objectMapper = getConfiguredJson()
         val internalValue: GameAction = value as GameAction
-        val json = objectMapper.writeValueAsString(internalValue)
-        val deserialized: GameAction = objectMapper.readValue(json, GameAction::class.java)
-        deserialized shouldBeEqualToComparingFields internalValue
-    }
-    fun `de-serialize specific type`() {
-        val objectMapper = getConfiguredJson()
-        val internalValue: PlaceMagicAction = data()[0] as PlaceMagicAction
         val json = objectMapper.writeValueAsString(internalValue)
         val deserialized: GameAction = objectMapper.readValue(json, GameAction::class.java)
         deserialized shouldBeEqualToComparingFields internalValue

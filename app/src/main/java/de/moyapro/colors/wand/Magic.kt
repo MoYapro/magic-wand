@@ -9,12 +9,4 @@ val NO_MAGIC: Magic =
 data class Magic(
     val id: MagicId = MagicId(),
     val type: MagicType = MagicType.SIMPLE,
-) {
-    fun getValue(): Int {
-        return when (this.type) {
-            MagicType.NONE -> 0
-            MagicType.SIMPLE -> 1
-            MagicType.GREEN -> 2
-        }
-    }
-}
+)

@@ -6,10 +6,9 @@ import de.moyapro.colors.game.MyGameState
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
-    JsonSubTypes.Type(value = PlaceMagicAction::class, name = "placeMagicAction"),
-    JsonSubTypes.Type(value = EndTurnAction::class, name = "endTurnAction"),
-    JsonSubTypes.Type(value = AddWandAction::class, name = "AddWandAction"),
     JsonSubTypes.Type(value = PlaceMagicAction::class, name = "PlaceMagicAction"),
+    JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
+    JsonSubTypes.Type(value = AddWandAction::class, name = "AddWandAction"),
     JsonSubTypes.Type(value = ZapAction::class, name = "ZapAction"),
     JsonSubTypes.Type(value = NoOp::class, name = "NoOp"),
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
