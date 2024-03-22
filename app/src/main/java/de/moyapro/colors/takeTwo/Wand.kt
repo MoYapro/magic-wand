@@ -37,12 +37,12 @@ data class Wand(
 
 
 data class Slot(
-    val id: SlotId = SlotId(),
+    override val id: SlotId = SlotId(),
     val power: Int,
     val level: Int,
     val magicSlots: List<MagicSlot>,
     val spell: Spell? = null,
-) {
+): HasId<SlotId> {
     fun putMagic(magicToPlace: Magic): Result<Slot> {
         val suitableMagicSlot =
             magicSlots.firstOrNull { slot -> slot.placedMagic == null && slot.requiredMagic.type == magicToPlace.type }

@@ -25,7 +25,7 @@ class PlaceSpellActionTest {
             PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wand.id)
 
         val updatedState = action.apply(state).getOrThrow()
-        updatedState.findWand(wand.id)!!.slots.single { it.id == slotToPutSpellInto.id }
+        updatedState.findWand(wand.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "newSpell"
         updatedState.spellsInStash.single().name shouldBe "Blitz"
 
     }

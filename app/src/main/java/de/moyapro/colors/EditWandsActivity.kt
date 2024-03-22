@@ -2,6 +2,7 @@ package de.moyapro.colors
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
@@ -38,7 +40,12 @@ class EditWandsActivity : ComponentActivity() {
         gameViewModel.addAction(AddSpellToStashAction(Spell(name = "Two")))
         setContent {
             val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
-            val currentGameState = currentGameStateResult.getOrThrow()
+            val currentGameState: MyGameState = currentGameStateResult.getOrElse {
+                Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
+                MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
+            }
+
+
             Log.d(TAG, "spells: ${currentGameState.spellsInStash}")
             Log.d(
                 TAG,
