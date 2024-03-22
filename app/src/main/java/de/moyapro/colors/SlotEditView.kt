@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,38 +15,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.actions.PlaceMagicAction
+import de.moyapro.colors.game.actions.PlaceSpellAction
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.MagicSlot
+import de.moyapro.colors.wand.Spell
 
 @Composable
-fun SlotView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
-    DropZone<Magic>(
+fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
+    DropZone<Spell>(
         modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
-    ) { isInBound: Boolean, droppedMagic: Magic?, hoveredMagic: Magic? ->
-        val isThisSlotFull = slot.magicSlots.none { it.placedMagic == null }
-        val hoveredMagicDoesFit =
-            !isThisSlotFull && slot.magicSlots.any { it.requiredMagic.type == hoveredMagic?.type && it.placedMagic == null }
+    ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
         val localContext = LocalContext.current
-        if (droppedMagic != null && hoveredMagicDoesFit) {
-            LaunchedEffect(key1 = droppedMagic) {
-                gameViewModel.addAction(PlaceMagicAction(wandId, slot.id, droppedMagic))
-                Toast.makeText(localContext, droppedMagic.toString(), Toast.LENGTH_LONG).show()
+        if (droppedSpell != null) {
+            LaunchedEffect(key1 = droppedSpell) {
+                gameViewModel.addAction(PlaceSpellAction(wandId, slot.id, droppedSpell))
             }
         }
         val usedColor: Color = when {
             !isInBound -> Color.Transparent
-            isInBound && !hoveredMagicDoesFit -> Color.Red
-            isInBound && hoveredMagicDoesFit -> Color.Green
+            isInBound -> Color.Green
             else -> throw IllegalStateException("cannot determine hover color")
         }
 
         Box(modifier = Modifier.background(usedColor)) {
             Row {
                 Text("".padStart(slot.power, '|'))
-                Text(hoveredMagic?.type?.symbol?.toString() ?: "")
+                Text(hoveredSpell?.name ?: "")
                 Text(slot.spell?.name ?: "empty")
                 LazyRow {
                     items(

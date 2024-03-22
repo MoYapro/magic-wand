@@ -27,7 +27,7 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
 
     val currentGameState: MyGameState = currentGameStateResult.getOrElse {
         Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-        MyGameState(emptyList(), emptyList(), emptyList(), 0)
+        MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
     }
     Column {
         StatusBar(currentGameState)

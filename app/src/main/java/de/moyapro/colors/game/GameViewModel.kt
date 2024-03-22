@@ -22,6 +22,7 @@ class GameViewModel(
             listOf(createExampleWand()),
             listOf(createExampleMagic()),
             0,
+            emptyList(),
         )
 ) : ViewModel() {
 

@@ -7,7 +7,7 @@ class GemTest {
 
     private val spellName = "::SpellName::"
 
-    private val spell = Spell(spellName)
+    private val spell = Spell(name = spellName)
 
     @Test
     fun create() {

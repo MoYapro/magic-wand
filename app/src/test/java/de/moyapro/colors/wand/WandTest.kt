@@ -15,15 +15,15 @@ internal class WandTest {
 
     @Test
     fun addSpell() {
-        val spell = Spell(spellName)
+        val spell = Spell(name = spellName)
         val (wand, slot) = getExampleWandWithSingleSlot()
         wand.putSpell(slot.id, spell).slots.single().magicSlots.single().requiredMagic.type shouldBe MagicType.SIMPLE
     }
 
     @Test
     fun addTwoSpells() {
-        val spell1 = Spell(spellName + "1")
-        val spell2 = Spell(spellName + "2")
+        val spell1 = Spell(name = spellName + "1")
+        val spell2 = Spell(name = spellName + "2")
         val (wand, slot1, slot2) = getExampleWandWithTwoSlots()
         wand
             .putSpell(slot1.id, spell1)

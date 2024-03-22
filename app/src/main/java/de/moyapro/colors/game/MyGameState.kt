@@ -5,6 +5,7 @@ import de.moyapro.colors.takeTwo.MageId
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.wand.Magic
+import de.moyapro.colors.wand.Spell
 
 data class MyGameState(
     val enemies: List<Enemy>,
@@ -12,6 +13,7 @@ data class MyGameState(
     val magicToPlay: List<Magic>,
     val currentTurn: Int,
     val mages: List<Mage> = emptyList(),
+    val spellsInStash: List<Spell> = emptyList(),
 ) {
 
     fun findWand(wandId: WandId): Wand? {

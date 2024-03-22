@@ -19,3 +19,5 @@ value class MagicSlotId(val id: UUID = UUID.randomUUID())
 
 @JvmInline
 value class MageId(val id: UUID = UUID.randomUUID())
+@JvmInline
+value class SpellId(val id: UUID = UUID.randomUUID())

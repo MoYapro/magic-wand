@@ -41,7 +41,7 @@ class ZapActionTest {
             slots = listOf(
                 Slot(
                     magicSlots = listOf(MagicSlot(requiredMagic = magic.copy())),
-                    spell = Spell("Top"),
+                    spell = Spell(name = "Top"),
                     level = 2,
                     power = 1
                 ),
@@ -61,7 +61,7 @@ class ZapActionTest {
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
-                    exampleWand.slots.single { it.spell?.spellName == "Top" }.id,
+                    exampleWand.slots.single { it.spell?.name == "Top" }.id,
                     magicToPlace = magic
                 )
             )
@@ -94,7 +94,7 @@ class ZapActionTest {
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
-                    exampleWand.slots.first { it.spell?.spellName == "Top" }.id,
+                    exampleWand.slots.first { it.spell?.name == "Top" }.id,
                     magicToPlace = magic
                 )
             )
@@ -127,7 +127,7 @@ class ZapActionTest {
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
-                    exampleWand.slots.first { it.spell?.spellName == "Top" }.id,
+                    exampleWand.slots.first { it.spell?.name == "Top" }.id,
                     magicToPlace = magic
                 )
             )
