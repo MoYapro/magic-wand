@@ -23,7 +23,8 @@ import de.moyapro.colors.wand.Spell
 @Composable
 fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
     DropZone<Spell>(
-        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
+        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+        gameViewModel = gameViewModel,
     ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
         if (droppedSpell != null) {
             LaunchedEffect(key1 = droppedSpell) {

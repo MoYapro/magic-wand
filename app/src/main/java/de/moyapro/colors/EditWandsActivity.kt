@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddSpellToStashAction
-import de.moyapro.colors.game.actions.PlaceSpellAction
 import de.moyapro.colors.game.actions.PlaceSpellInStashAction
 import de.moyapro.colors.ui.theme.ColorsTheme
 import de.moyapro.colors.wand.Spell
@@ -65,18 +64,24 @@ class EditWandsActivity : ComponentActivity() {
                     ) {
                     Column(Modifier.fillMaxSize()) {
                         DropZone<Spell>(
-                            modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
-                        ) { isInBound: Boolean, droppedSpell: Spell?, _: Spell? ->
-                            if(null != droppedSpell) {
+                            modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+                            gameViewModel = gameViewModel,
+                            condition = { state, dragData -> !state.spellsInStash.contains(dragData) }
+                        ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
+                            val canDrop: Boolean =
+                                isInBound && !currentGameState.spellsInStash.contains(hoveredSpell)
+                            if (canDrop && null != droppedSpell) {
                                 LaunchedEffect(key1 = droppedSpell) {
                                     gameViewModel.addAction(PlaceSpellInStashAction(droppedSpell.id))
                                 }
                             }
+
+
                             LazyRow(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(250.dp)
-                                    .background(color = if (isInBound) Color.Green else Color.Transparent)
+                                    .background(color = if (canDrop) Color.Green.copy(alpha = .7F) else Color.Transparent)
                             ) {
                                 items(
                                     items = currentGameState.spellsInStash,

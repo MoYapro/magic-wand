@@ -25,7 +25,8 @@ import de.moyapro.colors.wand.MagicSlot
 @Composable
 fun SlotView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
     DropZone<Magic>(
-        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
+        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+        gameViewModel = gameViewModel,
     ) { isInBound: Boolean, droppedMagic: Magic?, hoveredMagic: Magic? ->
         val isThisSlotFull = slot.magicSlots.none { it.placedMagic == null }
         val hoveredMagicDoesFit =
