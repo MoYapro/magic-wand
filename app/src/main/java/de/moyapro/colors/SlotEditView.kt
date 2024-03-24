@@ -24,6 +24,7 @@ import de.moyapro.colors.wand.Spell
 fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
     DropZone<Spell>(
         modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+        condition = { _, dropData -> dropData != null && slot.spell?.id != dropData?.id },
         gameViewModel = gameViewModel,
     ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
         if (droppedSpell != null) {
