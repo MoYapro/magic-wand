@@ -21,6 +21,7 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
         val targetSlot = oldState.findSlot(slotId)
         check(sourceSlot != null) { "Could not find slot to take spell from" }
         check(targetSlot != null) { "Could not find slot to place spell" }
+        if(targetSlot.spell == spell) return Result.success(oldState)
         val updatedTargetSlot = targetSlot.copy(spell = spell)
         val updatedSourceSlot = sourceSlot.copy(spell = targetSlot.spell)
         val sourceWand = oldState.findWand(updatedSourceSlot.id)
