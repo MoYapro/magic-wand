@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions
 
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.takeTwo.SlotId
+import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.replace
 import de.moyapro.colors.wand.Spell
@@ -11,18 +12,53 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
     override val randomSeed: Int = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
+        return if (oldState.spellsInStash.contains(spell)) spellFromStash(oldState)
+        else spellFromWand(oldState)
+    }
+
+    private fun spellFromWand(oldState: MyGameState): Result<MyGameState> {
+        val sourceSlot = oldState.findSlot(spell.id)
+        val targetSlot = oldState.findSlot(slotId)
+        check(sourceSlot != null) { "Could not find slot to take spell from" }
+        check(targetSlot != null) { "Could not find slot to place spell" }
+        val updatedTargetSlot = targetSlot.copy(spell = spell)
+        val updatedSourceSlot = sourceSlot.copy(spell = targetSlot.spell)
+        val sourceWand = oldState.findWand(updatedSourceSlot.id)
+        val targetWand = oldState.findWand(updatedTargetSlot.id)
+        check(sourceWand != null) { "Could not find wand to take spell from" }
+        check(targetWand != null) { "Could not find wand to place spell into" }
+        val replacedWands: List<Wand> = if (sourceWand.id == targetWand.id) {
+            listOf(
+                sourceWand.copy(
+                    slots = sourceWand.slots.replace(updatedSourceSlot).replace(updatedTargetSlot)
+                )
+            )
+        } else {
+            listOf(
+                sourceWand.copy(slots = sourceWand.slots.replace(updatedSourceSlot)),
+                targetWand.copy(slots = targetWand.slots.replace(updatedTargetSlot)),
+            )
+
+        }
+        var updatedWandList: List<Wand> = oldState.wands
+        for (updatedWand in replacedWands) {
+            updatedWandList = updatedWandList.replace(updatedWand)
+        }
+        return Result.success(oldState.copy(wands = updatedWandList))
+    }
+
+    private fun spellFromStash(oldState: MyGameState): Result<MyGameState> {
         val updatedSpellsInStash = oldState.spellsInStash.filter { it != spell }
         check(updatedSpellsInStash.size != oldState.spellsInStash.size) { "Could not find spell to add in stash" }
         val wandToChange = oldState.findWand(wandId)
-        val slotToChange = wandToChange?.slots?.firstOrNull { it.id == slotId }
-        check(slotToChange != null) { "Could not find slot to change" }
+        val targetSlot = wandToChange?.slots?.firstOrNull { it.id == slotId }
+        check(targetSlot != null) { "Could not find slot to change" }
         val spellFromSlotBefore: List<Spell> =
-            if (slotToChange.spell == null) listOf() else listOf(slotToChange.spell)
-        val updatedSlot = slotToChange.copy(spell = spell)
+            if (targetSlot.spell == null) listOf() else listOf(targetSlot.spell)
+        val updatedSlot = targetSlot.copy(spell = spell)
         val updatedWand =
             wandToChange.copy(slots = wandToChange.slots.replace(updatedSlot))
         val updatedWands = oldState.wands.replace(updatedWand)
-
 
         return Result.success(
             oldState.copy(

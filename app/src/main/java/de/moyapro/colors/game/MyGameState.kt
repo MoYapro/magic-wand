@@ -2,6 +2,9 @@ package de.moyapro.colors.game
 
 import de.moyapro.colors.takeTwo.Mage
 import de.moyapro.colors.takeTwo.MageId
+import de.moyapro.colors.takeTwo.Slot
+import de.moyapro.colors.takeTwo.SlotId
+import de.moyapro.colors.takeTwo.SpellId
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.wand.Magic
@@ -24,12 +27,24 @@ data class MyGameState(
         return wands.find { it.mageId == mageId }
     }
 
+    fun findWand(slotId: SlotId): Wand? {
+        return wands.find { wand -> wand.slots.any { slot -> slot.id == slotId } }
+    }
+
     fun findMage(wandId: WandId): Mage? {
         return mages.find { it.wandId == wandId }
     }
 
     fun findMage(mageId: MageId): Mage? {
         return mages.find { it.id == mageId }
+    }
+
+    fun findSlot(slotId: SlotId): Slot? {
+        return wands.map(Wand::slots).flatten().firstOrNull() { slot -> slot.id == slotId }
+    }
+
+    fun findSlot(spellId: SpellId): Slot? {
+        return wands.map(Wand::slots).flatten().firstOrNull() { slot -> slot.spell?.id == spellId }
     }
 
 
