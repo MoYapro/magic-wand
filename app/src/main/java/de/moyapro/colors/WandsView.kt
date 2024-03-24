@@ -1,8 +1,11 @@
 package de.moyapro.colors
 
 import android.widget.Toast
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -10,7 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.EnemyView
 import de.moyapro.colors.game.GameViewModel
@@ -31,7 +37,11 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
     }
     Column {
         StatusBar(currentGameState)
-        LazyRow {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f / 3f)
+        ) {
             items(
                 items = currentGameState.enemies,
                 key = { enemy: Enemy -> enemy.id.hashCode() }
@@ -40,17 +50,37 @@ fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
             }
         }
 
-        Text("All Wands:")
-        Row {
-            currentGameState.wands.forEach { WandView(it, gameViewModel) }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f / 2f)
+                .border(1.dp, Color.LightGray)
+        ) {
+            currentGameState.wands.forEachIndexed { i, wand ->
+                WandView(
+                    modifier = Modifier.fillMaxWidth(1f / (AddWandAction.MAX_WANDS - i)),
+                    wand = wand,
+                    gameViewModel = gameViewModel
+                )
+            }
         }
-        LazyRow {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f / 2f)
+                .border(1.dp, Color.LightGray)
+        ) {
             items(
                 items = currentGameState.magicToPlay,
                 key = { magic: Magic -> magic.id.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
 
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .border(1.dp, Color.LightGray)
+        ) {
             Button(onClick = { gameViewModel.addAction(AddWandAction(createExampleWand())) }) {
                 Text("moooore wands")
             }
