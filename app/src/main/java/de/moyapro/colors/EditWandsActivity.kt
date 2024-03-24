@@ -9,17 +9,22 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +34,7 @@ import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddSpellToStashAction
 import de.moyapro.colors.game.actions.PlaceSpellInStashAction
 import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.wand.Spell
 
 private const val TAG = "EditWandsActivity"
@@ -40,9 +46,10 @@ class EditWandsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        gameViewModel.addAction(AddSpellToStashAction(Spell(name = "One")))
-        gameViewModel.addAction(AddSpellToStashAction(Spell(name = "Two")))
+        repeat(10) {
+            gameViewModel.addAction(AddSpellToStashAction(Spell(name = "One $it")))
+            gameViewModel.addAction(AddSpellToStashAction(Spell(name = "Two $it")))
+        }
         setContent {
             val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
             val currentGameState: MyGameState = currentGameStateResult.getOrElse {
@@ -76,17 +83,28 @@ class EditWandsActivity : ComponentActivity() {
                                 }
                             }
 
-
-                            LazyRow(
+                            LazyVerticalGrid(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(250.dp)
-                                    .background(color = if (canDrop) Color.Green.copy(alpha = .7F) else Color.Transparent)
+                                    .background(color = if (canDrop) Color.Green.copy(alpha = .1F) else Color.Transparent),
+                                columns = GridCells.FixedSize(SPELL_SIZE.dp),
+                                verticalArrangement = Arrangement.SpaceEvenly,
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                userScrollEnabled = false,
                             ) {
                                 items(
                                     items = currentGameState.spellsInStash,
                                     key = { it.id.hashCode() }) { spell ->
-                                    Draggable(dataToDrop = spell, viewModel = mainViewModel) {
+                                    Draggable(
+                                        modifier = Modifier
+                                            .height(SPELL_SIZE.dp)
+                                            .width(SPELL_SIZE.dp)
+                                            .border(1.dp, Color.LightGray)
+                                            .align(Alignment.Center),
+                                        dataToDrop = spell,
+                                        viewModel = mainViewModel
+                                    ) {
                                         SpellView(spell = spell)
                                     }
                                 }
@@ -95,16 +113,21 @@ class EditWandsActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(4.dp))
                         val wands = currentGameState.wands
                         if (wands.size > 0) WandEditView(
+                            modifier = Modifier
+                                .fillMaxWidth(1f / 3f)
+                                .fillMaxHeight(),
                             gameViewModel = gameViewModel,
                             mainViewModel = mainViewModel,
                             wandData = wands[0]
                         )
                         if (wands.size > 1) WandEditView(
+                            modifier = Modifier.fillMaxWidth(1f / 2f),
                             gameViewModel = gameViewModel,
                             mainViewModel = mainViewModel,
                             wandData = wands[1]
                         )
                         if (wands.size > 2) WandEditView(
+                            modifier = Modifier.fillMaxWidth(1f),
                             gameViewModel = gameViewModel,
                             mainViewModel = mainViewModel,
                             wandData = wands[2]

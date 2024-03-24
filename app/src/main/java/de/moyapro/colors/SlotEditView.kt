@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -23,7 +24,10 @@ import de.moyapro.colors.wand.Spell
 @Composable
 fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel: GameViewModel) {
     DropZone<Spell>(
-        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+        modifier = Modifier
+            .border(BorderStroke(1.dp, Color.LightGray))
+            .fillMaxSize()
+        ,
         condition = { _, dropData -> dropData != null && slot.spell?.id != dropData.id },
         gameViewModel = gameViewModel,
     ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
