@@ -8,13 +8,19 @@ import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 
 @Composable
-fun WandEditView(wandData: Wand = createExampleWand(), gameViewModel: GameViewModel) {
+fun WandEditView(
+    wandData: Wand = createExampleWand(),
+    gameViewModel: GameViewModel,
+    mainViewModel: MainViewModel,
+) {
     val slotsByLevel =
         wandData.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
     slotsByLevel.forEach { (_, slots) ->
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             slots.forEach { slot ->
-                SlotEditView(wandData.id, slot, gameViewModel)
+                Draggable(dataToDrop = slot.spell, viewModel = mainViewModel) {
+                    SlotEditView(wandData.id, slot, gameViewModel)
+                }
             }
         }
     }

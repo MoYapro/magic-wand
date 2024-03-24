@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.actions.PlaceSpellAction
@@ -26,7 +25,6 @@ fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel
     DropZone<Spell>(
         modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
     ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
-        val localContext = LocalContext.current
         if (droppedSpell != null) {
             LaunchedEffect(key1 = droppedSpell) {
                 gameViewModel.addAction(PlaceSpellAction(wandId, slot.id, droppedSpell))

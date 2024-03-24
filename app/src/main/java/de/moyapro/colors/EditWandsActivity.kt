@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddSpellToStashAction
+import de.moyapro.colors.game.actions.PlaceSpellAction
+import de.moyapro.colors.game.actions.PlaceSpellInStashAction
 import de.moyapro.colors.ui.theme.ColorsTheme
 import de.moyapro.colors.wand.Spell
 
@@ -58,16 +64,26 @@ class EditWandsActivity : ComponentActivity() {
 
                     ) {
                     Column(Modifier.fillMaxSize()) {
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(250.dp)
-                        ) {
-                            items(
-                                items = currentGameState.spellsInStash,
-                                key = { it.id.hashCode() }) { spell ->
-                                Draggable(dataToDrop = spell, viewModel = mainViewModel) {
-                                    SpellView(spell = spell)
+                        DropZone<Spell>(
+                            modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray))
+                        ) { isInBound: Boolean, droppedSpell: Spell?, _: Spell? ->
+                            if(null != droppedSpell) {
+                                LaunchedEffect(key1 = droppedSpell) {
+                                    gameViewModel.addAction(PlaceSpellInStashAction(droppedSpell.id))
+                                }
+                            }
+                            LazyRow(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp)
+                                    .background(color = if (isInBound) Color.Green else Color.Transparent)
+                            ) {
+                                items(
+                                    items = currentGameState.spellsInStash,
+                                    key = { it.id.hashCode() }) { spell ->
+                                    Draggable(dataToDrop = spell, viewModel = mainViewModel) {
+                                        SpellView(spell = spell)
+                                    }
                                 }
                             }
                         }
@@ -75,14 +91,17 @@ class EditWandsActivity : ComponentActivity() {
                         val wands = currentGameState.wands
                         if (wands.size > 0) WandEditView(
                             gameViewModel = gameViewModel,
+                            mainViewModel = mainViewModel,
                             wandData = wands[0]
                         )
                         if (wands.size > 1) WandEditView(
                             gameViewModel = gameViewModel,
+                            mainViewModel = mainViewModel,
                             wandData = wands[1]
                         )
                         if (wands.size > 2) WandEditView(
                             gameViewModel = gameViewModel,
+                            mainViewModel = mainViewModel,
                             wandData = wands[2]
                         )
                     }
