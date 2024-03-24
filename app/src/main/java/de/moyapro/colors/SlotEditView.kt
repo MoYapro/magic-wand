@@ -18,6 +18,7 @@ import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.actions.PlaceSpellAction
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.WandId
+import de.moyapro.colors.util.DROP_ZONE_ALPHA
 import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.Spell
 
@@ -30,7 +31,7 @@ fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel
         ,
         condition = { _, dropData -> dropData != null && slot.spell?.id != dropData.id },
         gameViewModel = gameViewModel,
-    ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
+    ) { isInBound: Boolean, droppedSpell: Spell?, _: Spell? ->
         if (droppedSpell != null) {
             LaunchedEffect(key1 = droppedSpell) {
                 gameViewModel.addAction(PlaceSpellAction(wandId, slot.id, droppedSpell))
@@ -38,16 +39,15 @@ fun SlotEditView(wandId: WandId, slot: Slot = createExampleSlot(), gameViewModel
         }
         val usedColor: Color = when {
             !isInBound -> Color.Transparent
-            isInBound -> Color.Green
+            isInBound -> Color.Green.copy(alpha = DROP_ZONE_ALPHA)
             else -> throw IllegalStateException("cannot determine hover color")
         }
 
-        Box(modifier = Modifier.background(usedColor)) {
+        Box(modifier = Modifier.background(usedColor).fillMaxSize()) {
             Row {
                 Text("".padStart(slot.power, '|'))
-                Text(hoveredSpell?.name ?: "")
                 Text(slot.spell?.name ?: "empty")
-                LazyRow {
+                LazyRow(userScrollEnabled = false) {
                     items(
                         items = slot.magicSlots,
                         key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->

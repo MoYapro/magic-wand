@@ -8,7 +8,7 @@ data class AddWandAction(val wand: Wand) : GameAction("Add Wand") {
     override val randomSeed = this.hashCode()
 
     companion object {
-        const val MAX_WANDS = 2
+        const val MAX_WANDS = 3
     }
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {

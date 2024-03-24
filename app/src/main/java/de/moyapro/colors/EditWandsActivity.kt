@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddSpellToStashAction
+import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.actions.PlaceSpellInStashAction
 import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.util.DROP_ZONE_ALPHA
 import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.wand.Spell
 
@@ -50,6 +53,8 @@ class EditWandsActivity : ComponentActivity() {
             gameViewModel.addAction(AddSpellToStashAction(Spell(name = "One $it")))
             gameViewModel.addAction(AddSpellToStashAction(Spell(name = "Two $it")))
         }
+        gameViewModel.addAction(AddWandAction(createExampleWand()))
+        gameViewModel.addAction(AddWandAction(createExampleWand()))
         setContent {
             val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
             val currentGameState: MyGameState = currentGameStateResult.getOrElse {
@@ -87,7 +92,7 @@ class EditWandsActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(250.dp)
-                                    .background(color = if (canDrop) Color.Green.copy(alpha = .1F) else Color.Transparent),
+                                    .background(color = if (canDrop) Color.Green.copy(alpha = DROP_ZONE_ALPHA) else Color.Transparent),
                                 columns = GridCells.FixedSize(SPELL_SIZE.dp),
                                 verticalArrangement = Arrangement.SpaceEvenly,
                                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -110,28 +115,31 @@ class EditWandsActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(48.dp))
                         val wands = currentGameState.wands
-                        if (wands.size > 0) WandEditView(
-                            modifier = Modifier
-                                .fillMaxWidth(1f / 3f)
-                                .fillMaxHeight(),
-                            gameViewModel = gameViewModel,
-                            mainViewModel = mainViewModel,
-                            wandData = wands[0]
-                        )
-                        if (wands.size > 1) WandEditView(
-                            modifier = Modifier.fillMaxWidth(1f / 2f),
-                            gameViewModel = gameViewModel,
-                            mainViewModel = mainViewModel,
-                            wandData = wands[1]
-                        )
-                        if (wands.size > 2) WandEditView(
-                            modifier = Modifier.fillMaxWidth(1f),
-                            gameViewModel = gameViewModel,
-                            mainViewModel = mainViewModel,
-                            wandData = wands[2]
-                        )
+                        Row {
+
+                            if (wands.size > 0) WandEditView(
+                                modifier = Modifier
+                                    .fillMaxWidth(1f / 3f)
+                                    .fillMaxHeight(),
+                                gameViewModel = gameViewModel,
+                                mainViewModel = mainViewModel,
+                                wandData = wands[0]
+                            )
+                            if (wands.size > 1) WandEditView(
+                                modifier = Modifier.fillMaxWidth(1f / 2f),
+                                gameViewModel = gameViewModel,
+                                mainViewModel = mainViewModel,
+                                wandData = wands[1]
+                            )
+                            if (wands.size > 2) WandEditView(
+                                modifier = Modifier.fillMaxWidth(1f),
+                                gameViewModel = gameViewModel,
+                                mainViewModel = mainViewModel,
+                                wandData = wands[2]
+                            )
+                        }
                     }
                 }
             }

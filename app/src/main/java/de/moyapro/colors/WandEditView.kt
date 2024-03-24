@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
@@ -21,7 +22,7 @@ fun WandEditView(
     gameViewModel: GameViewModel,
     mainViewModel: MainViewModel,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.height(4 * SPELL_SIZE.dp)) {
         val slotsByLevel =
             wandData.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
         slotsByLevel.forEach { (_, slots) ->
