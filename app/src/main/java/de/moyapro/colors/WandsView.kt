@@ -28,7 +28,7 @@ import de.moyapro.colors.wand.Magic
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(gameViewModel: GameViewModel, mainViewModel: MainViewModel) {
+fun WandsView(gameViewModel: GameViewModel) {
     val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
 
     val currentGameState: MyGameState = currentGameStateResult.getOrElse {

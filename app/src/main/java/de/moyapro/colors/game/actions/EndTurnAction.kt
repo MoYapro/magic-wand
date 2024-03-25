@@ -4,6 +4,8 @@ import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.flatMap
 import de.moyapro.colors.takeTwo.MagicId
+import de.moyapro.colors.util.FightOutcome
+import de.moyapro.colors.util.FightOutcome.WIN
 import de.moyapro.colors.util.HashUuid
 import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.MagicType
@@ -27,11 +29,17 @@ class EndTurnAction() : GameAction("End turn") {
 
 
     private fun prepareNextTurn(gameState: MyGameState): MyGameState {
+
         return gameState.copy(
+            fightHasEnded = checkFightEnd(gameState),
             currentTurn = gameState.currentTurn + 1,
             enemies = calculateEnemyTurn(gameState),
             magicToPlay = refreshMagicToPlay(gameState.magicToPlay)
         )
+    }
+
+    private fun checkFightEnd(gameState: MyGameState): FightOutcome {
+        return WIN
     }
 
     private fun refreshMagicToPlay(leftOverMagic: List<Magic>): List<Magic> {

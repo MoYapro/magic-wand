@@ -7,6 +7,8 @@ import de.moyapro.colors.takeTwo.SlotId
 import de.moyapro.colors.takeTwo.SpellId
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
+import de.moyapro.colors.util.FightOutcome
+import de.moyapro.colors.util.FightOutcome.ONGOING
 import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.Spell
 
@@ -17,6 +19,7 @@ data class MyGameState(
     val currentTurn: Int,
     val mages: List<Mage> = emptyList(),
     val spellsInStash: List<Spell> = emptyList(),
+    val fightHasEnded: FightOutcome = ONGOING,
 ) {
 
     fun findWand(wandId: WandId): Wand? {
