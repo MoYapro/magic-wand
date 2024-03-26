@@ -6,8 +6,7 @@ import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.ShowTargetSelectionAction
-import de.moyapro.colors.game.actions.TargetSelectedAction
+import de.moyapro.colors.game.actions.UndoAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +21,7 @@ class GameViewModel(
             listOf(createExampleMagic()),
             0,
             emptyList(),
-        )
+        ),
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
@@ -36,30 +35,23 @@ class GameViewModel(
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")
-            undoLastAction()
+            addAction(UndoAction) // TODO: This is not shown because result below is put in stateFlow last
         }
         return result
     }
 
-    private fun applyAllActions(state: Result<MyGameState>, action: GameAction ): Result<MyGameState> {
+    private fun applyAllActions(
+        state: Result<MyGameState>,
+        action: GameAction,
+    ): Result<MyGameState> {
         return state.flatMap { action.apply(it) }
     }
 
     fun addAction(action: GameAction): GameViewModel {
         action.onAddAction(this.actions)
-
         this._uiState.value = getCurrentGameState()
         return this
     }
-
-    fun undoLastAction(): GameViewModel {
-        if (this.actions.isEmpty()) return this
-        val removedAction = this.actions.removeLast()
-        Log.i(TAG, "removed action $removedAction")
-        this._uiState.value = getCurrentGameState()
-        return this
-    }
-
 }
 
 fun <T> Result<T>.flatMap(transform: (T) -> Result<T>): Result<T> {

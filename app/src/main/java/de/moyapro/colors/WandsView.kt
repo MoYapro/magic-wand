@@ -23,6 +23,7 @@ import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.actions.EndTurnAction
+import de.moyapro.colors.game.actions.UndoAction
 import de.moyapro.colors.wand.Magic
 
 private const val TAG = "WandsView"
@@ -84,7 +85,7 @@ fun WandsView(gameViewModel: GameViewModel) {
             Button(onClick = { gameViewModel.addAction(AddWandAction(createExampleWand())) }) {
                 Text("moooore wands")
             }
-            Button(onClick = gameViewModel::undoLastAction) {
+            Button(onClick = { gameViewModel.addAction(UndoAction) }) {
                 Text("undo")
             }
             Button(onClick = { gameViewModel.addAction(EndTurnAction()) }) {
