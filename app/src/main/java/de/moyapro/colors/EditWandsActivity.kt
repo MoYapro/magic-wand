@@ -7,7 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
@@ -16,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddSpellToStashAction
 import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.wand.Spell
 
 private const val TAG = "EditWandsActivity"
@@ -53,12 +57,24 @@ class EditWandsActivity : ComponentActivity() {
                     ) {
                     Column(Modifier.fillMaxSize()) {
                         StashView(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(4 * SPELL_SIZE.dp),
                             currentGameState = currentGameState,
                             mainViewModel = mainViewModel,
                             addAction = gameViewModel::addAction,
                         )
                         Spacer(modifier = Modifier.height(48.dp))
-                        WandsEditView(currentGameState, mainViewModel, gameViewModel::addAction)
+                        WandsEditView(
+                            Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(.5f),
+                            currentGameState,
+                            mainViewModel,
+                            gameViewModel::addAction
+                        )
+                        Spacer(modifier = Modifier.height(48.dp))
+                        WandEditButtonBarView(gameViewModel::saveWands)
                     }
                 }
             }

@@ -52,6 +52,10 @@ class GameViewModel(
         this._uiState.value = getCurrentGameState()
         return this
     }
+
+    fun saveWands() {
+        TODO("Not yet implemented")
+    }
 }
 
 fun <T> Result<T>.flatMap(transform: (T) -> Result<T>): Result<T> {

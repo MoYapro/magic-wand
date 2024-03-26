@@ -11,13 +11,14 @@ import de.moyapro.colors.game.actions.GameAction
 
 @Composable
 fun WandsEditView(
+    modifier: Modifier,
     currentGameState: MyGameState,
     mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,
 ) {
     val wands = currentGameState.wands
 
-    Row(Modifier.fillMaxWidth()) {
+    Row(modifier = modifier) {
 
         if (wands.size > 0) WandEditView(
             modifier = Modifier

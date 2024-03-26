@@ -26,12 +26,13 @@ import de.moyapro.colors.wand.Spell
 
 @Composable
 fun StashView(
+    modifier: Modifier,
     currentGameState: MyGameState,
     mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,
 ) {
     DropZone<Spell>(
-        modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
+        modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.spellsInStash.contains(dragData) },
         currentGameState = currentGameState,
         { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
