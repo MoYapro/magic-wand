@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,11 +10,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.EnemyView
@@ -23,19 +19,15 @@ import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.game.actions.EndTurnAction
+import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.UndoAction
 import de.moyapro.colors.wand.Magic
 
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(gameViewModel: GameViewModel) {
-    val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
+fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
 
-    val currentGameState: MyGameState = currentGameStateResult.getOrElse {
-        Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-        MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
-    }
     Column {
         StatusBar(currentGameState)
         LazyRow(
@@ -47,7 +39,7 @@ fun WandsView(gameViewModel: GameViewModel) {
                 items = currentGameState.enemies,
                 key = { enemy: Enemy -> enemy.id.hashCode() }
             ) { enemy ->
-                EnemyView(enemy, gameViewModel)
+                EnemyView(enemy, addAction)
             }
         }
 
@@ -61,7 +53,8 @@ fun WandsView(gameViewModel: GameViewModel) {
                 WandView(
                     modifier = Modifier.fillMaxWidth(1f / (AddWandAction.MAX_WANDS - i)),
                     wand = wand,
-                    gameViewModel = gameViewModel
+                    addAction = addAction,
+                    currentGameState = currentGameState,
                 )
             }
         }
@@ -82,13 +75,13 @@ fun WandsView(gameViewModel: GameViewModel) {
                 .fillMaxHeight()
                 .border(1.dp, Color.LightGray)
         ) {
-            Button(onClick = { gameViewModel.addAction(AddWandAction(createExampleWand())) }) {
+            Button(onClick = { addAction(AddWandAction(createExampleWand())) }) {
                 Text("moooore wands")
             }
-            Button(onClick = { gameViewModel.addAction(UndoAction) }) {
+            Button(onClick = { addAction(UndoAction) }) {
                 Text("undo")
             }
-            Button(onClick = { gameViewModel.addAction(EndTurnAction()) }) {
+            Button(onClick = { addAction(EndTurnAction()) }) {
                 Text("End Turn")
             }
         }

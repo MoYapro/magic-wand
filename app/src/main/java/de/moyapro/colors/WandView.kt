@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.ZapAction
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
@@ -21,13 +23,11 @@ import de.moyapro.colors.util.SPELL_SIZE
 fun WandView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
-    gameViewModel: GameViewModel,
+    addAction: (GameAction) -> GameViewModel,
+    currentGameState: MyGameState,
 ) {
     Column(modifier = modifier.height(4 * SPELL_SIZE.dp)) {
-        Button(onClick = {
-            gameViewModel
-                .addAction(ZapAction(wand.id))
-        }
+        Button(onClick = { addAction(ZapAction(wand.id)) }
         ) {
             Text("Zap")
         }
@@ -39,7 +39,7 @@ fun WandView(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 slots.forEach { slot ->
-                    SlotView(wand.id, slot, gameViewModel)
+                    SlotView(wand.id, slot, addAction, currentGameState = currentGameState)
                 }
             }
         }

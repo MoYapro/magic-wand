@@ -77,44 +77,47 @@ class EditWandsActivity : ComponentActivity() {
                     Column(Modifier.fillMaxSize()) {
                         DropZone<Spell>(
                             modifier = Modifier.border(BorderStroke(1.dp, Color.LightGray)),
-                            gameViewModel = gameViewModel,
-                            condition = { state, dragData -> !state.spellsInStash.contains(dragData) }
-                        ) { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
-                            val canDrop: Boolean =
-                                isInBound && !currentGameState.spellsInStash.contains(hoveredSpell)
-                            if (canDrop && null != droppedSpell) {
-                                LaunchedEffect(key1 = droppedSpell) {
-                                    gameViewModel.addAction(PlaceSpellInStashAction(droppedSpell.id))
-                                }
-                            }
-
-                            LazyVerticalGrid(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(250.dp)
-                                    .background(color = if (canDrop) Color.Green.copy(alpha = DROP_ZONE_ALPHA) else Color.Transparent),
-                                columns = GridCells.FixedSize(SPELL_SIZE.dp),
-                                verticalArrangement = Arrangement.SpaceEvenly,
-                                horizontalArrangement = Arrangement.SpaceEvenly,
-                                userScrollEnabled = false,
-                            ) {
-                                items(
-                                    items = currentGameState.spellsInStash,
-                                    key = { it.id.hashCode() }) { spell ->
-                                    Draggable(
-                                        modifier = Modifier
-                                            .height(SPELL_SIZE.dp)
-                                            .width(SPELL_SIZE.dp)
-                                            .border(1.dp, Color.LightGray)
-                                            .align(Alignment.Center),
-                                        dataToDrop = spell,
-                                        viewModel = mainViewModel
-                                    ) {
-                                        SpellView(spell = spell)
+                            condition = { state, dragData -> !state.spellsInStash.contains(dragData) },
+                            currentGameState = currentGameState,
+                            { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
+                                val canDrop: Boolean =
+                                    isInBound && !currentGameState.spellsInStash.contains(
+                                        hoveredSpell
+                                    )
+                                if (canDrop && null != droppedSpell) {
+                                    LaunchedEffect(key1 = droppedSpell) {
+                                        gameViewModel.addAction(PlaceSpellInStashAction(droppedSpell.id))
                                     }
                                 }
-                            }
-                        }
+
+                                LazyVerticalGrid(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(250.dp)
+                                        .background(color = if (canDrop) Color.Green.copy(alpha = DROP_ZONE_ALPHA) else Color.Transparent),
+                                    columns = GridCells.FixedSize(SPELL_SIZE.dp),
+                                    verticalArrangement = Arrangement.SpaceEvenly,
+                                    horizontalArrangement = Arrangement.SpaceEvenly,
+                                    userScrollEnabled = false,
+                                ) {
+                                    items(
+                                        items = currentGameState.spellsInStash,
+                                        key = { it.id.hashCode() }) { spell ->
+                                        Draggable(
+                                            modifier = Modifier
+                                                .height(SPELL_SIZE.dp)
+                                                .width(SPELL_SIZE.dp)
+                                                .border(1.dp, Color.LightGray)
+                                                .align(Alignment.Center),
+                                            dataToDrop = spell,
+                                            viewModel = mainViewModel
+                                        ) {
+                                            SpellView(spell = spell)
+                                        }
+                                    }
+                                }
+                            },
+                        )
                         Spacer(modifier = Modifier.height(48.dp))
                         val wands = currentGameState.wands
                         Row {
@@ -123,20 +126,23 @@ class EditWandsActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth(1f / 3f)
                                     .fillMaxHeight(),
-                                gameViewModel = gameViewModel,
+                                currentGameState = currentGameState,
                                 mainViewModel = mainViewModel,
+                                addAction = gameViewModel::addAction,
                                 wandData = wands[0]
                             )
                             if (wands.size > 1) WandEditView(
                                 modifier = Modifier.fillMaxWidth(1f / 2f),
-                                gameViewModel = gameViewModel,
+                                currentGameState = currentGameState,
                                 mainViewModel = mainViewModel,
+                                addAction = gameViewModel::addAction,
                                 wandData = wands[1]
                             )
                             if (wands.size > 2) WandEditView(
                                 modifier = Modifier.fillMaxWidth(1f),
-                                gameViewModel = gameViewModel,
+                                currentGameState = currentGameState,
                                 mainViewModel = mainViewModel,
+                                addAction = gameViewModel::addAction,
                                 wandData = wands[2]
                             )
                         }

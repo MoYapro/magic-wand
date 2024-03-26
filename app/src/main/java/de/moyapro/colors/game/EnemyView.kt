@@ -11,15 +11,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.TargetSelectedAction
 
 private const val targetSymbol = "\uD83C\uDFAF"
 
 @Composable
-fun EnemyView(enemy: Enemy, gameViewModel: GameViewModel) {
-    Box(Modifier.size(72.dp).border(1.dp, Color.Black)) {
+fun EnemyView(enemy: Enemy, addAction: (GameAction) -> GameViewModel) {
+    Box(
+        Modifier
+            .size(72.dp)
+            .border(1.dp, Color.Black)
+    ) {
         if (enemy.showTarget)
-            Button(onClick = { gameViewModel.addAction(TargetSelectedAction(enemy.id)) }) {
+            Button(onClick = { addAction(TargetSelectedAction(enemy.id)) }) {
                 Text(text = targetSymbol, color = Color.Red, fontSize = 48.sp)
             }
         Column {

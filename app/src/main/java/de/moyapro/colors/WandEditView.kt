@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.util.SPELL_SIZE
@@ -19,8 +21,9 @@ import de.moyapro.colors.util.SPELL_SIZE
 fun WandEditView(
     modifier: Modifier = Modifier,
     wandData: Wand = createExampleWand(),
-    gameViewModel: GameViewModel,
+    currentGameState: MyGameState,
     mainViewModel: MainViewModel,
+    addAction: (GameAction) -> GameViewModel,
 ) {
     Column(modifier = modifier.height(4 * SPELL_SIZE.dp)) {
         val slotsByLevel =
@@ -36,7 +39,7 @@ fun WandEditView(
                         dataToDrop = slot.spell,
                         viewModel = mainViewModel
                     ) {
-                        SlotEditView(wandData.id, slot, gameViewModel)
+                        SlotEditView(wandData.id, slot, currentGameState, addAction)
                     }
                 }
             }
