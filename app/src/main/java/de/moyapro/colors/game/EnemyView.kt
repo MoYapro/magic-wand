@@ -19,7 +19,7 @@ private const val targetSymbol = "\uD83C\uDFAF"
 fun EnemyView(enemy: Enemy, gameViewModel: GameViewModel) {
     Box(Modifier.size(72.dp).border(1.dp, Color.Black)) {
         if (enemy.showTarget)
-            Button(onClick = { gameViewModel.addAction(TargetSelectedAction(enemy)) }) {
+            Button(onClick = { gameViewModel.addAction(TargetSelectedAction(enemy.id)) }) {
                 Text(text = targetSymbol, color = Color.Red, fontSize = 48.sp)
             }
         Column {

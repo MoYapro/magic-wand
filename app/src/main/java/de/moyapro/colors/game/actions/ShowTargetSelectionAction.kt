@@ -3,7 +3,7 @@ package de.moyapro.colors.game.actions
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.util.mapIf
 
-data class ShowTargetSelectionAction(val originalAction: RequiresTargetAction) :
+data class ShowTargetSelectionAction(val originalAction: GameAction) :
     GameAction("Show target selection") {
     override val randomSeed: Int = this.hashCode()
 

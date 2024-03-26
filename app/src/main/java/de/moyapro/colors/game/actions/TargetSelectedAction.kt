@@ -1,12 +1,22 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.takeTwo.EnemyId
 
-data class TargetSelectedAction(val target: Enemy) : GameAction("Target selected action") {
+data class TargetSelectedAction(override val target: EnemyId?) :
+    GameAction("Target selected action") {
     override val randomSeed: Int = this.hashCode()
 
+    override fun onAddAction(actions: MutableList<GameAction>) {
+        check(actions.last() is ShowTargetSelectionAction) { "TargetSelectedAction has not showTargetSelectionAction predecessor" }
+        check(target != null) { "TargetSelectedAction without target" }
+        val showTargetSelectionAction = actions.removeLast() as ShowTargetSelectionAction
+        actions.add(showTargetSelectionAction.originalAction.withSelection(target))
+    }
+
     override fun apply(oldState: MyGameState): Result<MyGameState> {
-        return Result.success(oldState)
+        return Result.success(oldState.copy(
+            enemies = oldState.enemies.map { enemy -> enemy.copy(showTarget = false) }
+        ))
     }
 }

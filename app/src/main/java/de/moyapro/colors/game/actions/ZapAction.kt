@@ -10,7 +10,7 @@ import de.moyapro.colors.util.replace
 data class ZapAction(
     val wandId: WandId,
     override val target: EnemyId? = null
-) : GameAction("Zap"), RequiresTargetAction {
+) : GameAction("Zap"){
 
     override val randomSeed = this.hashCode()
 
@@ -32,6 +32,10 @@ data class ZapAction(
                 wands = oldState.wands.replace(wandId, updatedWand2),
             )
         )
+    }
+
+    override fun onAddAction(actions: MutableList<GameAction>) {
+        actions.add(ShowTargetSelectionAction(this))
     }
 
     override fun requireTargetSelection() = true
@@ -59,8 +63,8 @@ data class ZapAction(
         return true
     }
 
-    override fun withSelection(target: Enemy): GameAction {
-        return this.copy(target = target.id)
+    override fun withSelection(targetId: EnemyId): GameAction {
+        return this.copy(target = targetId)
     }
 
 }

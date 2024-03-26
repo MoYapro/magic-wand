@@ -6,7 +6,6 @@ import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.RequiresTargetAction
 import de.moyapro.colors.game.actions.ShowTargetSelectionAction
 import de.moyapro.colors.game.actions.TargetSelectedAction
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,10 +33,7 @@ class GameViewModel(
 
     fun getCurrentGameState(): Result<MyGameState> {
         val initial = Result.success(initialState)
-        val foldingFunction = { state: Result<MyGameState>, action: GameAction ->
-            state.flatMap { action.apply(it) }
-        }
-        val result = actions.fold(initial, foldingFunction)
+        val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")
             undoLastAction()
@@ -45,17 +41,13 @@ class GameViewModel(
         return result
     }
 
+    private fun applyAllActions(state: Result<MyGameState>, action: GameAction ): Result<MyGameState> {
+        return state.flatMap { action.apply(it) }
+    }
+
     fun addAction(action: GameAction): GameViewModel {
-        if (action is RequiresTargetAction) {
-            this.actions.add(ShowTargetSelectionAction(action))
-        } else if (action is TargetSelectedAction && this.actions.last() is ShowTargetSelectionAction) {
-            val showTargetSelectionAction = this.actions.removeLast() as ShowTargetSelectionAction
-            this.actions.add(
-                showTargetSelectionAction.originalAction.withSelection(action.target)
-            )
-        } else {
-            this.actions.add(action)
-        }
+        action.onAddAction(this.actions)
+
         this._uiState.value = getCurrentGameState()
         return this
     }

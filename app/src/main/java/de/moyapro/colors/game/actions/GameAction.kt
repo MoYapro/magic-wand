@@ -2,7 +2,9 @@ package de.moyapro.colors.game.actions
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.takeTwo.EnemyId
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
@@ -22,6 +24,12 @@ abstract class GameAction(
 ) {
     abstract val randomSeed: Int
     abstract fun apply(oldState: MyGameState): Result<MyGameState>
+    open val target: EnemyId? = null
+    open fun isValidTarget(enemy: Enemy): Boolean = false
+    open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
+    open fun onAddAction(actions: MutableList<GameAction>) {
+        actions.add(this)
+    }
 
 }

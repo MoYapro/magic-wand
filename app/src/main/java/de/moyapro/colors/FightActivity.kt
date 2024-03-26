@@ -13,7 +13,6 @@ import de.moyapro.colors.ui.theme.ColorsTheme
 
 class FightActivity : ComponentActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels()
     private val gameViewModel: GameViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class FightActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Black
                 ) {
-                    WandsView(gameViewModel, mainViewModel)
+                    WandsView(gameViewModel)
                 }
             }
         }
