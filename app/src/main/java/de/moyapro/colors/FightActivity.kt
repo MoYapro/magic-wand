@@ -15,6 +15,9 @@ import androidx.compose.ui.platform.LocalContext
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.util.FightOutcome
+import de.moyapro.colors.wand.LostFightView
+import de.moyapro.colors.wand.WinFightView
 
 class FightActivity : ComponentActivity() {
 
@@ -35,7 +38,15 @@ class FightActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Black
                 ) {
-                    WandsView(currentGameState, gameViewModel::addAction)
+                    when (currentGameState.fightHasEnded) {
+                        FightOutcome.ONGOING -> WandsView(
+                            currentGameState,
+                            gameViewModel::addAction
+                        )
+
+                        FightOutcome.WIN -> WinFightView()
+                        FightOutcome.LOST -> LostFightView()
+                    }
                 }
             }
         }
