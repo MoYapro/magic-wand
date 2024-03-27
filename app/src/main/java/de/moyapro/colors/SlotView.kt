@@ -39,9 +39,9 @@ fun SlotView(
             .size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
     ) { isInBound: Boolean, droppedMagic: Magic?, hoveredMagic: Magic? ->
-        val isThisSlotFull = slot.magicSlots.none { it.placedMagic == null }
+        val isThisSlotFull = slot.spell?.magicSlots?.none { it.placedMagic == null } ?: true
         val hoveredMagicDoesFit =
-            !isThisSlotFull && slot.magicSlots.any { it.requiredMagic.type == hoveredMagic?.type && it.placedMagic == null }
+            !isThisSlotFull && slot.spell?.magicSlots?.any { it.requiredMagic.type == hoveredMagic?.type && it.placedMagic == null } ?: false
         if (droppedMagic != null && hoveredMagicDoesFit) {
             LaunchedEffect(key1 = droppedMagic) {
                 addAction(PlaceMagicAction(wandId, slot.id, droppedMagic))
@@ -62,7 +62,7 @@ fun SlotView(
                 Text(slot.spell?.name ?: "empty")
                 LazyRow {
                     items(
-                        items = slot.magicSlots,
+                        items = slot.spell?.magicSlots ?: emptyList(),
                         key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->
                         MagicSlotView(magicSlot)
                     }

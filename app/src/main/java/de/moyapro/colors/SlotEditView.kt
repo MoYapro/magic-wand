@@ -59,7 +59,7 @@ fun SlotEditView(
                     Text(slot.spell?.name ?: "empty")
                     LazyRow(userScrollEnabled = false) {
                         items(
-                            items = slot.magicSlots,
+                            items = slot.spell?.magicSlots ?: emptyList(),
                             key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->
                             MagicSlotView(magicSlot)
                         }

@@ -42,9 +42,15 @@ data class ZapAction(
 
     private fun removeMagicFromFullSlots(wand: Wand): Wand {
         val updatedSlots = wand.slots.map { slot ->
-            if (slot.hasRequiredMagic()) slot.copy(magicSlots = slot.magicSlots.map { magicSlot ->
-                magicSlot.copy(placedMagic = null)
-            }) else slot
+            if (slot.hasRequiredMagic() && slot.spell != null) {
+                val updatedSpell =
+                    slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
+                        magicSlot.copy(placedMagic = null)
+                    })
+                slot.copy(spell = updatedSpell)
+            } else {
+                slot
+            }
         }
         return wand.copy(slots = updatedSlots)
     }

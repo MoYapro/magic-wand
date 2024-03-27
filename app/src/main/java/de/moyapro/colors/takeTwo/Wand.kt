@@ -1,9 +1,7 @@
 package de.moyapro.colors.takeTwo
 
 import de.moyapro.colors.util.mapIf
-import de.moyapro.colors.util.replace
 import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicSlot
 import de.moyapro.colors.wand.Spell
 
 data class Wand(
@@ -36,22 +34,3 @@ data class Wand(
 }
 
 
-data class Slot(
-    override val id: SlotId = SlotId(),
-    val power: Int,
-    val level: Int,
-    val magicSlots: List<MagicSlot>,
-    val spell: Spell? = null,
-): HasId<SlotId> {
-    fun putMagic(magicToPlace: Magic): Result<Slot> {
-        val suitableMagicSlot =
-            magicSlots.firstOrNull { slot -> slot.placedMagic == null && slot.requiredMagic.type == magicToPlace.type }
-                ?: return Result.failure(IllegalStateException("Could not update slot. Magic does not fit or all places are full: $magicSlots"))
-        val updatedMagicSlot = suitableMagicSlot.copy(placedMagic = magicToPlace)
-        val updatedSlot =
-            this.copy(magicSlots = this.magicSlots.replace(suitableMagicSlot, updatedMagicSlot))
-        return Result.success(updatedSlot)
-    }
-
-    fun hasRequiredMagic() = this.magicSlots.none { it.placedMagic == null }
-}

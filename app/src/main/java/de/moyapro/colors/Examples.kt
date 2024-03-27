@@ -16,10 +16,14 @@ import kotlin.random.Random
 fun createExampleWand() =
     Wand(
         slots = listOf(
-            createExampleSlot(Spell(name = "Blitz"), level = 0, 2, power = 1),
-            createExampleSlot(Spell(name = "Pow"), level = 1, 1, power = 10),
-            createExampleSlot(Spell(name = "Bom"), level = 0, 5, power = 1),
-            createExampleSlot(Spell(name = "Top"), level = 2, 1, power = 1),
+            createExampleSlot(
+                spellName = "Blitz", level = 0, 2, power = 1
+            ),
+            createExampleSlot(
+                spellName = "Pow", level = 1, 1, power = 10
+            ),
+            createExampleSlot(spellName = "Bom", level = 0, 5, power = 1),
+            createExampleSlot(spellName = "Top", level = 2, 1, power = 1),
         )
     )
 
@@ -32,20 +36,20 @@ fun createExampleMage(health: Int = 1, wandId: WandId? = null) =
     Mage(health = health, wandId = wandId)
 
 fun createExampleSlot(
-    spell: Spell = Spell(name = "Pew"),
+    spellName: String = "Pew",
     level: Int = 0,
     requiredMagic: Int = 1,
-    power: Int = 1
+    power: Int = 1,
 ): Slot {
     val random = Random(99)
     return Slot(
         level = level,
-        spell = spell,
-        magicSlots = (1..requiredMagic).map {
-            createExampleMagicSlot(
-                MagicType.values().random(random)
-            )
-        },
+        spell = Spell(name = spellName,
+            magicSlots = (1..requiredMagic).map {
+                createExampleMagicSlot(
+                    MagicType.values().random(random)
+                )
+            }),
         power = power
     )
 }
