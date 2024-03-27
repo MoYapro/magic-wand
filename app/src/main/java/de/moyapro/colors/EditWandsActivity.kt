@@ -1,5 +1,7 @@
 package de.moyapro.colors
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -19,29 +21,43 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddSpellToStashAction
-import de.moyapro.colors.game.actions.AddWandAction
 import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.util.GAME_SAVE_STATE
 import de.moyapro.colors.util.SPELL_SIZE
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.util.getConfiguredJson
+import kotlinx.coroutines.runBlocking
 
 private const val TAG = "EditWandsActivity"
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gameSaveState")
+
 
 class EditWandsActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
-    private val gameViewModel: GameViewModel by viewModels()
+    private val gameViewModel: GameViewModel by viewModels {
+        GameViewModelFactory(this.dataStore)
+    }
+
+    fun save(gameState: MyGameState): Unit = runBlocking {
+        dataStore.edit { settings ->
+            settings[GAME_SAVE_STATE] = getConfiguredJson().writeValueAsString(gameState)
+        }
+    }
+
+    fun backToMainMenu() {
+        this.startActivity(Intent(this, MainActivity::class.java))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repeat(10) {
-            gameViewModel.addAction(AddSpellToStashAction(Spell(name = "One $it")))
-            gameViewModel.addAction(AddSpellToStashAction(Spell(name = "Two $it")))
-        }
-        gameViewModel.addAction(AddWandAction(createExampleWand()))
-        gameViewModel.addAction(AddWandAction(createExampleWand()))
+        val activity: EditWandsActivity = this
         setContent {
             val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
             val currentGameState: MyGameState = currentGameStateResult.getOrElse {
@@ -74,7 +90,11 @@ class EditWandsActivity : ComponentActivity() {
                             gameViewModel::addAction
                         )
                         Spacer(modifier = Modifier.height(48.dp))
-                        WandEditButtonBarView(gameViewModel::saveWands)
+                        WandEditButtonBarView(
+                            activity::backToMainMenu,
+                            activity::save,
+                            currentGameState
+                        )
                     }
                 }
             }
