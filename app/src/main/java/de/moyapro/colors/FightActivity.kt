@@ -13,15 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.ui.theme.ColorsTheme
 import de.moyapro.colors.util.FightOutcome
 import de.moyapro.colors.wand.LostFightView
 import de.moyapro.colors.wand.WinFightView
 
+
 class FightActivity : ComponentActivity() {
 
-    private val gameViewModel: GameViewModel by viewModels()
+    private val gameViewModel: GameViewModel by viewModels {
+        GameViewModelFactory(this.dataStore)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
