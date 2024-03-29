@@ -29,8 +29,8 @@ import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.ui.theme.ColorsTheme
-import de.moyapro.colors.util.GAME_SAVE_STATE
 import de.moyapro.colors.util.SPELL_SIZE
+import de.moyapro.colors.util.WAND_STATE
 import de.moyapro.colors.util.getConfiguredJson
 import kotlinx.coroutines.runBlocking
 
@@ -47,7 +47,7 @@ class EditWandsActivity : ComponentActivity() {
 
     fun save(gameState: MyGameState): Unit = runBlocking {
         dataStore.edit { settings ->
-            settings[GAME_SAVE_STATE] = getConfiguredJson().writeValueAsString(gameState)
+            settings[WAND_STATE] = getConfiguredJson().writeValueAsString(gameState.wands)
         }
     }
 

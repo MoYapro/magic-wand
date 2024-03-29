@@ -2,6 +2,7 @@ package de.moyapro.colors.game
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.UndoAction
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: MyGameState = StartFightFactory.createInitialState(),
+    private val initialState: MyGameState = StartFightFactory.createInitialState(
+        listOf(
+            createExampleWand()
+        )
+    ),
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
@@ -43,9 +48,6 @@ class GameViewModel(
         return this
     }
 
-    fun saveWands() {
-        TODO("Not yet implemented")
-    }
 }
 
 fun <T> Result<T>.flatMap(transform: (T) -> Result<T>): Result<T> {
