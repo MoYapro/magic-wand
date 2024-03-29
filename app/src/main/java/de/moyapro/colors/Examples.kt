@@ -3,6 +3,7 @@ package de.moyapro.colors
 import de.moyapro.colors.game.Enemy
 import de.moyapro.colors.game.actions.SelfHealEnemyAction
 import de.moyapro.colors.takeTwo.Mage
+import de.moyapro.colors.takeTwo.MageId
 import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.takeTwo.WandId
@@ -13,8 +14,9 @@ import de.moyapro.colors.wand.Spell
 import kotlin.random.Random
 
 
-fun createExampleWand() =
+fun createExampleWand(mageId: MageId = MageId()) =
     Wand(
+        mageId = mageId,
         slots = listOf(
             createExampleSlot(
                 spellName = "Blitz", level = 0, 2, power = 1

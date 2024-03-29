@@ -5,9 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleMagic
-import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.util.GAME_SAVE_STATE
 import de.moyapro.colors.util.getConfiguredJson
 import kotlinx.coroutines.flow.first
@@ -24,13 +21,7 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
                 val jsonData = preferences[GAME_SAVE_STATE]
                 jsonData?.let { data -> getConfiguredJson().readValue<MyGameState>(data) }
             }
-            val initialState = initialGameState?.first() ?: MyGameState(
-                listOf(createExampleEnemy(), createExampleEnemy()),
-                listOf(createExampleWand()),
-                listOf(createExampleMagic()),
-                0,
-                emptyList(),
-            )
+            val initialState = initialGameState.first() ?: StartFightFactory.createInitialState()
             return@runBlocking GameViewModel(initialState) as T
         }
     }

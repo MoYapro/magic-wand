@@ -2,9 +2,6 @@ package de.moyapro.colors.game
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleMagic
-import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.UndoAction
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,14 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: MyGameState =
-        MyGameState(
-            listOf(createExampleEnemy(), createExampleEnemy()),
-            listOf(createExampleWand()),
-            listOf(createExampleMagic()),
-            0,
-            emptyList(),
-        ),
+    private val initialState: MyGameState = StartFightFactory.createInitialState(),
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
