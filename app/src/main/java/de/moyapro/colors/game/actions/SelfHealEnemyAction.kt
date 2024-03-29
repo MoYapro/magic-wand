@@ -25,7 +25,7 @@ data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyA
 
 }
 
-private data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
+data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
     override val randomSeed = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {

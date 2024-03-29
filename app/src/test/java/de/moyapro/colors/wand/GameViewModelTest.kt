@@ -27,7 +27,7 @@ internal class GameViewModelTest {
 
     @Test
     fun initEmpty() {
-        val gameViewModel = GameViewModel()
+        val gameViewModel = GameViewModel(kFunction1 = ::saveFightState)
         with(gameViewModel.getCurrentGameState().getOrThrow()) {
             enemies shouldHaveSize 2
             wands shouldHaveSize 1
@@ -37,7 +37,7 @@ internal class GameViewModelTest {
 
     @Test
     fun addMagicToWandAction() {
-        val gameViewModel = GameViewModel()
+        val gameViewModel = GameViewModel(kFunction1 = ::saveFightState)
         val (wand, slot) = getExampleWandWithSingleSlot()
         val magicToPutIn = gameViewModel.getCurrentGameState().getOrThrow().magicToPlay.first()
         gameViewModel
@@ -50,7 +50,7 @@ internal class GameViewModelTest {
 
     @Test
     fun addNonFittingMagic() {
-        val gameViewModel = GameViewModel()
+        val gameViewModel = GameViewModel(kFunction1 = ::saveFightState)
         val (newWand, slot) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
@@ -62,7 +62,7 @@ internal class GameViewModelTest {
 
     @Test
     fun newWandAction() {
-        val gameViewModel = GameViewModel()
+        val gameViewModel = GameViewModel(kFunction1 = ::saveFightState)
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))
@@ -71,7 +71,7 @@ internal class GameViewModelTest {
 
     @Test
     fun undoLastAction() {
-        val gameViewModel = GameViewModel()
+        val gameViewModel = GameViewModel(kFunction1 = ::saveFightState)
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
             .addAction(AddWandAction(newWand))

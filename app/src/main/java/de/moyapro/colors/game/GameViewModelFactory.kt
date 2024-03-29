@@ -2,6 +2,7 @@ package de.moyapro.colors.game
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -28,7 +29,7 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
             check(fightState != null || wandState != null) { "Cannot open fight without wands" }
             val state =
                 fightState ?: StartFightFactory.createInitialState(wands = wandState)
-            return@runBlocking GameViewModel(state) as T
+            return@runBlocking GameViewModel(state, ::saveFightState) as T
         }
     }
 
@@ -41,4 +42,10 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
         val jsonData = preferences[FIGHT_STATE]
         jsonData?.let { data -> getConfiguredJson().readValue<MyGameState>(data) }
     }.first()
+
+    private fun saveFightState(state: MyGameState): Unit = runBlocking {
+        dataStore.edit { settings ->
+            settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(state)
+        }
+    }
 }

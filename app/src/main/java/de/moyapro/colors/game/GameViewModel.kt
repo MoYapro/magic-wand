@@ -17,6 +17,7 @@ class GameViewModel(
             createExampleWand()
         )
     ),
+    private val saveFightState: (MyGameState) -> Unit,
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
@@ -45,6 +46,7 @@ class GameViewModel(
     fun addAction(action: GameAction): GameViewModel {
         action.onAddAction(this.actions)
         this._uiState.value = getCurrentGameState()
+        this._uiState.value.onSuccess(saveFightState)
         return this
     }
 

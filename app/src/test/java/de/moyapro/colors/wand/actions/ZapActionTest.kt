@@ -57,7 +57,7 @@ class ZapActionTest {
             ),
             currentTurn = 0,
         )
-        val viewModel = GameViewModel(state)
+        val viewModel = GameViewModel(state, ::saveFightState)
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
@@ -90,7 +90,7 @@ class ZapActionTest {
             ),
             currentTurn = 0,
         )
-        val viewModel = GameViewModel(state)
+        val viewModel = GameViewModel(state, ::saveFightState)
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
@@ -123,7 +123,7 @@ class ZapActionTest {
         ),
         currentTurn = 0,
         )
-        val viewModel = GameViewModel(state)
+        val viewModel = GameViewModel(state, ::saveFightState)
             .addAction(
                 PlaceMagicAction(
                     exampleWand.id,
