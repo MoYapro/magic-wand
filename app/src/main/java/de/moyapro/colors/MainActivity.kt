@@ -71,7 +71,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewGame() = runBlocking {
-        deleteDatabase(FIGHT_STATE.name)
         val (_, wands, _) = loadSavedState()
         check(wands == null || wands.isNotEmpty()) { "Cannot start with no wands" }
         val initialGameState = StartFightFactory.createInitialState(wands)

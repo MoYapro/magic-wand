@@ -33,13 +33,13 @@ class PlaceSpellInStashActionTest {
 
     @Test
     fun `two equal spells have different id`() {
-        val spell1 = Spell(name =  "test")
-        val spell2 = Spell(name =  "test")
+        val spell1 = Spell(name = "test", magicSlots = emptyList())
+        val spell2 = Spell(name = "test", magicSlots = emptyList())
         spell1.id shouldNotBe spell2.id
     }
     @Test
     fun `copied spell has same id`() {
-        val spell1 = Spell(name =  "test")
+        val spell1 = Spell(name = "test", magicSlots = emptyList())
         val spell2 = spell1.copy()
         spell1.id shouldBe spell2.id
     }

@@ -1,6 +1,5 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.game.actions.EndTurnAction
 import de.moyapro.colors.game.actions.GameAction
@@ -11,6 +10,7 @@ import de.moyapro.colors.game.actions.PlaceMagicAction
 import de.moyapro.colors.game.actions.ShowTargetSelectionAction
 import de.moyapro.colors.game.actions.TargetSelectedAction
 import de.moyapro.colors.game.actions.ZapAction
+import de.moyapro.colors.takeTwo.EnemyId
 import de.moyapro.colors.takeTwo.MageId
 import de.moyapro.colors.takeTwo.SlotId
 import de.moyapro.colors.takeTwo.WandId
@@ -37,7 +37,7 @@ class SerializationGameActionsTest(private val value: Any) {
                 ZapAction(WandId()),
                 NoOp(),
                 EndTurnAction(),
-                TargetSelectedAction(target = createExampleEnemy()),
+                TargetSelectedAction(target = EnemyId()),
                 ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
                 HitAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
                 GiveWandAction(mageId = MageId(), wandId = WandId()),

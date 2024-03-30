@@ -17,7 +17,7 @@ class GameViewModel(
             createExampleWand()
         )
     ),
-    private val saveFightState: (MyGameState) -> Unit,
+    private val saveFightState: (MyGameState) -> Unit = {},
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()

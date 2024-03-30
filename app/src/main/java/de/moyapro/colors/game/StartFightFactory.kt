@@ -11,7 +11,7 @@ object StartFightFactory {
         val mages = listOf(Mage(health = 5))
         val actualWands = wands ?: mages.map { mage -> createExampleWand(mage.id) }
         return MyGameState(
-            enemies = listOf(createExampleEnemy(), createExampleEnemy()),
+            enemies = listOf(createExampleEnemy(1)),
             wands = actualWands,
             magicToPlay = listOf(createExampleMagic()),
             currentTurn = 0,

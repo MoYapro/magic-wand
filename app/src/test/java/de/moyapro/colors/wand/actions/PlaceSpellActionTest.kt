@@ -14,7 +14,7 @@ import org.junit.Test
 class PlaceSpellActionTest {
     @Test
     fun `place spell from stash in wand`() {
-        val spellToPlace = Spell(name = "newSpell")
+        val spellToPlace = Spell(name = "newSpell", magicSlots = emptyList())
         val wand = createExampleWand()
         val slotToPutSpellInto = wand.slots.single { it.spell?.name == "Blitz" }
         val state = MyGameState(

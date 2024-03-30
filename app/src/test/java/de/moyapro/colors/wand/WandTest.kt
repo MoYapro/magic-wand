@@ -15,15 +15,19 @@ internal class WandTest {
 
     @Test
     fun addSpell() {
-        val spell = Spell(name = spellName)
-        val (wand, slot) = getExampleWandWithSingleSlot()
-        wand.putSpell(slot.id, spell).slots.single().magicSlots.single().requiredMagic.type shouldBe MagicType.SIMPLE
+        val spell = Spell(
+            name = spellName,
+            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
+        )
+        val (wand, slot) = getExampleWandWithSingleSlot(spell = spell)
+        wand.putSpell(slot.id, spell)
+            .slots.single().spell?.magicSlots?.single()?.requiredMagic?.type shouldBe MagicType.SIMPLE
     }
 
     @Test
     fun addTwoSpells() {
-        val spell1 = Spell(name = spellName + "1")
-        val spell2 = Spell(name = spellName + "2")
+        val spell1 = Spell(name = spellName + "1", magicSlots = emptyList())
+        val spell2 = Spell(name = spellName + "2", magicSlots = emptyList())
         val (wand, slot1, slot2) = getExampleWandWithTwoSlots()
         wand
             .putSpell(slot1.id, spell1)
@@ -34,22 +38,27 @@ internal class WandTest {
     @Test
     fun placeMagicInAvailableSlot() {
         val magic = Magic()
-        val (wand, slot) = getExampleWandWithSingleSlot(
-            Slot(
-                power = 1,
-                level = 0,
-                magicSlots = listOf(
-                    MagicSlot(Magic()),
-                    MagicSlot(Magic())
-                )
+        val spell = Spell(
+            name = "",
+            magicSlots = listOf(
+                MagicSlot(Magic()),
+                MagicSlot(Magic())
             )
         )
-        val wandWithMagic1 = wand.putMagic(slot.id, magic).getOrThrow()
-        wandWithMagic1.slots.single().magicSlots.first().placedMagic shouldBe magic
-        wandWithMagic1.slots.single().magicSlots.last().placedMagic shouldBe null
-        val wandWithMagic2 = wandWithMagic1.putMagic(slot.id, magic).getOrThrow()
-        wandWithMagic2.slots.single().magicSlots.first().placedMagic shouldBe magic
-        wandWithMagic2.slots.single().magicSlots.last().placedMagic shouldBe magic
+        val slot = Slot(
+            power = 1,
+            level = 0,
+            spell = spell
+        )
+        val (wand, theSlot) = getExampleWandWithSingleSlot(slot, spell)
+        spell.magicSlots.size shouldBe 2
+        wand.slots.first().spell?.magicSlots?.size shouldBe 2
+        val wandWithMagic1 = wand.putMagic(theSlot.id, magic).getOrThrow()
+        wandWithMagic1.slots.single().spell?.magicSlots?.first()?.placedMagic shouldBe magic
+        wandWithMagic1.slots.single().spell?.magicSlots?.last()?.placedMagic shouldBe null
+        val wandWithMagic2 = wandWithMagic1.putMagic(theSlot.id, magic).getOrThrow()
+        wandWithMagic2.slots.single().spell?.magicSlots?.first()?.placedMagic shouldBe magic
+        wandWithMagic2.slots.single().spell?.magicSlots?.last()?.placedMagic shouldBe magic
     }
 
     @Test
