@@ -14,6 +14,7 @@ import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.ui.theme.ColorsTheme
 import de.moyapro.colors.util.FIGHT_STATE
 import de.moyapro.colors.util.FightOutcome.ONGOING
+import de.moyapro.colors.util.FightOutcome.WIN
 import de.moyapro.colors.util.WAND_STATE
 import de.moyapro.colors.util.getConfiguredJson
 import kotlinx.coroutines.flow.first
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
             ColorsTheme {
                 val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
                 if (fightState != null) {
-                    if (fightState.fightHasEnded != ONGOING) {
+                    if (fightState.fightHasEnded == WIN) {
                         menuActions.add("Edit wands" to ::startEditWandsActivity)
                         menuActions.add("Next fight" to ::startFightActivity)
                     }
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                 } else {
                     menuActions.add("New game" to ::initNewGame)
                 }
+                menuActions.add("Loot" to ::startLootActivity)
                 Column {
 
                     Text(text = "fightState: ${fightState?.fightHasEnded}")
@@ -89,6 +91,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun startLootActivity() {
+        this.startActivity(Intent(this, LootActivity::class.java))
+    }
 
     private fun startFightActivity() {
         this.startActivity(Intent(this, FightActivity::class.java))

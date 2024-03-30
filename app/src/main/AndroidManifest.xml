@@ -19,6 +19,11 @@
             android:theme="@style/Theme.Colors">
         </activity>
         <activity
+            android:name=".LootActivity"
+            android:exported="false"
+            android:label="@string/title_activity_loot"
+            android:theme="@style/Theme.Colors"></activity>
+        <activity
             android:name=".EditWandsActivity"
             android:exported="false"
             android:label="@string/title_activity_editwands"
