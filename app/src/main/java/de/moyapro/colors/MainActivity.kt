@@ -71,13 +71,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewGame() = runBlocking {
-        val (_, wands, _) = loadSavedState()
-        check(wands == null || wands.isNotEmpty()) { "Cannot start with no wands" }
-        val initialGameState = StartFightFactory.createInitialState(wands)
+        val initialGameState = StartFightFactory.createInitialState()
         saveFightState(initialGameState)
-        if (null == wands) {
-            saveWands(initialGameState.wands)
-        }
+        saveWands(initialGameState.wands)
         startFightActivity()
     }
 

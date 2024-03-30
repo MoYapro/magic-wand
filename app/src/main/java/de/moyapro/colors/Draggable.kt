@@ -49,7 +49,7 @@ fun <T> Draggable(
         }
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = { currentDragOffset ->
-                currentState.dragStartPosition = Offset.Zero
+                currentState.dragStartPosition = globalStartPosition
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
                 currentState.dragPosition = globalStartPosition + currentDragOffset
