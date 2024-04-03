@@ -37,7 +37,6 @@ class FightActivity : ComponentActivity() {
                 MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
             }
             ColorsTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Black

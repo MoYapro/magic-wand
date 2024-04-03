@@ -31,16 +31,19 @@ fun SlotEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    DropZone<Spell>(
+    DropZone(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .fillMaxSize(),
-        condition = { _, dropData -> dropData != null && slot.spell?.id != dropData.id },
+        condition = { _, dropData -> dropData != null && dropData is Spell && slot.spell?.id != dropData.id },
         currentGameState = currentGameState,
-        { isInBound: Boolean, droppedSpell: Spell?, _: Spell? ->
+        { isInBound: Boolean, droppedSpell: Any?, _: Any? ->
+            if (droppedSpell != null && droppedSpell !is Spell) {
+                return@DropZone
+            }
             if (droppedSpell != null) {
                 LaunchedEffect(key1 = droppedSpell) {
-                    addAction(PlaceSpellAction(wandId, slot.id, droppedSpell))
+                    addAction(PlaceSpellAction(wandId, slot.id, droppedSpell as Spell))
                 }
             }
             val usedColor: Color = when {

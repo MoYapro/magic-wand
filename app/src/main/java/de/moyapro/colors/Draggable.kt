@@ -16,14 +16,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 
 
-private const val TAG = "DRAG"
+private const val TAG = "DRAGABLE"
 
 @Composable
 fun <T> Draggable(
     modifier: Modifier = Modifier,
     dataToDrop: T,
-    viewModel: MainViewModel,
-    content: @Composable ((T) -> Unit)
+    mainViewModel: MainViewModel,
+    content: @Composable ((T) -> Unit),
 ) {
 
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
@@ -67,7 +67,7 @@ fun <T> Draggable(
                     TAG,
                     "drag end , localPosition: $localPosition, localOffset: $localOffset, startPosition: ${currentState.dragStartPosition}"
                 )
-                viewModel.stopDragging()
+                mainViewModel.stopDragging()
                 currentState.isDragging = false
                 currentState.dragOffset = Offset.Zero
                 currentState.dragPosition = Offset.Zero
@@ -77,7 +77,7 @@ fun <T> Draggable(
                     TAG,
                     "drag cancel , localPosition: $localPosition, localOffset: $localOffset, startPosition: ${currentState.dragStartPosition}"
                 )
-                viewModel.stopDragging()
+                mainViewModel.stopDragging()
                 currentState.isDragging = false
                 currentState.dragOffset = Offset.Zero
                 currentState.dragPosition = Offset.Zero

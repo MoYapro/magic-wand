@@ -23,6 +23,7 @@ import de.moyapro.colors.takeTwo.Slot
 import de.moyapro.colors.takeTwo.WandId
 import de.moyapro.colors.util.DROP_ZONE_ALPHA
 import de.moyapro.colors.util.SPELL_SIZE
+import de.moyapro.colors.util.castOrNull
 import de.moyapro.colors.wand.Magic
 import de.moyapro.colors.wand.MagicSlot
 
@@ -33,18 +34,21 @@ fun SlotView(
     addAction: (GameAction) -> GameViewModel,
     currentGameState: MyGameState,
 ) {
-    DropZone<Magic>(
+    DropZone(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
-    ) { isInBound: Boolean, droppedMagic: Magic?, hoveredMagic: Magic? ->
+    ) { isInBound: Boolean, droppedMagic: Any?, hoveredMagic: Any? ->
+        val useDroppedMagic: Magic? = castOrNull(droppedMagic)
+        val useHoveredMagic: Magic? = castOrNull(hoveredMagic)
+
         val isThisSlotFull = slot.spell?.magicSlots?.none { it.placedMagic == null } ?: true
         val hoveredMagicDoesFit =
-            !isThisSlotFull && slot.spell?.magicSlots?.any { it.requiredMagic.type == hoveredMagic?.type && it.placedMagic == null } ?: false
-        if (droppedMagic != null && hoveredMagicDoesFit) {
-            LaunchedEffect(key1 = droppedMagic) {
-                addAction(PlaceMagicAction(wandId, slot.id, droppedMagic))
+            !isThisSlotFull && slot.spell?.magicSlots?.any { it.requiredMagic.type == useHoveredMagic?.type && it.placedMagic == null } ?: false
+        if (useDroppedMagic != null && hoveredMagicDoesFit) {
+            LaunchedEffect(key1 = useDroppedMagic) {
+                addAction(PlaceMagicAction(wandId, slot.id, useDroppedMagic))
             }
         }
         val usedColor: Color = when {
@@ -54,9 +58,11 @@ fun SlotView(
             else -> throw IllegalStateException("cannot determine hover color")
         }
 
-        Box(modifier = Modifier
-            .background(usedColor)
-            .fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .background(usedColor)
+                .fillMaxSize()
+        ) {
             Row {
                 Text("".padStart(slot.power, '|'))
                 Text(slot.spell?.name ?: "empty")

@@ -16,11 +16,11 @@ import de.moyapro.colors.game.MyGameState
 private const val TAG = "DROP_ITEM"
 
 @Composable
-fun <T> DropZone(
+fun DropZone(
     modifier: Modifier = Modifier,
-    condition: (gameState: MyGameState, dropData: T?) -> Boolean = { _, _ -> true },
+    condition: (gameState: MyGameState, dropData: Any?) -> Boolean = { _, _ -> true },
     currentGameState: MyGameState,
-    content: @Composable() (BoxScope.(isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit),
+    content: @Composable() (BoxScope.(isInBound: Boolean, dropData: Any?, hoverData: Any?) -> Unit),
 ) {
     val dragInfo = LocalDragTargetInfo.current
     val dragPosition = dragInfo.dragPosition
@@ -31,7 +31,10 @@ fun <T> DropZone(
 
     Box(modifier = modifier.onGloballyPositioned {
         it.boundsInWindow().let { rect ->
-            isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && condition(currentGameState, dragInfo.dataToDrop as T?)
+            isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && condition(
+                currentGameState,
+                dragInfo.dataToDrop
+            )
         }
     }) {
         when {
@@ -39,13 +42,13 @@ fun <T> DropZone(
             isCurrentDropTarget && dragInfo.isDragging -> content(
                 true,
                 null,
-                dragInfo.dataToDrop as T?
+                dragInfo.dataToDrop
             )
 
             isCurrentDropTarget && !dragInfo.isDragging -> content(
                 true,
-                dragInfo.dataToDrop as T?,
-                dragInfo.dataToDrop as T?,
+                dragInfo.dataToDrop,
+                dragInfo.dataToDrop,
             )
 
             else -> throw IllegalStateException("unknown drop state")

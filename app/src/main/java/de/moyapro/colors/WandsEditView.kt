@@ -11,7 +11,7 @@ import de.moyapro.colors.game.actions.GameAction
 
 @Composable
 fun WandsEditView(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     currentGameState: MyGameState,
     mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,

@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,13 +26,13 @@ fun WandView(
     addAction: (GameAction) -> GameViewModel,
     currentGameState: MyGameState,
 ) {
-    Log.d("WandView", "WandId ${wand.id}")
     val mage = currentGameState.findMage(wand.id)
-    check(mage != null) { "No mage for wand" }
     Column(modifier = modifier.height(4 * SPELL_SIZE.dp)) {
-        Row(Modifier.fillMaxWidth()) {
-            Button(onClick = { addAction(ZapAction(wand.id)) }) { Text("Zap") }
-            MageView(mage)
+        if (mage != null) {
+            Row(Modifier.fillMaxWidth()) {
+                Button(onClick = { addAction(ZapAction(wand.id)) }) { Text("Zap") }
+                MageView(mage)
+            }
         }
         val slotsByLevel =
             wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }

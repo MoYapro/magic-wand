@@ -16,10 +16,13 @@ import de.moyapro.colors.wand.Magic
 @Composable
 fun MagicView(magic: Magic = createExampleMagic(), mainViewModel: MainViewModel = MainViewModel()) {
     Draggable(
-        viewModel = mainViewModel,
+        mainViewModel = mainViewModel,
         dataToDrop = magic
     ) {
-        Box(Modifier.size(2.dp).background(Color.Black))
+        Box(
+            Modifier
+                .size(2.dp)
+                .background(Color.Black))
         Text(
             text = magic.type.symbol.toString(),
             fontSize = 66.sp,

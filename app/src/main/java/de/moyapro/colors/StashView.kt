@@ -22,6 +22,7 @@ import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.PlaceSpellInStashAction
 import de.moyapro.colors.util.DROP_ZONE_ALPHA
 import de.moyapro.colors.util.SPELL_SIZE
+import de.moyapro.colors.util.castOrNull
 import de.moyapro.colors.wand.Spell
 
 @Composable
@@ -31,18 +32,20 @@ fun StashView(
     mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    DropZone<Spell>(
+    DropZone(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.spellsInStash.contains(dragData) },
         currentGameState = currentGameState,
-        { isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
+        { isInBound: Boolean, droppedSpell: Any?, hoveredSpell: Any? ->
+            val useDroppedSpell: Spell? = castOrNull(droppedSpell)
+            val useHoveredSpell: Spell? = castOrNull(hoveredSpell)
             val canDrop: Boolean =
                 isInBound && !currentGameState.spellsInStash.contains(
-                    hoveredSpell
+                    useHoveredSpell
                 )
-            if (canDrop && null != droppedSpell) {
-                LaunchedEffect(key1 = droppedSpell) {
-                    addAction(PlaceSpellInStashAction(droppedSpell.id))
+            if (canDrop && null != useDroppedSpell) {
+                LaunchedEffect(key1 = useDroppedSpell) {
+                    addAction(PlaceSpellInStashAction(useDroppedSpell.id))
                 }
             }
 
@@ -66,7 +69,7 @@ fun StashView(
                             .border(1.dp, Color.LightGray)
                             .align(Alignment.Center),
                         dataToDrop = spell,
-                        viewModel = mainViewModel
+                        mainViewModel = mainViewModel
                     ) {
                         SpellView(spell = spell)
                     }
