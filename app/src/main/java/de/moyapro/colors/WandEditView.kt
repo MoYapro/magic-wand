@@ -23,7 +23,7 @@ import de.moyapro.colors.util.SPELL_SIZE
 @Composable
 fun WandEditView(
     modifier: Modifier = Modifier,
-    wandData: Wand = createExampleWand(),
+    wand: Wand = createExampleWand(),
     currentGameState: MyGameState,
     mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,
@@ -33,10 +33,11 @@ fun WandEditView(
         Column(
             modifier = modifier
                 .height(4 * SPELL_SIZE.dp)
+                .width(2 * SPELL_SIZE.dp)
                 .background(color)
         ) {
             val slotsByLevel =
-                wandData.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
+                wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
             slotsByLevel.forEach { (_, slots) ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -50,7 +51,7 @@ fun WandEditView(
                             dataToDrop = slot.spell,
                             mainViewModel = mainViewModel
                         ) {
-                            SlotEditView(wandData.id, slot, currentGameState, addAction)
+                            SlotEditView(wand.id, slot, currentGameState, addAction)
                         }
                     }
                 }

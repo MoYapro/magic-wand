@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,11 +28,22 @@ fun WandView(
     currentGameState: MyGameState,
 ) {
     val mage = currentGameState.findMage(wand.id)
-    Column(modifier = modifier.height(4 * SPELL_SIZE.dp)) {
+    Column(
+        modifier = modifier
+            .height(4 * SPELL_SIZE.dp)
+            .width(2 * SPELL_SIZE.dp)
+    ) {
         if (mage != null) {
             Row(Modifier.fillMaxWidth()) {
-                Button(onClick = { addAction(ZapAction(wand.id)) }) { Text("Zap") }
-                MageView(mage)
+                Button(
+                    modifier = Modifier.width(SPELL_SIZE.dp),
+                    onClick = { addAction(ZapAction(wand.id)) }) { Text("🗲") }
+                MageView(
+                    modifier = Modifier
+                        .width(SPELL_SIZE.dp)
+                        .height(SPELL_SIZE.dp),
+                    mage = mage
+                )
             }
         }
         val slotsByLevel =

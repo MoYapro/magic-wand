@@ -27,21 +27,27 @@ fun WandsEditView(
             currentGameState = currentGameState,
             mainViewModel = mainViewModel,
             addAction = addAction,
-            wandData = wands[0]
-        )
+            wand = wands[0]
+        ) else {
+            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
+        }
         if (wands.size > 1) WandEditView(
             modifier = Modifier.fillMaxWidth(1f / 2f),
             currentGameState = currentGameState,
             mainViewModel = mainViewModel,
             addAction = addAction,
-            wandData = wands[1]
-        )
+            wand = wands[1]
+        ) else {
+            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
+        }
         if (wands.size > 2) WandEditView(
             modifier = Modifier.fillMaxWidth(1f),
             currentGameState = currentGameState,
             mainViewModel = mainViewModel,
             addAction = addAction,
-            wandData = wands[2]
-        )
+            wand = wands[2]
+        ) else {
+            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
+        }
     }
 }
