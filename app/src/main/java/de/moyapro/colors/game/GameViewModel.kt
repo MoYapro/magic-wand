@@ -32,6 +32,7 @@ class GameViewModel(
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")
             addAction(UndoAction) // TODO: This is not shown because result below is put in stateFlow last
+            return getCurrentGameState()
         }
         return result
     }

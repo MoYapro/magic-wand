@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,7 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.game.actions.AddWandAction
+import de.moyapro.colors.game.actions.CombinedAction
 import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.RemoveWandFromLootAction
 import de.moyapro.colors.takeTwo.Wand
 import de.moyapro.colors.util.DROP_ZONE_ALPHA
 import de.moyapro.colors.util.SPELL_SIZE
@@ -35,13 +39,20 @@ fun EmptyWandSlot(
     )
     { isInBound: Boolean, droppedWand: Any?, hoveredWand: Any? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)
+        val useDroppedWand: Wand? = castOrNull(droppedWand)
+        if (null != useDroppedWand) addAction(
+            CombinedAction(
+                AddWandAction(useDroppedWand),
+                RemoveWandFromLootAction(useDroppedWand)
+            )
+        )
         Box(
             modifier = Modifier
                 .height(4 * SPELL_SIZE.dp)
                 .width(2 * SPELL_SIZE.dp)
                 .background(if (isInBound) Color.Green.copy(DROP_ZONE_ALPHA) else Color.Transparent)
         ) {
-            if (isInBound && useHoveredWand != null)
+            if (isInBound && useHoveredWand != null) {
                 WandEditView(
                     modifier = Modifier.alpha(DROP_ZONE_ALPHA),
                     currentGameState = currentGameState,
@@ -49,6 +60,9 @@ fun EmptyWandSlot(
                     wand = useHoveredWand,
                     addAction = addAction,
                 )
+            } else {
+                Text("Place wand here")
+            }
         }
     }
 }

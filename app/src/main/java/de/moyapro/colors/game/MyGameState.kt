@@ -20,6 +20,7 @@ data class MyGameState(
     val mages: List<Mage> = emptyList(),
     val spellsInStash: List<Spell> = emptyList(),
     val fightHasEnded: FightOutcome = ONGOING,
+    val loot: Loot = Loot(),
 ) {
 
     fun findWand(wandId: WandId): Wand? {

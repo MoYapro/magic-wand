@@ -16,15 +16,17 @@ data class Wand(
 
     fun putMagic(slotId: SlotId, magic: Magic): Result<Wand> {
         var placedMagic = false
-        val updatedSlots = slots.map {
-            if (placedMagic || it.id != slotId) Result.success(it)
+        val updatedSlots = slots.map { slot ->
+            if (placedMagic || slot.id != slotId) Result.success(slot)
             else {
                 placedMagic = true
-                it.putMagic(magic)
+                slot.putMagic(magic)
             }
         }
         val occuredError = updatedSlots.firstOrNull { it.isFailure }?.exceptionOrNull()
-        if (null != occuredError) return Result.failure(occuredError)
+        if (null != occuredError) {
+            return Result.failure(occuredError)
+        }
         val updatedWand = Result.success(
             this.copy(slots = updatedSlots.map { it.getOrThrow() })
         )

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.game.actions.AddWandToLootAction
 import de.moyapro.colors.ui.theme.ColorsTheme
 
 class LootActivity : ComponentActivity() {
@@ -41,6 +42,7 @@ class LootActivity : ComponentActivity() {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
                 MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
             }
+            gameViewModel.addAction(AddWandToLootAction(createExampleWand()))
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -55,7 +57,7 @@ class LootActivity : ComponentActivity() {
                                 .border(1.dp, Color.LightGray)
                         ) {
                             LootWandsView(
-                                wands = listOf(createExampleWand()),
+                                wands = currentGameState.loot.wands,
                                 mainViewModel = mainViewModel,
                                 currentGameState = currentGameState,
                                 addAction = gameViewModel::addAction
