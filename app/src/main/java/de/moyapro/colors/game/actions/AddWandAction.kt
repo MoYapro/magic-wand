@@ -1,9 +1,11 @@
 package de.moyapro.colors.game.actions
 
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.takeTwo.Mage
 import de.moyapro.colors.takeTwo.Wand
+import de.moyapro.colors.util.replace
 
-data class AddWandAction(val wand: Wand) : GameAction("Add Wand") {
+data class AddWandAction(val wandToAdd: Wand) : GameAction("Add Wand") {
 
     override val randomSeed = this.hashCode()
 
@@ -13,12 +15,20 @@ data class AddWandAction(val wand: Wand) : GameAction("Add Wand") {
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         if (oldState.wands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
-        check(oldState.wands.none { it.id == wand.id }) { "Cannot add wand - id is already there" }
+        check(oldState.wands.none { it.id == wandToAdd.id }) { "Cannot add wand - id is already there" }
+        val mageWithoutWand: Mage? = findMageWithoutWand(oldState)
+        check(mageWithoutWand != null) { "Could not add wand because there is no mage free to hold it" }
+        val updatedMage = mageWithoutWand.copy(wandId = wandToAdd.id)
         return Result.success(
             oldState.copy(
-                wands = oldState.wands + wand,
+                wands = oldState.wands + wandToAdd,
+                mages = oldState.mages.replace(updatedMage)
             )
         )
+    }
+
+    private fun findMageWithoutWand(state: MyGameState): Mage? {
+        return state.mages.firstOrNull { it.wandId == null }
     }
 
 }

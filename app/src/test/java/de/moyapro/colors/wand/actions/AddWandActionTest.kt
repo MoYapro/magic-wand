@@ -4,16 +4,15 @@ import de.moyapro.colors.createExampleMage
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.MyGameState
 import de.moyapro.colors.game.actions.AddWandAction
-import de.moyapro.colors.game.actions.RemoveWandAction
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.shouldNotBe
 import org.junit.Test
 
-class RemoveWandActionTest {
+class AddWandActionTest {
     @Test
     fun `should remove wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        val mage = createExampleMage(health = 10, wandId = wand1.id)
         val state =
             AddWandAction(wand1).apply(
                 AddWandAction(wand2).apply(
@@ -22,12 +21,12 @@ class RemoveWandActionTest {
                         wands = emptyList(),
                         magicToPlay = emptyList(),
                         enemies = emptyList(),
-                        mages = listOf(mage),
+                        mages = listOf(createExampleMage(), createExampleMage()),
                     )
                 ).getOrThrow()
             ).getOrThrow()
-        val updatedState = RemoveWandAction(wand1).apply(state).getOrThrow()
-        updatedState.wands.single() shouldBe wand2
-        updatedState.findMage(wand1.id) shouldBe null
+        state.wands shouldContainExactlyInAnyOrder listOf(wand1, wand2)
+        state.findMage(wand1.id) shouldNotBe null
+        state.findMage(wand2.id) shouldNotBe null
     }
 }

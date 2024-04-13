@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.MyGameState
+import de.moyapro.colors.game.actions.AddWandAction
+import de.moyapro.colors.game.actions.AddWandToLootAction
 import de.moyapro.colors.game.actions.CombinedAction
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.RemoveWandAction
@@ -44,9 +46,9 @@ fun WandEditView(
         if (newWand != null) {
             addAction(
                 CombinedAction(
-//                    RemoveWandAction(wand),
-//                    AddWandToLootAction(wand),
-//                    AddWandAction(newWand)
+                    RemoveWandAction(wand),
+                    AddWandToLootAction(wand),
+                    AddWandAction(newWand)
                 )
             )
         }
@@ -58,7 +60,14 @@ fun WandEditView(
                 .width(2 * SPELL_SIZE.dp)
                 .background(color)
         ) {
-            Button(onClick = { addAction(RemoveWandAction(wand)) }) {
+            Button(onClick = {
+                addAction(
+                    CombinedAction(
+                        RemoveWandAction(wand),
+                        AddWandToLootAction(wand)
+                    )
+                )
+            }) {
                 Text("rm")
             }
             val slotsByLevel =

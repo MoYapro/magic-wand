@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddWandToLootAction
 import de.moyapro.colors.ui.theme.ColorsTheme
 
 class LootActivity : ComponentActivity() {
@@ -42,7 +42,6 @@ class LootActivity : ComponentActivity() {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
                 MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
             }
-            gameViewModel.addAction(AddWandToLootAction(createExampleWand()))
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -89,13 +88,17 @@ class LootActivity : ComponentActivity() {
                                 .fillMaxHeight(1f / 3f)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            Button(onClick = { /*TODO*/ }) {
-                                Text(text = "Save")
+                            Button(onClick = ::startMainActivity) {
+                                Text(text = "Done")
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun startMainActivity() {
+        this.startActivity(Intent(this, MainActivity::class.java))
     }
 }

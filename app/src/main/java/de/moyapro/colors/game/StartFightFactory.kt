@@ -2,6 +2,7 @@ package de.moyapro.colors.game
 
 import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
+import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.takeTwo.Mage
 import de.moyapro.colors.takeTwo.MageId
 import de.moyapro.colors.takeTwo.Slot
@@ -16,16 +17,21 @@ object StartFightFactory {
     fun createInitialState(wands: List<Wand>? = null): MyGameState {
         val mageId = MageId()
         val wandId = WandId()
-        val mages = listOf(Mage(id = mageId, health = 5, wandId = wandId))
+        val mages = listOf(
+            Mage(id = mageId, health = 5, wandId = wandId),
+            Mage(health = 6),
+            Mage(health = 7),
+        )
 
         val actualWands =
-            wands ?: mages.map { mage -> createStarterWand(mageId = mage.id, wandId = wandId) }
+            wands ?: listOf(createStarterWand(mageId = mages.first().id, wandId = wandId))
         return MyGameState(
             enemies = listOf(createExampleEnemy(1)),
             wands = actualWands,
             magicToPlay = listOf(createExampleMagic()),
             currentTurn = 0,
             mages = mages,
+            loot = Loot(listOf(createExampleWand()))
         )
     }
 

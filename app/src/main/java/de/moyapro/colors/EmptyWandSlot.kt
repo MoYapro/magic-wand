@@ -34,7 +34,7 @@ fun EmptyWandSlot(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .fillMaxSize(),
-        condition = { _, dropData -> dropData != null && dropData is Wand },
+        condition = { state, dropData -> dropData != null && dropData is Wand && state.wands.none { it.id == dropData.id } },
         currentGameState = currentGameState,
     )
     { isInBound: Boolean, droppedWand: Any?, hoveredWand: Any? ->

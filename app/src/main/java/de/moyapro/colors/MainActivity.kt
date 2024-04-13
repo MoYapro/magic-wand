@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
         val initialGameState = StartFightFactory.createInitialState()
         saveFightState(initialGameState)
         saveWands(initialGameState.wands)
-        startFightActivity()
+//        startFightActivity()
     }
 
     private fun saveFightState(gameState: MyGameState): Unit = runBlocking {
