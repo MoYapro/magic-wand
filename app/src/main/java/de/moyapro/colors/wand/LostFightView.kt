@@ -5,9 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun LostFightView() {
+fun LostFightView(startMainActivity: () -> Unit) {
     Text("You lost the fight")
-    Button(onClick = { (TODO()) }) {
+    Button(onClick = startMainActivity) {
         Text("Back to main menu")
     }
 }

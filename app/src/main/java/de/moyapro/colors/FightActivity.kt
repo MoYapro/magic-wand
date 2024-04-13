@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -47,11 +48,15 @@ class FightActivity : ComponentActivity() {
                             gameViewModel::addAction
                         )
 
-                        FightOutcome.WIN -> WinFightView()
-                        FightOutcome.LOST -> LostFightView()
+                        FightOutcome.WIN -> WinFightView(::startMainActivity)
+                        FightOutcome.LOST -> LostFightView(::startMainActivity)
                     }
                 }
             }
         }
+    }
+
+    private fun startMainActivity() {
+        this.startActivity(Intent(this, MainActivity::class.java))
     }
 }
