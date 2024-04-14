@@ -1,37 +1,27 @@
 package de.moyapro.colors
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.GameViewModelFactory
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.ui.theme.ColorsTheme
+import android.content.*
+import android.os.*
+import android.widget.*
+import androidx.activity.*
+import androidx.activity.compose.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.*
+import androidx.compose.ui.unit.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.util.*
 
 class LootActivity : ComponentActivity() {
 
     private val gameViewModel: GameViewModel by viewModels {
         GameViewModelFactory(this.dataStore)
     }
-    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,12 +42,11 @@ class LootActivity : ComponentActivity() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(1f / 4f)
+                                .height(3 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
                             LootWandsView(
                                 wands = currentGameState.loot.wands,
-                                mainViewModel = mainViewModel,
                                 currentGameState = currentGameState,
                                 addAction = gameViewModel::addAction
                             )
@@ -65,7 +54,7 @@ class LootActivity : ComponentActivity() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(1f / 4f)
+                                .height(2 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
                             Text(text = "new Spells")
@@ -73,19 +62,18 @@ class LootActivity : ComponentActivity() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(1f / 4f)
+                                .height(3 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
                             WandsEditView(
                                 currentGameState = currentGameState,
-                                mainViewModel = mainViewModel,
                                 addAction = gameViewModel::addAction
                             )
                         }
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(1f / 3f)
+                                .fillMaxHeight(1f / 4f)
                                 .border(1.dp, Color.LightGray)
                         ) {
                             Button(onClick = ::startMainActivity) {

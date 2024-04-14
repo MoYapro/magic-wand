@@ -1,29 +1,17 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddWandAction
-import de.moyapro.colors.game.actions.CombinedAction
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.RemoveWandFromLootAction
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.DROP_ZONE_ALPHA
-import de.moyapro.colors.util.SPELL_SIZE
-import de.moyapro.colors.util.castOrNull
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.unit.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
 @Composable
 fun EmptyWandSlot(
@@ -56,7 +44,6 @@ fun EmptyWandSlot(
                 WandEditView(
                     modifier = Modifier.alpha(DROP_ZONE_ALPHA),
                     currentGameState = currentGameState,
-                    mainViewModel = MainViewModel(),
                     wand = useHoveredWand,
                     addAction = addAction,
                 )

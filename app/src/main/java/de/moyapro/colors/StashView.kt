@@ -1,35 +1,22 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.PlaceSpellInStashAction
-import de.moyapro.colors.util.DROP_ZONE_ALPHA
-import de.moyapro.colors.util.SPELL_SIZE
-import de.moyapro.colors.util.castOrNull
-import de.moyapro.colors.wand.Spell
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.unit.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.util.*
+import de.moyapro.colors.wand.*
 
 @Composable
 fun StashView(
     modifier: Modifier,
     currentGameState: MyGameState,
-    mainViewModel: MainViewModel,
     addAction: (GameAction) -> GameViewModel,
 ) {
     DropZone(
@@ -69,7 +56,6 @@ fun StashView(
                             .border(1.dp, Color.LightGray)
                             .align(Alignment.Center),
                         dataToDrop = spell,
-                        mainViewModel = mainViewModel
                     ) {
                         SpellView(spell = spell)
                     }

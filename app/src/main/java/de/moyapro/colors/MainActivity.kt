@@ -1,25 +1,21 @@
 package de.moyapro.colors
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
-import androidx.datastore.preferences.core.edit
-import com.fasterxml.jackson.databind.ObjectMapper
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.StartFightFactory
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.ui.theme.ColorsTheme
-import de.moyapro.colors.util.FIGHT_STATE
+import android.content.*
+import android.os.*
+import androidx.activity.*
+import androidx.activity.compose.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.datastore.preferences.core.*
+import com.fasterxml.jackson.databind.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightOutcome.ONGOING
 import de.moyapro.colors.util.FightOutcome.WIN
-import de.moyapro.colors.util.WAND_STATE
-import de.moyapro.colors.util.getConfiguredJson
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 class MainActivity : ComponentActivity() {
 
@@ -27,6 +23,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val (fightState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
+        startLootActivity()
         setContent {
             ColorsTheme {
                 val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()

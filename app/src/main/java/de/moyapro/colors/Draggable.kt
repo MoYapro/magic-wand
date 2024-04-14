@@ -1,19 +1,13 @@
 package de.moyapro.colors
 
-import android.util.Log
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.offset
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.geometry.*
+import androidx.compose.ui.input.pointer.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.platform.*
 
 
 private const val TAG = "DRAGABLE"
@@ -22,10 +16,9 @@ private const val TAG = "DRAGABLE"
 fun <T> Draggable(
     modifier: Modifier = Modifier,
     dataToDrop: T,
-    mainViewModel: MainViewModel,
+    requireLongPress: Boolean = false,
     content: @Composable ((T) -> Unit),
 ) {
-
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
     val localPosition by remember { mutableStateOf(Offset.Zero) }
     var localOffset by remember { mutableStateOf(Offset.Zero) }
@@ -39,6 +32,7 @@ fun <T> Draggable(
     }
 
 
+    val updateLocalOffset: (Offset) -> Unit = { newOffset -> localOffset = newOffset }
     Box(modifier = modifier
         .offset(offsetX, offsetY)
         .onGloballyPositioned {
@@ -48,41 +42,59 @@ fun <T> Draggable(
                 )
         }
         .pointerInput(Unit) {
-            detectDragGestures(onDragStart = { currentDragOffset ->
-                currentState.dragStartPosition = globalStartPosition
-                currentState.dataToDrop = dataToDrop
-                currentState.isDragging = true
-                currentState.dragPosition = globalStartPosition + currentDragOffset
-                val sum = localPosition + localOffset + currentDragOffset
-                Log.d(
-                    TAG,
-                    "drag start offset: $currentDragOffset, localPosition: $localPosition, localOffset: $localOffset, sum: $sum, startPosition: ${currentState.dragStartPosition}, person: ${currentState.dataToDrop}"
+            if (requireLongPress) {
+                detectDragGesturesAfterLongPress(
+                    onDragStart = { currentDragOffset ->
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop)
+                    },
+                    onDrag = { change, dragAmount ->
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
+                    },
+                    onDragEnd = { onDragEnd(currentState, updateLocalOffset) },
+                    onDragCancel = { onDragEnd(currentState, updateLocalOffset) }
                 )
-            }, onDrag = { change, dragAmount ->
-                change.consume()
-                localOffset += dragAmount
-                currentState.dragPosition = globalStartPosition + localOffset
-            }, onDragEnd = {
-                Log.d(
-                    TAG,
-                    "drag end , localPosition: $localPosition, localOffset: $localOffset, startPosition: ${currentState.dragStartPosition}"
+            } else {
+                detectDragGestures(
+                    onDragStart = { currentDragOffset ->
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop)
+                    },
+                    onDrag = { change, dragAmount ->
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
+                    },
+                    onDragEnd = { onDragEnd(currentState, updateLocalOffset) },
+                    onDragCancel = { onDragEnd(currentState, updateLocalOffset) }
                 )
-                mainViewModel.stopDragging()
-                currentState.isDragging = false
-                currentState.dragOffset = Offset.Zero
-                currentState.dragPosition = Offset.Zero
-                localOffset = Offset.Zero
-            }, onDragCancel = {
-                Log.d(
-                    TAG,
-                    "drag cancel , localPosition: $localPosition, localOffset: $localOffset, startPosition: ${currentState.dragStartPosition}"
-                )
-                mainViewModel.stopDragging()
-                currentState.isDragging = false
-                currentState.dragOffset = Offset.Zero
-                currentState.dragPosition = Offset.Zero
-            })
+            }
         }) {
         content(dataToDrop)
     }
+}
+
+private fun onDragEnd(currentState: DragTargetInfo, updateLocalOffset: (Offset) -> Unit) {
+    currentState.reset()
+    updateLocalOffset(Offset.Zero)
+}
+
+private fun onDrag(
+    currentState: DragTargetInfo,
+    change: PointerInputChange,
+    dragAmount: Offset,
+    localOffset: Offset,
+    updateLocalOffset: (Offset) -> Unit,
+) {
+    change.consume()
+    updateLocalOffset(localOffset + dragAmount)
+    currentState.dragPosition = currentState.dragStartPosition + localOffset
+}
+
+private fun <T> onDragStart(
+    currentState: DragTargetInfo,
+    currentDragOffset: Offset,
+    globalStartPosition: Offset,
+    dataToDrop: T,
+) {
+    currentState.dragStartPosition = globalStartPosition
+    currentState.dataToDrop = dataToDrop
+    currentState.isDragging = true
+    currentState.dragPosition = globalStartPosition + currentDragOffset
 }
