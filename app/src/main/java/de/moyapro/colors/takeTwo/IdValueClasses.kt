@@ -1,6 +1,6 @@
 package de.moyapro.colors.takeTwo
 
-import java.util.UUID
+import java.util.*
 
 @JvmInline
 value class WandId(val id: UUID = UUID.randomUUID())
@@ -18,6 +18,6 @@ value class EnemyId(val id: UUID = UUID.randomUUID())
 value class MagicSlotId(val id: UUID = UUID.randomUUID())
 
 @JvmInline
-value class MageId(val id: UUID = UUID.randomUUID())
+value class MageId(val id: Short)
 @JvmInline
 value class SpellId(val id: UUID = UUID.randomUUID())

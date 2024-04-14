@@ -12,7 +12,7 @@ fun WandsEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    val wands = currentGameState.wands
+    val wands = currentGameState.wandsInOrder()
 
     Row(modifier = modifier) {
 
