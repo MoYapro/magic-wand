@@ -1,16 +1,9 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.takeTwo.Mage
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.SlotId
-import de.moyapro.colors.takeTwo.SpellId
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.util.FightOutcome
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightOutcome.ONGOING
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.wand.*
 
 data class MyGameState(
     val enemies: List<Enemy>,
@@ -18,7 +11,6 @@ data class MyGameState(
     val magicToPlay: List<Magic>,
     val currentTurn: Int,
     val mages: List<Mage> = emptyList(),
-    val spellsInStash: List<Spell> = emptyList(),
     val fightHasEnded: FightOutcome = ONGOING,
     val loot: Loot = Loot(),
 ) {

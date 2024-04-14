@@ -1,12 +1,11 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.PlaceSpellInStashAction
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.wand.*
+import io.kotest.matchers.*
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import org.junit.Test
+import org.junit.*
 
 class PlaceSpellInStashActionTest {
     @Test

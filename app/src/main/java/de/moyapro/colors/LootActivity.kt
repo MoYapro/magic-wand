@@ -38,7 +38,6 @@ class LootActivity : ComponentActivity() {
                     color = Color.Black
                 ) {
                     Column(Modifier.fillMaxSize()) {
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -57,7 +56,7 @@ class LootActivity : ComponentActivity() {
                                 .height(2 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            Text(text = "new Spells")
+                            LootSpellsView(spells = currentGameState.loot.spells, currentGameState = currentGameState, addAction = gameViewModel::addAction)
                         }
                         Row(
                             modifier = Modifier

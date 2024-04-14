@@ -28,7 +28,8 @@ fun LootWandsView(
         ) {
             items(
                 items = wands,
-                key = { wand -> wand.id.hashCode() }) { wand ->
+                key = { wand -> wand.id.hashCode() })
+            { wand ->
                 Draggable(dataToDrop = wand, requireLongPress = true) {
                     WandEditView(
                         modifier = Modifier.width(2 * SPELL_SIZE.dp),

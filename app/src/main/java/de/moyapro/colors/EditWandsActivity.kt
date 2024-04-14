@@ -57,11 +57,12 @@ class EditWandsActivity : ComponentActivity() {
 
                     ) {
                     Column(Modifier.fillMaxSize()) {
-                        StashView(
+                        LootSpellsView(
                             Modifier
                                 .fillMaxWidth()
                                 .height(4 * SPELL_SIZE.dp),
                             currentGameState = currentGameState,
+                            spells = currentGameState.loot.spells,
                             addAction = gameViewModel::addAction,
                         )
                         Spacer(modifier = Modifier.height(48.dp))

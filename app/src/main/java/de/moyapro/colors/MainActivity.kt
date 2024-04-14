@@ -21,9 +21,10 @@ class MainActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initNewGame()
+        startLootActivity()
         val (fightState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
-        startLootActivity()
         setContent {
             ColorsTheme {
                 val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
