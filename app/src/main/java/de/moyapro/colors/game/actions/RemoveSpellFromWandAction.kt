@@ -14,12 +14,32 @@ data class RemoveSpellFromWandAction(
     override val randomSeed: Int = this.hashCode()
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val wandToChange = oldState.findWand(wandId)
-        check(wandToChange != null) { "Could not find wand to remove spell from" }
-        val slotToChange = wandToChange.slots.singleOrNull { it.id == slotId }
+        val wandInHand = oldState.findWand(wandId)
+        return if (wandInHand != null) removeSpellFromWandInHand(wandInHand, oldState)
+        else removeSpellFromWandInLoot(wandId, oldState)
+    }
+
+    private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: MyGameState): Result<MyGameState> {
+        val slotToChange = wandInHand.slots.singleOrNull { it.id == slotId }
         check(slotToChange != null) { "Could not find slot to remove spell from" }
         val updatedSlot = slotToChange.copy(spell = null)
-        val updatedWand = wandToChange.copy(slots = wandToChange.slots.replace(updatedSlot))
+        val updatedWand = wandInHand.copy(slots = wandInHand.slots.replace(updatedSlot))
         return Result.success(oldState.copy(wands = oldState.wands.replace(updatedWand)))
+    }
+
+    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: MyGameState): Result<MyGameState> {
+        val wandInLoot = oldState.loot.findWand(wandId)
+        check(wandInLoot != null) { "Could not find wand to remove spell from" }
+        val slotToChange = wandInLoot.slots.singleOrNull { it.id == slotId }
+        check(slotToChange != null) { "Could not find slot to remove spell from" }
+        val updatedSlot = slotToChange.copy(spell = null)
+        val updatedWand = wandInLoot.copy(slots = wandInLoot.slots.replace(updatedSlot))
+        return Result.success(
+            oldState.copy(
+                loot = oldState.loot.copy(
+                    wands = oldState.loot.wands.replace(updatedWand)
+                )
+            )
+        )
     }
 }
