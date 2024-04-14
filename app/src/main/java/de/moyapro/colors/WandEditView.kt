@@ -18,23 +18,12 @@ fun WandEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    DropZone<Any>(
+    DropZone<Wand>(
         currentGameState = currentGameState,
-        condition = { gameState, maybeWand ->
-            maybeWand is Wand && !gameState.wands.contains(maybeWand)
-        },
+        condition = { gameState, maybeWand -> !gameState.wands.contains(maybeWand) },
         addAction = addAction,
+        onDropAction = { newWand -> AddWandAction(newWand) }
     ) { modifier: Modifier, isInBound, dropData, hoverData ->
-        val newWand: Wand? = castOrNull(dropData)
-        if (newWand != null) {
-            addAction(
-                CombinedAction(
-                    RemoveWandAction(wand),
-                    AddWandToLootAction(wand),
-                    AddWandAction(newWand)
-                )
-            )
-        }
 
         val color = if (isInBound) Color.Green.copy(DROP_ZONE_ALPHA) else Color.Transparent
         Column(

@@ -1,11 +1,15 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.Mage
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.replace
+import de.moyapro.colors.game.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
-data class AddWandAction(val wandToAdd: Wand) : GameAction("Add Wand") {
+data class AddWandAction(
+
+    need mageId or have slots in use numbered to determin if replace or add in new position
+
+val wandToAdd: Wand) : GameAction("Add Wand")
+{
 
     override val randomSeed = this.hashCode()
 
