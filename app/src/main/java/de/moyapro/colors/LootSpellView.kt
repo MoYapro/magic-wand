@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.util.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -12,32 +13,26 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
 
+private const val TAG = "LootSpellsView"
 @Composable
 fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
     DropZone<Spell>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
-        condition = { state, dragData -> !state.loot.spells.contains(dragData) },
+        condition = { state, dragData ->
+            Log.d(TAG, "current drag data: $dragData")
+            !state.loot.spells.contains(dragData)
+        },
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { isInBound: Boolean, droppedSpell: Any?, hoveredSpell: Any? ->
+    { modifier: Modifier, isInBound: Boolean, droppedSpell: Any?, hoveredSpell: Any? ->
         val useDroppedSpell: Spell? = castOrNull(droppedSpell)
         val useHoveredSpell: Spell? = castOrNull(hoveredSpell)
-        val canDrop: Boolean =
-            isInBound && !currentGameState.loot.spells.contains(
-                useHoveredSpell
-            )
-        if (canDrop && null != useDroppedSpell) {
-            LaunchedEffect(key1 = useDroppedSpell) {
-                TODO()
-            }
-        }
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(2 * SPELL_SIZE.dp)
-                .background(color = if (canDrop) Color.Green.copy(alpha = DROP_ZONE_ALPHA) else Color.Transparent),
+                .height(2 * SPELL_SIZE.dp),
             columns = GridCells.FixedSize(SPELL_SIZE.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalArrangement = Arrangement.SpaceEvenly,

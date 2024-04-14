@@ -17,9 +17,6 @@ fun WandsEditView(
     Row(modifier = modifier) {
 
         if (wands.size > 0) WandEditView(
-            modifier = Modifier
-                .fillMaxWidth(1f / 3f)
-                .fillMaxHeight(),
             currentGameState = currentGameState,
             addAction = addAction,
             wand = wands[0]
@@ -27,7 +24,6 @@ fun WandsEditView(
             EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
         }
         if (wands.size > 1) WandEditView(
-            modifier = Modifier.fillMaxWidth(1f / 2f),
             currentGameState = currentGameState,
             addAction = addAction,
             wand = wands[1]
@@ -35,7 +31,6 @@ fun WandsEditView(
             EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
         }
         if (wands.size > 2) WandEditView(
-            modifier = Modifier.fillMaxWidth(1f),
             currentGameState = currentGameState,
             addAction = addAction,
             wand = wands[2]

@@ -30,7 +30,7 @@ fun SlotEditView(
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { isInBound: Boolean, droppedSpell: Any?, _: Any? ->
+    { modifier: Modifier, isInBound: Boolean, droppedSpell: Any?, _: Any? ->
         if (droppedSpell != null && droppedSpell !is Spell) {
             return@DropZone
         }

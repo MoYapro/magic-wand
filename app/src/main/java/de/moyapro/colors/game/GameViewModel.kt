@@ -1,13 +1,10 @@
 package de.moyapro.colors.game
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.UndoAction
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import android.util.*
+import androidx.lifecycle.*
+import de.moyapro.colors.*
+import de.moyapro.colors.game.actions.*
+import kotlinx.coroutines.flow.*
 
 private const val TAG = "GameViewModel"
 

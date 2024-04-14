@@ -28,7 +28,7 @@ class DragInfo {
         this.isDragging = false
         this.dragOffset = Offset.Zero
         this.dragPosition = Offset.Zero
-        this.dataToDrop = null
-        this.onDropAction = null
+//        this.dataToDrop = null
+//        this.onDropAction = null
     }
 }

@@ -14,7 +14,6 @@ import de.moyapro.colors.util.*
 
 @Composable
 fun WandEditView(
-    modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
@@ -25,7 +24,7 @@ fun WandEditView(
             maybeWand is Wand && !gameState.wands.contains(maybeWand)
         },
         addAction = addAction,
-    ) { isInBound, dropData, hoverData ->
+    ) { modifier: Modifier, isInBound, dropData, hoverData ->
         val newWand: Wand? = castOrNull(dropData)
         if (newWand != null) {
             addAction(
