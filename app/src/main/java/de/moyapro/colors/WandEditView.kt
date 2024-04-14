@@ -66,6 +66,7 @@ fun WandEditView(
                                 .height(SPELL_SIZE.dp)
                                 .width(SPELL_SIZE.dp),
                             dataToDrop = slot.spell,
+                            onDropAction = if (null == slot.spell) null else RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell)
                         ) {
                             SlotEditView(wand.id, slot, currentGameState, addAction)
                         }
