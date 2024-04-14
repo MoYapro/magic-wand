@@ -1,55 +1,51 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.layout.onGloballyPositioned
-import de.moyapro.colors.game.MyGameState
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.layout.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 
 
 private const val TAG = "DROP_ITEM"
 
 @Composable
-fun DropZone(
+inline fun <reified T : Any> DropZone(
     modifier: Modifier = Modifier,
-    condition: (gameState: MyGameState, dropData: Any?) -> Boolean = { _, _ -> true },
+    noinline condition: (gameState: MyGameState, dropData: T?) -> Boolean = { _, _ -> true },
     currentGameState: MyGameState,
+    addAction: (GameAction) -> GameViewModel,
+    noinline onDropAction: ((T) -> GameAction)? = null,
     content: @Composable() (BoxScope.(isInBound: Boolean, dropData: Any?, hoverData: Any?) -> Unit),
 ) {
     val dragInfo = LocalDragTargetInfo.current
     val dragPosition = dragInfo.dragPosition
     val dragOffset = dragInfo.dragOffset
-    var isCurrentDropTarget by remember {
-        mutableStateOf(false)
-    }
+    var isCurrentDropTarget by remember { mutableStateOf(false) }
+    val isHovering = isCurrentDropTarget && dragInfo.isDragging
+    val isDropping = isCurrentDropTarget && !dragInfo.isDragging
 
     Box(modifier = modifier.onGloballyPositioned {
         it.boundsInWindow().let { rect ->
-            isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && condition(
+            isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && dragInfo.dataToDrop is T && condition(
                 currentGameState,
-                dragInfo.dataToDrop
+                dragInfo.dataToDrop as T
             )
         }
     }) {
         when {
             !isCurrentDropTarget -> content(false, null, null)
-            isCurrentDropTarget && dragInfo.isDragging -> content(
-                true,
-                null,
-                dragInfo.dataToDrop
-            )
-
-            isCurrentDropTarget && !dragInfo.isDragging -> content(
-                true,
-                dragInfo.dataToDrop,
-                dragInfo.dataToDrop,
-            )
+            isHovering -> content(true, null, dragInfo.dataToDrop)
+            isDropping -> {
+                addAction(
+                    CombinedAction(
+                        dragInfo.onDropAction,
+                        onDropAction?.invoke(dragInfo.dataToDrop as T)
+                    )
+                )
+                content(true, dragInfo.dataToDrop, dragInfo.dataToDrop)
+            }
 
             else -> throw IllegalStateException("unknown drop state")
         }

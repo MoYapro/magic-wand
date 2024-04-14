@@ -18,22 +18,23 @@ fun EmptyWandSlot(
     addAction: (GameAction) -> GameViewModel,
     currentGameState: MyGameState,
 ) {
-    DropZone(
+    DropZone<Wand>(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .fillMaxSize(),
         condition = { state, dropData -> dropData != null && dropData is Wand && state.wands.none { it.id == dropData.id } },
+        addAction = addAction,
         currentGameState = currentGameState,
+        onDropAction = { droppedWand ->
+            CombinedAction(
+                AddWandAction(droppedWand),
+                RemoveWandFromLootAction(droppedWand)
+            )
+        }
     )
     { isInBound: Boolean, droppedWand: Any?, hoveredWand: Any? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)
         val useDroppedWand: Wand? = castOrNull(droppedWand)
-        if (null != useDroppedWand) addAction(
-            CombinedAction(
-                AddWandAction(useDroppedWand),
-                RemoveWandFromLootAction(useDroppedWand)
-            )
-        )
         Box(
             modifier = Modifier
                 .height(4 * SPELL_SIZE.dp)

@@ -2,32 +2,28 @@ package de.moyapro.colors.wand.actions
 
 import de.moyapro.colors.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.wand.*
 import io.kotest.matchers.*
-import io.kotest.matchers.shouldBe
 import org.junit.*
 
-class PlaceSpellInStashActionTest {
+class PlaceSpellInLootActionTest {
     @Test
-    fun placeSpellInStash() {
+    fun placeSpellInLoot() {
         val wand = createExampleWand()
         val targetSlot = wand.slots.single { it.spell?.name == "Blitz" }
-        val spellToPlaceInStash = targetSlot.spell!!
+        val spellToPlaceInLoot = targetSlot.spell!!
         val state = MyGameState(
             wands = listOf(wand),
             currentTurn = 0,
             enemies = emptyList(),
             mages = emptyList(),
             magicToPlay = emptyList(),
-            spellsInStash = emptyList(),
         )
-        val action = PlaceSpellInStashAction(spellToPlaceInStash.id)
-
-
-        state.spellsInStash shouldBe emptyList()
+        val action = PlaceSpellInLootAction(spellToPlaceInLoot)
+        state.loot.spells shouldBe emptyList()
         val updatedState = action.apply(state).getOrThrow()
-        updatedState.spellsInStash.single().name shouldBe "Blitz"
-        updatedState.wands.single().slots.single { it.id == targetSlot.id }.spell shouldBe null
+        updatedState.loot.spells.single().name shouldBe "Blitz"
     }
 
     @Test
@@ -36,6 +32,7 @@ class PlaceSpellInStashActionTest {
         val spell2 = Spell(name = "test", magicSlots = emptyList())
         spell1.id shouldNotBe spell2.id
     }
+
     @Test
     fun `copied spell has same id`() {
         val spell1 = Spell(name = "test", magicSlots = emptyList())

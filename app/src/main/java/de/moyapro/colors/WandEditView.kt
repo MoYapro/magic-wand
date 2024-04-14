@@ -19,11 +19,12 @@ fun WandEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    DropZone(
+    DropZone<Any>(
         currentGameState = currentGameState,
         condition = { gameState, maybeWand ->
             maybeWand is Wand && !gameState.wands.contains(maybeWand)
-        }
+        },
+        addAction = addAction,
     ) { isInBound, dropData, hoverData ->
         val newWand: Wand? = castOrNull(dropData)
         if (newWand != null) {

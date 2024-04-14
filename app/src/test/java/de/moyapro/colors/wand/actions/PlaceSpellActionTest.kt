@@ -6,8 +6,7 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.wand.*
 import io.kotest.matchers.*
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.collections.*
 import org.junit.*
 
 class PlaceSpellActionTest {
@@ -22,14 +21,13 @@ class PlaceSpellActionTest {
             enemies = emptyList(),
             mages = emptyList(),
             magicToPlay = emptyList(),
-            spellsInStash = listOf(spellToPlace)
         )
         val action =
             PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wand.id)
 
         val updatedState = action.apply(state).getOrThrow()
         updatedState.findWand(wand.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "newSpell"
-        updatedState.spellsInStash.single().name shouldBe "Blitz"
+        updatedState.loot.spells.single().name shouldBe "Blitz"
 
     }
 
@@ -45,7 +43,6 @@ class PlaceSpellActionTest {
             enemies = emptyList(),
             mages = emptyList(),
             magicToPlay = emptyList(),
-            spellsInStash = emptyList()
         )
         val action =
             PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wand.id)
@@ -53,7 +50,7 @@ class PlaceSpellActionTest {
         val updatedState = action.apply(state).getOrThrow()
         updatedState.findWand(wand.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "Top"
         updatedState.findWand(wand.id)!!.slots.single { it.id == slotToTakeSpellFrom.id }.spell?.name shouldBe "Blitz"
-        updatedState.spellsInStash shouldBe emptyList()
+        updatedState.loot.spells shouldBe emptyList()
 
     }
 
@@ -66,19 +63,18 @@ class PlaceSpellActionTest {
             enemies = emptyList(),
             mages = emptyList(),
             magicToPlay = emptyList(),
-            spellsInStash = emptyList()
         )
         val initialSlotIds = state.wands.single().slots.map(Slot::id)
         var updatedState = state
         state.wands.first().slots.forEach { slot ->
             if (slot.spell == null) return
-            val action = PlaceSpellInStashAction(slot.spell!!.id)
+            val action = PlaceSpellInLootAction(slot.spell!!)
             updatedState = action.apply(updatedState).getOrThrow()
 
         }
-        updatedState.spellsInStash.size shouldBe initialSlotIds.size
+        updatedState.loot.spells.size shouldBe initialSlotIds.size
         updatedState.wands.single().slots.all { it.spell == null }
-        updatedState.spellsInStash.forEachIndexed { index, spell ->
+        updatedState.loot.spells.forEachIndexed { index, spell ->
             val action = PlaceSpellAction(
                 state.wands.single().id,
                 state.wands.single().slots[index].id,
@@ -87,7 +83,7 @@ class PlaceSpellActionTest {
             updatedState = action.apply(updatedState).getOrThrow()
 
         }
-        updatedState.spellsInStash shouldHaveSize 0
+        updatedState.loot.spells shouldHaveSize 0
         updatedState.wands.single().slots.all { it.spell != null } shouldBe true
 
         repeat(100) { iteration ->

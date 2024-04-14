@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.*
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.*
+import de.moyapro.colors.game.actions.*
 
 
 private const val TAG = "DRAGABLE"
@@ -16,6 +17,7 @@ private const val TAG = "DRAGABLE"
 fun <T> Draggable(
     modifier: Modifier = Modifier,
     dataToDrop: T,
+    onDropAction: GameAction? = null,
     requireLongPress: Boolean = false,
     content: @Composable ((T) -> Unit),
 ) {
@@ -45,7 +47,7 @@ fun <T> Draggable(
             if (requireLongPress) {
                 detectDragGesturesAfterLongPress(
                     onDragStart = { currentDragOffset ->
-                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop)
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction)
                     },
                     onDrag = { change, dragAmount ->
                         onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
@@ -56,7 +58,7 @@ fun <T> Draggable(
             } else {
                 detectDragGestures(
                     onDragStart = { currentDragOffset ->
-                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop)
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction)
                     },
                     onDrag = { change, dragAmount ->
                         onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
@@ -70,13 +72,13 @@ fun <T> Draggable(
     }
 }
 
-private fun onDragEnd(currentState: DragTargetInfo, updateLocalOffset: (Offset) -> Unit) {
+private fun onDragEnd(currentState: DragInfo, updateLocalOffset: (Offset) -> Unit) {
     currentState.reset()
     updateLocalOffset(Offset.Zero)
 }
 
 private fun onDrag(
-    currentState: DragTargetInfo,
+    currentState: DragInfo,
     change: PointerInputChange,
     dragAmount: Offset,
     localOffset: Offset,
@@ -88,13 +90,15 @@ private fun onDrag(
 }
 
 private fun <T> onDragStart(
-    currentState: DragTargetInfo,
+    currentState: DragInfo,
     currentDragOffset: Offset,
     globalStartPosition: Offset,
     dataToDrop: T,
+    onDropAction: GameAction?,
 ) {
     currentState.dragStartPosition = globalStartPosition
     currentState.dataToDrop = dataToDrop
+    currentState.onDropAction = onDropAction
     currentState.isDragging = true
     currentState.dragPosition = globalStartPosition + currentDragOffset
 }

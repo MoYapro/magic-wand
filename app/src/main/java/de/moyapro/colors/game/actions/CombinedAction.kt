@@ -1,11 +1,10 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.flatMap
+import de.moyapro.colors.game.*
 
 data class CombinedAction(val actions: List<GameAction>) : GameAction("Combined") {
 
-    constructor(vararg actions: GameAction) : this(actions.toList())
+    constructor(vararg actions: GameAction?) : this(actions.toList().filterNotNull())
 
     override val randomSeed: Int = this.hashCode()
 
