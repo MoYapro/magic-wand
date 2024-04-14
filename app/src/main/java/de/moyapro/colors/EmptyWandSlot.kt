@@ -21,21 +21,19 @@ fun EmptyWandSlot(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .fillMaxSize(),
-        condition = { state, dropData -> dropData != null && dropData is Wand && state.wands.none { it.id == dropData.id } },
+        condition = { state, dropData -> state.wands.none { it.id == dropData.id } },
         addAction = addAction,
         currentGameState = currentGameState,
         onDropAction = { droppedWand ->
             CombinedAction(
                 AddWandAction(droppedWand),
-                RemoveWandFromLootAction(droppedWand)
             )
         }
     )
     { modifier: Modifier, isInBound: Boolean, droppedWand: Any?, hoveredWand: Any? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)
-        val useDroppedWand: Wand? = castOrNull(droppedWand)
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .height(4 * SPELL_SIZE.dp)
                 .width(2 * SPELL_SIZE.dp)
         ) {

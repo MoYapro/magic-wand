@@ -29,7 +29,11 @@ fun LootWandsView(
                 items = wands,
                 key = { wand -> wand.id.hashCode() })
             { wand ->
-                Draggable(dataToDrop = wand, requireLongPress = true) {
+                Draggable(
+                    dataToDrop = wand,
+                    onDropAction = RemoveWandFromLootAction(wand),
+                    requireLongPress = true,
+                ) {
                     WandEditView(
                         wand = wand,
                         addAction = addAction,
