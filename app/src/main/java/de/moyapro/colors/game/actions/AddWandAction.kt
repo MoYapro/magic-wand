@@ -5,12 +5,11 @@ import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
 
 data class AddWandAction(
-    val mageId: MageId,
     val wandToAdd: Wand,
     /**
      * action to execute if the wandToAdd replaces another wand
      */
-    val onReplaceAction: (replacedWand: Wand) -> GameAction,
+    val onReplaceAction: GameAction = NoOp(),
 ) : GameAction("Add Wand") {
 
     override val randomSeed = this.hashCode()

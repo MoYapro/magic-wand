@@ -1,10 +1,9 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.MyGameState
-import kotlin.random.Random
+import de.moyapro.colors.game.*
 
 class NoOp : GameAction("NoOp") {
-    override val randomSeed = this.hashCode()
+    override val randomSeed = -1
 
     override fun apply(oldState: MyGameState): Result<MyGameState> = Result.success(oldState)
 }

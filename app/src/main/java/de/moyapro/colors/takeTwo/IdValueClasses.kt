@@ -18,6 +18,6 @@ value class EnemyId(val id: UUID = UUID.randomUUID())
 value class MagicSlotId(val id: UUID = UUID.randomUUID())
 
 @JvmInline
-value class MageId(val id: Short)
+value class MageId(val id: Short = 0)
 @JvmInline
 value class SpellId(val id: UUID = UUID.randomUUID())

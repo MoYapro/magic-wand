@@ -64,7 +64,7 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
                 .fillMaxHeight()
                 .border(1.dp, Color.LightGray)
         ) {
-            Button(onClick = { addAction(AddWandAction(createExampleWand())) }) {
+            Button(onClick = { addAction(AddWandAction(wandToAdd = createExampleWand())) }) {
                 Text("moooore wands")
             }
             Button(onClick = { addAction(UndoAction) }) {
