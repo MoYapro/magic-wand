@@ -18,7 +18,7 @@ inline fun <reified T : Any> DropZone(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
     noinline onDropAction: ((T) -> GameAction)? = null,
-    content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, dropData: Any?, hoverData: Any?) -> Unit),
+    content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit),
 ) {
     val dragInfo = LocalDragTargetInfo.current
     val dragPosition = dragInfo.dragPosition
@@ -26,29 +26,29 @@ inline fun <reified T : Any> DropZone(
     var isCurrentDropTarget by remember { mutableStateOf(false) }
     val isHovering = isCurrentDropTarget && dragInfo.isDragging
     val isDropping = isCurrentDropTarget && !dragInfo.isDragging
+    val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
 
     Box(
         modifier = modifier
             .onGloballyPositioned {
-        it.boundsInWindow().let { rect ->
-            val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
-            isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && null != castedDropData && condition(
-                currentGameState,
-                castedDropData
-            )
-        }
-    }) {
+                it.boundsInWindow().let { rect ->
+                    isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && null != castedDropData && condition(
+                        currentGameState,
+                        castedDropData
+                    )
+                }
+            }) {
         when {
             !isCurrentDropTarget -> content(Modifier, false, null, null)
-            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, null, dragInfo.dataToDrop)
+            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, null, castedDropData)
             isDropping -> {
                 addAction(
                     CombinedAction(
                         dragInfo.onDropAction,
-                        onDropAction?.invoke(castOrNull(dragInfo.dataToDrop) ?: throw IllegalStateException("Tried to drop null data"))
+                        onDropAction?.invoke(castedDropData ?: throw IllegalStateException("Tried to drop null data"))
                     )
                 )
-                content(Modifier, true, dragInfo.dataToDrop, dragInfo.dataToDrop)
+                content(Modifier, true, castedDropData, castedDropData)
                 dragInfo.dataToDrop = null
                 dragInfo.onDropAction = null
             }

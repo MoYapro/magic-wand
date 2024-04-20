@@ -2,7 +2,6 @@ package de.moyapro.colors
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
@@ -32,16 +31,6 @@ fun WandEditView(
                 .width(2 * SPELL_SIZE.dp)
                 .background(color)
         ) {
-            Button(onClick = {
-                addAction(
-                    CombinedAction(
-                        RemoveWandAction(wand),
-                        AddWandToLootAction(wand)
-                    )
-                )
-            }) {
-                Text("rm")
-            }
             val slotsByLevel =
                 wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
             slotsByLevel.forEach { (_, slots) ->

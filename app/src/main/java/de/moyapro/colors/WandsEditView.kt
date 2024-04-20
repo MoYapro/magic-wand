@@ -17,7 +17,11 @@ fun WandsEditView(
         currentGameState.mages.forEachIndexed { index, mage ->
             val wand = currentGameState.findWand(mage.id)
             if (wand != null) {
-                Draggable(dataToDrop = wand, requireLongPress = true) { theWand ->
+                Draggable(
+                    dataToDrop = wand,
+                    requireLongPress = true,
+                    onDropAction = RemoveWandAction(wand)
+                ) { theWand ->
                     WandEditView(
                         currentGameState = currentGameState,
                         addAction = addAction,
