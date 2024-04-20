@@ -1,15 +1,13 @@
 package de.moyapro.colors.wand
 
-import android.util.Log
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.actions.AddWandAction
-import de.moyapro.colors.game.actions.PlaceMagicAction
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockkStatic
-import org.junit.BeforeClass
-import org.junit.Test
+import android.util.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import io.kotest.matchers.*
+import io.kotest.matchers.collections.*
+import io.mockk.*
+import org.junit.*
 
 internal class GameViewModelTest {
 
@@ -41,7 +39,7 @@ internal class GameViewModelTest {
         val (wand, slot) = getExampleWandWithSingleSlot()
         val magicToPutIn = gameViewModel.getCurrentGameState().getOrThrow().magicToPlay.first()
         gameViewModel
-            .addAction(AddWandAction(wand))
+            .addAction(AddWandAction(wand, MageId(0)))
             .addAction(PlaceMagicAction(wand.id, slot.id, magicToPutIn))
             .getCurrentGameState().getOrThrow()
             .wands.last().slots.single().spell?.magicSlots?.single()?.placedMagic shouldBe magicToPutIn
@@ -53,7 +51,7 @@ internal class GameViewModelTest {
         val gameViewModel = GameViewModel()
         val (newWand, slot) = getExampleWandWithSingleSlot()
         gameViewModel
-            .addAction(AddWandAction(newWand))
+            .addAction(AddWandAction(newWand, MageId(0)))
             .addAction(
                 PlaceMagicAction(newWand.id, slot.id, Magic(type = MagicType.GREEN))
             ) // not fitting magic type
@@ -65,7 +63,7 @@ internal class GameViewModelTest {
         val gameViewModel = GameViewModel()
         val (newWand, _) = getExampleWandWithSingleSlot()
         gameViewModel
-            .addAction(AddWandAction(newWand))
+            .addAction(AddWandAction(newWand, MageId(0)))
             .getCurrentGameState().getOrThrow().wands.last() shouldBe newWand
     }
 }

@@ -1,32 +1,69 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleMage
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddWandAction
-import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotest.matchers.shouldNotBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import io.kotest.matchers.*
+import io.kotest.matchers.collections.*
+import org.junit.*
 
 class AddWandActionTest {
     @Test
-    fun `should remove wand`() {
+    fun `should add wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        val state =
-            AddWandAction(wand1).apply(
-                AddWandAction(wand2).apply(
-                    MyGameState(
-                        currentTurn = 0,
-                        wands = emptyList(),
-                        magicToPlay = emptyList(),
-                        enemies = emptyList(),
-                        mages = listOf(createExampleMage(), createExampleMage()),
-                    )
-                ).getOrThrow()
-            ).getOrThrow()
-        state.wands shouldContainExactlyInAnyOrder listOf(wand1, wand2)
-        state.findMage(wand1.id) shouldNotBe null
-        state.findMage(wand2.id) shouldNotBe null
+        var state = MyGameState(
+            currentTurn = 0,
+            wands = emptyList(),
+            magicToPlay = emptyList(),
+            enemies = emptyList(),
+            mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
+        )
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
+        state = AddWandAction(targetMageId = MageId(1), wandToAdd = wand2).apply(state).getOrThrow()
+        state.wands shouldContainExactlyInAnyOrder listOf(wand1.copy(mageId = MageId(0)), wand2.copy(mageId = MageId(1)))
+        state.findMage(wand1.id)?.id shouldBe MageId(0)
+        state.findMage(wand2.id)?.id shouldBe MageId(1)
+    }
+
+    @Test
+    fun `should replace wand`() {
+        val wand1 = createExampleWand()
+        val wand2 = createExampleWand()
+        val onReplaceAction = { replacedWand: Wand -> AddWandToLootAction(replacedWand) }
+        var state = MyGameState(
+            currentTurn = 0,
+            wands = emptyList(),
+            magicToPlay = emptyList(),
+            enemies = emptyList(),
+            mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
+        )
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand2, onReplaceAction = onReplaceAction).apply(state).getOrThrow()
+        state.findMage(wand1.id)?.id shouldBe null
+        state.findMage(wand2.id)?.id shouldBe MageId(0)// was replaced
+        state.wands.single() shouldBe wand2.copy(mageId = MageId(0))
+        state.loot.wands.single() shouldBe wand1
+    }
+
+    @Test
+    fun `should switch wands`() {
+        val wand1 = createExampleWand()
+        val wand2 = createExampleWand()
+        var state = MyGameState(
+            currentTurn = 0,
+            wands = emptyList(),
+            magicToPlay = emptyList(),
+            enemies = emptyList(),
+            mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
+        )
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
+        state = AddWandAction(targetMageId = MageId(1), wandToAdd = wand2).apply(state).getOrThrow()
+
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = state.findWand(MageId(1))!!).apply(state).getOrThrow()
+        state.findMage(wand1.id)?.id shouldBe MageId(1)
+        state.findMage(wand2.id)?.id shouldBe MageId(0)
+
     }
 }

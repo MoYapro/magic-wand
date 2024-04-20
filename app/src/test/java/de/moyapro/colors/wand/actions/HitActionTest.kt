@@ -1,17 +1,17 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleMage
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.HitAction
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import io.kotest.matchers.*
+import org.junit.*
 
 class HitActionTest {
     @Test
     fun `hitting a mage reduces health`() {
         val exampleEnemy = createExampleEnemy()
-        val mage = createExampleMage(10)
+        val mage = createExampleMage(10, mageId = MageId(1))
         val state = MyGameState(
             currentTurn = 0,
             wands = emptyList(),
@@ -26,7 +26,7 @@ class HitActionTest {
     @Test
     fun `min health is zero`() {
         val exampleEnemy = createExampleEnemy()
-        val mage = createExampleMage(10)
+        val mage = createExampleMage(10, mageId = MageId(1))
         val state = MyGameState(
             currentTurn = 0,
             wands = emptyList(),

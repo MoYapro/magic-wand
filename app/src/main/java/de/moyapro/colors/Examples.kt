@@ -1,20 +1,13 @@
 package de.moyapro.colors
 
-import de.moyapro.colors.game.Enemy
-import de.moyapro.colors.game.actions.SelfHealEnemyAction
-import de.moyapro.colors.takeTwo.Mage
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicSlot
-import de.moyapro.colors.wand.MagicType
-import de.moyapro.colors.wand.Spell
-import kotlin.random.Random
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.wand.*
+import kotlin.random.*
 
 
-fun createExampleWand(mageId: MageId = MageId()) =
+fun createExampleWand(mageId: MageId? = null) =
     Wand(
         mageId = mageId,
         slots = listOf(
@@ -34,8 +27,8 @@ fun createExampleEnemy(health: Int = kotlin.random.Random.nextInt(1, 10)) = Enem
     possibleActions = listOf(SelfHealEnemyAction())
 )
 
-fun createExampleMage(health: Int = 1, wandId: WandId? = null) =
-    Mage(health = health, wandId = wandId)
+fun createExampleMage(health: Int = 1, wandId: WandId? = null, mageId: MageId) =
+    Mage(id = mageId, health = health, wandId = wandId)
 
 fun createExampleSlot(
     spellName: String = "Pew",

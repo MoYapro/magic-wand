@@ -15,27 +15,14 @@ fun WandsEditView(
     val wands = currentGameState.wandsInOrder()
 
     Row(modifier = modifier) {
-
-        if (wands.size > 0) WandEditView(
-            currentGameState = currentGameState,
-            addAction = addAction,
-            wand = wands[0]
-        ) else {
-            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
-        }
-        if (wands.size > 1) WandEditView(
-            currentGameState = currentGameState,
-            addAction = addAction,
-            wand = wands[1]
-        ) else {
-            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
-        }
-        if (wands.size > 2) WandEditView(
-            currentGameState = currentGameState,
-            addAction = addAction,
-            wand = wands[2]
-        ) else {
-            EmptyWandSlot(addAction = addAction, currentGameState = currentGameState)
+        (0..2).forEach { index ->
+            if (wands.size > index) WandEditView(
+                currentGameState = currentGameState,
+                addAction = addAction,
+                wand = wands[index]
+            ) else {
+                EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = currentGameState.mages[index].id)
+            }
         }
     }
 }

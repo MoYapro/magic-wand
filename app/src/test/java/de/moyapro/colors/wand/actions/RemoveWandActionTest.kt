@@ -1,31 +1,29 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleMage
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddWandAction
-import de.moyapro.colors.game.actions.RemoveWandAction
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import io.kotest.matchers.*
+import org.junit.*
 
 class RemoveWandActionTest {
     @Test
     fun `should remove wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        val mage = createExampleMage(health = 10, wandId = wand1.id)
-        val state =
-            AddWandAction(wand1).apply(
-                AddWandAction(wand2).apply(
-                    MyGameState(
-                        currentTurn = 0,
-                        wands = emptyList(),
-                        magicToPlay = emptyList(),
-                        enemies = emptyList(),
-                        mages = listOf(mage),
-                    )
-                ).getOrThrow()
-            ).getOrThrow()
+        val mage1 = createExampleMage(health = 10, wandId = wand1.id, mageId = MageId(0))
+        val mage2 = createExampleMage(health = 10, wandId = wand1.id, mageId = MageId(1))
+        var state = MyGameState(
+            currentTurn = 0,
+            wands = emptyList(),
+            magicToPlay = emptyList(),
+            enemies = emptyList(),
+            mages = listOf(mage1, mage2),
+        )
+        state = AddWandAction(wand1, mage1.id).apply(state).getOrThrow()
+        state = AddWandAction(wand2, mage2.id).apply(state).getOrThrow()
+
         val updatedState = RemoveWandAction(wand1).apply(state).getOrThrow()
         updatedState.wands.single() shouldBe wand2
         updatedState.findMage(wand1.id) shouldBe null

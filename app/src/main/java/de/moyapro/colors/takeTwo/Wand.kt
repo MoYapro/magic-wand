@@ -1,8 +1,7 @@
 package de.moyapro.colors.takeTwo
 
-import de.moyapro.colors.util.mapIf
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.util.*
+import de.moyapro.colors.wand.*
 
 data class Wand(
     override val id: WandId = WandId(),
@@ -36,3 +35,4 @@ data class Wand(
 }
 
 
+fun Wand.removeMageId(): Wand = this.copy(mageId = null)

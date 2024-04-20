@@ -14,6 +14,7 @@ import de.moyapro.colors.util.*
 
 @Composable
 fun EmptyWandSlot(
+    mageId: MageId,
     addAction: (GameAction) -> GameViewModel,
     currentGameState: MyGameState,
 ) {
@@ -26,7 +27,7 @@ fun EmptyWandSlot(
         currentGameState = currentGameState,
         onDropAction = { droppedWand ->
             CombinedAction(
-                AddWandAction(droppedWand),
+                AddWandAction(droppedWand, mageId),
             )
         }
     )

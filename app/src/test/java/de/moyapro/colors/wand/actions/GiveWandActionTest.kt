@@ -1,17 +1,17 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleMage
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.GiveWandAction
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import io.kotest.matchers.*
+import org.junit.*
 
 class GiveWandActionTest {
     @Test
     fun `give a mage a wand`() {
         val wand = createExampleWand()
-        val mage = createExampleMage()
+        val mage = createExampleMage(mageId = MageId(1))
         val state = MyGameState(
             wands =  listOf(wand),
             mages =  listOf(mage),
@@ -31,7 +31,7 @@ class GiveWandActionTest {
     @Test
     fun `don't give a second wand`() {
         val wand = createExampleWand()
-        val mage = createExampleMage()
+        val mage = createExampleMage(mageId = MageId(1))
         val state = MyGameState(
             wands =  listOf(wand),
             mages =  listOf(mage),

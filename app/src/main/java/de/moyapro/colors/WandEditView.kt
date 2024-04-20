@@ -22,7 +22,7 @@ fun WandEditView(
         currentGameState = currentGameState,
         condition = { gameState, maybeWand -> !gameState.wands.contains(maybeWand) },
         addAction = addAction,
-        onDropAction = { newWand -> AddWandAction(newWand) }
+        onDropAction = { newWand -> buildOnDropAction(wand, newWand) }
     ) { modifier: Modifier, isInBound, dropData, hoverData ->
 
         val color = if (isInBound) Color.Green.copy(DROP_ZONE_ALPHA) else Color.Transparent
@@ -64,4 +64,11 @@ fun WandEditView(
             }
         }
     }
+
+
+}
+
+private fun buildOnDropAction(currentWand: Wand, droppedWand: Wand): AddWandAction {
+    check(currentWand.mageId != null) { "Current wand must always have a mage" }
+    return AddWandAction(droppedWand, currentWand.mageId) { replacedWand -> AddWandToLootAction(replacedWand) }
 }
