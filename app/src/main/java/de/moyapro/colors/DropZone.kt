@@ -27,7 +27,9 @@ inline fun <reified T : Any> DropZone(
     val isHovering = isCurrentDropTarget && dragInfo.isDragging
     val isDropping = isCurrentDropTarget && !dragInfo.isDragging
 
-    Box(modifier = modifier.onGloballyPositioned {
+    Box(
+        modifier = modifier
+            .onGloballyPositioned {
         it.boundsInWindow().let { rect ->
             val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
             isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && null != castedDropData && condition(

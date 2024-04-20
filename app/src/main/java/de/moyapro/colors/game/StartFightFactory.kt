@@ -6,7 +6,7 @@ import de.moyapro.colors.wand.*
 
 object StartFightFactory {
     fun createInitialState(wands: List<Wand>? = null): MyGameState {
-        val mageId = MageId()
+        val mageId = MageId(0)
         val wandId = WandId()
         val mages = listOf(
             Mage(id = mageId, health = 5, wandId = wandId),

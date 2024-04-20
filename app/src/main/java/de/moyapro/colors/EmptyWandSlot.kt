@@ -45,7 +45,11 @@ fun EmptyWandSlot(
                     addAction = addAction,
                 )
             } else {
-                Text("Place wand here")
+                Column {
+                    Text(mageId.toString())
+                    Text("Place wand here")
+                }
+
             }
         }
     }

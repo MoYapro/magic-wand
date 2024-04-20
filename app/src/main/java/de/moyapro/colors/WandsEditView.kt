@@ -12,16 +12,20 @@ fun WandsEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    val wands = currentGameState.wandsInOrder()
 
     Row(modifier = modifier) {
-        (0..2).forEach { index ->
-            if (wands.size > index) WandEditView(
-                currentGameState = currentGameState,
-                addAction = addAction,
-                wand = wands[index]
-            ) else {
-                EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = currentGameState.mages[index].id)
+        currentGameState.mages.forEachIndexed { index, mage ->
+            val wand = currentGameState.findWand(mage.id)
+            if (wand != null) {
+                Draggable(dataToDrop = wand, requireLongPress = true) { theWand ->
+                    WandEditView(
+                        currentGameState = currentGameState,
+                        addAction = addAction,
+                        wand = theWand
+                    )
+                }
+            } else {
+                EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = mage.id)
             }
         }
     }
