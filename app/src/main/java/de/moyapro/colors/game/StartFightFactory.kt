@@ -1,17 +1,8 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleMagic
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.takeTwo.Mage
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicSlot
-import de.moyapro.colors.wand.MagicType
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.wand.*
 
 object StartFightFactory {
     fun createInitialState(wands: List<Wand>? = null): MyGameState {
@@ -19,8 +10,8 @@ object StartFightFactory {
         val wandId = WandId()
         val mages = listOf(
             Mage(id = mageId, health = 5, wandId = wandId),
-            Mage(health = 6),
-            Mage(health = 7),
+            Mage(id = MageId(1), health = 6),
+            Mage(id = MageId(2), health = 7),
         )
 
         val actualWands =
