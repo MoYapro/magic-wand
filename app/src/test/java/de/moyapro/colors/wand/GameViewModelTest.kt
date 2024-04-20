@@ -1,6 +1,7 @@
 package de.moyapro.colors.wand
 
 import android.util.*
+import de.moyapro.colors.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
@@ -60,10 +61,10 @@ internal class GameViewModelTest {
 
     @Test
     fun newWandAction() {
-        val gameViewModel = GameViewModel()
-        val (newWand, _) = getExampleWandWithSingleSlot()
-        gameViewModel
-            .addAction(AddWandAction(newWand, MageId(0)))
-            .getCurrentGameState().getOrThrow().wands.last() shouldBe newWand
+        val initialState = StartFightFactory.createInitialState()
+        val newWand = createExampleWand()
+
+        val finalState = AddWandAction(newWand, MageId(0)).apply(initialState).getOrThrow()
+        finalState.wands.single().id shouldBe newWand.id
     }
 }

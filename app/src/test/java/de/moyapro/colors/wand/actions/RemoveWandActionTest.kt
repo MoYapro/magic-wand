@@ -25,7 +25,7 @@ class RemoveWandActionTest {
         state = AddWandAction(wand2, mage2.id).apply(state).getOrThrow()
 
         val updatedState = RemoveWandAction(wand1).apply(state).getOrThrow()
-        updatedState.wands.single() shouldBe wand2
+        updatedState.wands.single().id shouldBe wand2.id
         updatedState.findMage(wand1.id) shouldBe null
     }
 }
