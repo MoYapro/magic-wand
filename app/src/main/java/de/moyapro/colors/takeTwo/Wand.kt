@@ -13,6 +13,10 @@ data class Wand(
         return this.copy(slots = slots.mapIf({ it.id == slotId }, { it.copy(spell = spell) }))
     }
 
+    override fun toString(): String {
+        return "Wand($id)"
+    }
+
     fun putMagic(slotId: SlotId, magic: Magic): Result<Wand> {
         var placedMagic = false
         val updatedSlots = slots.map { slot ->

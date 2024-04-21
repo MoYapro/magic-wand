@@ -31,7 +31,6 @@ class AddWandActionTest {
     fun `should replace wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        val onReplaceAction = { replacedWand: Wand -> AddWandToLootAction(replacedWand) }
         var state = MyGameState(
             currentTurn = 0,
             wands = emptyList(),
@@ -40,30 +39,11 @@ class AddWandActionTest {
             mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
         )
         state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
-        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand2, onReplaceAction = onReplaceAction).apply(state).getOrThrow()
+        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand2).apply(state).getOrThrow()
         state.findMage(wand1.id)?.id shouldBe null
         state.findMage(wand2.id)?.id shouldBe MageId(0)// was replaced
-        state.wands.single() shouldBe wand2.copy(mageId = MageId(0))
-        state.loot.wands.single() shouldBe wand1
+        state.wands shouldContain wand2.copy(mageId = MageId(0))
     }
 
-    @Test
-    fun `should switch wands`() {
-        val wand1 = createExampleWand()
-        val wand2 = createExampleWand()
-        var state = MyGameState(
-            currentTurn = 0,
-            wands = emptyList(),
-            magicToPlay = emptyList(),
-            enemies = emptyList(),
-            mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
-        )
-        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
-        state = AddWandAction(targetMageId = MageId(1), wandToAdd = wand2).apply(state).getOrThrow()
 
-        state = AddWandAction(targetMageId = MageId(0), wandToAdd = state.findWand(MageId(1))!!).apply(state).getOrThrow()
-        state.findMage(wand1.id)?.id shouldBe MageId(1)
-        state.findMage(wand2.id)?.id shouldBe MageId(0)
-
-    }
 }
