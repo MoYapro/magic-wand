@@ -17,10 +17,11 @@ inline fun <reified T : Any> DropZone(
     noinline condition: (gameState: MyGameState, dropData: T) -> Boolean = { _, _ -> true },
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
+    emitData: T?,
     noinline onDropAction: ((T) -> GameAction)? = null,
     content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit),
 ) {
-    val dragInfo = LocalDragTargetInfo.current
+    val dragInfo: DragInfo<T> = castOrNull(LocalDragTargetInfo.current) ?: throw IllegalStateException("DropInfo type does not fit dropZone type")
     val dragPosition = dragInfo.dragPosition
     val dragOffset = dragInfo.dragOffset
     var isCurrentDropTarget by remember { mutableStateOf(false) }
@@ -45,7 +46,8 @@ inline fun <reified T : Any> DropZone(
                 addAction(
                     CombinedAction(
                         dragInfo.onDropAction,
-                        onDropAction?.invoke(castedDropData ?: throw IllegalStateException("Tried to drop null data"))
+                        onDropAction?.invoke(castedDropData ?: throw IllegalStateException("Tried to drop null data")),
+                        buildReplaceAction(dragInfo.onDropDidReplaceAction, emitData)
                     )
                 )
                 content(Modifier, true, castedDropData, castedDropData)
@@ -55,5 +57,13 @@ inline fun <reified T : Any> DropZone(
 
             else -> throw IllegalStateException("unknown drop state")
         }
+    }
+}
+
+fun <T> buildReplaceAction(onDropDidReplaceAction: (T) -> GameAction, emitData: T?): GameAction {
+    return if (emitData == null) {
+        NoOp()
+    } else {
+        onDropDidReplaceAction(emitData)
     }
 }

@@ -28,6 +28,7 @@ fun SlotView(
             .size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
         addAction = addAction,
+        emitData = null,
     ) { modifier: Modifier, isInBound: Boolean, droppedMagic: Any?, hoveredMagic: Any? ->
         val useDroppedMagic: Magic? = castOrNull(droppedMagic)
         val useHoveredMagic: Magic? = castOrNull(hoveredMagic)

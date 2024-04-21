@@ -4,10 +4,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.*
 import de.moyapro.colors.game.actions.*
 
-val LocalDragTargetInfo = compositionLocalOf { DragInfo() }
+val LocalDragTargetInfo = compositionLocalOf { DragInfo<Any>() }
 
 
-class DragInfo {
+class DragInfo<T> {
+    var onDropDidReplaceAction: (T) -> GameAction by mutableStateOf({ NoOp() })
     var dragStartPosition: Offset by mutableStateOf(Offset.Zero)
     var isDragging: Boolean by mutableStateOf(false)
     var dragPosition: Offset by mutableStateOf(Offset.Zero)
@@ -30,5 +31,6 @@ class DragInfo {
         this.dragPosition = Offset.Zero
 //        this.dataToDrop = null
 //        this.onDropAction = null
+//        this.onDropDidReplaceAction = null
     }
 }

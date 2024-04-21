@@ -28,6 +28,7 @@ fun SlotEditView(
         onDropAction = { droppedSpell -> PlaceSpellAction(wandId, slot.id, droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
+        emitData = slot.spell
     )
     { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, _: Any? ->
         Box(

@@ -21,7 +21,8 @@ fun WandEditView(
         currentGameState = currentGameState,
         condition = { gameState, maybeWand -> !gameState.wands.contains(maybeWand) },
         addAction = addAction,
-        onDropAction = { newWand -> buildOnDropAction(wand, newWand) }
+        onDropAction = { newWand -> buildOnDropAction(wand, newWand) },
+        emitData = wand,
     ) { modifier: Modifier, isInBound, dropData, hoverData ->
 
         val color = if (isInBound) Color.Green.copy(DROP_ZONE_ALPHA) else Color.Transparent
@@ -39,14 +40,18 @@ fun WandEditView(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     slots.forEach { slot ->
-                        Draggable(
-                            modifier = Modifier
-                                .height(SPELL_SIZE.dp)
-                                .width(SPELL_SIZE.dp),
-                            dataToDrop = slot.spell,
-                            onDropAction = if (null == slot.spell) null else RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell)
-                        ) {
+                        if (null == slot.spell) {
                             SlotEditView(wand.id, slot, currentGameState, addAction)
+                        } else {
+                            Draggable(
+                                modifier = Modifier
+                                    .height(SPELL_SIZE.dp)
+                                    .width(SPELL_SIZE.dp),
+                                dataToDrop = slot.spell,
+                                onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell)
+                            ) {
+                                SlotEditView(wand.id, slot, currentGameState, addAction)
+                            }
                         }
                     }
                 }
