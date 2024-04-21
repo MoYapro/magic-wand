@@ -26,7 +26,6 @@ fun EmptyWandSlot(
         addAction = addAction,
         currentGameState = currentGameState,
         onDropAction = { droppedWand -> AddWandAction(droppedWand, mageId) },
-        emitData = null,
     )
     { modifier: Modifier, isInBound: Boolean, droppedWand: Any?, hoveredWand: Any? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)

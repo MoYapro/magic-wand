@@ -24,7 +24,6 @@ fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGa
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
-        emitData = null,
     )
     { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
         LazyVerticalGrid(

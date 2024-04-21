@@ -17,7 +17,7 @@ inline fun <reified T : Any> DropZone(
     noinline condition: (gameState: MyGameState, dropData: T) -> Boolean = { _, _ -> true },
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
-    emitData: T?,
+    emitData: T? = null,
     noinline onDropAction: ((T) -> GameAction)? = null,
     content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit),
 ) {
