@@ -45,6 +45,8 @@ fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGa
                         .border(1.dp, Color.LightGray)
                         .align(Alignment.Center),
                     dataToDrop = spell,
+                    onDropAction = RemoveSpellFromLootAction(spell),
+                    onDropDidReplaceAction = { replaceSpell -> PlaceSpellInLootAction(replaceSpell) }
                 ) {
                     SpellView(spell = spell)
                 }

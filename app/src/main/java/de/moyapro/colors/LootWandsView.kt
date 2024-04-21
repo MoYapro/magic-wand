@@ -41,6 +41,7 @@ fun LootWandsView(
                             dataToDrop = wand,
                             onDropAction = RemoveWandFromLootAction(wand),
                             requireLongPress = true,
+                            onDropDidReplaceAction = { replacedWand -> AddWandToLootAction(replacedWand) }
                         ) {
                             WandEditView(
                                 wand = wand,

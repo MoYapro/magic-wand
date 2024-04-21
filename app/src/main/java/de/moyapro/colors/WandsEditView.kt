@@ -14,13 +14,14 @@ fun WandsEditView(
 ) {
 
     Row(modifier = modifier) {
-        currentGameState.mages.forEachIndexed { index, mage ->
+        currentGameState.mages.forEach { mage ->
             val wand = currentGameState.findWand(mage.id)
             if (wand != null) {
                 Draggable(
                     dataToDrop = wand,
                     requireLongPress = true,
-                    onDropAction = RemoveWandAction(wand)
+                    onDropAction = RemoveWandAction(wand),
+                    onDropDidReplaceAction = { replacedWand -> AddWandAction(replacedWand, mage.id) }
                 ) { theWand ->
                     WandEditView(
                         currentGameState = currentGameState,

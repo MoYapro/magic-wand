@@ -27,6 +27,8 @@ fun createExampleEnemy(health: Int = kotlin.random.Random.nextInt(1, 10)) = Enem
     possibleActions = listOf(SelfHealEnemyAction())
 )
 
+fun createExampleSpell(name: String = "Example Spell"): Spell = Spell(magicSlots = listOf(createExampleMagicSlot()), name = name)
+
 fun createExampleMage(health: Int = 1, wandId: WandId? = null, mageId: MageId) =
     Mage(id = mageId, health = health, wandId = wandId)
 
