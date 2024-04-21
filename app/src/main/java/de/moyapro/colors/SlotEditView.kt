@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
-import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
 
 @Composable
@@ -22,33 +20,18 @@ fun SlotEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    DropZone<Any>(
+    DropZone<Spell>(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .fillMaxSize(),
-        condition = { _, dropData -> dropData != null && dropData is Spell && slot.spell?.id != dropData.id },
+        condition = { _, droppedSpell -> slot.spell?.id != droppedSpell.id },
+        onDropAction = { droppedSpell -> PlaceSpellAction(wandId, slot.id, droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { modifier: Modifier, isInBound: Boolean, droppedSpell: Any?, _: Any? ->
-        if (droppedSpell != null && droppedSpell !is Spell) {
-            return@DropZone
-        }
-        if (droppedSpell != null) {
-            LaunchedEffect(key1 = droppedSpell) {
-                addAction(PlaceSpellAction(wandId, slot.id, droppedSpell as Spell))
-            }
-        }
-        val usedColor: Color = when {
-            !isInBound -> Color.Transparent
-            isInBound -> Color.Green.copy(alpha = DROP_ZONE_ALPHA)
-            else -> throw IllegalStateException("cannot determine hover color")
-        }
-
+    { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, _: Any? ->
         Box(
-            modifier = Modifier
-                .background(usedColor)
-                .fillMaxSize()
+            modifier = modifier.fillMaxSize()
         ) {
             Row {
                 Text("".padStart(slot.power, '|'))

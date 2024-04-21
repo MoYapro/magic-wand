@@ -60,7 +60,7 @@ class EditWandsActivity : ComponentActivity() {
                         LootSpellsView(
                             Modifier
                                 .fillMaxWidth()
-                                .height(4 * SPELL_SIZE.dp),
+                                .height(5 * SPELL_SIZE.dp),
                             currentGameState = currentGameState,
                             spells = currentGameState.loot.spells,
                             addAction = gameViewModel::addAction,

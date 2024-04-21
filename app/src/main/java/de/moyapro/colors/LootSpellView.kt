@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.util.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -14,23 +13,21 @@ import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
 
 private const val TAG = "LootSpellsView"
+
 @Composable
 fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
     DropZone<Spell>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData ->
-            Log.d(TAG, "current drag data: $dragData")
             !state.loot.spells.contains(dragData)
         },
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { modifier: Modifier, isInBound: Boolean, droppedSpell: Any?, hoveredSpell: Any? ->
-        val useDroppedSpell: Spell? = castOrNull(droppedSpell)
-        val useHoveredSpell: Spell? = castOrNull(hoveredSpell)
+    { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, hoveredSpell: Spell? ->
         LazyVerticalGrid(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(2 * SPELL_SIZE.dp),
             columns = GridCells.FixedSize(SPELL_SIZE.dp),

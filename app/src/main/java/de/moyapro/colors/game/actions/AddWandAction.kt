@@ -6,10 +6,10 @@ import de.moyapro.colors.util.*
 
 data class AddWandAction(
     val wandToAdd: Wand,
+    val targetMageId: MageId,
     /**
      * action to execute if the wandToAdd replaces another wand
      */
-    val targetMageId: MageId,
     val onReplaceAction: (replacedWand: Wand) -> GameAction = { NoOp() },
 ) : GameAction("Add Wand") {
 

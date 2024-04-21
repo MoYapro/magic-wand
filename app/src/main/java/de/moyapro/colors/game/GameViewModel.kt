@@ -42,6 +42,7 @@ class GameViewModel(
     }
 
     fun addAction(action: GameAction): GameViewModel {
+        Log.d(TAG, "Add action: $action")
         action.onAddAction(this.actions)
         this._uiState.value = getCurrentGameState()
         this._uiState.value.onSuccess(saveFightState)

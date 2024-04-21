@@ -22,7 +22,10 @@ object StartFightFactory {
             magicToPlay = listOf(createExampleMagic()),
             currentTurn = 0,
             mages = mages,
-            loot = Loot(listOf(createExampleWand()))
+            loot = Loot(
+                wands = listOf(createExampleWand()),
+                spells = listOf(Spell(name = "Foo", magicSlots = listOf(MagicSlot(requiredMagic = Magic()))))
+            )
         )
     }
 
