@@ -21,7 +21,7 @@ fun <T : Any> Draggable(
     onDropAction: GameAction? = null,
     onDropDidReplaceAction: (T) -> GameAction = { NoOp() },
     requireLongPress: Boolean = false,
-    content: @Composable ((T) -> Unit),
+    content: @Composable ((T, Boolean) -> Unit),
 ) {
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
     val localPosition by remember { mutableStateOf(Offset.Zero) }
@@ -106,6 +106,6 @@ fun <T : Any> Draggable(
                 )
             }
         }) {
-        content(dataToDrop)
+        content(dataToDrop, currentState.isDragging)
     }
 }

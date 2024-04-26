@@ -21,7 +21,8 @@ fun EmptyWandSlot(
     DropZone<Wand>(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
-            .fillMaxSize(),
+            .width(2 * SPELL_SIZE.dp)
+            .fillMaxHeight(),
         condition = { state, dropData -> state.wands.none { it.id == dropData.id } },
         addAction = addAction,
         currentGameState = currentGameState,
@@ -36,8 +37,8 @@ fun EmptyWandSlot(
         ) {
             if (isInBound && useHoveredWand != null) {
                 WandEditView(
-                    currentGameState = currentGameState,
                     wand = useHoveredWand,
+                    currentGameState = currentGameState,
                     addAction = addAction,
                 )
             } else {

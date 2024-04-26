@@ -78,6 +78,9 @@ class LootActivity : ComponentActivity() {
                             Button(onClick = ::startMainActivity) {
                                 Text(text = "Done")
                             }
+                            Button(onClick = ::startMainActivity) {
+                                Text(text = "Debug state")
+                            }
                         }
                     }
                 }

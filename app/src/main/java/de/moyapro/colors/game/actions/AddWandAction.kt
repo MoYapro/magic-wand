@@ -19,7 +19,8 @@ data class AddWandAction(
         if (oldState.wands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
 
         val targetMage = oldState.findMage(targetMageId)
-        check(targetMage != null) { "Could not find mage($targetMageId) to add wand to" }
+        require(targetMage != null) { "Could not find mage($targetMageId) to add wand to" }
+        require(oldState.findWand(targetMageId) == null) { "Target mage is already holding a wand" }
         val updatedMage = targetMage.copy(wandId = wandToAdd.id)
         val updatedWandtoAdd = wandToAdd.copy(mageId = updatedMage.id)
         val updatedWands = if (oldState.wands.map(Wand::id).contains(updatedWandtoAdd.id)) oldState.wands else oldState.wands + updatedWandtoAdd
@@ -27,7 +28,8 @@ data class AddWandAction(
             wands = updatedWands, mages = oldState.mages.replace(updatedMage)
         )
 
-        check(finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size) { "There is a mage with multiple wands after adding a wand" }
+        val noDuplicates = finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size
+        check(noDuplicates) { "There is a mage with multiple wands after adding a wand" }
         check(finalState.wands.size == finalState.wands.distinct().size) { "There are duplicated after adding a wand" }
         return Result.success(finalState)
     }

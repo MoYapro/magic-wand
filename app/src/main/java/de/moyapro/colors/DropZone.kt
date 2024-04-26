@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.util.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -9,7 +10,6 @@ import androidx.compose.ui.layout.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.util.*
-
 
 @Composable
 inline fun <reified T : Any> DropZone(
@@ -44,11 +44,16 @@ inline fun <reified T : Any> DropZone(
             isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, null, castedDropData)
             isDropping -> {
                 addAction(
-                    CombinedAction(
-                        dragInfo.onDropAction,
-                        onDropAction?.invoke(castedDropData ?: throw IllegalStateException("Tried to drop null data")),
-                        buildReplaceAction(dragInfo.onDropDidReplaceAction, emitData)
-                    )
+                    if (null != castedDropData)
+                        CombinedAction(
+                            dragInfo.onDropAction,
+                            onDropAction?.invoke(castedDropData),
+                            buildReplaceAction(dragInfo.onDropDidReplaceAction, emitData)
+                        )
+                    else {
+                        Log.w("DROP_ZONE", "Tried to drop null data")
+                        NoOp()
+                    }
                 )
                 content(Modifier, true, castedDropData, castedDropData)
                 dragInfo.dataToDrop = null

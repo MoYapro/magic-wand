@@ -1,10 +1,8 @@
 package de.moyapro.colors.game.actions
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import de.moyapro.colors.game.Enemy
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.EnemyId
+import com.fasterxml.jackson.annotation.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.takeTwo.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
@@ -31,6 +29,7 @@ abstract class GameAction(
     open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {
+        actions.add(IncreaseActionCounterAction)
         actions.add(this)
     }
 

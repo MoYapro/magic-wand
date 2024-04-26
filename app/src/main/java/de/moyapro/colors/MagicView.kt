@@ -15,15 +15,15 @@ import de.moyapro.colors.wand.*
 fun MagicView(magic: Magic = createExampleMagic()) {
     Draggable(
         dataToDrop = magic
-    ) {
+    ) { theMagic, _ ->
         Box(
             Modifier
                 .size(2.dp)
                 .background(Color.Black))
         Text(
-            text = magic.type.symbol.toString(),
+            text = theMagic.type.symbol.toString(),
             fontSize = 66.sp,
-            color = magic.type.color
+            color = theMagic.type.color
         )
     }
 }

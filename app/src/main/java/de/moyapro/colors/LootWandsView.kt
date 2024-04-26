@@ -42,11 +42,12 @@ fun LootWandsView(
                             onDropAction = RemoveWandFromLootAction(wand),
                             requireLongPress = true,
                             onDropDidReplaceAction = { replacedWand -> AddWandToLootAction(replacedWand) }
-                        ) {
+                        ) { theWand, isDragging ->
                             WandEditView(
-                                wand = wand,
+                                wand = theWand,
                                 addAction = addAction,
-                                currentGameState = currentGameState
+                                currentGameState = currentGameState,
+                                isDragging = isDragging
                             )
                         }
                     }

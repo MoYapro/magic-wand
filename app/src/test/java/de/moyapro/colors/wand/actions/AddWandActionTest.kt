@@ -4,6 +4,7 @@ import de.moyapro.colors.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
+import io.kotest.assertions.throwables.*
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
 import org.junit.*
@@ -28,7 +29,7 @@ class AddWandActionTest {
     }
 
     @Test
-    fun `should replace wand`() {
+    fun `should throw when replace wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
         var state = MyGameState(
@@ -39,10 +40,10 @@ class AddWandActionTest {
             mages = listOf(createExampleMage(mageId = MageId(0)), createExampleMage(mageId = MageId(1))),
         )
         state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand1).apply(state).getOrThrow()
-        state = AddWandAction(targetMageId = MageId(0), wandToAdd = wand2).apply(state).getOrThrow()
-        state.findMage(wand1.id)?.id shouldBe null
-        state.findMage(wand2.id)?.id shouldBe MageId(0)// was replaced
-        state.wands shouldContain wand2.copy(mageId = MageId(0))
+        shouldThrow<IllegalArgumentException> {
+            AddWandAction(targetMageId = MageId(0), wandToAdd = wand2).apply(state).getOrThrow()
+        }
+
     }
 
 

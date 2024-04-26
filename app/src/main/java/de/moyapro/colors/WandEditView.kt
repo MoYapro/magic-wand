@@ -15,6 +15,7 @@ fun WandEditView(
     wand: Wand = createExampleWand(),
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
+    isDragging: Boolean = false,
 ) {
     Column(
         modifier = modifier
@@ -30,7 +31,7 @@ fun WandEditView(
             ) {
                 slots.forEach { slot ->
                     if (null == slot.spell) {
-                        SlotEditView(wand.id, slot, currentGameState, addAction)
+                        SlotEditView(wand.id, slot, currentGameState, addAction, isDragging)
                     } else {
                         Draggable(
                             modifier = Modifier
@@ -39,8 +40,8 @@ fun WandEditView(
                             dataToDrop = slot.spell,
                             onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
                             onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
-                        ) {
-                            SlotEditView(wand.id, slot, currentGameState, addAction)
+                        ) { _, isDragging ->
+                            SlotEditView(wand.id, slot, currentGameState, addAction, isDragging)
                         }
                     }
                 }

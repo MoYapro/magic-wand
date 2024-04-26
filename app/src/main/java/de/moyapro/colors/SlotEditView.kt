@@ -19,33 +19,37 @@ fun SlotEditView(
     slot: Slot = createExampleSlot(),
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
+    dropZoneDisabled: Boolean = false,
 ) {
-    DropZone<Spell>(
-        modifier = Modifier
-            .border(BorderStroke(1.dp, Color.LightGray))
-            .fillMaxSize(),
-        condition = { _, droppedSpell -> slot.spell?.id != droppedSpell.id },
-        onDropAction = { droppedSpell -> PlaceSpellAction(wandId, slot.id, droppedSpell) },
-        currentGameState = currentGameState,
-        addAction = addAction,
-        emitData = slot.spell
-    )
-    { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, _: Any? ->
-        Box(
-            modifier = modifier.fillMaxSize()
-        ) {
-            Row {
-                Text("".padStart(slot.power, '|'))
-                Text(slot.spell?.name ?: "empty")
-                LazyRow(userScrollEnabled = false) {
-                    items(
-                        items = slot.spell?.magicSlots ?: emptyList(),
-                        key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->
-                        MagicSlotView(magicSlot)
+    if (dropZoneDisabled)
+        SpellView(spell = slot.spell)
+    else
+        DropZone<Spell>(
+            modifier = Modifier
+                .border(BorderStroke(1.dp, Color.LightGray))
+                .fillMaxSize(),
+            condition = { _, droppedSpell -> slot.spell?.id != droppedSpell.id },
+            onDropAction = { droppedSpell -> PlaceSpellAction(wandId, slot.id, droppedSpell) },
+            currentGameState = currentGameState,
+            addAction = addAction,
+            emitData = slot.spell
+        )
+        { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, _: Any? ->
+            Box(
+                modifier = modifier.fillMaxSize()
+            ) {
+                Row {
+                    Text("".padStart(slot.power, '|'))
+                    Text(slot.spell?.name ?: "empty")
+                    LazyRow(userScrollEnabled = false) {
+                        items(
+                            items = slot.spell?.magicSlots ?: emptyList(),
+                            key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->
+                            MagicSlotView(magicSlot)
+                        }
                     }
-                }
 
+                }
             }
         }
-    }
 }

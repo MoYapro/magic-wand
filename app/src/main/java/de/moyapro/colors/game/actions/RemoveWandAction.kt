@@ -20,5 +20,4 @@ data class RemoveWandAction(val wandToRemove: Wand) : GameAction("Remove wand fr
             )
         )
     }
-
 }

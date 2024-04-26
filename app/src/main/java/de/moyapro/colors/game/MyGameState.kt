@@ -13,6 +13,7 @@ data class MyGameState(
     val mages: List<Mage> = emptyList(),
     val fightHasEnded: FightOutcome = ONGOING,
     val loot: Loot = Loot(),
+    val actionCounter: Long = 0,
 ) {
 
     fun wandsInOrder(): List<Wand> {
