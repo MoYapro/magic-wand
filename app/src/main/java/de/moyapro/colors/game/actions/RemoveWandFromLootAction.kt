@@ -7,7 +7,7 @@ data class RemoveWandFromLootAction(val wand: Wand) : GameAction("Remove wand fr
     override val randomSeed: Int = -1
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
-        require(oldState.loot.wands.contains(wand)) { "Could not find wand to remove in loot" }
+        require(oldState.loot.wands.map(Wand::id).contains(wand.id)) { "Could not find wand to remove in loot" }
         return Result.success(oldState.copy(loot = oldState.loot.copy(wands = oldState.loot.wands.filter { it.id != wand.id })))
     }
 

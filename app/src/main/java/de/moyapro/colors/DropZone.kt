@@ -47,12 +47,14 @@ inline fun <reified T : Any> DropZone(
             isDropping -> {
                 val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
                 addAction(
-                    if (null != castedDropData)
+                    if (null != castedDropData) {
+                        dragInfo.dataToDrop = null
                         CombinedAction(
                             dragInfo.onDropAction,
                             onDropAction?.invoke(castedDropData),
                             buildReplaceAction(dragInfo.onDropDidReplaceAction, emitData)
                         )
+                    }
                     else {
                         Log.w("DROP_ZONE", "Tried to drop null data")
                         NoOp()

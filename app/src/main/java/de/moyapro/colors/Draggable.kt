@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.util.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -57,10 +58,8 @@ fun <T : Any> Draggable(
         dragAmount: Offset,
         localOffset: Offset,
         updateLocalOffset: (Offset) -> Unit,
-        setDraggableState: (Boolean) -> Unit,
     ) {
         change.consume()
-        setDraggableState(true)
         updateLocalOffset(localOffset + dragAmount)
         currentState.dragPosition = currentState.dragStartPosition + localOffset
     }
@@ -72,7 +71,10 @@ fun <T : Any> Draggable(
         dataToDrop: T,
         onDropAction: GameAction?,
         onDropDidReplaceAction: (T) -> GameAction,
+        setDraggableState: (Boolean) -> Unit,
     ) {
+        Log.d("DRAG_START", "Start drag with $dataToDrop")
+        setDraggableState(true)
         currentState.dragStartPosition = globalStartPosition
         currentState.dataToDrop = dataToDrop
         currentState.onDropDidReplaceAction = onDropDidReplaceAction
@@ -94,10 +96,10 @@ fun <T : Any> Draggable(
             if (requireLongPress) {
                 detectDragGesturesAfterLongPress(
                     onDragStart = { currentDragOffset ->
-                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction)
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction, setDragState)
                     },
                     onDrag = { change, dragAmount ->
-                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset, setDragState)
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
                     },
                     onDragEnd = { onDragEnd(currentState, updateLocalOffset, setDragState) },
                     onDragCancel = { onDragEnd(currentState, updateLocalOffset, setDragState) }
@@ -105,10 +107,10 @@ fun <T : Any> Draggable(
             } else {
                 detectDragGestures(
                     onDragStart = { currentDragOffset ->
-                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction)
+                        onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction, setDragState)
                     },
                     onDrag = { change, dragAmount ->
-                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset, setDragState)
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
                     },
                     onDragEnd = { onDragEnd(currentState, updateLocalOffset, setDragState) },
                     onDragCancel = { onDragEnd(currentState, updateLocalOffset, setDragState) }

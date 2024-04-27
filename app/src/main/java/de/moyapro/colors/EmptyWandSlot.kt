@@ -28,8 +28,9 @@ fun EmptyWandSlot(
         currentGameState = currentGameState,
         onDropAction = { droppedWand -> AddWandAction(droppedWand, mageId) },
     )
-    { modifier: Modifier, isInBound: Boolean, hoveredWand: Any? ->
+    { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)
+        Text("this: Wand(${useHoveredWand?.slots?.size})")
         Box(
             modifier = modifier
                 .height(4 * SPELL_SIZE.dp)

@@ -31,6 +31,6 @@ class DragInfo<T> {
         this.dragPosition = Offset.Zero
 //        this.dataToDrop = null
 //        this.onDropAction = null
-//        this.onDropDidReplaceAction = null
+//        this.onDropDidReplaceAction = NoOp()
     }
 }

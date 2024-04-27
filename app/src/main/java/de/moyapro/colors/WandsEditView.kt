@@ -1,11 +1,12 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
 @Composable
 fun WandsEditView(
@@ -13,8 +14,10 @@ fun WandsEditView(
     currentGameState: MyGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
-    Row(modifier = modifier) {
-        currentGameState.mages.forEach { mage ->
+    LazyRow(modifier = modifier) {
+        items(
+            items = currentGameState.mages,
+            key = { mage: Mage -> mage.id.hashCode() }) { mage: Mage ->
             val wand = currentGameState.findWand(mage.id)
             if (null == wand) {
                 EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = mage.id)
@@ -39,15 +42,12 @@ private fun ShowEditView(
         condition = { gameState, newWand -> !gameState.wands.contains(newWand) },
         addAction = addAction,
         onDropAction = { newWand ->
-            CombinedAction(
-                RemoveWandAction(wand),
-                AddWandAction(newWand, wand.mageId)
-            )
+            AddWandAction(newWand, wand.mageId)
         },
         emitData = wand,
     ) { modifier: Modifier, isInBound, hoverData ->
         Draggable(
-            dataToDrop = wand,
+            dataToDrop = logAndReturn("ShowEditView", wand),
             requireLongPress = true,
             onDropAction = RemoveWandAction(wand),
             onDropDidReplaceAction = { replacedWand -> AddWandAction(replacedWand, mage.id) }
