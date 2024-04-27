@@ -33,9 +33,10 @@ private fun ShowEditView(
     mage: Mage,
 ) {
     require(wand.mageId != null) { "There is a wand without a mage in Wands edit view" }
+    require(wand.mageId == mage.id) { "Mage and Wand.mageId to not match up" }
     DropZone<Wand>(
         currentGameState = currentGameState,
-        condition = { gameState, maybeWand -> !gameState.wands.contains(maybeWand) },
+        condition = { gameState, newWand -> !gameState.wands.contains(newWand) },
         addAction = addAction,
         onDropAction = { newWand ->
             CombinedAction(

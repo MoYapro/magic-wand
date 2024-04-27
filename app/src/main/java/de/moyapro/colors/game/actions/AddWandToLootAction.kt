@@ -8,7 +8,8 @@ data class AddWandToLootAction(val wand: Wand) : GameAction("Add wand to loot") 
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         require(!oldState.loot.wands.contains(wand)) { "Wand is already in loot" }
-        return Result.success(oldState.copy(loot = oldState.loot.copy(wands = oldState.loot.wands + wand)))
+        val updatedWand = wand.copy(mageId = null)
+        return Result.success(oldState.copy(loot = oldState.loot.copy(wands = oldState.loot.wands + updatedWand)))
     }
 
 }

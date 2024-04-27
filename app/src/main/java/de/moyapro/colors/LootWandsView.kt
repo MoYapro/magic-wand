@@ -37,6 +37,7 @@ fun LootWandsView(
                         items = wands,
                         key = { wand -> wand.id.hashCode() })
                     { wand ->
+                        require(wand.mageId == null) { "Wand in loot must not have a mage" }
                         Draggable(
                             dataToDrop = wand,
                             onDropAction = RemoveWandFromLootAction(wand),
