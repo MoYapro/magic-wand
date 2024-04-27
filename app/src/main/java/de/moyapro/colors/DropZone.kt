@@ -27,22 +27,25 @@ inline fun <reified T : Any> DropZone(
     var isCurrentDropTarget by remember { mutableStateOf(false) }
     val isHovering = isCurrentDropTarget && dragInfo.isDragging
     val isDropping = isCurrentDropTarget && !dragInfo.isDragging
-    val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
 
     Box(
         modifier = modifier
             .onGloballyPositioned {
                 it.boundsInWindow().let { rect ->
-                    isCurrentDropTarget = rect.contains(dragPosition + dragOffset) && null != castedDropData && condition(
-                        currentGameState,
-                        castedDropData
-                    )
+                    val isInBounds = rect.contains(dragPosition + dragOffset)
+                    isCurrentDropTarget = if (!isInBounds) {
+                        false
+                    } else {
+                        val castedDropData = castOrNull<T>(dragInfo.dataToDrop)
+                        null != castedDropData && condition(currentGameState, castedDropData)
+                    }
                 }
             }) {
         when {
             !isCurrentDropTarget -> content(Modifier, false, null)
-            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, castedDropData)
+            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, castOrNull(dragInfo.dataToDrop))
             isDropping -> {
+                val castedDropData: T? = castOrNull(dragInfo.dataToDrop)
                 addAction(
                     if (null != castedDropData)
                         CombinedAction(
