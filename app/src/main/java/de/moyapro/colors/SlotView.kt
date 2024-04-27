@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
@@ -28,18 +27,13 @@ fun SlotView(
             .size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
         addAction = addAction,
-    ) { modifier: Modifier, isInBound: Boolean, droppedMagic: Any?, hoveredMagic: Any? ->
-        val useDroppedMagic: Magic? = castOrNull(droppedMagic)
+    ) { modifier: Modifier, isInBound: Boolean, hoveredMagic: Any? ->
         val useHoveredMagic: Magic? = castOrNull(hoveredMagic)
 
         val isThisSlotFull = slot.spell?.magicSlots?.none { it.placedMagic == null } ?: true
         val hoveredMagicDoesFit =
             !isThisSlotFull && slot.spell?.magicSlots?.any { it.requiredMagic.type == useHoveredMagic?.type && it.placedMagic == null } ?: false
-        if (useDroppedMagic != null && hoveredMagicDoesFit) {
-            LaunchedEffect(key1 = useDroppedMagic) {
-                addAction(PlaceMagicAction(wandId, slot.id, useDroppedMagic))
-            }
-        }
+
         val usedColor: Color = when {
             !isInBound -> Color.Transparent
             isInBound && !hoveredMagicDoesFit -> Color.Red.copy(alpha = DROP_ZONE_ALPHA)

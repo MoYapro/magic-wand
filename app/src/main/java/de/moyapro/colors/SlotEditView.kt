@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
 
 @Composable
@@ -27,14 +28,15 @@ fun SlotEditView(
         DropZone<Spell>(
             modifier = Modifier
                 .border(BorderStroke(1.dp, Color.LightGray))
-                .fillMaxSize(),
+                .width(SPELL_SIZE.dp)
+                .height(SPELL_SIZE.dp),
             condition = { _, droppedSpell -> slot.spell?.id != droppedSpell.id },
             onDropAction = { droppedSpell -> PlaceSpellAction(wandId, slot.id, droppedSpell) },
             currentGameState = currentGameState,
             addAction = addAction,
             emitData = slot.spell
         )
-        { modifier: Modifier, isInBound: Boolean, droppedSpell: Spell?, _: Any? ->
+        { modifier: Modifier, isInBound: Boolean, _: Any? ->
             Box(
                 modifier = modifier.fillMaxSize()
             ) {

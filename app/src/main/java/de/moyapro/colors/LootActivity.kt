@@ -2,6 +2,7 @@ package de.moyapro.colors
 
 import android.content.*
 import android.os.*
+import android.util.*
 import android.widget.*
 import androidx.activity.*
 import androidx.activity.compose.*
@@ -78,7 +79,7 @@ class LootActivity : ComponentActivity() {
                             Button(onClick = ::startMainActivity) {
                                 Text(text = "Done")
                             }
-                            Button(onClick = ::startMainActivity) {
+                            Button(onClick = { printState(currentGameState) }) {
                                 Text(text = "Debug state")
                             }
                         }
@@ -86,6 +87,10 @@ class LootActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun printState(currentGameState: MyGameState) {
+        Log.d("DEBUG", currentGameState.toString())
     }
 
     private fun startMainActivity() {

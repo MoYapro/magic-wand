@@ -19,7 +19,7 @@ inline fun <reified T : Any> DropZone(
     addAction: (GameAction) -> GameViewModel,
     emitData: T? = null,
     noinline onDropAction: ((T) -> GameAction)? = null,
-    content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, dropData: T?, hoverData: T?) -> Unit),
+    content: @Composable (BoxScope.(modifier: Modifier, isInBound: Boolean, hoverData: T?) -> Unit),
 ) {
     val dragInfo: DragInfo<T> = castOrNull(LocalDragTargetInfo.current) ?: throw IllegalStateException("DropInfo type does not fit dropZone type")
     val dragPosition = dragInfo.dragPosition
@@ -40,8 +40,8 @@ inline fun <reified T : Any> DropZone(
                 }
             }) {
         when {
-            !isCurrentDropTarget -> content(Modifier, false, null, null)
-            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, null, castedDropData)
+            !isCurrentDropTarget -> content(Modifier, false, null)
+            isHovering -> content(Modifier.background(color = Color.Green.copy(alpha = DROP_ZONE_ALPHA)), true, castedDropData)
             isDropping -> {
                 addAction(
                     if (null != castedDropData)
@@ -55,7 +55,7 @@ inline fun <reified T : Any> DropZone(
                         NoOp()
                     }
                 )
-                content(Modifier, true, castedDropData, castedDropData)
+                content(Modifier, true, castedDropData)
                 dragInfo.dataToDrop = null
                 dragInfo.onDropAction = null
             }

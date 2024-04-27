@@ -44,7 +44,7 @@ private fun ShowEditView(
             )
         },
         emitData = wand,
-    ) { modifier: Modifier, isInBound, dropData, hoverData ->
+    ) { modifier: Modifier, isInBound, hoverData ->
         Draggable(
             dataToDrop = wand,
             requireLongPress = true,
@@ -56,7 +56,7 @@ private fun ShowEditView(
                 wand = theWand,
                 currentGameState = currentGameState,
                 addAction = addAction,
-                isDragging = isDragging
+                isWandDragged = isDragging
             )
         }
     }

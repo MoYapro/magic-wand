@@ -21,8 +21,9 @@ fun <T : Any> Draggable(
     onDropAction: GameAction? = null,
     onDropDidReplaceAction: (T) -> GameAction = { NoOp() },
     requireLongPress: Boolean = false,
-    content: @Composable ((T, Boolean) -> Unit),
+    content: @Composable ((dragedData: T, isDragging: Boolean) -> Unit),
 ) {
+    var thisIsDraged by remember { mutableStateOf(false) }
     var globalStartPosition by remember { mutableStateOf(Offset.Zero) }
     val localPosition by remember { mutableStateOf(Offset.Zero) }
     var localOffset by remember { mutableStateOf(Offset.Zero) }
@@ -35,8 +36,14 @@ fun <T : Any> Draggable(
         (localPosition.y + localOffset.y).toDp()
     }
 
-    fun onDragEnd(currentState: DragInfo<T>, updateLocalOffset: (Offset) -> Unit) {
+    fun onDragEnd(
+        currentState: DragInfo<T>,
+        updateLocalOffset: (Offset) -> Unit,
+        setDraggableState: (Boolean) -> Unit,
+
+        ) {
         currentState.reset()
+        setDraggableState(false)
         updateLocalOffset(Offset.Zero)
     }
 
@@ -50,8 +57,10 @@ fun <T : Any> Draggable(
         dragAmount: Offset,
         localOffset: Offset,
         updateLocalOffset: (Offset) -> Unit,
+        setDraggableState: (Boolean) -> Unit,
     ) {
         change.consume()
+        setDraggableState(true)
         updateLocalOffset(localOffset + dragAmount)
         currentState.dragPosition = currentState.dragStartPosition + localOffset
     }
@@ -72,7 +81,7 @@ fun <T : Any> Draggable(
         currentState.dragPosition = globalStartPosition + currentDragOffset
     }
 
-
+    val setDragState = { newDragState: Boolean -> thisIsDraged = newDragState }
     Box(modifier = modifier
         .offset(offsetX, offsetY)
         .onGloballyPositioned {
@@ -88,10 +97,10 @@ fun <T : Any> Draggable(
                         onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction)
                     },
                     onDrag = { change, dragAmount ->
-                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset, setDragState)
                     },
-                    onDragEnd = { onDragEnd(currentState, updateLocalOffset) },
-                    onDragCancel = { onDragEnd(currentState, updateLocalOffset) }
+                    onDragEnd = { onDragEnd(currentState, updateLocalOffset, setDragState) },
+                    onDragCancel = { onDragEnd(currentState, updateLocalOffset, setDragState) }
                 )
             } else {
                 detectDragGestures(
@@ -99,13 +108,13 @@ fun <T : Any> Draggable(
                         onDragStart(currentState, currentDragOffset, globalStartPosition, dataToDrop, onDropAction, onDropDidReplaceAction)
                     },
                     onDrag = { change, dragAmount ->
-                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset)
+                        onDrag(currentState, change, dragAmount, localOffset, updateLocalOffset, setDragState)
                     },
-                    onDragEnd = { onDragEnd(currentState, updateLocalOffset) },
-                    onDragCancel = { onDragEnd(currentState, updateLocalOffset) }
+                    onDragEnd = { onDragEnd(currentState, updateLocalOffset, setDragState) },
+                    onDragCancel = { onDragEnd(currentState, updateLocalOffset, setDragState) }
                 )
             }
         }) {
-        content(dataToDrop, currentState.isDragging)
+        content(dataToDrop, thisIsDraged)
     }
 }
