@@ -6,7 +6,6 @@ import androidx.compose.ui.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
-import de.moyapro.colors.util.*
 
 @Composable
 fun WandsEditView(
@@ -45,9 +44,9 @@ private fun ShowEditView(
             AddWandAction(newWand, wand.mageId)
         },
         emitData = wand,
-    ) { modifier: Modifier, isInBound, hoverData ->
+    ) { modifier: Modifier, _, _ ->
         Draggable(
-            dataToDrop = logAndReturn("ShowEditView", wand),
+            dataToDrop = wand,
             requireLongPress = true,
             onDropAction = RemoveWandAction(wand),
             onDropDidReplaceAction = { replacedWand -> AddWandAction(replacedWand, mage.id) }

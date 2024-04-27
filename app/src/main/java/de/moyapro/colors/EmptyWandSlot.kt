@@ -30,7 +30,6 @@ fun EmptyWandSlot(
     )
     { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
         val useHoveredWand: Wand? = castOrNull(hoveredWand)
-        Text("this: Wand(${useHoveredWand?.slots?.size})")
         Box(
             modifier = modifier
                 .height(4 * SPELL_SIZE.dp)
@@ -44,10 +43,8 @@ fun EmptyWandSlot(
                 )
             } else {
                 Column {
-                    Text(mageId.toString())
                     Text("Place wand here")
                 }
-
             }
         }
     }
