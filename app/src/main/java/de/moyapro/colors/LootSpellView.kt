@@ -35,7 +35,7 @@ fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGa
         ) {
             items(
                 items = spells,
-                key = { it.id.hashCode() }) { spell ->
+                key = { it.hashCode() }) { spell ->
                 Draggable(
                     modifier = Modifier
                         .height(SPELL_SIZE.dp)

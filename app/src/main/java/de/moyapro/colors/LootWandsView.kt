@@ -35,7 +35,7 @@ fun LootWandsView(
                 ) {
                     items(
                         items = wands,
-                        key = { wand -> wand.id.hashCode() })
+                        key = { wand -> wand.hashCode() })
                     { wand ->
                         require(wand.mageId == null) { "Wand in loot must not have a mage" }
                         Draggable(

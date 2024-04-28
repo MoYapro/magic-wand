@@ -16,7 +16,7 @@ fun WandsEditView(
     LazyRow(modifier = modifier) {
         items(
             items = currentGameState.mages,
-            key = { mage: Mage -> mage.id.hashCode() }) { mage: Mage ->
+            key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
             val wand = currentGameState.findWand(mage.id)
             if (null == wand) {
                 EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = mage.id)

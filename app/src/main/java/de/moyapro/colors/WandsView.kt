@@ -26,7 +26,7 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
         ) {
             items(
                 items = currentGameState.enemies,
-                key = { enemy: Enemy -> enemy.id.hashCode() }
+                key = { enemy: Enemy -> enemy.hashCode() }
             ) { enemy ->
                 EnemyView(enemy, addAction)
             }
@@ -55,7 +55,7 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
         ) {
             items(
                 items = currentGameState.magicToPlay,
-                key = { magic: Magic -> magic.id.hashCode() }) { magic: Magic -> MagicView(magic) }
+                key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
 
         Row(

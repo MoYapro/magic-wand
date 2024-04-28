@@ -52,7 +52,7 @@ fun SlotView(
                 LazyRow {
                     items(
                         items = slot.spell?.magicSlots ?: emptyList(),
-                        key = { magicSlot: MagicSlot -> magicSlot.id.hashCode() }) { magicSlot: MagicSlot ->
+                        key = { magicSlot: MagicSlot -> magicSlot.hashCode() }) { magicSlot: MagicSlot ->
                         MagicSlotView(magicSlot)
                     }
                 }
