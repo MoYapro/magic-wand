@@ -18,65 +18,37 @@ fun WandEditView(
     addAction: (GameAction) -> GameViewModel,
     isWandDragged: Boolean = false,
 ) {
-    val slotsByLevel =
-        wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
-
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(1f / 3f)
-    ) {
-        items(
-            items = slotsByLevel.entries.toList(),
-            key = { (level, slots) -> level.toLong() + slots.hashCode() }
-        ) { enemy ->
-            slots.forEach { slot ->
-                if (null == slot.spell) {
-                    SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
-                } else {
-                    Draggable(
-                        modifier = Modifier
-                            .height(SPELL_SIZE.dp)
-                            .width(SPELL_SIZE.dp),
-                        dataToDrop = slot.spell,
-                        onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
-                        onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
-                    ) { _, isDragging ->
-                        SlotEditView(wand.id, slot, currentGameState, addAction, isDragging || isWandDragged)
-                    }
-                }
-            }
-        }
-    }
+    val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
+    val maxLevel = slotsByLevel.keys.max()
 
     Column(
         modifier = modifier
             .height(5 * SPELL_SIZE.dp)
             .width(2 * SPELL_SIZE.dp)
     ) {
-        slotsByLevel.forEach { (_, slots) ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                slots.forEach { slot ->
-                    if (null == slot.spell) {
-                        SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
-                    } else {
-                        Draggable(
-                            modifier = Modifier
-                                .height(SPELL_SIZE.dp)
-                                .width(SPELL_SIZE.dp),
-                            dataToDrop = slot.spell,
-                            onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
-                            onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
-                        ) { _, isDragging ->
-                            SlotEditView(wand.id, slot, currentGameState, addAction, isDragging || isWandDragged)
-                        }
-                    }
-                }
+        (maxLevel downTo 0).forEach { level ->
+            LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
+                items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() })
+                { slot -> SlotHelper(slot, wand, currentGameState, addAction, isWandDragged) }
             }
+        }
+    }
+}
+
+@Composable
+private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel, isWandDragged: Boolean) {
+    if (null == slot.spell) {
+        SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
+    } else {
+        Draggable(
+            modifier = Modifier
+                .height(SPELL_SIZE.dp)
+                .width(SPELL_SIZE.dp),
+            dataToDrop = slot.spell,
+            onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
+            onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
+        ) { _, isDragging ->
+            SlotEditView(wand.id, slot, currentGameState, addAction, isDragging || isWandDragged)
         }
     }
 }
