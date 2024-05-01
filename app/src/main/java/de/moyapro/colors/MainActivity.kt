@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        initNewGame()
-//        startLootActivity()
+        startLootActivity()
         val (fightState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
         setContent {

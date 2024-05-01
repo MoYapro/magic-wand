@@ -2,9 +2,7 @@ package de.moyapro.colors
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
@@ -38,20 +36,29 @@ fun SlotEditView(
         )
         { modifier: Modifier, isInBound: Boolean, _: Any? ->
             Box(
-                modifier = modifier.fillMaxSize()
+                modifier = modifier.width(SPELL_SIZE.dp).height(SPELL_SIZE.dp),
             ) {
-                Row {
-                    Text("".padStart(slot.power, '|'))
-                    Text(slot.spell?.name ?: "empty")
-                    LazyRow(userScrollEnabled = false) {
-                        items(
-                            items = slot.spell?.magicSlots ?: emptyList(),
-                            key = { magicSlot: MagicSlot -> magicSlot.hashCode() }) { magicSlot: MagicSlot ->
-                            MagicSlotView(magicSlot)
-                        }
-                    }
-
-                }
+                PowerMeter(slot.power)
+                if (slot.spell != null) SpellView(spell = slot.spell)
             }
         }
+}
+
+@Composable
+private fun PowerMeter(power: Int) {
+    val fives = power / 5
+    val ones = power % 5
+    Row {
+        Spacer(modifier = Modifier.width(1.dp))
+        Column(modifier = Modifier.height(SPELL_SIZE.dp), verticalArrangement = Arrangement.Bottom) {
+            repeat(fives) {
+                Box(modifier = Modifier.width(8.dp).height(6.dp).background(Color.White))
+                Spacer(modifier = Modifier.height(2.dp))
+            }
+            repeat(ones) {
+                Box(modifier = Modifier.width(8.dp).height(2.dp).background(Color.White))
+                Spacer(modifier = Modifier.height(2.dp))
+            }
+        }
+    }
 }

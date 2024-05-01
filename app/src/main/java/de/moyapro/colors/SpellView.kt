@@ -2,7 +2,7 @@ package de.moyapro.colors
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.res.*
@@ -14,9 +14,14 @@ import de.moyapro.colors.wand.*
 fun SpellView(modifier: Modifier = Modifier, spell: Spell?) {
     val image = painterResource(R.drawable.bad_heart)
     Image(
-        painter = image,
-        contentDescription = "Name",
-        modifier = Modifier.height(SPELL_SIZE.dp).width(SPELL_SIZE.dp)
+        painter = image, contentDescription = "Name", modifier = Modifier.height(SPELL_SIZE.dp).width(SPELL_SIZE.dp)
     )
-    Text(modifier = modifier, text = "I" + spell?.name ?: "No Spell")
+    LazyRow(userScrollEnabled = false) {
+        items(
+            items = spell?.magicSlots ?: emptyList(),
+            key = { magicSlot: MagicSlot -> magicSlot.hashCode() }
+        ) { magicSlot: MagicSlot ->
+            MagicSlotView(magicSlot)
+        }
+    }
 }

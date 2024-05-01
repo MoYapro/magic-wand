@@ -38,7 +38,7 @@ class LootActivity : ComponentActivity() {
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                    color = Color.Gray
                 ) {
                     Column(Modifier.fillMaxSize()) {
                         Row(

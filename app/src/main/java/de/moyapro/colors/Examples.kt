@@ -12,13 +12,13 @@ fun createExampleWand(mageId: MageId? = null) =
         mageId = mageId,
         slots = listOf(
             createExampleSlot(
-                spellName = "Blitz", level = 0, 2, power = 1
+                spellName = "Blitz", level = 0, 2, power = 3
             ),
             createExampleSlot(
-                spellName = "Pow", level = 1, 1, power = 10
+                spellName = "Pow", level = 1, 1, power = 11
             ),
-            createExampleSlot(spellName = "Bom", level = 0, 5, power = 1),
-            createExampleSlot(spellName = "Top", level = 2, 1, power = 1),
+            createExampleSlot(spellName = "Bom", level = 0, 5, power = 4),
+            createExampleSlot(spellName = "Top", level = 2, 1, power = 7),
         )
     )
 
