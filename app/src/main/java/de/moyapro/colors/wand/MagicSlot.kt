@@ -1,6 +1,6 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.takeTwo.MagicSlotId
+import de.moyapro.colors.takeTwo.*
 
 data class MagicSlot(
     val id: MagicSlotId = MagicSlotId(),
@@ -13,3 +13,5 @@ data class MagicSlot(
         placedMagic = null
     )
 }
+
+fun MagicSlot.hasRequiredMagic(): Boolean = placedMagic != null

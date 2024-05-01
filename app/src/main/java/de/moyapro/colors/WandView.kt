@@ -1,24 +1,15 @@
 package de.moyapro.colors
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.ZapAction
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.SPELL_SIZE
+import androidx.compose.ui.*
+import androidx.compose.ui.unit.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
 @Composable
 fun WandView(
@@ -46,17 +37,21 @@ fun WandView(
                 )
             }
         }
-        val slotsByLevel =
-            wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
-        slotsByLevel.forEach { (_, slots) ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                slots.forEach { slot ->
-                    SlotView(wand.id, slot, addAction, currentGameState = currentGameState)
+        val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
+        val maxLevel = slotsByLevel.keys.max()
+
+        Column(
+            modifier = modifier
+                .height(5 * SPELL_SIZE.dp)
+                .width(2 * SPELL_SIZE.dp)
+        ) {
+            (maxLevel downTo 0).forEach { level ->
+                LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
+                    items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() })
+                    { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
                 }
             }
         }
+
     }
 }

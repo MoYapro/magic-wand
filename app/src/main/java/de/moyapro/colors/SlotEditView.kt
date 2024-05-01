@@ -43,22 +43,3 @@ fun SlotEditView(
             }
         }
 }
-
-@Composable
-private fun PowerMeter(power: Int) {
-    val fives = power / 5
-    val ones = power % 5
-    Row {
-        Spacer(modifier = Modifier.width(1.dp))
-        Column(modifier = Modifier.height(SPELL_SIZE.dp), verticalArrangement = Arrangement.Bottom) {
-            repeat(fives) {
-                Box(modifier = Modifier.width(8.dp).height(6.dp).background(Color.White))
-                Spacer(modifier = Modifier.height(2.dp))
-            }
-            repeat(ones) {
-                Box(modifier = Modifier.width(8.dp).height(2.dp).background(Color.White))
-                Spacer(modifier = Modifier.height(2.dp))
-            }
-        }
-    }
-}

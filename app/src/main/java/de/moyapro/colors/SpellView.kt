@@ -24,7 +24,7 @@ private fun MagicSlotsView(magicSlots: List<MagicSlot>) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         LazyColumn {
             items(items = magicSlots, key = { magicSlot: MagicSlot -> magicSlot.hashCode() }) { magicSlot: MagicSlot ->
-                MagicSlotView(magicSlot)
+                MagicSlotView(modifier = Modifier.width(MAGIC_SIZE.dp).height(MAGIC_SIZE.dp), magicSlot)
             }
         }
     }

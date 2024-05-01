@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.wand.*
 
 private const val TAG = "WandsView"
@@ -32,16 +33,18 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
             }
         }
 
-        Row(
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(1f / 2f)
                 .border(1.dp, Color.LightGray)
         ) {
-            currentGameState.wandsInOrder().forEachIndexed { i, wand ->
+            items(
+                items = currentGameState.wandsInOrder(),
+                key = { wand: Wand -> wand.hashCode() }
+            ) { theWand ->
                 WandView(
-                    modifier = Modifier.fillMaxWidth(1f / (AddWandAction.MAX_WANDS - i)),
-                    wand = wand,
+                    wand = theWand,
                     addAction = addAction,
                     currentGameState = currentGameState,
                 )

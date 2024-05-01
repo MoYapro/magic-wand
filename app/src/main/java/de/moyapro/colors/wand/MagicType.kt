@@ -1,9 +1,10 @@
 package de.moyapro.colors.wand
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 
+//◉ ○ ◌ ◍ ◎ ● ◐ ◑ ◒ ◓
 enum class MagicType(val symbol: Char, val color: Color) {
-    SIMPLE('❂', Color.Magenta),
-    GREEN('◕', Color.Green),
-    NONE('X', Color.Black)
+    SIMPLE('●', Color.Magenta),
+    GREEN('●', Color.Green),
+    NONE('●', Color.Black)
 }
