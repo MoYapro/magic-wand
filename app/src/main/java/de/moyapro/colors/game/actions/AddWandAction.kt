@@ -20,12 +20,14 @@ data class AddWandAction(
 
         val targetMage = oldState.findMage(targetMageId)
         require(targetMage != null) { "Could not find mage($targetMageId) to add wand to" }
-        require(oldState.findWand(targetMageId) == null) { "Target mage is already holding a wand" }
+        val previousWand = oldState.findWand(targetMageId)
         val updatedMage = targetMage.copy(wandId = wandToAdd.id)
         val updatedWandtoAdd = wandToAdd.copy(mageId = updatedMage.id)
         val updatedWands = if (oldState.wands.map(Wand::id).contains(updatedWandtoAdd.id)) oldState.wands else oldState.wands + updatedWandtoAdd
+        val wandWithoutThePreviousWand: List<Wand> = updatedWands - previousWand
         val finalState = oldState.copy(
-            wands = updatedWands, mages = oldState.mages.replace(updatedMage)
+            wands = wandWithoutThePreviousWand,
+            mages = oldState.mages.replace(updatedMage)
         )
 
         val noDuplicates = finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size
@@ -33,6 +35,9 @@ data class AddWandAction(
         check(finalState.wands.size == finalState.wands.distinct().size) { "There are duplicated after adding a wand" }
         return Result.success(finalState)
     }
+}
 
-
+private operator fun List<Wand>.minus(wandToRemove: Wand?): List<Wand> {
+    if (wandToRemove == null) return this
+    return this.filter { wand -> wand != wandToRemove }
 }

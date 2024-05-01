@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import android.util.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -14,9 +15,7 @@ fun WandsEditView(
     addAction: (GameAction) -> GameViewModel,
 ) {
     LazyRow(modifier = modifier) {
-        items(
-            items = currentGameState.mages,
-            key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
+        items(items = currentGameState.mages, key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
             val wand = currentGameState.findWand(mage.id)
             if (null == wand) {
                 EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = mage.id)
@@ -35,28 +34,23 @@ private fun ShowEditView(
     mage: Mage,
 ) {
     require(wand.mageId != null) { "There is a wand without a mage in Wands edit view" }
-    require(wand.mageId == mage.id) { "Mage and Wand.mageId to not match up" }
+    require(wand.mageId == mage.id) { "Mage and Wand.mageId do not match up" }
     DropZone<Wand>(
         currentGameState = currentGameState,
-        condition = { gameState, newWand -> !gameState.wands.contains(newWand) },
-        addAction = addAction,
-        onDropAction = { newWand ->
-            AddWandAction(newWand, wand.mageId)
+        condition = { gameState, newWand ->
+            Log.d("wand condititon", "new Wand: $newWand, wand: $wand, mage: $mage")
+            newWand.mageId != mage.id && newWand.id != wand.id
         },
+        addAction = addAction,
+        onDropAction = { newWand -> AddWandAction(newWand, wand.mageId) },
         emitData = wand,
     ) { modifier: Modifier, _, _ ->
-        Draggable(
-            dataToDrop = wand,
+        Draggable(dataToDrop = wand,
             requireLongPress = true,
             onDropAction = RemoveWandAction(wand),
-            onDropDidReplaceAction = { replacedWand -> AddWandAction(replacedWand, mage.id) }
-        ) { theWand, isDragging ->
+            onDropDidReplaceAction = { replacedWand -> AddWandAction(replacedWand, mage.id) }) { theWand, isDragging ->
             WandEditView(
-                modifier,
-                wand = theWand,
-                currentGameState = currentGameState,
-                addAction = addAction,
-                isWandDragged = isDragging
+                modifier, wand = theWand, currentGameState = currentGameState, addAction = addAction, isWandDragged = isDragging
             )
         }
     }
