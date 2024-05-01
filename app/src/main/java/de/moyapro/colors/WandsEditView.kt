@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.util.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -37,10 +36,7 @@ private fun ShowEditView(
     require(wand.mageId == mage.id) { "Mage and Wand.mageId do not match up" }
     DropZone<Wand>(
         currentGameState = currentGameState,
-        condition = { gameState, newWand ->
-            Log.d("wand condititon", "new Wand: $newWand, wand: $wand, mage: $mage")
-            newWand.mageId != mage.id && newWand.id != wand.id
-        },
+        condition = { _, newWand -> newWand.mageId != mage.id && newWand.id != wand.id },
         addAction = addAction,
         onDropAction = { newWand -> AddWandAction(newWand, wand.mageId) },
         emitData = wand,
