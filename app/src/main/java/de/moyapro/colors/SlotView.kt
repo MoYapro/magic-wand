@@ -25,6 +25,7 @@ fun SlotView(
             .size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
         addAction = addAction,
+        condition = { _, droppedMagic -> slot.canPlace(droppedMagic) },
         onDropAction = { droppedMagic -> PlaceMagicAction(wandId = wandId, slotId = slot.id, magicToPlace = droppedMagic) }
     ) { modifier: Modifier, isInBound: Boolean, hoveredMagic: Magic? ->
         Box(

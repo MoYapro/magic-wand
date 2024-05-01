@@ -1,7 +1,6 @@
 package de.moyapro.colors.takeTwo
 
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.Spell
+import de.moyapro.colors.wand.*
 
 data class Slot(
     override val id: SlotId = SlotId(),
@@ -18,4 +17,6 @@ data class Slot(
     }
 
     fun hasRequiredMagic() = this.spell?.hasRequiredMagic() ?: false
+
+    fun canPlace(magicToPlace: Magic) = spell?.magicSlots?.any { it.placedMagic == null && it.requiredMagic.type == magicToPlace.type } ?: false
 }
