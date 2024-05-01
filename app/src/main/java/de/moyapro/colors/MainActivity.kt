@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        initNewGame()
-        startLootActivity()
+//        startLootActivity()
         val (fightState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
         setContent {
@@ -74,7 +74,6 @@ class MainActivity : ComponentActivity() {
         val initialGameState = StartFightFactory.createInitialState()
         saveFightState(initialGameState)
         saveWands(initialGameState.wands)
-//        startFightActivity()
     }
 
     private fun saveFightState(gameState: MyGameState): Unit = runBlocking {

@@ -14,36 +14,29 @@ object StartFightFactory {
             Mage(id = MageId(2), health = 7),
         )
 
-        val actualWands =
-            wands ?: listOf(createStarterWand(mageId = mages.first().id, wandId = wandId))
-        return MyGameState(
-            enemies = listOf(createExampleEnemy(1)),
+        val actualWands = wands ?: listOf(createStarterWand(mageId = mages.first().id, wandId = wandId))
+        return MyGameState(enemies = listOf(createExampleEnemy(1)),
             wands = actualWands,
             magicToPlay = listOf(createExampleMagic()),
             currentTurn = 0,
             mages = mages,
-            loot = Loot(
-                wands = listOf(createExampleWand()),
-                spells = listOf(Spell(name = "Foo", magicSlots = listOf(MagicSlot(requiredMagic = Magic()))))
-            )
+            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
+                MagicSlot(requiredMagic = Magic(type = it))
+            })))
         )
     }
 
     private fun createStarterWand(mageId: MageId, wandId: WandId): Wand {
         val spell1 = Spell(
-            name = "Bolt",
-            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
+            name = "Bolt", magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
         )
         val spell2 = Spell(
-            name = "Double",
-            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
+            name = "Double", magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
         )
         val slot1 = Slot(level = 0, power = 2, spell = spell1)
         val slot2 = Slot(level = 1, power = 2, spell = spell2)
         return Wand(
-            id = wandId,
-            mageId = mageId,
-            slots = listOf(slot1, slot2)
+            id = wandId, mageId = mageId, slots = listOf(slot1, slot2)
         )
     }
 

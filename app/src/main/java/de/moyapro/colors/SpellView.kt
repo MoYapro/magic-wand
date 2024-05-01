@@ -16,12 +16,16 @@ fun SpellView(modifier: Modifier = Modifier, spell: Spell?) {
     Image(
         painter = image, contentDescription = "Name", modifier = Modifier.height(SPELL_SIZE.dp).width(SPELL_SIZE.dp)
     )
-    LazyRow(userScrollEnabled = false) {
-        items(
-            items = spell?.magicSlots ?: emptyList(),
-            key = { magicSlot: MagicSlot -> magicSlot.hashCode() }
-        ) { magicSlot: MagicSlot ->
-            MagicSlotView(magicSlot)
+    if (spell != null) MagicSlotsView(spell.magicSlots)
+}
+
+@Composable
+private fun MagicSlotsView(magicSlots: List<MagicSlot>) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+        LazyColumn {
+            items(items = magicSlots, key = { magicSlot: MagicSlot -> magicSlot.hashCode() }) { magicSlot: MagicSlot ->
+                MagicSlotView(magicSlot)
+            }
         }
     }
 }
