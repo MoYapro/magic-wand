@@ -1,6 +1,7 @@
 package de.moyapro.colors
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.*
@@ -17,13 +18,43 @@ fun WandEditView(
     addAction: (GameAction) -> GameViewModel,
     isWandDragged: Boolean = false,
 ) {
+    val slotsByLevel =
+        wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
+
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(1f / 3f)
+    ) {
+        items(
+            items = slotsByLevel.entries.toList(),
+            key = { (level, slots) -> level.toLong() + slots.hashCode() }
+        ) { enemy ->
+            slots.forEach { slot ->
+                if (null == slot.spell) {
+                    SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
+                } else {
+                    Draggable(
+                        modifier = Modifier
+                            .height(SPELL_SIZE.dp)
+                            .width(SPELL_SIZE.dp),
+                        dataToDrop = slot.spell,
+                        onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
+                        onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
+                    ) { _, isDragging ->
+                        SlotEditView(wand.id, slot, currentGameState, addAction, isDragging || isWandDragged)
+                    }
+                }
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .height(5 * SPELL_SIZE.dp)
             .width(2 * SPELL_SIZE.dp)
     ) {
-        val slotsByLevel =
-            wand.slots.groupBy(Slot::level).toSortedMap { a, b -> b.compareTo(a) }
         slotsByLevel.forEach { (_, slots) ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
