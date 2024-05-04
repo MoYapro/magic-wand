@@ -10,7 +10,7 @@ class MyGameStateTest {
 
     @Test
     fun wandsInOrder() {
-        val state = StartFightFactory.createInitialState()
+        val state = StartFightFactory.setupFightStage()
         val wandToAdd = createExampleWand()
         val stateWithWand = AddWandAction(wandToAdd, state.mages.first().id).apply(state).getOrThrow()
         val wandsInOrder = stateWithWand.wandsInOrder()

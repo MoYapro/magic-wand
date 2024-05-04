@@ -1,18 +1,13 @@
 package de.moyapro.colors.game
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.fasterxml.jackson.module.kotlin.readValue
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.FIGHT_STATE
-import de.moyapro.colors.util.WAND_STATE
-import de.moyapro.colors.util.getConfiguredJson
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
+import androidx.datastore.core.*
+import androidx.datastore.preferences.core.*
+import androidx.lifecycle.*
+import com.fasterxml.jackson.module.kotlin.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     ViewModelProvider.Factory {
@@ -27,8 +22,7 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
                 null
             }
             check(fightState != null || wandState != null) { "Cannot open fight without wands" }
-            val state =
-                fightState ?: StartFightFactory.createInitialState(wands = wandState)
+            val state = StartFightFactory.setupFightStage(fightState = fightState, wands = wandState)
             return@runBlocking GameViewModel(state, ::saveFightState) as T
         }
     }

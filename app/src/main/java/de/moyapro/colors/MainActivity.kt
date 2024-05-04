@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         menuActions.add("Edit wands" to ::startEditWandsActivity)
                         menuActions.add("Next fight" to ::startFightActivity)
                     }
-                    if (fightState.fightHasEnded == ONGOING) {
+                    if (fightState.fightHasEnded == ONGOING && fightState.wands.mapNotNull(Wand::mageId).isNotEmpty()) {
                         menuActions.add("Continue fight" to ::startFightActivity)
                     }
                     menuActions.add("Start all over" to ::initNewGame)
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewGame() = runBlocking {
-        val initialGameState = StartFightFactory.createInitialState()
+        val initialGameState = StartFightFactory.setupFightStage()
         saveFightState(initialGameState)
         saveWands(initialGameState.wands)
     }

@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions
 
 import com.fasterxml.jackson.annotation.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
 

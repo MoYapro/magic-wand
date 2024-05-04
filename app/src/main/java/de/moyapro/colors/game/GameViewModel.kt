@@ -9,10 +9,8 @@ import kotlinx.coroutines.flow.*
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: MyGameState = StartFightFactory.createInitialState(
-        listOf(
-            createExampleWand()
-        )
+    private val initialState: MyGameState = StartFightFactory.setupFightStage(
+        listOf(createExampleWand()),
     ),
     private val saveFightState: (MyGameState) -> Unit = {},
 ) : ViewModel() {

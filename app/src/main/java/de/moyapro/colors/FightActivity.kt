@@ -27,11 +27,15 @@ class FightActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
-
             val currentGameState: MyGameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
                 MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
             }
+
+            if (currentGameState.fightHasEnded == FightOutcome.WIN) {
+                //    initNextBattle(roundNumber = 1)
+            }
+
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -49,6 +53,11 @@ class FightActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun initNextBattle(gameViewModel: GameViewModel, roundNumber: Int) {
+//        gameViewModel.materializeActions()
+        // place enemies based on roundNumber
     }
 
     private fun startMainActivity() {

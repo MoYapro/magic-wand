@@ -61,7 +61,7 @@ internal class GameViewModelTest {
 
     @Test
     fun newWandAction() {
-        val initialState = StartFightFactory.createInitialState()
+        val initialState = StartFightFactory.setupFightStage()
         val newWand = createExampleWand()
 
         val finalState = AddWandAction(newWand, MageId(0)).apply(initialState).getOrThrow()

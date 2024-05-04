@@ -1,7 +1,7 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.takeTwo.HasId
-import de.moyapro.colors.wand.MagicSlot
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.wand.*
 
 
 fun <T, E: HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {
@@ -33,4 +33,8 @@ fun <T> List<T>.mapFirst(predicate: (T) -> Boolean, transformer: (T) -> T): List
             firstOccurenceTransformed
         } else it
     }
+}
+
+fun <T> List<T>.nullIfEmpty(): List<T>? {
+    return this.ifEmpty { return null }
 }

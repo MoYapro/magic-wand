@@ -1,20 +1,16 @@
 package de.moyapro.colors.game
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.TargetSelectedAction
-import de.moyapro.colors.util.DROP_ZONE_ALPHA
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.unit.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.enemy.*
+import de.moyapro.colors.util.*
 
 private const val targetSymbol = "\uD83C\uDFAF"
 
