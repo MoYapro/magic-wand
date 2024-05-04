@@ -1,25 +1,20 @@
 package de.moyapro.colors
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.GameViewModelFactory
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.ui.theme.ColorsTheme
-import de.moyapro.colors.util.FightOutcome
-import de.moyapro.colors.wand.LostFightView
-import de.moyapro.colors.wand.WinFightView
+import android.content.*
+import android.os.*
+import android.widget.*
+import androidx.activity.*
+import androidx.activity.compose.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.util.*
+import de.moyapro.colors.wand.*
 
 
 class FightActivity : ComponentActivity() {
@@ -40,7 +35,7 @@ class FightActivity : ComponentActivity() {
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                    color = Color.Gray
                 ) {
                     when (currentGameState.fightHasEnded) {
                         FightOutcome.ONGOING -> WandsView(

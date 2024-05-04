@@ -1,19 +1,14 @@
 package de.moyapro.colors.game
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.*
 
 @Composable
 fun HealthView(health: Int) {
     Row {
-        Text(health.toString())
-        repeat(health) {
-            Text(
-                text = "O",
-                color = Color.Red
-            )
-        }
+        Text("$health x ")
+        Text(text = "♥", color = Color.Red)
     }
 }

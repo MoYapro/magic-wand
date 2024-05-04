@@ -1,17 +1,13 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.Enemy
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.flatMap
-import de.moyapro.colors.takeTwo.MagicId
-import de.moyapro.colors.util.FightOutcome
+import de.moyapro.colors.game.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightOutcome.LOST
 import de.moyapro.colors.util.FightOutcome.ONGOING
 import de.moyapro.colors.util.FightOutcome.WIN
-import de.moyapro.colors.util.HashUuid
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicType
-import kotlin.random.Random
+import de.moyapro.colors.wand.*
+import kotlin.random.*
 
 
 class EndTurnAction() : GameAction("End turn") {
@@ -53,7 +49,7 @@ class EndTurnAction() : GameAction("End turn") {
         val newMagicToPlay =
             leftOverMagic + Magic(
                 id = MagicId(HashUuid.v5(randomData)),
-                type = MagicType.values().random(random),
+                type = if(Random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
             )
         check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does not contain all of the old" }
         return newMagicToPlay

@@ -1,11 +1,9 @@
 package de.moyapro.colors.game.actions
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
-import de.moyapro.colors.game.Enemy
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.EnemyId
-import de.moyapro.colors.util.replace
+import com.fasterxml.jackson.annotation.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
@@ -31,7 +29,7 @@ data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
     override fun apply(oldState: MyGameState): Result<MyGameState> {
         val target: Enemy = oldState.enemies.find { enemy -> enemy.id == self }
             ?: throw IllegalStateException("Could not find self: $self")
-        val updatedEnemy = target.copy(health = target.health + 1)
+        val updatedEnemy = target.copy(health = target.health + 3)
         return Result.success(
             oldState.copy(
                 enemies = oldState.enemies.replace(self, updatedEnemy)
