@@ -29,8 +29,15 @@ abstract class GameAction(
     open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {
+        removeTargetAction(actions)
         actions.add(IncreaseActionCounterAction)
         actions.add(this)
+    }
+
+    private fun removeTargetAction(actions: MutableList<GameAction>) {
+        if (actions.isNotEmpty() && actions.last() is ShowTargetSelectionAction) {
+            actions.removeLast()
+        }
     }
 
 }
