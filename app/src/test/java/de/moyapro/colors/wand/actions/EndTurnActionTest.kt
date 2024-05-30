@@ -1,14 +1,12 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleMagic
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.EndTurnAction
-import de.moyapro.colors.game.actions.SelfHealEnemyAction
-import io.kotest.matchers.equality.shouldBeEqualUsingFields
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.enemy.actions.*
+import io.kotest.matchers.*
+import io.kotest.matchers.equality.*
+import org.junit.*
 
 class EndTurn {
     @Test

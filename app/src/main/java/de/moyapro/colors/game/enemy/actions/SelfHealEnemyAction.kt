@@ -1,7 +1,8 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.enemy.actions
 
 import com.fasterxml.jackson.annotation.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
@@ -10,11 +11,6 @@ import de.moyapro.colors.util.*
 @JsonSubTypes(
     JsonSubTypes.Type(value = SelfHealEnemyAction::class, name = "SelfHealEnemyAction"),
 )
-interface EnemyAction<TARGET> {
-    val name: String
-    fun init(self: EnemyId, gameState: MyGameState): GameAction
-}
-
 data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
 
     override fun init(self: EnemyId, gameState: MyGameState): GameAction {

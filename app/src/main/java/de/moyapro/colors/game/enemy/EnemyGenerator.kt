@@ -1,6 +1,7 @@
 package de.moyapro.colors.game.enemy
 
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.enemy.actions.*
 import kotlin.random.*
 
 class EnemyGenerator(seed: Int, val level: Int) {
