@@ -3,15 +3,20 @@ package de.moyapro.colors.game.enemy
 import de.moyapro.colors.game.actions.*
 import kotlin.random.*
 
-class EnemyGenerator(seed: Int) {
+class EnemyGenerator(seed: Int, val level: Int) {
+    private val random = Random(seed)
+
     fun generateEnemy(): Enemy {
         return Enemy(
-            health = 1,
+            health = random.nextInt(3 * level..4 * level),
             nextAction = NoOp(),
             possibleActions = listOf(SelfHealEnemyAction())
-
         )
     }
 
-    private val random = Random(seed)
+    // Zyktox -> likes poison
+    // Firstix -> immune to fire
+    // Zhulor -> undead
+    // Oceor -> can breathe underwater
+
 }

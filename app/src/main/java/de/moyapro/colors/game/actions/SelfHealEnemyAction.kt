@@ -17,11 +17,9 @@ interface EnemyAction<TARGET> {
 
 data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
 
-
     override fun init(self: EnemyId, gameState: MyGameState): GameAction {
         return SelfHealAction(self)
     }
-
 }
 
 data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
