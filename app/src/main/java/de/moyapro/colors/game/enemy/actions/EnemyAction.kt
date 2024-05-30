@@ -10,6 +10,7 @@ import de.moyapro.colors.takeTwo.*
     JsonSubTypes.Type(value = SelfHealEnemyAction::class, name = "SelfHealEnemyAction"),
 )
 interface EnemyAction<TARGET> {
+    val randomSeed: Int
     val name: String
     fun init(self: EnemyId, gameState: MyGameState): GameAction
 }

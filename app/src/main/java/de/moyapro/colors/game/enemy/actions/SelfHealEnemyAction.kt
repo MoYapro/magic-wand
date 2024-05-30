@@ -12,6 +12,7 @@ import de.moyapro.colors.util.*
     JsonSubTypes.Type(value = SelfHealEnemyAction::class, name = "SelfHealEnemyAction"),
 )
 data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
+    override val randomSeed = this.hashCode()
 
     override fun init(self: EnemyId, gameState: MyGameState): GameAction {
         return SelfHealAction(self)

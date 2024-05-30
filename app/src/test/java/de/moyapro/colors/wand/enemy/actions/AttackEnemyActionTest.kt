@@ -40,8 +40,9 @@ class AttackEnemyActionTest {
             currentTurn = 0,
         )
         val viewModel = GameViewModel(state)
-            .addAction(EndTurnAction())
+            .addAction(EndTurnAction()) // choose attack as next action
+            .addAction(EndTurnAction()) // execute attack action
 
-        viewModel.getCurrentGameState().getOrThrow().mages.single().health shouldNotBe mageStartingHealth
+        viewModel.getCurrentGameState().getOrThrow().findMage(mageId)!!.health shouldNotBe mageStartingHealth
     }
 }
