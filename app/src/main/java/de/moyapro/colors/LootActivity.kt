@@ -78,7 +78,7 @@ class LootActivity : ComponentActivity() {
                                 .fillMaxHeight(1f / 4f)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            Button(onClick = ::startMainActivity) {
+                            Button(onClick = { saveAndBack(currentGameState) }) {
                                 Text(text = "Done")
                             }
                             Button(onClick = { printState(currentGameState) }) {
@@ -91,6 +91,11 @@ class LootActivity : ComponentActivity() {
         }
     }
 
+    private fun saveAndBack(currentGameState: MyGameState) {
+        startMainActivity()
+        save(currentGameState)
+    }
+
     private fun printState(currentGameState: MyGameState) {
         Log.d("DEBUG", currentGameState.toString())
     }
@@ -100,7 +105,7 @@ class LootActivity : ComponentActivity() {
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
-    fun save(gameState: MyGameState): Unit = runBlocking {
+    private fun save(gameState: MyGameState): Unit = runBlocking {
         dataStore.edit { settings ->
             settings[WAND_STATE] = getConfiguredJson().writeValueAsString(gameState.wands)
         }
