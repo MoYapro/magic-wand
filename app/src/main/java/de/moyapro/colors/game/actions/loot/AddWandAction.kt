@@ -1,6 +1,7 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
 
@@ -37,7 +38,3 @@ data class AddWandAction(
     }
 }
 
-private operator fun List<Wand>.minus(wandToRemove: Wand?): List<Wand> {
-    if (wandToRemove == null) return this
-    return this.filter { wand -> wand != wandToRemove }
-}

@@ -38,3 +38,8 @@ fun <T> List<T>.mapFirst(predicate: (T) -> Boolean, transformer: (T) -> T): List
 fun <T> List<T>.nullIfEmpty(): List<T>? {
     return this.ifEmpty { return null }
 }
+
+operator fun <T> List<T>.minus(itemToRemove: T?): List<T> {
+    if (itemToRemove == null) return this
+    return this.filter { itemInLIst -> itemInLIst != itemToRemove }
+}

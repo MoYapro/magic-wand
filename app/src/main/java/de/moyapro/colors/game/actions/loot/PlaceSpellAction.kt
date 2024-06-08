@@ -1,6 +1,7 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
@@ -92,8 +93,8 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
 
         return Pair(foundWand, foundLocation)
     }
-}
 
-private enum class WandLocation {
-    HAND, LOOT
+    private enum class WandLocation {
+        HAND, LOOT
+    }
 }

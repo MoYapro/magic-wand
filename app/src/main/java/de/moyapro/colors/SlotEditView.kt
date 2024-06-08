@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.wand.*
@@ -36,7 +37,9 @@ fun SlotEditView(
         )
         { modifier: Modifier, isInBound: Boolean, _: Any? ->
             Box(
-                modifier = modifier.width(SPELL_SIZE.dp).height(SPELL_SIZE.dp),
+                modifier = modifier
+                    .width(SPELL_SIZE.dp)
+                    .height(SPELL_SIZE.dp),
             ) {
                 PowerMeter(slot.power)
                 if (slot.spell != null) SpellView(spell = slot.spell)

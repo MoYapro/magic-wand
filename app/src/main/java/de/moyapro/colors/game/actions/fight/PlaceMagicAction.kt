@@ -1,11 +1,10 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.SlotId
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.util.replace
-import de.moyapro.colors.wand.Magic
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
+import de.moyapro.colors.wand.*
 
 data class PlaceMagicAction(
     val wandId: WandId,

@@ -1,9 +1,9 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.util.replace
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
 
 data class GiveWandAction(val wandId: WandId, val mageId: MageId) : GameAction("Give Wand") {
     override val randomSeed: Int = this.hashCode()

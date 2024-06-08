@@ -1,11 +1,10 @@
 package de.moyapro.colors.wand.actions
 
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.AddWandToLootAction
-import de.moyapro.colors.game.actions.RemoveWandFromLootAction
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.loot.*
+import io.kotest.matchers.*
+import org.junit.*
 
 class RemoveWandFromLootActionTest {
     @Test

@@ -1,20 +1,14 @@
 package de.moyapro.colors.wand.actions
 
-import android.util.Log
-import de.moyapro.colors.createExampleEnemy
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.GameViewModel
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.game.actions.CombinedAction
-import de.moyapro.colors.game.actions.PlaceMagicAction
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicType
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import io.mockk.every
-import io.mockk.mockkStatic
-import org.junit.BeforeClass
-import org.junit.Test
+import android.util.*
+import de.moyapro.colors.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.fight.*
+import de.moyapro.colors.wand.*
+import io.kotest.matchers.*
+import io.mockk.*
+import org.junit.*
 
 class CombineActionTest {
 

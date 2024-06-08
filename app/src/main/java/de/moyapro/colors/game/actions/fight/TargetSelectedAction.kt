@@ -1,7 +1,8 @@
-package de.moyapro.colors.game.actions
+package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.MyGameState
-import de.moyapro.colors.takeTwo.EnemyId
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.takeTwo.*
 
 data class TargetSelectedAction(override val target: EnemyId?) :
     GameAction("Target selected action") {

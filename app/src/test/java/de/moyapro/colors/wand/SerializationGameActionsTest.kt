@@ -1,24 +1,15 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.createExampleMagic
-import de.moyapro.colors.game.actions.EndTurnAction
-import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.GiveWandAction
-import de.moyapro.colors.game.actions.HitAction
-import de.moyapro.colors.game.actions.NoOp
-import de.moyapro.colors.game.actions.PlaceMagicAction
-import de.moyapro.colors.game.actions.ShowTargetSelectionAction
-import de.moyapro.colors.game.actions.TargetSelectedAction
-import de.moyapro.colors.game.actions.ZapAction
-import de.moyapro.colors.takeTwo.EnemyId
-import de.moyapro.colors.takeTwo.MageId
-import de.moyapro.colors.takeTwo.SlotId
-import de.moyapro.colors.takeTwo.WandId
-import de.moyapro.colors.util.getConfiguredJson
-import io.kotest.matchers.equality.shouldBeEqualToComparingFields
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import de.moyapro.colors.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.fight.*
+import de.moyapro.colors.game.actions.loot.*
+import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.util.*
+import io.kotest.matchers.equality.*
+import org.junit.*
+import org.junit.runner.*
+import org.junit.runners.*
 import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)

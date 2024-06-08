@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.takeTwo.*
 
 @Composable

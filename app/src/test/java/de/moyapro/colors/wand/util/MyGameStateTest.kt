@@ -2,7 +2,7 @@ package de.moyapro.colors.wand.util
 
 import de.moyapro.colors.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.loot.*
 import io.kotest.matchers.*
 import org.junit.*
 

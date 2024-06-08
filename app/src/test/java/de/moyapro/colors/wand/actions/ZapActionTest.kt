@@ -3,7 +3,7 @@ package de.moyapro.colors.wand.actions
 import android.util.*
 import de.moyapro.colors.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.takeTwo.*
 import de.moyapro.colors.wand.*
 import io.kotest.matchers.*
