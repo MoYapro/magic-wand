@@ -50,7 +50,7 @@ class EndTurnAction : GameAction("End turn") {
         val newMagicToPlay =
             leftOverMagic + Magic(
                 id = MagicId(HashUuidFunctions.v5(randomData)),
-                type = if(Random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
+                type = if (Random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
             )
         check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does not contain all of the old" }
         return newMagicToPlay

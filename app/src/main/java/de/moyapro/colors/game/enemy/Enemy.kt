@@ -9,5 +9,5 @@ data class Enemy(
     val health: Int,
     val possibleActions: List<EnemyAction<*>>,
     val nextAction: GameAction = NoOp(),
-    val showTarget: Boolean = false
-): HasId<EnemyId>
+    val showTarget: Boolean = false,
+) : HasId<EnemyId>

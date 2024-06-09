@@ -55,8 +55,7 @@ inline fun <reified T : Any> DropZone(
                             onDropAction?.invoke(castedDropData),
                             buildReplaceAction(dragInfo.onDropDidReplaceAction, emitData)
                         )
-                    }
-                    else {
+                    } else {
                         Log.w("DROP_ZONE", "Tried to drop null data")
                         NoOp()
                     }

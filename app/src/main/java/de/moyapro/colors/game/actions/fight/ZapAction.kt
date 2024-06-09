@@ -7,8 +7,8 @@ import de.moyapro.colors.util.*
 
 data class ZapAction(
     val wandId: WandId,
-    override val target: EnemyId? = null
-) : GameAction("Zap"){
+    override val target: EnemyId? = null,
+) : GameAction("Zap") {
 
     override val randomSeed = this.hashCode()
 

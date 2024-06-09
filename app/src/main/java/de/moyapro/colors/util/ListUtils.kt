@@ -3,16 +3,17 @@ package de.moyapro.colors.util
 import de.moyapro.colors.game.model.*
 
 
-fun <T, E: HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {
+fun <T, E : HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {
     return this.map { oldValue -> if (oldValue.id == key) newValue else oldValue }
 }
-fun <T, E: HasId<T>> List<E>.replace(newValue: E): List<E> {
+
+fun <T, E : HasId<T>> List<E>.replace(newValue: E): List<E> {
     return this.map { oldValue -> if (oldValue.id == newValue.id) newValue else oldValue }
 }
 
 fun List<MagicSlot>.replace(
     suitableMagicSlot: MagicSlot,
-    updatedMagicSlot: MagicSlot
+    updatedMagicSlot: MagicSlot,
 ): List<MagicSlot> {
     return this.mapFirst({ it == suitableMagicSlot }) { updatedMagicSlot }
 }
