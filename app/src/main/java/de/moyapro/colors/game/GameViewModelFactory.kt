@@ -4,7 +4,8 @@ import androidx.datastore.core.*
 import androidx.datastore.preferences.core.*
 import androidx.lifecycle.*
 import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

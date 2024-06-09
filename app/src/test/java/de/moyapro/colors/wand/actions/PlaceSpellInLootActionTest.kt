@@ -1,9 +1,8 @@
 package de.moyapro.colors.wand.actions
 
 import de.moyapro.colors.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.model.*
 import io.kotest.matchers.*
 import org.junit.*
 

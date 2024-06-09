@@ -1,8 +1,7 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.game.model.*
 
 data class RemoveWandFromLootAction(val wand: Wand) : GameAction("Remove wand from loot") {
     override val randomSeed: Int = -1

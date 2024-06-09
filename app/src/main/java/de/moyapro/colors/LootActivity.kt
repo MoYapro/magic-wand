@@ -16,7 +16,9 @@ import androidx.compose.ui.platform.*
 import androidx.compose.ui.unit.*
 import androidx.datastore.preferences.core.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.ui.view.loot.*
 import de.moyapro.colors.util.*
 import kotlinx.coroutines.*
 

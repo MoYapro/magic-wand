@@ -1,10 +1,9 @@
 package de.moyapro.colors.game.enemy.actions
 
 import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.util.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")

@@ -1,11 +1,11 @@
 package de.moyapro.colors.wand
 
-import com.fasterxml.jackson.module.kotlin.readValue
-import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.getConfiguredJson
-import io.kotest.matchers.equality.shouldBeEqualUsingFields
-import org.junit.Test
+import com.fasterxml.jackson.module.kotlin.*
+import de.moyapro.colors.*
+import de.moyapro.colors.game.model.*
+import de.moyapro.colors.util.*
+import io.kotest.matchers.equality.*
+import org.junit.*
 
 class SerializationTest2 {
 

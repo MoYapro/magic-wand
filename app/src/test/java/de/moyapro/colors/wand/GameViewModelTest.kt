@@ -5,7 +5,8 @@ import de.moyapro.colors.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.*
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
 import io.mockk.*

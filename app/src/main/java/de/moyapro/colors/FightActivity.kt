@@ -12,9 +12,11 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.ui.view.components.*
+import de.moyapro.colors.ui.view.fight.*
 import de.moyapro.colors.util.*
-import de.moyapro.colors.wand.*
 
 
 class FightActivity : ComponentActivity() {

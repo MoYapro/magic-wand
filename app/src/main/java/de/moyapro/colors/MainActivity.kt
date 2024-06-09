@@ -6,16 +6,22 @@ import androidx.activity.*
 import androidx.activity.compose.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.datastore.core.*
+import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
 import com.fasterxml.jackson.databind.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.takeTwo.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.ui.theme.*
+import de.moyapro.colors.ui.view.mainmenu.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightOutcome.ONGOING
 import de.moyapro.colors.util.FightOutcome.WIN
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gameSaveState")
+
 
 class MainActivity : ComponentActivity() {
 
@@ -30,7 +36,6 @@ class MainActivity : ComponentActivity() {
                 val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
                 if (fightState != null) {
                     if (fightState.fightHasEnded == WIN) {
-                        menuActions.add("Edit wands" to ::startEditWandsActivity)
                         menuActions.add("Next fight" to ::startFightActivity)
                     }
                     if (fightState.fightHasEnded == ONGOING && fightState.wands.mapNotNull(Wand::mageId).isNotEmpty()) {
@@ -95,9 +100,4 @@ class MainActivity : ComponentActivity() {
     private fun startFightActivity() {
         this.startActivity(Intent(this, FightActivity::class.java))
     }
-
-    private fun startEditWandsActivity() {
-        this.startActivity(Intent(this, EditWandsActivity::class.java))
-    }
-
 }

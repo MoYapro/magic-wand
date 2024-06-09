@@ -1,7 +1,6 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.takeTwo.*
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.model.*
 
 
 fun <T, E: HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {

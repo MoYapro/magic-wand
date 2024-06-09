@@ -1,8 +1,7 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.model.*
 
 data class PlaceSpellInLootAction(val spell: Spell) : GameAction("Place spell in loot") {
     override val randomSeed: Int = -1

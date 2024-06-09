@@ -2,8 +2,7 @@ package de.moyapro.colors
 
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
-import de.moyapro.colors.takeTwo.*
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.model.*
 import kotlin.random.*
 
 

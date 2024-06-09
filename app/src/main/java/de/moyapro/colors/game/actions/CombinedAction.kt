@@ -1,6 +1,7 @@
 package de.moyapro.colors.game.actions
 
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.model.*
 
 data class CombinedAction(val actions: List<GameAction>) : GameAction("Combined") {
 

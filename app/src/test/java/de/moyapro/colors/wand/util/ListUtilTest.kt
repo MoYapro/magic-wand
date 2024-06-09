@@ -1,15 +1,9 @@
 package de.moyapro.colors.wand.util
 
-import de.moyapro.colors.takeTwo.Wand
-import de.moyapro.colors.util.mapFirst
-import de.moyapro.colors.util.mapIf
-import de.moyapro.colors.util.replace
-import de.moyapro.colors.wand.Magic
-import de.moyapro.colors.wand.MagicSlot
-import de.moyapro.colors.wand.MagicType
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import org.junit.Test
+import de.moyapro.colors.game.model.*
+import de.moyapro.colors.util.*
+import io.kotest.matchers.*
+import org.junit.*
 
 internal class ListUtilTest {
 

@@ -4,6 +4,8 @@ import android.util.*
 import androidx.lifecycle.*
 import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.*
 import kotlinx.coroutines.flow.*
 
 private const val TAG = "GameViewModel"

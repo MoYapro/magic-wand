@@ -16,19 +16,12 @@
             android:name=".FightActivity"
             android:exported="false"
             android:label="@string/title_activity_fight"
-            android:theme="@style/Theme.Colors">
-        </activity>
+            android:theme="@style/Theme.Colors"></activity>
         <activity
             android:name=".LootActivity"
             android:exported="false"
             android:label="@string/title_activity_loot"
             android:theme="@style/Theme.Colors"></activity>
-        <activity
-            android:name=".EditWandsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_editwands"
-            android:theme="@style/Theme.Colors">
-        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"

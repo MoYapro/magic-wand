@@ -1,9 +1,8 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.Wand
-import io.kotest.matchers.shouldBe
-import org.junit.Test
+import de.moyapro.colors.game.model.*
+import io.kotest.matchers.*
+import org.junit.*
 
 internal class WandTest {
     val spellName = "::SpellName::"

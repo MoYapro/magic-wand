@@ -1,7 +1,6 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.takeTwo.Slot
-import de.moyapro.colors.takeTwo.Wand
+import de.moyapro.colors.game.model.*
 
 fun getExampleWandWithSingleSlot(slot: Slot? = null, spell: Spell? = null): Pair<Wand, Slot> {
     val actualSlot = slot ?: Slot(level = 0, power = 1)
