@@ -18,7 +18,7 @@ class RemoveSpellFromWandActionTest {
             mages = emptyList(),
             magicToPlay = emptyList(),
         )
-        val action = RemoveSpellFromWandAction(slotId = slotToRemoveSpellFrom.id, spell = slotToRemoveSpellFrom.spell!!, wandId = wand.id)
+        val action = RemoveSpellFromWandAction(slotId = slotToRemoveSpellFrom.id, wandId = wand.id)
 
         val updatedState = action.apply(state).getOrThrow()
         updatedState.findWand(wand.id)!!.slots.single { it.id == slotToRemoveSpellFrom.id }.spell shouldBe null
@@ -36,7 +36,7 @@ class RemoveSpellFromWandActionTest {
             magicToPlay = emptyList(),
             loot = Loot(wands = listOf(wand))
         )
-        val action = RemoveSpellFromWandAction(slotId = slotToRemoveSpellFrom.id, spell = slotToRemoveSpellFrom.spell!!, wandId = wand.id)
+        val action = RemoveSpellFromWandAction(slotId = slotToRemoveSpellFrom.id, wandId = wand.id)
 
         val updatedState = action.apply(state).getOrThrow()
         updatedState.loot.findWand(wand.id)!!.slots.single { it.id == slotToRemoveSpellFrom.id }.spell shouldBe null

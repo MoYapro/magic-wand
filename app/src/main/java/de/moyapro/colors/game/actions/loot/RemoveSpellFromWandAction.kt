@@ -7,7 +7,6 @@ import de.moyapro.colors.util.*
 data class RemoveSpellFromWandAction(
     val wandId: WandId,
     val slotId: SlotId,
-    val spell: Spell,
 ) :
     GameAction("Remove spell from wand") {
     override val randomSeed: Int = this.hashCode()

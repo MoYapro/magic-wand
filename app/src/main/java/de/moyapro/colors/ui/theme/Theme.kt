@@ -1,7 +1,6 @@
 package de.moyapro.colors.ui.theme
 
 import android.app.*
-import android.os.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.*
@@ -12,7 +11,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = androidx.compose.ui.graphics.Color.Black
+    background = Color.Black
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -39,7 +38,7 @@ fun ColorsTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicColor -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }

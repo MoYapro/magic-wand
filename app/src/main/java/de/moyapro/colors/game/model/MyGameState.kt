@@ -40,11 +40,11 @@ data class MyGameState(
     }
 
     fun findSlot(slotId: SlotId): Slot? {
-        return wands.map(Wand::slots).flatten().firstOrNull() { slot -> slot.id == slotId }
+        return wands.map(Wand::slots).flatten().firstOrNull { slot -> slot.id == slotId }
     }
 
     fun findSlot(spellId: SpellId): Slot? {
-        return wands.map(Wand::slots).flatten().firstOrNull() { slot -> slot.spell?.id == spellId }
+        return wands.map(Wand::slots).flatten().firstOrNull { slot -> slot.spell?.id == spellId }
     }
 
 

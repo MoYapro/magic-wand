@@ -21,7 +21,7 @@ fun createExampleWand(mageId: MageId? = null) =
         )
     )
 
-fun createExampleEnemy(health: Int = kotlin.random.Random.nextInt(1, 10)) = Enemy(
+fun createExampleEnemy(health: Int = Random.nextInt(1, 10)) = Enemy(
     health = health,
     possibleActions = listOf(SelfHealEnemyAction())
 )

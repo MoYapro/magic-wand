@@ -12,7 +12,7 @@ import de.moyapro.colors.game.model.*
 import de.moyapro.colors.util.*
 
 @Composable
-fun SpellView(modifier: Modifier = Modifier, spell: Spell?) {
+fun SpellView(spell: Spell?) {
     val image = painterResource(R.drawable.bad_heart)
     Image(
         painter = image, contentDescription = "Name", modifier = Modifier

@@ -36,6 +36,3 @@ data class Wand(
         else Result.failure(IllegalStateException("Could not place magic. No fitting free slot found."))
     }
 }
-
-
-fun Wand.removeMageId(): Wand = this.copy(mageId = null)

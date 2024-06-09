@@ -5,7 +5,7 @@ import io.kotest.matchers.*
 import org.junit.*
 
 internal class WandTest {
-    val spellName = "::SpellName::"
+    private val spellName = "::SpellName::"
 
     @Test
     fun createEmpty() {

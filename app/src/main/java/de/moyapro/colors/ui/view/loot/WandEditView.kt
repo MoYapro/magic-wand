@@ -48,7 +48,7 @@ private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: MyGameState, ad
                 .height(SPELL_SIZE.dp)
                 .width(SPELL_SIZE.dp),
             dataToDrop = slot.spell,
-            onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id, spell = slot.spell),
+            onDropAction = RemoveSpellFromWandAction(wandId = wand.id, slotId = slot.id),
             onDropDidReplaceAction = { replacedSpell -> PlaceSpellAction(wand.id, slot.id, replacedSpell) }
         ) { _, isDragging ->
             SlotEditView(wand.id, slot, currentGameState, addAction, isDragging || isWandDragged)

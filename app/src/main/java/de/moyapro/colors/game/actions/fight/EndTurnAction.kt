@@ -11,7 +11,7 @@ import de.moyapro.colors.util.FightOutcome.WIN
 import kotlin.random.*
 
 
-class EndTurnAction() : GameAction("End turn") {
+class EndTurnAction : GameAction("End turn") {
 
     override val randomSeed = this.hashCode()
     private lateinit var random: Random
