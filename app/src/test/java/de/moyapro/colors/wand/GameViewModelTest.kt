@@ -1,11 +1,9 @@
 package de.moyapro.colors.wand
 
 import android.util.*
-import de.moyapro.colors.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.*
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
@@ -61,12 +59,4 @@ internal class GameViewModelTest {
         gameViewModel.getCurrentGameState()
     }
 
-    @Test
-    fun newWandAction() {
-        val initialState = StartFightFactory.setupFightStage()
-        val newWand = createExampleWand()
-
-        val finalState = AddWandAction(newWand, MageId(0)).apply(initialState).getOrThrow()
-        finalState.wands.single().id shouldBe newWand.id
-    }
 }

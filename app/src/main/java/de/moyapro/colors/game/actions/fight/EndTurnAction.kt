@@ -11,9 +11,8 @@ import de.moyapro.colors.util.FightOutcome.WIN
 import kotlin.random.*
 
 
-class EndTurnAction : GameAction("End turn") {
+data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End turn") {
 
-    override val randomSeed = this.hashCode()
     private lateinit var random: Random
 
     override fun apply(oldState: MyGameState): Result<MyGameState> {
@@ -50,7 +49,7 @@ class EndTurnAction : GameAction("End turn") {
         val newMagicToPlay =
             leftOverMagic + Magic(
                 id = MagicId(HashUuidFunctions.v5(randomData)),
-                type = if (Random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
+                type = if (random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
             )
         check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does not contain all of the old" }
         return newMagicToPlay
