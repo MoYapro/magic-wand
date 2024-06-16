@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 
 data class TargetSelectedAction(override val target: EnemyId?) :
     GameAction("Target selected action") {
@@ -14,9 +15,15 @@ data class TargetSelectedAction(override val target: EnemyId?) :
         actions.add(showTargetSelectionAction.originalAction.withSelection(target))
     }
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        return Result.success(oldState.copy(
-            enemies = oldState.enemies.map { enemy -> enemy.copy(showTarget = false) }
-        ))
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
+        val updatedBattleBoard = oldState.currentFight.battleBoard.mapEnemies { enemy -> enemy.copy(showTarget = false) }
+        return Result.success(
+            oldState.copy(
+                currentFight = oldState.currentFight.copy(
+                    battleBoard = updatedBattleBoard
+                )
+            )
+        )
+
     }
 }
