@@ -1,9 +1,14 @@
 package de.moyapro.colors.game.model.gameState
 
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.interfaces.*
+import de.moyapro.colors.util.*
 
 data class FightData(
-    val battlefield: BattleBoard,
+    val currentTurn: Int,
+    val fightHasEnded: FightOutcome,
+    val battleBoard: BattleBoard,
     val mages: List<Mage>,
-    val wands: List<Wand>,
-)
+    override val wands: List<Wand>,
+    val magicToPlay: List<Magic>,
+) : HasWands

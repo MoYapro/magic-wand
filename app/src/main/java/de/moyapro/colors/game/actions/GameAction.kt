@@ -6,6 +6,7 @@ import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
@@ -26,7 +27,7 @@ abstract class GameAction(
     val name: String,
 ) {
     abstract val randomSeed: Int
-    abstract fun apply(oldState: MyGameState): Result<MyGameState>
+    abstract fun apply(oldState: NewGameState): Result<NewGameState>
     open val target: EnemyId? = null
     open fun isValidTarget(enemy: Enemy): Boolean = false
     open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")

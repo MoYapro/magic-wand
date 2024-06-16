@@ -2,13 +2,14 @@ package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 data class HitAction(val targetMageId: MageId, val damage: Int) : GameAction("Hit Action") {
 
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
         val mageToHit = oldState.mages.firstOrNull { mage -> mage.id == targetMageId }
             ?: throw IllegalStateException("Could not find mage")
         val updatedMage = mageToHit.copy(health = calculateNewHealth(mageToHit))

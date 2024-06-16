@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.model
 
+import de.moyapro.colors.game.model.interfaces.*
 import de.moyapro.colors.util.*
 
 data class Wand(

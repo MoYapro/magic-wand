@@ -1,6 +1,7 @@
 package de.moyapro.colors.util
 
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.interfaces.*
 
 
 fun <T, E : HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {

@@ -3,6 +3,7 @@ package de.moyapro.colors.game.enemy
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.interfaces.*
 
 data class Enemy(
     override val id: EnemyId = EnemyId(),

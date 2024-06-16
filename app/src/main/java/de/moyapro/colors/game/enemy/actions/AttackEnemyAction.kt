@@ -2,6 +2,7 @@ package de.moyapro.colors.game.enemy.actions
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 import kotlin.random.*
 
@@ -9,7 +10,7 @@ data class AttackEnemyAction(override val name: String = "Attack") : EnemyAction
     override val randomSeed = this.hashCode()
     private val random = Random(randomSeed)
 
-    override fun init(self: EnemyId, gameState: MyGameState): GameAction {
+    override fun init(self: EnemyId, gameState: NewGameState): GameAction {
         val target = selectTarget(gameState)
         return AttackMageAction(target.id)
     }

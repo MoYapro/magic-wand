@@ -4,6 +4,7 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightOutcome.LOST
 import de.moyapro.colors.util.FightOutcome.ONGOING
@@ -15,31 +16,33 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
     private lateinit var random: Random
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
         random = Random(randomSeed)
-        val foldingFunction = { state: Result<MyGameState>, action: GameAction ->
+        val foldingFunction = { state: Result<NewGameState>, action: GameAction ->
             state.flatMap { action.apply(it) }
         }
-        val result =
-            oldState.enemies.map(Enemy::nextAction).fold(Result.success(oldState), foldingFunction)
-        return result.map(this::prepareNextTurn)
+        val stateAfterEnemyActions =
+            oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), foldingFunction)
+        return stateAfterEnemyActions.map(this::prepareNextTurn)
     }
 
 
-    private fun prepareNextTurn(gameState: MyGameState): MyGameState {
+    private fun prepareNextTurn(gameState: NewGameState): NewGameState {
 
-        return gameState.copy(
+        return gameState.updateCurrentFight(
+            currentTurn = gameState.currentFight.currentTurn + 1,
             fightHasEnded = checkFightEnd(gameState),
-            currentTurn = gameState.currentTurn + 1,
-            enemies = calculateEnemyTurn(gameState),
-            magicToPlay = refreshMagicToPlay(gameState.magicToPlay)
+            battlefield = calculateEnemyTurn(gameState),
+            mages = gameState.currentFight.mages,
+            wands = gameState.currentFight.wands,
+            magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay)
         )
     }
 
-    private fun checkFightEnd(gameState: MyGameState): FightOutcome {
+    private fun checkFightEnd(gameState: NewGameState): FightOutcome {
         return when {
-            gameState.enemies.none { it.health > 0 } -> WIN
-            gameState.mages.none { it.health > 0 } -> LOST
+            gameState.currentFight.battleBoard.getEnemies().none { it.health > 0 } -> WIN
+            gameState.currentFight.mages.none { it.health > 0 } -> LOST
             else -> ONGOING
         }
     }
@@ -55,8 +58,8 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
         return newMagicToPlay
     }
 
-    private fun calculateEnemyTurn(gameState: MyGameState): List<Enemy> {
-        return gameState.enemies.map { enemy ->
+    private fun calculateEnemyTurn(gameState: NewGameState): BattleBoard {
+        return gameState.currentFight.battleBoard.mapEnemies { enemy ->
             val nextAction = enemy.possibleActions.random()
             val nextGameAction = nextAction.init(enemy.id, gameState)
             enemy.copy(nextAction = nextGameAction)
