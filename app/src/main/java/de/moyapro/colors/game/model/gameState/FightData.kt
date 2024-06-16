@@ -8,7 +8,7 @@ data class FightData(
     val currentTurn: Int,
     val fightHasEnded: FightOutcome,
     val battleBoard: BattleBoard,
-    val mages: List<Mage>,
+    override val mages: List<Mage>,
     override val wands: List<Wand>,
     val magicToPlay: List<Magic>,
-) : HasWands
+) : HasWands, HasMages

@@ -11,3 +11,11 @@ fun HasWands.findWand(wandId: WandId): Wand {
 }
 
 fun HasWands.updateWand(wand: Wand): List<Wand> = wands.replace(wand)
+
+fun HasMages.findMage(mageId: MageId): Mage {
+    val foundMage = mages.find { it.id == mageId }
+    check(foundMage != null) { "Could not find mage for id $mageId in $this" }
+    return foundMage
+}
+
+fun HasMages.updateMage(mage: Mage): List<Mage> = mages.replace(mage)
