@@ -3,6 +3,8 @@ package de.moyapro.colors.game.actions.fight
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 data class ZapAction(
@@ -12,22 +14,24 @@ data class ZapAction(
 
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }
-        val damage = updatedWand.map(::calculateWandDamage)
-        val updatedWand2 = removeMagicFromFullSlots(updatedWand.getOrThrow())
-        val updatedEnemy =
-            oldState.enemies.singleOrNull { it.id == target }
-                ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
-        val updatedEnemies = if (null != updatedEnemy) oldState.enemies.replace(
-            updatedEnemy.id,
-            updatedEnemy
-        ) else oldState.enemies
-        val removedKilledEnemies = updatedEnemies.filter { enemy -> enemy.health > 0 }
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
+        val zappedWand = zapWand(oldState)
+        val damage = calculateWandDamage(zappedWand)
+        val updatedBattleBoard = oldState.currentFight.battleBoard.mapEnemies { enemy ->
+            if (enemy.id == target) {
+                val damagedEnemy = enemy.copy(health = enemy.health - damage)
+                if (damagedEnemy.health <= 0) null else damagedEnemy
+            } else {
+                enemy
+            }
+        }
+
         return Result.success(
             oldState.copy(
-                enemies = removedKilledEnemies,
-                wands = oldState.wands.replace(wandId, updatedWand2),
+                currentFight = oldState.currentFight.copy(
+                    battleBoard = updatedBattleBoard,
+                    wands = oldState.currentFight.wands.replace(zappedWand)
+                )
             )
         )
     }
@@ -38,25 +42,21 @@ data class ZapAction(
 
     override fun requireTargetSelection() = true
 
-    private fun removeMagicFromFullSlots(wand: Wand): Wand {
-        val updatedSlots = wand.slots.map { slot ->
-            if (slot.hasRequiredMagic() && slot.spell != null) {
-                val updatedSpell =
-                    slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
-                        magicSlot.copy(placedMagic = null)
-                    })
-                slot.copy(spell = updatedSpell)
-            } else {
-                slot
-            }
+    private fun removeMagicFromFullSlots(wand: Wand): List<Slot> = wand.slots.map { slot ->
+        if (slot.hasRequiredMagic() && slot.spell != null) {
+            val updatedSpell =
+                slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
+                    magicSlot.copy(placedMagic = null)
+                })
+            slot.copy(spell = updatedSpell)
+        } else {
+            slot
         }
-        return wand.copy(slots = updatedSlots)
     }
 
-    private fun setWandZapped(oldState: MyGameState): Result<Wand> {
-        val targetWand: Wand = oldState.findWand(wandId)
-            ?: return Result.failure(IllegalStateException("Could not find wand with id $wandId"))
-        return Result.success(targetWand.copy(zapped = true))
+    private fun zapWand(oldState: NewGameState): Wand {
+        val targetWand: Wand = oldState.currentFight.findWand(wandId)
+        return targetWand.copy(zapped = true, slots = removeMagicFromFullSlots(targetWand))
     }
 
     private fun calculateWandDamage(wand: Wand): Int {
