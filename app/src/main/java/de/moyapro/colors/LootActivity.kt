@@ -16,7 +16,8 @@ import androidx.compose.ui.platform.*
 import androidx.compose.ui.unit.*
 import androidx.datastore.preferences.core.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.loot.*
 import de.moyapro.colors.util.*
@@ -31,11 +32,11 @@ class LootActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
+            val currentGameStateResult: Result<NewGameState> by gameViewModel.uiState.collectAsState()
 
-            val currentGameState: MyGameState = currentGameStateResult.getOrElse {
+            val currentGameState: NewGameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-                MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
+                StartFightFactory.setupFightStage()
             }
             ColorsTheme {
                 Surface(
@@ -50,7 +51,6 @@ class LootActivity : ComponentActivity() {
                                 .border(1.dp, Color.LightGray)
                         ) {
                             LootWandsView(
-                                wands = currentGameState.loot.wands,
                                 currentGameState = currentGameState,
                                 addAction = gameViewModel::addAction
                             )
@@ -61,7 +61,7 @@ class LootActivity : ComponentActivity() {
                                 .height(2 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            LootSpellsView(spells = currentGameState.loot.spells, currentGameState = currentGameState, addAction = gameViewModel::addAction)
+                            LootSpellsView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
                         }
                         Row(
                             modifier = Modifier
@@ -93,12 +93,12 @@ class LootActivity : ComponentActivity() {
         }
     }
 
-    private fun saveAndBack(currentGameState: MyGameState) {
+    private fun saveAndBack(currentGameState: NewGameState) {
         startMainActivity()
         save(currentGameState)
     }
 
-    private fun printState(currentGameState: MyGameState) {
+    private fun printState(currentGameState: NewGameState) {
         Log.d("DEBUG", currentGameState.toString())
     }
 
@@ -107,9 +107,9 @@ class LootActivity : ComponentActivity() {
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
-    private fun save(gameState: MyGameState): Unit = runBlocking {
+    private fun save(gameState: NewGameState): Unit = runBlocking {
         dataStore.edit { settings ->
-            settings[WAND_STATE] = getConfiguredJson().writeValueAsString(gameState.wands)
+            settings[WAND_STATE] = getConfiguredJson().writeValueAsString(gameState.currentFight.wands)
         }
     }
 }

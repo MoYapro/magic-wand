@@ -5,25 +5,25 @@ import androidx.lifecycle.*
 import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import kotlinx.coroutines.flow.*
 
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: MyGameState = StartFightFactory.setupFightStage(
+    private val initialState: NewGameState = StartFightFactory.setupFightStage(
         listOf(createExampleWand()),
     ),
-    private val saveFightState: (MyGameState) -> Unit = {},
+    private val saveFightState: (NewGameState) -> Unit = {},
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
-    private val _uiState: MutableStateFlow<Result<MyGameState>> =
+    private val _uiState: MutableStateFlow<Result<NewGameState>> =
         MutableStateFlow(Result.success(initialState))
-    val uiState: StateFlow<Result<MyGameState>>
+    val uiState: StateFlow<Result<NewGameState>>
         get() = _uiState.asStateFlow()
 
-    fun getCurrentGameState(): Result<MyGameState> {
+    fun getCurrentGameState(): Result<NewGameState> {
         val initial = Result.success(initialState)
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
@@ -35,9 +35,9 @@ class GameViewModel(
     }
 
     private fun applyAllActions(
-        state: Result<MyGameState>,
+        state: Result<NewGameState>,
         action: GameAction,
-    ): Result<MyGameState> {
+    ): Result<NewGameState> {
         return state.flatMap { action.apply(it) }
     }
 

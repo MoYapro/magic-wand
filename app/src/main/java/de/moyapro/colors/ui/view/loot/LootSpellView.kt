@@ -11,6 +11,7 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.components.*
 import de.moyapro.colors.ui.view.dragdrop.*
 import de.moyapro.colors.util.*
@@ -18,7 +19,7 @@ import de.moyapro.colors.util.*
 private const val TAG = "LootSpellsView"
 
 @Composable
-fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
+fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel) {
     DropZone<Spell>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.loot.spells.contains(dragData) },

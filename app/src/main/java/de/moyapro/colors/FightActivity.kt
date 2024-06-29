@@ -12,7 +12,8 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.components.*
 import de.moyapro.colors.ui.view.fight.*
@@ -28,13 +29,13 @@ class FightActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val currentGameStateResult: Result<MyGameState> by gameViewModel.uiState.collectAsState()
-            val currentGameState: MyGameState = currentGameStateResult.getOrElse {
+            val currentGameStateResult: Result<NewGameState> by gameViewModel.uiState.collectAsState()
+            val currentGameState: NewGameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-                MyGameState(emptyList(), emptyList(), emptyList(), 0, emptyList())
+                StartFightFactory.setupFightStage()
             }
 
-            if (currentGameState.fightHasEnded == FightOutcome.WIN) {
+            if (currentGameState.currentFight.fightHasEnded == FightOutcome.WIN) {
                 //    initNextBattle(roundNumber = 1)
             }
 
@@ -43,7 +44,7 @@ class FightActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Gray
                 ) {
-                    when (currentGameState.fightHasEnded) {
+                    when (currentGameState.currentFight.fightHasEnded) {
                         FightOutcome.ONGOING -> WandsView(
                             currentGameState,
                             gameViewModel::addAction

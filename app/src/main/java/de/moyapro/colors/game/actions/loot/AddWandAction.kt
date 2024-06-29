@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 data class AddWandAction(
@@ -15,7 +16,7 @@ data class AddWandAction(
         const val MAX_WANDS = 3
     }
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
         if (oldState.wands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
 
         val targetMage = oldState.findMage(targetMageId)
@@ -36,6 +37,6 @@ data class AddWandAction(
         return Result.success(finalState)
     }
 
-    private fun checkNoDuplicateWands(finalState: MyGameState) = finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size
+    private fun checkNoDuplicateWands(finalState: NewGameState) = finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size
 }
 

@@ -10,14 +10,14 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.dragdrop.*
 import de.moyapro.colors.util.*
 
 
 @Composable
 fun LootWandsView(
-    wands: List<Wand>,
-    currentGameState: MyGameState,
+    currentGameState: NewGameState,
     addAction: (GameAction) -> GameViewModel,
 ) {
     DropZone<Wand>(

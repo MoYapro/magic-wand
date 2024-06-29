@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.*
 import com.fasterxml.jackson.databind.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.mainmenu.*
 import de.moyapro.colors.util.*
@@ -78,10 +79,10 @@ class MainActivity : ComponentActivity() {
     private fun initNewGame() = runBlocking {
         val initialGameState = StartFightFactory.setupFightStage()
         saveFightState(initialGameState)
-        saveWands(initialGameState.wands)
+        saveWands(initialGameState.currentRun.wandsInBag)
     }
 
-    private fun saveFightState(gameState: MyGameState): Unit = runBlocking {
+    private fun saveFightState(gameState: NewGameState): Unit = runBlocking {
         dataStore.edit { settings ->
             settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(gameState)
         }

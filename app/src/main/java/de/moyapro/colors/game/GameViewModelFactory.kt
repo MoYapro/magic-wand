@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.fasterxml.jackson.module.kotlin.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -16,14 +17,14 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         check(modelClass.isAssignableFrom(GameViewModel::class.java)) { "Cannot create GameViewModel from ${modelClass::class}" }
         return runBlocking {
-            val fightState = loadFightState()
-            val wandState = if (null == fightState) {
+            val gameState = loadFightState()
+            val wandState = if (null == gameState) {
                 loadWandState()
             } else {
                 null
             }
-            check(fightState != null || wandState != null) { "Cannot open fight without wands" }
-            val state = StartFightFactory.setupFightStage(fightState = fightState, wands = wandState)
+            check(gameState != null || wandState != null) { "Cannot open fight without wands" }
+            val state = StartFightFactory.setupFightStage(fightState = gameState?.currentFight, wands = wandState)
             return@runBlocking GameViewModel(state, ::saveFightState) as T
         }
     }
@@ -35,10 +36,10 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
 
     private suspend fun loadFightState() = dataStore.data.map { preferences ->
         val jsonData = preferences[FIGHT_STATE]
-        jsonData?.let { data -> getConfiguredJson().readValue<MyGameState>(data) }
+        jsonData?.let { data -> getConfiguredJson().readValue<NewGameState>(data) }
     }.first()
 
-    private fun saveFightState(state: MyGameState): Unit = runBlocking {
+    private fun saveFightState(state: NewGameState): Unit = runBlocking {
         dataStore.edit { settings ->
             settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(state)
         }

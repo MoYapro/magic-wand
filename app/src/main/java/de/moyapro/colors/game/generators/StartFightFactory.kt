@@ -4,25 +4,56 @@ import android.content.ContentValues.TAG
 import android.util.*
 import de.moyapro.colors.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 object StartFightFactory {
-    fun setupFightStage(wands: List<Wand>? = null, fightState: MyGameState? = null): MyGameState {
-        val actualMages = fightState?.mages?.nullIfEmpty() ?: getInitialMages()
-        val actualWands = wands ?: listOf(createStarterWand())
-        val myGameState = MyGameState(
-            enemies = listOf(createExampleEnemy(1)),
-            wands = actualWands,
-            magicToPlay = listOf(createExampleMagic()),
-            currentTurn = 0,
-            mages = actualMages,
-            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
-                MagicSlot(requiredMagic = Magic(type = it))
-            })))
+    fun setupFightStage(wands: List<Wand>? = null, fightState: FightData? = null): NewGameState {
+//            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
+//                MagicSlot(requiredMagic = Magic(type = it))
+//            })))
+        val newGameState = NewGameState(
+            currentFight = fightState ?: initialFightData(wands),
+            currentRun = initialRunData(),
+            options = initialGameOptions(),
+            progression = initialProgressionData(),
         )
-        Log.d(TAG, getConfiguredJson().writerWithDefaultPrettyPrinter().writeValueAsString(myGameState))
-        return myGameState
+        Log.d(TAG, getConfiguredJson().writerWithDefaultPrettyPrinter().writeValueAsString(newGameState))
+        return newGameState
     }
+
+    private fun initialProgressionData() = ProgressionData(
+        achievements = emptyList(),
+        unlockedEnemies = emptyList(),
+        unlockedWands = emptyList(),
+        unlockedSpells = emptyList()
+    )
+
+    private fun initialGameOptions() = GameOptions(
+        thisIsAnOption = true
+    )
+
+    private fun initialRunData() = RunData(
+        activeWands = emptyList(),
+        mages = emptyList(),
+        spells = emptyList(),
+        wandsInBag = listOf(createStarterWand())
+    )
+
+    private fun initialFightData(wands: List<Wand>?) = FightData(
+        currentTurn = 0,
+        fightHasEnded = FightOutcome.ONGOING,
+        battleBoard = initialBattleBoard(),
+        wands = wands ?: listOf(createExampleWand()),
+        magicToPlay = listOf(createExampleMagic()),
+        mages = getInitialMages(),
+    )
+
+    private fun initialBattleBoard() = BattleBoard(
+        fields = listOf(
+            Field(enemy = createExampleEnemy(1), Terrain.PLAIN)
+        )
+    )
 
     private fun getInitialMages(): List<Mage> = listOf(
         Mage(id = MageId(0), health = 5),

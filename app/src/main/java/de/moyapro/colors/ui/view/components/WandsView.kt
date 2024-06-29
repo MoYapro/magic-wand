@@ -13,12 +13,13 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.fight.*
 
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
+fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel) {
 
     Column {
         StatusBar(currentGameState)
