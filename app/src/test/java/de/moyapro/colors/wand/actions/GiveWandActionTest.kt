@@ -11,7 +11,7 @@ class GiveWandActionTest {
     fun `give a mage a wand`() {
         val wand = createExampleWand()
         val mage = createExampleMage(mageId = MageId(1))
-        val state = MyGameState(
+        val state = NewGameState(
             wands =  listOf(wand),
             mages =  listOf(mage),
             currentTurn = 0,
@@ -31,7 +31,7 @@ class GiveWandActionTest {
     fun `don't give a second wand`() {
         val wand = createExampleWand()
         val mage = createExampleMage(mageId = MageId(1))
-        val state = MyGameState(
+        val state = NewGameState(
             wands =  listOf(wand),
             mages =  listOf(mage),
             currentTurn = 0,

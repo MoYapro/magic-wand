@@ -11,6 +11,8 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 @Composable
@@ -18,9 +20,9 @@ fun WandView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
     addAction: (GameAction) -> GameViewModel,
-    currentGameState: MyGameState,
+    currentGameState: NewGameState,
 ) {
-    val mage = currentGameState.findMage(wand.id)
+    val mage = currentGameState.currentFight.mages.findMage(wand.id)
     Column(
         modifier = modifier
             .height(4 * SPELL_SIZE.dp)

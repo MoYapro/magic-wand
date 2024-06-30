@@ -23,15 +23,18 @@ fun LootWandsView(
     DropZone<Wand>(
         addAction = addAction,
         currentGameState = currentGameState,
-        condition = { gameState: MyGameState, dropData: Wand -> !gameState.loot.wands.contains(dropData) },
+        condition = { gameState: NewGameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
         onDropAction = { droppedWand -> AddWandToLootAction(droppedWand) },
     ) { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
+        val wands = currentGameState.currentRun.wandsInBag
         Box(
             modifier = modifier
                 .fillMaxWidth()
                 .height(3 * SPELL_SIZE.dp)
         ) {
-            if (wands.size >= 1) {
+            if (wands.isEmpty()) {
+                Text("Win fights to get wands")
+            } else {
                 LazyRow(
                     modifier = modifier.fillMaxSize()
                 ) {
@@ -55,8 +58,6 @@ fun LootWandsView(
                         }
                     }
                 }
-            } else {
-                Text("Win fights to get wands")
             }
         }
     }

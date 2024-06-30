@@ -30,16 +30,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 //        initNewGame()
 //        startLootActivity()
-        val (fightState, wandState, mageState) = loadSavedState()
+        val (newGameState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
         setContent {
             ColorsTheme {
                 val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
-                if (fightState != null) {
-                    if (fightState.fightHasEnded == WIN) {
+                if (newGameState?.currentFight != null) {
+                    if (newGameState.currentFight.fightHasEnded == WIN) {
                         menuActions.add("Next fight" to ::startFightActivity)
                     }
-                    if (fightState.fightHasEnded == ONGOING && fightState.wands.mapNotNull(Wand::mageId).isNotEmpty()) {
+                    if (newGameState.currentFight.fightHasEnded == ONGOING) {
                         menuActions.add("Continue fight" to ::startFightActivity)
                     }
                     menuActions.add("Start all over" to ::initNewGame)
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 menuActions.add("Loot" to ::startLootActivity)
                 Column {
 
-                    Text(text = "fightState: ${fightState?.fightHasEnded}")
+                    Text(text = "newGameState: ${newGameState?.currentFight?.fightHasEnded}")
                     MainMenu(
                         menuActions
                     )
@@ -59,10 +59,10 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun loadSavedState(): Triple<MyGameState?, List<Wand>?, Unit> = runBlocking {
+    private fun loadSavedState(): Triple<NewGameState?, List<Wand>?, Unit> = runBlocking {
         dataStore.data.map { preferences ->
             val objectMapper = getConfiguredJson()
-            Triple<MyGameState?, List<Wand>?, Unit>(
+            Triple<NewGameState?, List<Wand>?, Unit>(
                 objectMapper.readValue(preferences[FIGHT_STATE]),
                 objectMapper.readValue(preferences[WAND_STATE]),
                 //objectMapper.readValue(preferences[MAGE_STATE],

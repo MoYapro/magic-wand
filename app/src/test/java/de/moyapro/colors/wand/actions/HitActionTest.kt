@@ -11,7 +11,7 @@ class HitActionTest {
     fun `hitting a mage reduces health`() {
         val exampleEnemy = createExampleEnemy()
         val mage = createExampleMage(10, mageId = MageId(1))
-        val state = MyGameState(
+        val state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),
@@ -26,7 +26,7 @@ class HitActionTest {
     fun `min health is zero`() {
         val exampleEnemy = createExampleEnemy()
         val mage = createExampleMage(10, mageId = MageId(1))
-        val state = MyGameState(
+        val state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),

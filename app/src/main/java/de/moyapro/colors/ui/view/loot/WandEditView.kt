@@ -10,6 +10,7 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.dragdrop.*
 import de.moyapro.colors.util.*
 
@@ -17,7 +18,7 @@ import de.moyapro.colors.util.*
 fun WandEditView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
-    currentGameState: MyGameState,
+    currentGameState: NewGameState,
     addAction: (GameAction) -> GameViewModel,
     isWandDragged: Boolean = false,
 ) {
@@ -39,7 +40,7 @@ fun WandEditView(
 }
 
 @Composable
-private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel, isWandDragged: Boolean) {
+private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel, isWandDragged: Boolean) {
     if (null == slot.spell) {
         SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
     } else {

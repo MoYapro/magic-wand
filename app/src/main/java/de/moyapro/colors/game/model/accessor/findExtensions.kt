@@ -29,4 +29,8 @@ fun List<Mage>.findMage(wandId: WandId): Mage? {
     return this.find { it.wandId == wandId }
 }
 
+fun List<Wand>.inOrder(): List<Wand> {
+    return this.sortedBy { mage -> mage.id.id }.mapNotNull { mage -> findWand(mage.id) }
+}
+
 fun HasMages.updateMage(mage: Mage): List<Mage> = mages.replace(mage)

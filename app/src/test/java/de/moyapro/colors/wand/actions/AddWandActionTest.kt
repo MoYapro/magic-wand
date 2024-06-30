@@ -3,6 +3,7 @@ package de.moyapro.colors.wand.actions
 import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import io.kotest.assertions.throwables.*
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
@@ -13,7 +14,7 @@ class AddWandActionTest {
     fun `should add wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        var state = MyGameState(
+        var state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),
@@ -31,7 +32,7 @@ class AddWandActionTest {
     fun `should throw when replace wand`() {
         val wand1 = createExampleWand()
         val wand2 = createExampleWand()
-        var state = MyGameState(
+        var state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),

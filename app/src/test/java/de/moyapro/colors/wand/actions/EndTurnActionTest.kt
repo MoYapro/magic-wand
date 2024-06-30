@@ -9,7 +9,7 @@ import org.junit.*
 class EndTurnActionTest {
     @Test
     fun `EndTurn should yield the same results`() {
-        val state = MyGameState(
+        val state = NewGameState(
             enemies = listOf(createExampleEnemy()),
             wands = listOf(createExampleWand()),
             magicToPlay = listOf(createExampleMagic()),

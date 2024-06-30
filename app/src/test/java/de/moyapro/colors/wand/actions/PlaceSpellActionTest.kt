@@ -13,7 +13,7 @@ class PlaceSpellActionTest {
         val mageId = MageId(0)
         val wand = createExampleWand(mageId = mageId)
         val slotToPutSpellInto = wand.slots.single { it.spell?.name == "Blitz" }
-        val state = MyGameState(
+        val state = NewGameState(
             wands = listOf(wand),
             currentTurn = 0,
             enemies = emptyList(),
@@ -33,7 +33,7 @@ class PlaceSpellActionTest {
         val mageId = MageId(0)
         val wand = createExampleWand(mageId = mageId)
         val slotToPutSpellInto = wand.slots.single { it.spell?.name == "Blitz" }
-        val state = MyGameState(
+        val state = NewGameState(
             wands = emptyList(),
             currentTurn = 0,
             enemies = emptyList(),

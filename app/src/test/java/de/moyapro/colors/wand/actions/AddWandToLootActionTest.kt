@@ -3,6 +3,7 @@ package de.moyapro.colors.wand.actions
 import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
 import org.junit.*
@@ -13,7 +14,7 @@ class AddWandToLootActionTest {
         val wand1 = createExampleWand(MageId(0))
         val wand2 = createExampleWand(MageId(1))
         wand1.mageId shouldNotBe null
-        var state = MyGameState(
+        var state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),

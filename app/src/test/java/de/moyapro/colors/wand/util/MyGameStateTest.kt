@@ -6,7 +6,7 @@ import de.moyapro.colors.game.generators.*
 import io.kotest.matchers.*
 import org.junit.*
 
-class MyGameStateTest {
+class NewGameStateTest {
 
     @Test
     fun wandsInOrder() {

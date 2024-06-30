@@ -7,6 +7,7 @@ import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.components.*
 import de.moyapro.colors.ui.view.dragdrop.*
@@ -18,8 +19,8 @@ fun WandsEditView(
     addAction: (GameAction) -> GameViewModel,
 ) {
     LazyRow(modifier = modifier) {
-        items(items = currentGameState.mages, key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
-            val wand = currentGameState.findWand(mage.id)
+        items(items = currentGameState.currentRun.mages, key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
+            val wand = currentGameState.currentRun.activeWands.findWandOnMage(mage.id)
             if (null == wand) {
                 EmptyWandSlot(addAction = addAction, currentGameState = currentGameState, mageId = mage.id)
             } else {
@@ -32,7 +33,7 @@ fun WandsEditView(
 @Composable
 private fun ShowEditView(
     wand: Wand,
-    currentGameState: MyGameState,
+    currentGameState: NewGameState,
     addAction: (GameAction) -> GameViewModel,
     mage: Mage,
 ) {

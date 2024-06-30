@@ -12,7 +12,7 @@ class RemoveSpellFromLootActionTest {
     @Test
     fun removeSpellFromLoot() {
         val spell = createExampleSpell()
-        val state = MyGameState(
+        val state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),

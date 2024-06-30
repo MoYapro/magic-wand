@@ -15,10 +15,6 @@ data class MyGameState(
     val actionCounter: Long = 0,
 ) {
 
-    fun wandsInOrder(): List<Wand> {
-        return mages.sortedBy { mage -> mage.id.id }.mapNotNull { mage -> findWand(mage.id) }
-    }
-
     fun findWand(wandId: WandId): Wand? {
         return wands.find { it.id == wandId }
     }

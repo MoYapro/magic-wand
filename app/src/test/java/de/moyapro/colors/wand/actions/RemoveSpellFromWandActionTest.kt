@@ -11,7 +11,7 @@ class RemoveSpellFromWandActionTest {
     fun `remove spell from wand in hand`() {
         val wand = createExampleWand()
         val slotToRemoveSpellFrom = wand.slots.single { it.spell?.name == "Blitz" }
-        val state = MyGameState(
+        val state = NewGameState(
             wands = listOf(wand),
             currentTurn = 0,
             enemies = emptyList(),
@@ -28,7 +28,7 @@ class RemoveSpellFromWandActionTest {
     fun `remove spell from wand in loot`() {
         val wand = createExampleWand()
         val slotToRemoveSpellFrom = wand.slots.single { it.spell?.name == "Blitz" }
-        val state = MyGameState(
+        val state = NewGameState(
             wands = emptyList(),
             currentTurn = 0,
             enemies = emptyList(),

@@ -33,7 +33,7 @@ class AttackEnemyActionTest {
         val exampleWand = createExampleWand(mageId = mageId)
         val mageStartingHealth = 20
         val mage = createExampleMage(mageId = mageId, wandId = exampleWand.id, health = mageStartingHealth)
-        val state = MyGameState(
+        val state = NewGameState(
             enemies = listOf(enemy),
             wands = listOf(exampleWand),
             magicToPlay = emptyList(),

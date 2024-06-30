@@ -13,7 +13,7 @@ class RemoveWandActionTest {
         val wand2 = createExampleWand()
         val mage1 = createExampleMage(health = 10, mageId = MageId(0))
         val mage2 = createExampleMage(health = 10, mageId = MageId(1))
-        var state = MyGameState(
+        var state = NewGameState(
             currentTurn = 0,
             wands = emptyList(),
             magicToPlay = emptyList(),

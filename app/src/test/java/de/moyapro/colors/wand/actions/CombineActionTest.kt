@@ -30,7 +30,7 @@ class CombineActionTest {
         val magic = Magic(type = MagicType.GREEN)
         val startingHealth = 10
         val exampleEnemy = createExampleEnemy(health = startingHealth)
-        val state = MyGameState(
+        val state = NewGameState(
             enemies = listOf(exampleEnemy),
             wands = listOf(exampleWand),
             magicToPlay = listOf(
@@ -66,7 +66,7 @@ class CombineActionTest {
         val magic = Magic(type = MagicType.GREEN)
         val startingHealth = 10
         val exampleEnemy = createExampleEnemy(health = startingHealth)
-        val state = MyGameState(
+        val state = NewGameState(
             enemies = listOf(exampleEnemy),
             wands = listOf(exampleWand),
             magicToPlay = listOf(

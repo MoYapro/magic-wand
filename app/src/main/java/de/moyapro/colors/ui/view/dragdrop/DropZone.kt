@@ -9,14 +9,14 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 @Composable
 inline fun <reified T : Any> DropZone(
     modifier: Modifier = Modifier,
-    noinline condition: (gameState: MyGameState, dropData: T) -> Boolean = { _, _ -> true },
-    currentGameState: MyGameState,
+    noinline condition: (gameState: NewGameState, dropData: T) -> Boolean = { _, _ -> true },
+    currentGameState: NewGameState,
     addAction: (GameAction) -> GameViewModel,
     emitData: T? = null,
     noinline onDropAction: ((T) -> GameAction)? = null,

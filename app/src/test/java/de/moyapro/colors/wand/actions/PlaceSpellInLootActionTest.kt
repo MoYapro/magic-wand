@@ -12,7 +12,7 @@ class PlaceSpellInLootActionTest {
         val wand = createExampleWand()
         val targetSlot = wand.slots.single { it.spell?.name == "Blitz" }
         val spellToPlaceInLoot = targetSlot.spell!!
-        val state = MyGameState(
+        val state = NewGameState(
             wands = listOf(wand),
             currentTurn = 0,
             enemies = emptyList(),

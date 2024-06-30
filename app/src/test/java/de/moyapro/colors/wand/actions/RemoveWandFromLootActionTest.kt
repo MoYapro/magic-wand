@@ -14,7 +14,7 @@ class RemoveWandFromLootActionTest {
         val state =
             AddWandToLootAction(wand1).apply(
                 AddWandToLootAction(wand2).apply(
-                    MyGameState(
+                    NewGameState(
                         currentTurn = 0,
                         wands = emptyList(),
                         magicToPlay = emptyList(),

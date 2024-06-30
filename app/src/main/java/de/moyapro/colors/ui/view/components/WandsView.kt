@@ -13,6 +13,7 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.fight.*
 
@@ -29,7 +30,7 @@ fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameVie
                 .fillMaxHeight(1f / 3f)
         ) {
             items(
-                items = currentGameState.enemies,
+                items = currentGameState.currentFight.battleBoard.getEnemies(),
                 key = { enemy: Enemy -> enemy.hashCode() }
             ) { enemy ->
                 EnemyView(enemy, addAction)
@@ -43,7 +44,7 @@ fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameVie
                 .border(1.dp, Color.LightGray)
         ) {
             items(
-                items = currentGameState.wandsInOrder(),
+                items = currentGameState.currentFight.wands.inOrder(),
                 key = { wand: Wand -> wand.hashCode() }
             ) { theWand ->
                 WandView(
@@ -60,7 +61,7 @@ fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameVie
                 .border(1.dp, Color.LightGray)
         ) {
             items(
-                items = currentGameState.magicToPlay,
+                items = currentGameState.currentFight.magicToPlay,
                 key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
 

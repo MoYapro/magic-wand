@@ -22,7 +22,7 @@ private const val TAG = "LootSpellsView"
 fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel) {
     DropZone<Spell>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
-        condition = { state, dragData -> !state.loot.spells.contains(dragData) },
+        condition = { state, dragData -> !state.currentRun.spells.contains(dragData) },
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
@@ -38,7 +38,7 @@ fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState
             userScrollEnabled = false,
         ) {
             items(
-                items = spells,
+                items = currentGameState.currentRun.spells,
                 key = { it.hashCode() }) { spell ->
                 Draggable(
                     modifier = Modifier
