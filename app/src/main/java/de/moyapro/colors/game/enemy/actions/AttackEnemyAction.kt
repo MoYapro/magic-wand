@@ -2,6 +2,7 @@ package de.moyapro.colors.game.enemy.actions
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 import kotlin.random.*
@@ -15,21 +16,20 @@ data class AttackEnemyAction(override val name: String = "Attack") : EnemyAction
         return AttackMageAction(target.id)
     }
 
-    private fun selectTarget(gameState: MyGameState): Mage {
-        return gameState.mages[random.nextInt(gameState.mages.size)]
+    private fun selectTarget(gameState: NewGameState): Mage {
+        return gameState.currentFight.mages.random(random)
     }
 }
 
 data class AttackMageAction(val mageId: MageId) : GameAction("Attack player action") {
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val mage = oldState.findMage(mageId)
-        check(mage != null) { "Could not find mage to hit" }
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
+        val mage = oldState.currentFight.findMage(mageId)
         val updatedMage = mage.copy(health = mage.health - 1)
         return Result.success(
-            oldState.copy(
-                mages = oldState.mages.replace(updatedMage)
+            oldState.updateCurrentFight(
+                mages = oldState.currentFight.mages.replace(updatedMage)
             )
         )
     }
