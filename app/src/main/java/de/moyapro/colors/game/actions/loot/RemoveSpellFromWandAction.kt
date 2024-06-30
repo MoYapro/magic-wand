@@ -2,6 +2,8 @@ package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 data class RemoveSpellFromWandAction(
@@ -11,32 +13,30 @@ data class RemoveSpellFromWandAction(
     GameAction("Remove spell from wand") {
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val wandInHand = oldState.findWand(wandId)
+    override fun apply(oldState: NewGameState): Result<NewGameState> {
+        val wandInHand = oldState.currentRun.activeWands.findWand(wandId)
         return if (wandInHand != null) removeSpellFromWandInHand(wandInHand, oldState)
         else removeSpellFromWandInLoot(wandId, oldState)
     }
 
-    private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: MyGameState): Result<MyGameState> {
+    private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: NewGameState): Result<NewGameState> {
         val slotToChange = wandInHand.slots.singleOrNull { it.id == slotId }
         check(slotToChange != null) { "Could not find slot to remove spell from" }
         val updatedSlot = slotToChange.copy(spell = null)
         val updatedWand = wandInHand.copy(slots = wandInHand.slots.replace(updatedSlot))
-        return Result.success(oldState.copy(wands = oldState.wands.replace(updatedWand)))
+        return Result.success(oldState.updateCurrentRun(activeWands = oldState.currentRun.activeWands.replace(updatedWand)))
     }
 
-    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: MyGameState): Result<MyGameState> {
-        val wandInLoot = oldState.loot.findWand(wandId)
+    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: NewGameState): Result<NewGameState> {
+        val wandInLoot = oldState.currentRun.wandsInBag.findWand(wandId)
         check(wandInLoot != null) { "Could not find wand to remove spell from" }
         val slotToChange = wandInLoot.slots.singleOrNull { it.id == slotId }
         check(slotToChange != null) { "Could not find slot to remove spell from" }
         val updatedSlot = slotToChange.copy(spell = null)
         val updatedWand = wandInLoot.copy(slots = wandInLoot.slots.replace(updatedSlot))
         return Result.success(
-            oldState.copy(
-                loot = oldState.loot.copy(
-                    wands = oldState.loot.wands.replace(updatedWand)
-                )
+            oldState.updateCurrentRun(
+                wandsInBag = oldState.currentRun.wandsInBag.replace(updatedWand)
             )
         )
     }

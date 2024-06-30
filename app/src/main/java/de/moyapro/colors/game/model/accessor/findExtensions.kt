@@ -25,5 +25,8 @@ fun HasMages.findMage(mageId: MageId): Mage {
 fun List<Mage>.findMage(mageId: MageId): Mage? {
     return this.find { it.id == mageId }
 }
+fun List<Mage>.findMage(wandId: WandId): Mage? {
+    return this.find { it.wandId == wandId }
+}
 
 fun HasMages.updateMage(mage: Mage): List<Mage> = mages.replace(mage)
