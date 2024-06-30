@@ -19,12 +19,8 @@ data class PlaceMagicAction(
         check(updatedMagicToPlay.size + 1 == oldState.currentFight.magicToPlay.size) { "Not exactly one magic was used when placing magic" }
         return Result.success(
             oldState.updateCurrentFight(
-                oldState.currentFight.currentTurn,
-                oldState.currentFight.fightHasEnded,
-                oldState.currentFight.battleBoard,
-                oldState.currentFight.mages,
-                oldState.currentFight.updateWand(targetWandWithMagic.getOrThrow()),
-                updatedMagicToPlay
+                wands = oldState.currentFight.updateWand(targetWandWithMagic.getOrThrow()),
+                magicToPlay = updatedMagicToPlay
             )
         )
     }

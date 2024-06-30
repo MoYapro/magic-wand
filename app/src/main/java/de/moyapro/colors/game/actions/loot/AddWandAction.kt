@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
@@ -17,26 +18,28 @@ data class AddWandAction(
     }
 
     override fun apply(oldState: NewGameState): Result<NewGameState> {
-        if (oldState.wands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
+        val currentRun = oldState.currentRun
+        if (currentRun.activeWands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
 
-        val targetMage = oldState.findMage(targetMageId)
-        require(targetMage != null) { "Could not find mage($targetMageId) to add wand to" }
-        require(targetMage.wandId == null) { "Mage already has a wand"}
-        val previousWand = oldState.findWand(targetMageId)
+        val targetMage = currentRun.findMage(targetMageId)
+        require(targetMage.wandId == null) { "Mage already has a wand" }
+        val previousWand = currentRun.activeWands.findWandOnMage(targetMageId)
         val updatedMage = targetMage.copy(wandId = wandToAdd.id)
         val updatedWandtoAdd = wandToAdd.copy(mageId = updatedMage.id)
-        val updatedWands = if (oldState.wands.map(Wand::id).contains(updatedWandtoAdd.id)) oldState.wands else oldState.wands + updatedWandtoAdd
+        val updatedWands = if (currentRun.activeWands.map(Wand::id).contains(updatedWandtoAdd.id)) currentRun.activeWands else currentRun.activeWands + updatedWandtoAdd
         val wandWithoutThePreviousWand: List<Wand> = updatedWands - previousWand
-        val finalState = oldState.copy(
-            wands = wandWithoutThePreviousWand,
-            mages = oldState.mages.replace(updatedMage)
+        val updatedCurrentRun = currentRun.copy(
+            activeWands = wandWithoutThePreviousWand,
+            mages = currentRun.mages.replace(updatedMage)
         )
 
-        check(checkNoDuplicateWands(finalState)) { "There is a mage with multiple wands after adding a wand" }
-        check(finalState.wands.size == finalState.wands.distinct().size) { "There are duplicated after adding a wand" }
-        return Result.success(finalState)
+        check(checkNoDuplicateWands(updatedCurrentRun)) { "There is a mage with multiple wands after adding a wand" }
+        return Result.success(oldState.copy(currentRun = updatedCurrentRun))
     }
 
-    private fun checkNoDuplicateWands(finalState: NewGameState) = finalState.wands.map(Wand::mageId).size == finalState.wands.map(Wand::mageId).distinct().size
+    private fun checkNoDuplicateWands(runData: RunData): Boolean {
+        val allWands = runData.activeWands + runData.wandsInBag
+        return allWands.map(Wand::mageId).size == allWands.map(Wand::mageId).distinct().size
+    }
 }
 

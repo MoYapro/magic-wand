@@ -33,8 +33,6 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
             currentTurn = gameState.currentFight.currentTurn + 1,
             fightHasEnded = checkFightEnd(gameState),
             battlefield = calculateEnemyTurn(gameState),
-            mages = gameState.currentFight.mages,
-            wands = gameState.currentFight.wands,
             magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay)
         )
     }

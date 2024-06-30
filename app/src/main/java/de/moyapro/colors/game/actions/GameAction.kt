@@ -19,7 +19,6 @@ import de.moyapro.colors.game.model.gameState.*
     JsonSubTypes.Type(value = TargetSelectedAction::class, name = "TargetSelectedAction"),
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
     JsonSubTypes.Type(value = HitAction::class, name = "HitAction"),
-    JsonSubTypes.Type(value = GiveWandAction::class, name = "GiveWandAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
 
     )

@@ -10,11 +10,6 @@ object IncreaseActionCounterAction : GameAction("Increase action counter") {
         return Result.success(
             oldState.updateCurrentFight(
                 currentTurn = oldState.currentFight.currentTurn + 1,
-                battlefield = oldState.currentFight.battleBoard,
-                fightHasEnded = oldState.currentFight.fightHasEnded,
-                magicToPlay = oldState.currentFight.magicToPlay,
-                mages = oldState.currentFight.mages,
-                wands = oldState.currentFight.wands,
             )
         )
     }

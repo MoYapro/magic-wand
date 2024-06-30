@@ -11,12 +11,12 @@ data class NewGameState(
 ) {
 
     fun updateCurrentFight(
-        currentTurn: Int,
-        fightHasEnded: FightOutcome,
-        battlefield: BattleBoard,
-        mages: List<Mage>,
-        wands: List<Wand>,
-        magicToPlay: List<Magic>,
+        currentTurn: Int = this.currentFight.currentTurn,
+        fightHasEnded: FightOutcome = this.currentFight.fightHasEnded,
+        battlefield: BattleBoard = this.currentFight.battleBoard,
+        mages: List<Mage> = this.currentFight.mages,
+        wands: List<Wand> = this.currentFight.wands,
+        magicToPlay: List<Magic> = this.currentFight.magicToPlay,
     ): NewGameState = this.copy(
         currentFight = this.currentFight.copy(
             currentTurn = currentTurn,
@@ -25,6 +25,20 @@ data class NewGameState(
             mages = mages,
             wands = wands,
             magicToPlay = magicToPlay
+        )
+    )
+
+    fun updateCurrentRun(
+        mages: List<Mage> = this.currentRun.mages,
+        spells: List<Spell> = this.currentRun.spells,
+        activeWands: List<Wand> = this.currentRun.activeWands,
+        wandsInBag: List<Wand> = this.currentRun.wandsInBag,
+    ): NewGameState = this.copy(
+        currentRun = this.currentRun.copy(
+            mages = mages,
+            spells = spells,
+            activeWands = activeWands,
+            wandsInBag = wandsInBag
         )
     )
 }
