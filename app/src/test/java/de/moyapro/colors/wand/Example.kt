@@ -3,6 +3,7 @@ package de.moyapro.colors.wand
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
@@ -62,13 +63,23 @@ fun getExampleAchievement() = Achievement.ARCHIEVED_SOMETHING
 
 fun getExampleEnemy() = Enemy(name = "Example Enemy", health = 10, possibleActions = listOf(SelfHealEnemyAction()))
 
-fun getExampleRunData() = RunData(
-    activeWands = listOf(getExampleWandWithTwoSlots().first),
-    mages = getExampleMages(),
-    spells = listOf(getExampleSpell()),
-    wandsInBag = listOf(getExampleWandWithTwoSlots().first)
+fun getExampleRunData(): RunData {
+    val mages = getExampleMages()
+    val activeWands = mages.map { getExampleWand(it.id) }
+    val magesWithWands = activeWands.map { mages.findMage(it.mageId!!)?.copy(wandId = it.id)!! }
+    return RunData(
+        activeWands = activeWands,
+        mages = magesWithWands,
+        spells = listOf(getExampleSpell()),
+        wandsInBag = listOf(getExampleWandWithTwoSlots().first)
+    )
+}
 
-)
+
+fun getExampleWand(mageId: MageId? = null, slot: Slot = Slot(level = 0, power = 1), spell: Spell = Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic())))): Wand {
+    val newWand: Wand = Wand(mageId = mageId, slots = listOf(slot)).putSpell(slotId = slot.id, spell)
+    return newWand
+}
 
 fun getExampleMagic() = Magic()
 

@@ -21,6 +21,11 @@ fun HasMages.findMage(mageId: MageId): Mage {
     check(foundMage != null) { "Could not find mage for id $mageId in $this" }
     return foundMage
 }
+fun HasMages.findMage(wandId: WandId): Mage {
+    val foundMage = mages.findMage(wandId)
+    check(foundMage != null) { "Could not find mage for wandId $wandId in $this" }
+    return foundMage
+}
 
 fun List<Mage>.findMage(mageId: MageId): Mage? {
     return this.find { it.id == mageId }

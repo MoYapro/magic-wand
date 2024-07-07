@@ -13,12 +13,12 @@ data class RemoveWandAction(val wandToRemove: Wand) : GameAction("Remove wand fr
         val currentRun = oldState.currentRun
         check(currentRun.activeWands.map(Wand::id).contains(wandToRemove.id)) { "Could not find wand to remove" }
         check(currentRun.mages.findMage(wandToRemove.id) != null) { "Could not remove wand because no mage is holding it" }
-        val updatedWands = currentRun.activeWands.filter { it.id != wandToRemove.id }
+        val wandsToKeep = currentRun.activeWands.filter { it.id != wandToRemove.id }
         val updatedMage = currentRun.mages.findMage(wandToRemove.id)!!.copy(wandId = null)
-        check(oldState.currentRun.mages.size - updatedWands.size == 1) { "Did not remove exactly one wand" }
+        check(currentRun.activeWands.size - wandsToKeep.size == 1) { "Did not remove exactly one wand but ${wandsToKeep.size}" }
         return Result.success(
             oldState.updateCurrentRun(
-                activeWands = updatedWands,
+                activeWands = wandsToKeep,
                 mages = currentRun.mages.replace(updatedMage)
             )
         )
