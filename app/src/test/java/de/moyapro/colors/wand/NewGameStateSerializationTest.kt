@@ -7,7 +7,7 @@ import io.kotest.matchers.*
 import io.kotest.matchers.equals.*
 import org.junit.*
 
-class NewGameStateSerializationTest {
+internal class NewGameStateSerializationTest {
 
     @Test
     fun serialization() {
