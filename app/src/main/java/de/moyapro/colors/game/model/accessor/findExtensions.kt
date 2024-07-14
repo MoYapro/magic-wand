@@ -12,6 +12,8 @@ fun HasWands.findWand(wandId: WandId): Wand {
 
 fun List<Wand>.findWand(wandId: WandId) = this.find { it.id == wandId }
 
+fun List<Slot>.findSlot(slotId: SlotId) = this.find { it.id == slotId }
+
 fun List<Wand>.findWandOnMage(mageId: MageId) = this.find { it.mageId == mageId }
 
 fun HasWands.updateWand(wand: Wand): List<Wand> = wands.replace(wand)
