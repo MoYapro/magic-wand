@@ -1,7 +1,6 @@
-package de.moyapro.colors.wand.actions
+package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.wand.*
