@@ -9,8 +9,7 @@ import org.junit.*
 class PlaceSpellInLootActionTest {
     @Test
     fun placeSpellInLoot() {
-        val wand = createExampleWand()
-        val targetSlot = wand.slots.single { it.spell?.name == "Blitz" }
+        val targetSlot = createExampleWand().slots.single { it.spell?.name == "Blitz" }
         val spellToPlaceInLoot = targetSlot.spell!!
         val state = getExampleGameState()
         val action = PlaceSpellInLootAction(spellToPlaceInLoot)
