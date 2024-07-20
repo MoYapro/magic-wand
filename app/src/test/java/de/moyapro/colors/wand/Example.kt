@@ -3,6 +3,10 @@ package de.moyapro.colors.wand
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.MagicType.BLUE
+import de.moyapro.colors.game.model.MagicType.GREEN
+import de.moyapro.colors.game.model.MagicType.RED
+import de.moyapro.colors.game.model.MagicType.SIMPLE
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
@@ -35,7 +39,7 @@ fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
             )
             .putSpell(
                 slotId = slot2.id,
-                Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic(type = MagicType.GREEN))))
+                Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic(type = GREEN))))
             )
     return Triple(newWand, slot1, slot2)
 }
@@ -57,7 +61,7 @@ fun getExampleProgression() = ProgressionData(
     achievements = listOf(getExampleAchievement()),
 )
 
-fun getExampleSpell() = Spell(name = "SpellName", magicSlots = listOf(MagicSlot(Magic())))
+fun getExampleSpell(magicType: MagicType = SIMPLE) = Spell(name = "SpellName", magicSlots = listOf(MagicSlot(Magic(type = magicType))))
 
 fun getExampleAchievement() = Achievement.ARCHIEVED_SOMETHING
 
@@ -75,23 +79,35 @@ fun getExampleRunData(): RunData {
     )
 }
 
-
-fun getExampleWand(mageId: MageId? = null, slot: Slot = Slot(level = 0, power = 1), spell: Spell = Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic())))): Wand {
-    val newWand: Wand = Wand(mageId = mageId, slots = listOf(slot)).putSpell(slotId = slot.id, spell)
+fun getExampleWand(
+    mageId: MageId? = null,
+    slot: Slot = Slot(level = 0, power = 1),
+    spell: Spell = Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic()))),
+): Wand {
+    val someSlots = listOf(SIMPLE, GREEN, BLUE, RED).map { magicType -> getExampleSlot(magicType = magicType) }
+    val newWand: Wand = Wand(mageId = mageId, slots = listOf(slot) + someSlots).putSpell(slotId = slot.id, spell)
     return newWand
 }
 
-fun getExampleMagic() = Magic()
+fun getExampleSlot(magicType: MagicType = SIMPLE): Slot {
+    return Slot(
+        level = 3,
+        power = 2,
+        spell = getExampleSpell(magicType)
+    )
+}
 
-fun getExampleFight() = FightData(
-    currentTurn = 1,
-    battleBoard = BattleBoard(emptyList()),
-    fightHasEnded = FightOutcome.ONGOING,
-    mages = getExampleMages(),
-    wands = listOf(getExampleWandWithSingleSlot().first),
-    magicToPlay = listOf(getExampleMagic())
-)
-
+fun getExampleFight(): FightData {
+    val magics = listOf(SIMPLE, GREEN, BLUE, RED)
+    return FightData(
+        currentTurn = 1,
+        battleBoard = BattleBoard(emptyList()),
+        fightHasEnded = FightOutcome.ONGOING,
+        mages = getExampleMages(),
+        wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },
+        magicToPlay = magics.map { Magic(type = it) } + magics.map { Magic(type = it) } + magics.map { Magic(type = it) }
+    )
+}
 
 fun getExampleMages() = listOf(
     Mage(MAGE_I_ID, health = 10, wandId = WAND_I_ID),

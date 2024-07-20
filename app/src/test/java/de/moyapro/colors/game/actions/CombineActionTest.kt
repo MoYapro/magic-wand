@@ -4,7 +4,6 @@ import android.util.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.wand.*
 import io.kotest.matchers.*
@@ -27,9 +26,9 @@ class CombineActionTest {
 
     @Test
     fun `combined single action`() {
-        val magic = Magic(type = MagicType.GREEN)
         val state = getExampleGameState()
-        val wandToPlaceMagicIn = state.currentRun.activeWands.first()
+        val magic = state.currentFight.magicToPlay.first()
+        val wandToPlaceMagicIn = state.currentFight.wands.first()
         val slotToPlaceMagicIn = wandToPlaceMagicIn.slots.first()
         val viewModel = GameViewModel(state)
             .addAction(
@@ -42,7 +41,7 @@ class CombineActionTest {
                 )
             )
         viewModel.getCurrentGameState().getOrThrow()
-            .currentRun.activeWands.findWand(wandToPlaceMagicIn.id)!!
+            .currentFight.wands.findWand(wandToPlaceMagicIn.id)!!
             .slots.findSlot(slotToPlaceMagicIn.id)!!
             .spell!!
             .magicSlots.single { it.placedMagic == magic }
@@ -53,30 +52,35 @@ class CombineActionTest {
     @Test
     fun `combined faulty action should undo all`() {
         val state = getExampleGameState()
-        val wandToEdit = state.currentRun.activeWands.first()
-        val magic1 = Magic(type = MagicType.GREEN)
-        val magic2 = Magic(type = MagicType.SIMPLE)
-        val slotToInsert = wandToEdit.slots.first { it.spell?.name == "Top" }
+        val wandToEdit = state.currentFight.wands.first()
+        val (slotToInsert1, slotToInsert2) = wandToEdit.slots
+        val magic1 = state.currentFight.magicToPlay.first { slotToInsert1.spell!!.magicSlots.first().requiredMagic.type == it.type }
+        val magic2 = state.currentFight.magicToPlay.last { slotToInsert2.spell!!.magicSlots.first().requiredMagic.type == it.type }
         val viewModel = GameViewModel(state)
+        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        viewModel
             .addAction(
                 CombinedAction(
                     PlaceMagicAction(
                         wandToEdit.id,
-                        slotToInsert.id,
+                        slotToInsert1.id,
                         magicToPlace = magic1
                     ),
                     PlaceMagicAction(
                         wandToEdit.id,
-                        slotToInsert.id,
+                        slotToInsert2.id,
                         magicToPlace = magic2
                     )
                 )
             )
         val currentGameState = viewModel.getCurrentGameState()
         currentGameState.isSuccess shouldBe true
-        currentGameState.getOrThrow().currentRun.activeWands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert.id)!!.spell?.magicSlots?.single() shouldNotBe null
+        currentGameState.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldNotBe null
+        currentGameState.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldNotBe null
+        viewModel.addAction(UndoAction)
+        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
 
     }
-
-
 }
