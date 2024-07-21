@@ -101,7 +101,7 @@ fun getExampleFight(): FightData {
     val magics = listOf(SIMPLE, GREEN, BLUE, RED)
     return FightData(
         currentTurn = 1,
-        battleBoard = BattleBoard(emptyList()),
+        battleBoard = BattleBoard(listOf(Field(getExampleEnemy(), Terrain.PLAIN))),
         fightHasEnded = FightOutcome.ONGOING,
         mages = getExampleMages(),
         wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },
