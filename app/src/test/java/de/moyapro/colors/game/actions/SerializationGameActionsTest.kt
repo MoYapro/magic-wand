@@ -29,7 +29,7 @@ class SerializationGameActionsTest(private val value: Any) {
                 EndTurnAction(),
                 TargetSelectedAction(target = EnemyId()),
                 ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
-                HitAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
+                HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
             )
         }
     }

@@ -5,7 +5,7 @@ import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 
-data class HitAction(val targetMageId: MageId, val damage: Int) : GameAction("Hit Action") {
+data class HitMageAction(val targetMageId: MageId, val damage: Int) : GameAction("Hit Action") {
 
     override val randomSeed: Int = this.hashCode()
 
