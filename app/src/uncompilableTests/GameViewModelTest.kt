@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand
+package de.moyapro.colors.game
 
 import android.util.*
 import de.moyapro.colors.game.*

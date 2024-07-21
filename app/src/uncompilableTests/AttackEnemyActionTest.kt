@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand.enemy.actions
+package de.moyapro.colors.game.enemy.actions
 
 import android.util.*
 import de.moyapro.colors.*

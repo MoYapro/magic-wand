@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand.enemy
+package de.moyapro.colors.game.enemy
 
 import de.moyapro.colors.game.enemy.*
 import io.kotest.matchers.*

@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.*
 import io.kotest.matchers.*
 import org.junit.*
 

@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand.util
+package de.moyapro.colors.game.util
 
 import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.loot.*

@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand
+package de.moyapro.colors.game
 
 import com.fasterxml.jackson.module.kotlin.*
 import de.moyapro.colors.game.model.gameState.*

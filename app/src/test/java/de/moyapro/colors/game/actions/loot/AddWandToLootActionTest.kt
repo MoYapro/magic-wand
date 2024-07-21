@@ -2,7 +2,7 @@ package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.*
 import de.moyapro.colors.game.model.*
-import de.moyapro.colors.wand.*
+import de.moyapro.colors.game.*
 import io.kotest.matchers.collections.*
 import org.junit.*
 

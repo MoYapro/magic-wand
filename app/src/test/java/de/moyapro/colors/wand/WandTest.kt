@@ -1,4 +1,4 @@
-package de.moyapro.colors.wand
+package de.moyapro.colors.game
 
 import de.moyapro.colors.game.model.*
 import io.kotest.matchers.*

@@ -36,6 +36,10 @@ fun List<Mage>.findMage(wandId: WandId): Mage? {
     return this.find { it.wandId == wandId }
 }
 
+fun <T, U : HasId<T>> List<U>.findById(id: T): U? {
+    return this.firstOrNull { it.id == id }
+}
+
 fun List<Wand>.inOrder(): List<Wand> {
     return this.sortedBy { mage -> mage.id.id }.mapNotNull { mage -> findWand(mage.id) }
 }

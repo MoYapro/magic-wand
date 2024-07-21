@@ -1,11 +1,9 @@
-package de.moyapro.colors.wand.actions
+package de.moyapro.colors.game.actions
 
 import android.util.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.wand.*
 import io.kotest.matchers.*
 import io.mockk.*
 import org.junit.*

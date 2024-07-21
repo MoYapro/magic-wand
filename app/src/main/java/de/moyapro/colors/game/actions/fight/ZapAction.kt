@@ -15,8 +15,10 @@ data class ZapAction(
     override val randomSeed = this.hashCode()
 
     override fun apply(oldState: NewGameState): Result<NewGameState> {
-        val zappedWand = zapWand(oldState)
-        val damage = calculateWandDamage(zappedWand)
+        val wandToZap = oldState.currentFight.wands.findById(wandId)
+        check(wandToZap != null) { "Wand to zap does not exist for id $wandId" }
+        val damage = calculateWandDamage(wandToZap)
+        val zappedWand = wandToZap.copy(slots = removeMagicFromFullSlots(wandToZap))
         val updatedBattleBoard = oldState.currentFight.battleBoard.mapEnemies { enemy ->
             if (enemy.id == target) {
                 val damagedEnemy = enemy.copy(health = enemy.health - damage)
@@ -52,11 +54,6 @@ data class ZapAction(
         } else {
             slot
         }
-    }
-
-    private fun zapWand(oldState: NewGameState): Wand {
-        val targetWand: Wand = oldState.currentFight.findWand(wandId)
-        return targetWand.copy(zapped = true, slots = removeMagicFromFullSlots(targetWand))
     }
 
     private fun calculateWandDamage(wand: Wand): Int {
