@@ -35,13 +35,13 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     }.first()
 
     private suspend fun loadFightState() = dataStore.data.map { preferences ->
-        val jsonData = preferences[FIGHT_STATE]
+        val jsonData = preferences[CURRENT_FIGHT_STATE_KEY]
         jsonData?.let { data -> getConfiguredJson().readValue<NewGameState>(data) }
     }.first()
 
     private fun saveFightState(state: NewGameState): Unit = runBlocking {
         dataStore.edit { settings ->
-            settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(state)
+            settings[CURRENT_FIGHT_STATE_KEY] = getConfiguredJson().writeValueAsString(state)
         }
     }
 }

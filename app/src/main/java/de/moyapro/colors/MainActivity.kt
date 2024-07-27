@@ -34,41 +34,48 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ColorsTheme {
-                val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
-                if (newGameState?.currentFight != null) {
-                    if (newGameState.currentFight.fightHasEnded == WIN) {
-                        menuActions.add("Next fight" to ::startFightActivity)
-                    }
-                    if (newGameState.currentFight.fightHasEnded == ONGOING) {
-                        menuActions.add("Continue fight" to ::startFightActivity)
-                    }
-                    menuActions.add("Start all over" to ::initNewGame)
-                } else {
-                    menuActions.add("New game" to ::initNewGame)
-                }
-                menuActions.add("Loot" to ::startLootActivity)
+                val menuActions: List<MenuEntryInfo> = determinMenuEntries(newGameState)
                 Column {
-
                     Text(text = "newGameState: ${newGameState?.currentFight?.fightHasEnded}")
-                    MainMenu(
-                        menuActions
-                    )
+                    MainMenu(menuActions)
                 }
             }
         }
     }
 
 
+    private fun determinMenuEntries(newGameState: NewGameState?): List<MenuEntryInfo> {
+        val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
+        if (newGameState?.currentFight != null) {
+            if (newGameState.currentFight.fightHasEnded == WIN) {
+                menuActions.add("Next fight" to ::startFightActivity)
+            }
+            if (newGameState.currentFight.fightHasEnded == ONGOING) {
+                menuActions.add("Continue fight" to ::startFightActivity)
+            }
+            menuActions.add("Start all over" to ::initNewGame)
+        } else {
+            menuActions.add("New game" to ::initNewGame)
+        }
+        menuActions.add("Loot" to ::startLootActivity)
+        return menuActions
+    }
+
+
     private fun loadSavedState(): Triple<NewGameState?, List<Wand>?, Unit> = runBlocking {
         dataStore.data.map { preferences ->
             val objectMapper = getConfiguredJson()
-            Triple<NewGameState?, List<Wand>?, Unit>(
-                objectMapper.readValue(preferences[FIGHT_STATE]),
-                objectMapper.readValue(preferences[WAND_STATE]),
-                //objectMapper.readValue(preferences[MAGE_STATE],
-                Unit
+            val currentFight: FightData? = objectMapper.readValue(preferences[CURRENT_FIGHT_STATE_KEY])
+            val currentRun: RunData? = objectMapper.readValue(preferences[CURRENT_RUN_STATE_KEY])
+            val progression: ProgressionData? = objectMapper.readValue(preferences[OVERALL_PROGRESSION_STATE_KEY])
+            val options: GameOptions? = objectMapper.readValue(preferences[GAME_OPTIONS_STATE_KEY])
+            return@map NewGameState(
+                currentFight ?: FightData(),
+                currentRun,
+                progression,
+                options
             )
-        }.first()
+        }
     }
 
     private inline fun <reified T> ObjectMapper.readValue(value: String?): T? {
@@ -84,7 +91,7 @@ class MainActivity : ComponentActivity() {
 
     private fun saveFightState(gameState: NewGameState): Unit = runBlocking {
         dataStore.edit { settings ->
-            settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(gameState)
+            settings[CURRENT_FIGHT_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState)
         }
     }
 
