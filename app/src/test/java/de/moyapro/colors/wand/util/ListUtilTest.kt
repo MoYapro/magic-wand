@@ -3,6 +3,7 @@ package de.moyapro.colors.game.util
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.util.*
 import io.kotest.matchers.*
+import io.kotest.matchers.collections.*
 import org.junit.*
 
 internal class ListUtilTest {
@@ -30,6 +31,14 @@ internal class ListUtilTest {
         )
         magicSlots.last().placedMagic shouldBe null
         magicSlots.replace(suitableSlot, replacement).last().placedMagic shouldNotBe null
+    }
+
+    @Test
+    fun plusMinus() {
+        val list = listOf(1, 2, 3)
+        val extenedList = list + 4
+        val reducedList = extenedList - 2
+        reducedList shouldContainExactly listOf(1, 3, 4)
     }
 
     @Test

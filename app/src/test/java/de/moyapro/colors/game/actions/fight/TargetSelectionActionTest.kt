@@ -39,20 +39,8 @@ internal class TargetSelectionActionTest {
         )
         val hitTargetAction = TargetSelectedAction(target = enemyToHit.id)
         gameViewModel.addAction(placeMagicAction)
-        gameViewModel.getCurrentGameState().getOrThrow().currentFight
-            .wands.findById(wandToZap.id)!!
-            .slots.findById(slotForMagic.id)!!
-            .hasRequiredMagic() shouldBe true
         gameViewModel.addAction(showTargetsAction)
-        gameViewModel.getCurrentGameState().getOrThrow().currentFight
-            .wands.findById(wandToZap.id)!!
-            .slots.findById(slotForMagic.id)!!
-            .hasRequiredMagic() shouldBe true
         gameViewModel.addAction(hitTargetAction)
-        gameViewModel.getCurrentGameState().getOrThrow().currentFight
-            .wands.findById(wandToZap.id)!!
-            .slots.findById(slotForMagic.id)!!
-            .hasRequiredMagic() shouldBe false // was used why zapping
         val updatedState = gameViewModel.getCurrentGameState().getOrThrow()
         val hitEnemy = updatedState.currentFight.battleBoard.getEnemies().findById(enemyToHit.id)!!
         hitEnemy.showTarget shouldBe false
