@@ -14,14 +14,13 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.unit.*
-import androidx.datastore.preferences.core.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.gameState.*
+import de.moyapro.colors.game.persistance.*
 import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.loot.*
 import de.moyapro.colors.util.*
-import kotlinx.coroutines.*
 
 class LootActivity : ComponentActivity() {
 
@@ -95,7 +94,7 @@ class LootActivity : ComponentActivity() {
 
     private fun saveAndBack(currentGameState: NewGameState) {
         startMainActivity()
-        save(currentGameState)
+        save(dataStore, currentGameState)
     }
 
     private fun printState(currentGameState: NewGameState) {
@@ -103,13 +102,7 @@ class LootActivity : ComponentActivity() {
     }
 
     private fun startMainActivity() {
-        save(this.gameViewModel.getCurrentGameState().getOrThrow())
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
-    private fun save(gameState: NewGameState): Unit = runBlocking {
-        dataStore.edit { settings ->
-            settings[WAND_STATE] = getConfiguredJson().writeValueAsString(gameState.currentFight.wands)
-        }
-    }
 }

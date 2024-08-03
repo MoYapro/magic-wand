@@ -14,7 +14,7 @@ class GameViewModel(
     private val initialState: NewGameState = StartFightFactory.setupFightStage(
         listOf(createExampleWand()),
     ),
-    private val saveFightState: (NewGameState) -> Unit = {},
+    private val saveActions: (Collection<GameAction>) -> Unit = {},
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
@@ -45,7 +45,7 @@ class GameViewModel(
         Log.d(TAG, "Add action: $action")
         action.onAddAction(this.actions)
         this._uiState.value = getCurrentGameState()
-        this._uiState.value.onSuccess(saveFightState)
+        this._uiState.value.onSuccess { saveActions(this.actions) }
         return this
     }
 
