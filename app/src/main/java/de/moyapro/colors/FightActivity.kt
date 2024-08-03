@@ -12,6 +12,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.theme.*
@@ -35,7 +36,7 @@ class FightActivity : ComponentActivity() {
                 StartFightFactory.setupFightStage()
             }
 
-            if (currentGameState.currentFight.fightHasEnded == FightOutcome.WIN) {
+            if (currentGameState.currentFight.fightState == FightState.WIN) {
                 //    initNextBattle(roundNumber = 1)
             }
 
@@ -44,14 +45,17 @@ class FightActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Gray
                 ) {
-                    when (currentGameState.currentFight.fightHasEnded) {
-                        FightOutcome.ONGOING -> WandsView(
+                    if (currentGameState.currentFight.fightState == FightState.NOT_STARTED) {
+                        gameViewModel.addAction(NoOp()) // TODO start fight here?
+                    }
+                    when (currentGameState.currentFight.fightState) {
+                        FightState.ONGOING, FightState.NOT_STARTED -> WandsView(
                             currentGameState,
                             gameViewModel::addAction
                         )
 
-                        FightOutcome.WIN -> WinFightView(::startMainActivity)
-                        FightOutcome.LOST -> LostFightView(::startMainActivity)
+                        FightState.WIN -> WinFightView(::startMainActivity)
+                        FightState.LOST -> LostFightView(::startMainActivity)
                     }
                 }
             }

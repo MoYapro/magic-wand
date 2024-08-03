@@ -102,7 +102,7 @@ fun getExampleFight(): FightData {
     return FightData(
         currentTurn = 1,
         battleBoard = BattleBoard(listOf(Field(getExampleEnemy(), Terrain.PLAIN))),
-        fightHasEnded = FightOutcome.ONGOING,
+        fightState = FightState.ONGOING,
         mages = getExampleMages(),
         wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },
         magicToPlay = magics.map { Magic(type = it) } + magics.map { Magic(type = it) } + magics.map { Magic(type = it) }

@@ -6,9 +6,9 @@ import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
-import de.moyapro.colors.util.FightOutcome.LOST
-import de.moyapro.colors.util.FightOutcome.ONGOING
-import de.moyapro.colors.util.FightOutcome.WIN
+import de.moyapro.colors.util.FightState.LOST
+import de.moyapro.colors.util.FightState.ONGOING
+import de.moyapro.colors.util.FightState.WIN
 import kotlin.random.*
 
 
@@ -31,13 +31,13 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
         return gameState.updateCurrentFight(
             currentTurn = gameState.currentFight.currentTurn + 1,
-            fightHasEnded = checkFightEnd(gameState),
+            fightState = checkFightEnd(gameState),
             battlefield = calculateEnemyTurn(gameState),
             magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay)
         )
     }
 
-    private fun checkFightEnd(gameState: NewGameState): FightOutcome {
+    private fun checkFightEnd(gameState: NewGameState): FightState {
         return when {
             gameState.currentFight.battleBoard.getEnemies().none { it.health > 0 } -> WIN
             gameState.currentFight.mages.none { it.health > 0 } -> LOST

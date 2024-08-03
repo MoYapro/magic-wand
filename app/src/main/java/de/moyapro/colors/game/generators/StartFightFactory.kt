@@ -42,7 +42,7 @@ object StartFightFactory {
 
     private fun initialFightData(wands: List<Wand>?) = FightData(
         currentTurn = 0,
-        fightHasEnded = FightOutcome.ONGOING,
+        fightState = FightState.ONGOING,
         battleBoard = initialBattleBoard(),
         wands = wands ?: listOf(createExampleWand()),
         magicToPlay = listOf(createExampleMagic()),

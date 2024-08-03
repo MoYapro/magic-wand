@@ -12,7 +12,7 @@ data class NewGameState(
 
     fun updateCurrentFight(
         currentTurn: Int = this.currentFight.currentTurn,
-        fightHasEnded: FightOutcome = this.currentFight.fightHasEnded,
+        fightState: FightState = this.currentFight.fightState,
         battlefield: BattleBoard = this.currentFight.battleBoard,
         mages: List<Mage> = this.currentFight.mages,
         wands: List<Wand> = this.currentFight.wands,
@@ -20,7 +20,7 @@ data class NewGameState(
     ): NewGameState = this.copy(
         currentFight = this.currentFight.copy(
             currentTurn = currentTurn,
-            fightHasEnded = fightHasEnded,
+            fightState = fightState,
             battleBoard = battlefield,
             mages = mages,
             wands = wands,
