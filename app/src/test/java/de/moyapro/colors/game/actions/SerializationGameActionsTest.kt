@@ -1,9 +1,6 @@
-package de.moyapro.colors.game
+package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.*
 import de.moyapro.colors.util.*
 import io.kotest.matchers.equals.*
 import org.junit.*
@@ -17,21 +14,7 @@ class SerializationGameActionsTest(private val value: Any) {
     companion object {
         @Parameters(name = "{index}: {0}")
         @JvmStatic
-        fun data(): List<GameAction> {
-            return listOf(
-                PlaceMagicAction(
-                    magicToPlace = createExampleMagic(),
-                    slotId = SlotId(),
-                    wandId = WandId()
-                ),
-                ZapAction(WandId()),
-                NoOp(),
-                EndTurnAction(),
-                TargetSelectedAction(target = EnemyId()),
-                ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
-                HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
-            )
-        }
+        fun data(): List<GameAction> = createExampleActionList()
     }
 
     @Test

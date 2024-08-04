@@ -1,5 +1,8 @@
 package de.moyapro.colors.game
 
+import de.moyapro.colors.*
+import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
@@ -113,4 +116,18 @@ fun getExampleMages() = listOf(
     Mage(MAGE_I_ID, health = 10, wandId = WAND_I_ID),
     Mage(MAGE_II_ID, health = 10, wandId = WAND_II_ID),
     Mage(MAGE_III_ID, health = 10, wandId = WAND_III_ID),
+)
+
+fun createExampleActionList() = listOf(
+    PlaceMagicAction(
+        magicToPlace = createExampleMagic(),
+        slotId = SlotId(),
+        wandId = WandId()
+    ),
+    ZapAction(WandId()),
+    NoOp(),
+    EndTurnAction(),
+    TargetSelectedAction(target = EnemyId()),
+    ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
+    HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
 )

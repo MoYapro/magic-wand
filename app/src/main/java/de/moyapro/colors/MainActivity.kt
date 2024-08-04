@@ -6,6 +6,8 @@ import androidx.activity.*
 import androidx.activity.compose.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.ui.*
+import androidx.compose.ui.layout.*
 import androidx.datastore.core.*
 import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
             ColorsTheme {
                 val menuActions: List<MenuEntryInfo> = determinMenuEntries(newGameState)
                 Column {
-                    Text(text = "newGameState: ${newGameState.currentFight.fightState}")
+                    Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${newGameState.currentFight.fightState}")
                     MainMenu(menuActions)
                 }
             }
