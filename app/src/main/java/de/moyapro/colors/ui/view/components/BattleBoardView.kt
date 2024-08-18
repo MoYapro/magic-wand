@@ -2,6 +2,7 @@ package de.moyapro.colors.ui.view.components
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
@@ -41,11 +42,11 @@ fun BattleBoardView(
             .width(5 * ENEMY_SIZE.dp)
             .height(3 * ENEMY_SIZE.dp)
     ) {
-        repeat(15) { index ->
+        (0..14).forEach { index ->
             val field = battleBoard.fields[index]
-            val offsetX = (index % 3) * ENEMY_SIZE.dp
+            val offsetX = ((index / 5) % 3) * ENEMY_SIZE.dp
             val offsetY = (index % 5) * ENEMY_SIZE.dp
-            FieldView(field, modifier.offset(offsetY, offsetX), addAction)
+            FieldView(field, modifier.offset(offsetY, offsetX), addAction, "${offsetX}x$offsetY")
         }
     }
 }
@@ -55,6 +56,7 @@ private fun FieldView(
     field: Field,
     modifier: Modifier,
     addAction: (GameAction) -> GameViewModel,
+    value: String = "",
 ) {
     Box(
         modifier
@@ -63,6 +65,7 @@ private fun FieldView(
             .border(1.dp, Color.LightGray)
             .background(color = getColorForTerrain(field.terrain))
     ) {
+        Text(value)
         if (field.enemy != null) {
             EnemyView(enemy = field.enemy, addAction)
         }

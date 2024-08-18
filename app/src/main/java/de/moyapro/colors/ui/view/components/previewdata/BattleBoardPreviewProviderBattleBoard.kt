@@ -32,15 +32,15 @@ fun simpleMiddle(): BattleBoard {
 fun largeEnemies(): BattleBoard {
     return BattleBoard(
         fields = listOf(
-            Field(createExampleEnemy(breadth = 2, size = 2), Terrain.PLAIN),
+            Field(createExampleEnemy(breadth = 1, size = 1), Terrain.PLAIN),
             Field(null, Terrain.ROCK),
             Field(null, Terrain.FORREST),
             Field(null, Terrain.WATER),
             Field(null, Terrain.SAND),
 
-            Field(null, Terrain.PLAIN),
+            Field(createExampleEnemy(), Terrain.PLAIN),
             Field(null, Terrain.ROCK),
-            Field(createExampleEnemy(breadth = 3, size = 2), Terrain.FORREST),
+            Field(createExampleEnemy(breadth = 1, size = 1), Terrain.FORREST),
             Field(null, Terrain.WATER),
             Field(null, Terrain.SAND),
 
