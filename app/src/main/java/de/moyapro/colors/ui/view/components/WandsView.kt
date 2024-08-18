@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
@@ -24,18 +23,13 @@ fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameVie
 
     Column {
         StatusBar(currentGameState)
-        LazyRow(
+        BattleBoardView(
+            battleBoard = currentGameState.currentFight.battleBoard,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(1f / 3f)
-        ) {
-            items(
-                items = currentGameState.currentFight.battleBoard.getEnemies(),
-                key = { enemy: Enemy -> enemy.hashCode() }
-            ) { enemy ->
-                EnemyView(enemy, addAction)
-            }
-        }
+                .fillMaxHeight(1f / 3f),
+            addAction,
+        )
 
         LazyRow(
             modifier = Modifier
