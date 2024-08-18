@@ -10,10 +10,12 @@ import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.view.components.previewdata.*
 import de.moyapro.colors.ui.view.fight.*
 import de.moyapro.colors.util.*
+import java.util.*
 
 
 /* battle board has fixed size (WxH: 5x3)
@@ -46,9 +48,27 @@ fun BattleBoardView(
             val field = battleBoard.fields[index]
             val offsetX = ((index / 5) % 3) * ENEMY_SIZE.dp
             val offsetY = (index % 5) * ENEMY_SIZE.dp
-            FieldView(field, modifier.offset(offsetY, offsetX), addAction, "${offsetX}x$offsetY")
+            alreadyRenderedIndices(index, field.enemy).forEach {
+                if (it != index) displedFields[it] = false
+            }
+            if (displedFields[index]) FieldView(field, modifier.offset(offsetY, offsetX), addAction, "${offsetX}x$offsetY")
         }
     }
+}
+
+fun alreadyRenderedIndices(index: Int, enemy: Enemy?): List<Int> {
+    if (null == enemy) {
+        return emptyList()
+    }
+    val fieldsBlockedByEnemy = LinkedList<Int>()
+    repeat(enemy.breadth) { breadthIndex ->
+        fieldsBlockedByEnemy.add(index + breadthIndex)
+        repeat(enemy.size) { sizeIndex ->
+            fieldsBlockedByEnemy.add(index + sizeIndex * BATTLE_FIELD_WIDTH)
+            fieldsBlockedByEnemy.add(index + breadthIndex + sizeIndex * BATTLE_FIELD_WIDTH)
+        }
+    }
+    return fieldsBlockedByEnemy
 }
 
 @Composable

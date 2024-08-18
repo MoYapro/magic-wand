@@ -2,6 +2,7 @@ package de.moyapro.colors.util
 
 import androidx.datastore.preferences.core.*
 
+const val BATTLE_FIELD_WIDTH = 5
 const val SPELL_SIZE = 64
 const val ENEMY_SIZE = 72
 const val MAGIC_SIZE = 16
