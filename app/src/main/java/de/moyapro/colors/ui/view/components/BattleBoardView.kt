@@ -35,6 +35,8 @@ fun BattleBoardView(
     modifier: Modifier = Modifier,
     addAction: (GameAction) -> GameViewModel = { GameViewModel() },
 ) {
+    val displedFields = MutableList(15) { false }
+
     Column(modifier = modifier) {
         Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             (0..4)
@@ -68,8 +70,8 @@ private fun FieldView(
 ) {
     Box(
         modifier
-            .height(SPELL_SIZE.dp)
-            .width(SPELL_SIZE.dp)
+            .height((field.enemy?.size ?: 1) * ENEMY_SIZE.dp)
+            .width((field.enemy?.breadth ?: 1) * ENEMY_SIZE.dp)
             .border(1.dp, Color.LightGray)
             .background(color = getColorForTerrain(field.terrain))
     ) {

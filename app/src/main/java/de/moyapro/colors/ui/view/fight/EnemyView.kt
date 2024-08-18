@@ -20,7 +20,8 @@ private const val targetSymbol = "\uD83C\uDFAF"
 fun EnemyView(enemy: Enemy, addAction: (GameAction) -> GameViewModel) {
     Box(
         Modifier
-            .size(72.dp)
+            .width((enemy.breadth) * ENEMY_SIZE.dp)
+            .height((enemy.size) * ENEMY_SIZE.dp)
             .border(1.dp, Color.Black)
     ) {
         if (enemy.showTarget)

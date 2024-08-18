@@ -9,6 +9,8 @@ data class Enemy(
     override val id: EnemyId = EnemyId(),
     val name: String = "Enemy",
     val health: Int,
+    val breadth: Int = 1,
+    val size: Int = 1,
     val possibleActions: List<EnemyAction<*>>,
     val nextAction: GameAction = NoOp(),
     val showTarget: Boolean = false,

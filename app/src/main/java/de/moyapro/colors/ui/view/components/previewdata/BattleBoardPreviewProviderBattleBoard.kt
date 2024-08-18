@@ -5,9 +5,9 @@ import de.moyapro.colors.*
 import de.moyapro.colors.game.model.gameState.*
 
 
-class BattleBoardPreviewProviderBattleBoard(override val values: Sequence<BattleBoard> = sequenceOf(initPreviewBattleBoard())) : PreviewParameterProvider<BattleBoard>
+class BattleBoardPreviewProviderBattleBoard(override val values: Sequence<BattleBoard> = sequenceOf(simpleMiddle(), largeEnemies())) : PreviewParameterProvider<BattleBoard>
 
-fun initPreviewBattleBoard(): BattleBoard {
+fun simpleMiddle(): BattleBoard {
     return BattleBoard(
         fields = listOf(
             Field(null, Terrain.PLAIN),
@@ -20,6 +20,30 @@ fun initPreviewBattleBoard(): BattleBoard {
             Field(createExampleEnemy(), Terrain.FORREST),
             Field(createExampleEnemy(), Terrain.WATER),
             Field(createExampleEnemy(), Terrain.SAND),
+            Field(null, Terrain.PLAIN),
+            Field(null, Terrain.ROCK),
+            Field(null, Terrain.FORREST),
+            Field(null, Terrain.WATER),
+            Field(null, Terrain.SAND),
+        )
+    )
+}
+
+fun largeEnemies(): BattleBoard {
+    return BattleBoard(
+        fields = listOf(
+            Field(createExampleEnemy(breadth = 2, size = 2), Terrain.PLAIN),
+            Field(null, Terrain.ROCK),
+            Field(null, Terrain.FORREST),
+            Field(null, Terrain.WATER),
+            Field(null, Terrain.SAND),
+
+            Field(null, Terrain.PLAIN),
+            Field(null, Terrain.ROCK),
+            Field(createExampleEnemy(breadth = 3, size = 2), Terrain.FORREST),
+            Field(null, Terrain.WATER),
+            Field(null, Terrain.SAND),
+
             Field(null, Terrain.PLAIN),
             Field(null, Terrain.ROCK),
             Field(null, Terrain.FORREST),

@@ -21,8 +21,10 @@ fun createExampleWand(mageId: MageId? = null) =
         )
     )
 
-fun createExampleEnemy(health: Int = Random.nextInt(1, 10)) = Enemy(
+fun createExampleEnemy(health: Int = Random.nextInt(1, 10), breadth: Int = 1, size: Int = 1) = Enemy(
     health = health,
+    breadth = breadth,
+    size = size,
     possibleActions = listOf(SelfHealEnemyAction())
 )
 
