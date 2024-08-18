@@ -69,12 +69,23 @@ private fun FieldView(
     Box(
         modifier
             .height(SPELL_SIZE.dp)
+            .width(SPELL_SIZE.dp)
             .border(1.dp, Color.LightGray)
+            .background(color = getColorForTerrain(field.terrain))
     ) {
-        TerrainView(field.terrain)
         if (field.enemy != null) {
             EnemyView(enemy = field.enemy, addAction)
         }
+    }
+}
+
+fun getColorForTerrain(terrain: Terrain): Color {
+    return when (terrain) {
+        Terrain.PLAIN -> Color.Green
+        Terrain.ROCK -> Color.Gray
+        Terrain.WATER -> Color.Blue
+        Terrain.SAND -> Color.Yellow
+        Terrain.FORREST -> Color(165, 62, 2, alpha = 255)
     }
 }
 
