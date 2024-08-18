@@ -35,29 +35,17 @@ fun BattleBoardView(
     modifier: Modifier = Modifier,
     addAction: (GameAction) -> GameViewModel = { GameViewModel() },
 ) {
-    val displedFields = MutableList(15) { false }
-
-    Column(modifier = modifier) {
-        Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            (0..4)
-                .map { index -> battleBoard.fields[index] }
-                .forEach { field ->
-                    FieldView(field, modifier, addAction)
-                }
-        }
-        Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            (5..9)
-                .map { index -> battleBoard.fields[index] }
-                .forEach { field ->
-                    FieldView(field, modifier, addAction)
-                }
-        }
-        Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            (10..14)
-                .map { index -> battleBoard.fields[index] }
-                .forEach { field ->
-                    FieldView(field, modifier, addAction)
-                }
+    val displedFields = MutableList(15) { true }
+    Box(
+        modifier = modifier
+            .width(5 * ENEMY_SIZE.dp)
+            .height(3 * ENEMY_SIZE.dp)
+    ) {
+        repeat(15) { index ->
+            val field = battleBoard.fields[index]
+            val offsetX = (index % 3) * ENEMY_SIZE.dp
+            val offsetY = (index % 5) * ENEMY_SIZE.dp
+            FieldView(field, modifier.offset(offsetY, offsetX), addAction)
         }
     }
 }
