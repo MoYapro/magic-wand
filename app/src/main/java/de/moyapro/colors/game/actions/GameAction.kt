@@ -8,7 +8,7 @@ import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = PlaceMagicAction::class, name = "PlaceMagicAction"),
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
@@ -18,7 +18,7 @@ import de.moyapro.colors.game.model.gameState.*
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
     JsonSubTypes.Type(value = TargetSelectedAction::class, name = "TargetSelectedAction"),
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
-    JsonSubTypes.Type(value = HitMageAction::class, name = "HitAction"),
+    JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
 
     )
@@ -26,6 +26,9 @@ abstract class GameAction(
     val name: String,
 ) {
     abstract val randomSeed: Int
+
+    @JsonProperty("@type")
+    private val type = this.javaClass.simpleName
     abstract fun apply(oldState: NewGameState): Result<NewGameState>
     open val target: EnemyId? = null
     open fun isValidTarget(enemy: Enemy): Boolean = false
