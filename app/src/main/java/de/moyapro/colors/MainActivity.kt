@@ -18,7 +18,6 @@ import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.mainmenu.*
 import de.moyapro.colors.util.*
 import de.moyapro.colors.util.FightState.ONGOING
-import de.moyapro.colors.util.FightState.WIN
 import kotlinx.coroutines.*
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gameSaveState")
@@ -42,14 +41,14 @@ class MainActivity : ComponentActivity() {
 
     private fun determinMenuEntries(newGameState: NewGameState?): List<MenuEntryInfo> {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
+        menuActions.add("Start all over" to ::initNewGame)
         if (newGameState?.currentFight != null) {
-            if (newGameState.currentFight.fightState == WIN) {
+            if (newGameState.currentFight.fightState != ONGOING) {
                 menuActions.add("Next fight" to ::startFightActivity)
             }
             if (newGameState.currentFight.fightState == ONGOING) {
                 menuActions.add("Continue fight" to ::startFightActivity)
             }
-            menuActions.add("Start all over" to ::initNewGame)
         } else {
             menuActions.add("New game" to ::initNewGame)
         }

@@ -43,6 +43,7 @@ fun BattleBoardView(
             .width(5 * ENEMY_SIZE.dp)
             .height(3 * ENEMY_SIZE.dp)
     ) {
+        require(battleBoard.fields.size == 15) { "Board must have 15 fields but was ${battleBoard.fields.size}" }
         (0..14).forEach { index ->
             val field = battleBoard.fields[index]
             val offsetX = ((index / 5) % 3) * ENEMY_SIZE.dp

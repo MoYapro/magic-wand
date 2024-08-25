@@ -4,7 +4,7 @@ import androidx.datastore.preferences.core.*
 
 const val BATTLE_FIELD_WIDTH = 5
 const val SPELL_SIZE = 64
-const val ENEMY_SIZE = 72
+const val ENEMY_SIZE = 80
 const val MAGIC_SIZE = 16
 const val DROP_ZONE_ALPHA = .3f
 val CURRENT_FIGHT_STATE_KEY = stringPreferencesKey("current_fight_state")
