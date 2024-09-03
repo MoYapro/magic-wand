@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.util.*
 
@@ -21,6 +22,7 @@ fun PowerMeter(power: Int) {
                         .width(8.dp)
                         .height(6.dp)
                         .background(Color.White)
+                        .testTag("5Box")
                 )
                 Spacer(modifier = Modifier.height(2.dp))
             }
@@ -30,6 +32,7 @@ fun PowerMeter(power: Int) {
                         .width(8.dp)
                         .height(2.dp)
                         .background(Color.White)
+                        .testTag("1Box")
                 )
                 Spacer(modifier = Modifier.height(2.dp))
             }
