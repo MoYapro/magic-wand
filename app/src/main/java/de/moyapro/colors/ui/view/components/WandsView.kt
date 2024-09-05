@@ -39,7 +39,7 @@ fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameVie
         ) {
             items(
                 items = currentGameState.currentFight.wands.inOrder(),
-                key = { wand: Wand -> wand.hashCode() }
+                key = { wand: Wand -> wand.id.hashCode() }
             ) { theWand ->
                 WandView(
                     wand = theWand,

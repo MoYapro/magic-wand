@@ -32,7 +32,7 @@ fun WandView(
             Row(Modifier.fillMaxWidth()) {
                 Button(
                     modifier = Modifier.width(SPELL_SIZE.dp),
-                    onClick = { addAction(ZapAction(wand.id)) }) { Text("🗲") }
+                    onClick = { addAction(ZapAction(wand.id)) }) { Text("Zap") }
                 MageView(
                     modifier = Modifier
                         .width(SPELL_SIZE.dp)
