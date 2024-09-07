@@ -19,7 +19,7 @@ import de.moyapro.colors.util.*
 private const val TAG = "LootSpellsView"
 
 @Composable
-fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel) {
+fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState, addAction: (GameAction) -> Unit) {
     DropZone<Spell>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.currentRun.spells.contains(dragData) },

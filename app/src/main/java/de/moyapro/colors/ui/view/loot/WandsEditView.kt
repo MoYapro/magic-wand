@@ -16,7 +16,7 @@ import de.moyapro.colors.ui.view.dragdrop.*
 fun WandsEditView(
     modifier: Modifier = Modifier,
     currentGameState: NewGameState,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
 ) {
     LazyRow(modifier = modifier) {
         items(items = currentGameState.currentRun.mages, key = { mage: Mage -> mage.hashCode() }) { mage: Mage ->
@@ -34,7 +34,7 @@ fun WandsEditView(
 private fun ShowEditView(
     wand: Wand,
     currentGameState: NewGameState,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
     mage: Mage,
 ) {
     require(wand.mageId != null) { "There is a wand without a mage in Wands edit view" }

@@ -35,7 +35,7 @@ fun BattleBoardView(
     @PreviewParameter(provider = BattleBoardPreviewProviderBattleBoard::class)
     battleBoard: BattleBoard,
     modifier: Modifier = Modifier,
-    addAction: (GameAction) -> GameViewModel = { GameViewModel() },
+    addAction: (GameAction) -> Unit = { GameViewModel() },
 ) {
     val displedFields = MutableList(15) { true }
     Box(
@@ -75,7 +75,7 @@ fun alreadyRenderedIndices(index: Int, enemy: Enemy?): List<Int> {
 private fun FieldView(
     field: Field,
     modifier: Modifier,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
 ) {
     Box(
         modifier

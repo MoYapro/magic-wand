@@ -19,7 +19,7 @@ fun WandEditView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
     currentGameState: NewGameState,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
     isWandDragged: Boolean = false,
 ) {
     val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
@@ -40,7 +40,7 @@ fun WandEditView(
 }
 
 @Composable
-private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel, isWandDragged: Boolean) {
+private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: NewGameState, addAction: (GameAction) -> Unit, isWandDragged: Boolean) {
     if (null == slot.spell) {
         SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
     } else {

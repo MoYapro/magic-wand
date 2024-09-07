@@ -17,7 +17,7 @@ import de.moyapro.colors.util.*
 private const val targetSymbol = "\uD83C\uDFAF"
 
 @Composable
-fun EnemyView(enemy: Enemy, addAction: (GameAction) -> GameViewModel) {
+fun EnemyView(enemy: Enemy, addAction: (GameAction) -> Unit) {
     Box(
         Modifier
             .width((enemy.breadth) * ENEMY_SIZE.dp)

@@ -21,7 +21,7 @@ fun SlotEditView(
     wandId: WandId,
     slot: Slot = createExampleSlot(),
     currentGameState: NewGameState,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
     dropZoneDisabled: Boolean = false,
 ) {
     if (dropZoneDisabled)

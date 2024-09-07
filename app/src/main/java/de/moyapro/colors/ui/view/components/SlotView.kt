@@ -7,7 +7,6 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.*
@@ -19,7 +18,7 @@ import de.moyapro.colors.util.*
 fun SlotView(
     wandId: WandId,
     slot: Slot = createExampleSlot(),
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
     currentGameState: NewGameState,
 ) {
     DropZone<Magic>(

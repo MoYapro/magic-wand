@@ -19,7 +19,7 @@ import de.moyapro.colors.util.*
 @Composable
 fun EmptyWandSlot(
     mageId: MageId,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
     currentGameState: NewGameState,
 ) {
     DropZone<Wand>(

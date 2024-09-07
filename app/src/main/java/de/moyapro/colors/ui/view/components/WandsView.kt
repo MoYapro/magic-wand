@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.*
@@ -19,7 +18,7 @@ import de.moyapro.colors.ui.view.fight.*
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> GameViewModel) {
+fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> Unit) {
 
     Column {
         StatusBar(currentGameState)

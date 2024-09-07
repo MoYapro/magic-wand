@@ -18,7 +18,7 @@ import de.moyapro.colors.util.*
 @Composable
 fun LootWandsView(
     currentGameState: NewGameState,
-    addAction: (GameAction) -> GameViewModel,
+    addAction: (GameAction) -> Unit,
 ) {
     DropZone<Wand>(
         addAction = addAction,
