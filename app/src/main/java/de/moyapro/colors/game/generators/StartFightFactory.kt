@@ -40,14 +40,21 @@ object StartFightFactory {
         wandsInBag = listOf(createStarterWand())
     )
 
-    private fun initialFightData(wands: List<Wand>?) = FightData(
-        currentTurn = 0,
-        fightState = FightState.ONGOING,
-        battleBoard = initialBattleBoard(),
-        wands = wands ?: listOf(createExampleWand()),
-        magicToPlay = listOf(createExampleMagic()),
-        mages = getInitialMages(),
-    )
+    private fun initialFightData(wands: List<Wand>?): FightData {
+        val wandsAndMages = getInitialMages().map { mage ->
+            val wand = createExampleWand(mageId = mage.id)
+            val mageWithWand = mage.copy(wandId = wand.id)
+            kotlin.Pair(mageWithWand, wand)
+        }
+        return FightData(
+            currentTurn = 0,
+            fightState = FightState.ONGOING,
+            battleBoard = initialBattleBoard(),
+            wands = wands ?: wandsAndMages.map { it.second },
+            magicToPlay = listOf(createExampleMagic()),
+            mages = wandsAndMages.map { it.first },
+        )
+    }
 
     private fun initialBattleBoard() = BattleBoard(
         fields = listOf(
