@@ -1,5 +1,7 @@
 package de.moyapro.colors.game.model
 
+import de.moyapro.colors.game.model.accessor.*
+import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.game.model.interfaces.*
 import de.moyapro.colors.util.*
 
@@ -36,4 +38,25 @@ data class Wand(
         return if (placedMagic) updatedWand
         else Result.failure(IllegalStateException("Could not place magic. No fitting free slot found."))
     }
+
+    fun affect(battleBoard: BattleBoard, targetFieldId: FieldId?): BattleBoard {
+        require(targetFieldId != null) { "Cannot affect without target" }
+        val targetedEnemy = battleBoard.fields.findById(targetFieldId)?.enemy
+        require(targetedEnemy != null) { "Cannot affect without targetedEnemy" }
+        val damage = calculateWandDamage()
+
+        return battleBoard.mapEnemies { enemy ->
+            if (enemy.id == targetedEnemy.id) {
+                val damagedEnemy = enemy.copy(health = enemy.health - damage)
+                if (damagedEnemy.health <= 0) null else damagedEnemy
+            } else {
+                enemy
+            }
+        }
+    }
+
+    private fun calculateWandDamage(): Int {
+        return slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
+    }
+
 }

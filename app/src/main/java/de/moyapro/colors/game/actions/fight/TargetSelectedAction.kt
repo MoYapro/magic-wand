@@ -4,19 +4,19 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 
-data class TargetSelectedAction(override val target: EnemyId?) :
+data class TargetSelectedAction(val targetFieldId: FieldId) :
     GameAction("Target selected action") {
     override val randomSeed: Int = this.hashCode()
 
     override fun onAddAction(actions: MutableList<GameAction>) {
         check(actions.last() is ShowTargetSelectionAction) { "TargetSelectedAction has not showTargetSelectionAction predecessor" }
-        check(target != null) { "TargetSelectedAction without target" }
         val showTargetSelectionAction = actions.removeLast() as ShowTargetSelectionAction
-        actions.add(showTargetSelectionAction.originalAction.withSelection(target))
+        actions.add(showTargetSelectionAction.originalAction.withSelection(targetFieldId))
     }
 
     override fun apply(oldState: NewGameState): Result<NewGameState> {
-        val updatedBattleBoard = oldState.currentFight.battleBoard.mapEnemies { enemy -> enemy.copy(showTarget = false) }
+        val updatedFields = oldState.currentFight.battleBoard.fields.map { field -> field.copy(showTarget = false) }
+        val updatedBattleBoard = oldState.currentFight.battleBoard.copy(fields = updatedFields)
         return Result.success(
             oldState.copy(
                 currentFight = oldState.currentFight.copy(

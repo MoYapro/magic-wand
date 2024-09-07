@@ -1,7 +1,6 @@
 package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
@@ -9,7 +8,7 @@ import de.moyapro.colors.util.*
 
 data class ZapAction(
     val wandId: WandId,
-    override val target: EnemyId? = null,
+    override val target: FieldId? = null,
 ) : GameAction("Zap") {
 
     override val randomSeed = this.hashCode()
@@ -17,16 +16,8 @@ data class ZapAction(
     override fun apply(oldState: NewGameState): Result<NewGameState> {
         val wandToZap = oldState.currentFight.wands.findById(wandId)
         check(wandToZap != null) { "Wand to zap does not exist for id $wandId" }
-        val damage = calculateWandDamage(wandToZap)
         val zappedWand = wandToZap.copy(slots = removeMagicFromFullSlots(wandToZap))
-        val updatedBattleBoard = oldState.currentFight.battleBoard.mapEnemies { enemy ->
-            if (enemy.id == target) {
-                val damagedEnemy = enemy.copy(health = enemy.health - damage)
-                if (damagedEnemy.health <= 0) null else damagedEnemy
-            } else {
-                enemy
-            }
-        }
+        val updatedBattleBoard = wandToZap.affect(oldState.currentFight.battleBoard, target)
 
         return Result.success(
             oldState.copy(
@@ -56,16 +47,12 @@ data class ZapAction(
         }
     }
 
-    private fun calculateWandDamage(wand: Wand): Int {
-        return wand.slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
-    }
-
-    override fun isValidTarget(enemy: Enemy): Boolean {
+    override fun isValidTarget(field: Field): Boolean {
         return true
     }
 
-    override fun withSelection(targetId: EnemyId): GameAction {
-        return this.copy(target = targetId)
+    override fun withSelection(targetFieldId: FieldId): GameAction {
+        return this.copy(target = targetFieldId)
     }
 
 }

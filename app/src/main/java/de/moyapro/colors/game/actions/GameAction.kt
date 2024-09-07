@@ -3,7 +3,6 @@ package de.moyapro.colors.game.actions
 import com.fasterxml.jackson.annotation.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
@@ -30,9 +29,9 @@ abstract class GameAction(
     @JsonProperty("@type")
     private val type = this.javaClass.simpleName
     abstract fun apply(oldState: NewGameState): Result<NewGameState>
-    open val target: EnemyId? = null
-    open fun isValidTarget(enemy: Enemy): Boolean = false
-    open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")
+    open val target: FieldId? = null
+    open fun isValidTarget(field: Field): Boolean = false
+    open fun withSelection(targetFieldId: FieldId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {
         removeTargetAction(actions)

@@ -26,7 +26,12 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ga
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val newGameState = runBlocking { loadSavedState(dataStore) }
+        lateinit var newGameState: NewGameState
+        try {
+            newGameState = runBlocking { loadSavedState(dataStore) }
+        } catch (e: Exception) {
+            newGameState = StartFightFactory.setupFightStage()
+        }
         super.onCreate(savedInstanceState)
         setContent {
             ColorsTheme {

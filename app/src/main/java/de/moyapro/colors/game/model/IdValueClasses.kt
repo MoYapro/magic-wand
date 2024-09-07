@@ -22,3 +22,6 @@ value class MageId(val id: Short = 0)
 
 @JvmInline
 value class SpellId(val id: UUID = UUID.randomUUID())
+
+@JvmInline
+value class FieldId(val id: Short = 0)
