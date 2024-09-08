@@ -40,6 +40,7 @@ data class Wand(
     }
 
     fun affect(battleBoard: BattleBoard, targetFieldId: FieldId?): BattleBoard {
+        // TODO each spell may leave  status effect stacks (% of slot power) and later spells can consume them
         require(targetFieldId != null) { "Cannot affect without target" }
         val targetedEnemy = battleBoard.fields.findById(targetFieldId)?.enemy
         require(targetedEnemy != null) { "Cannot affect without targetedEnemy" }

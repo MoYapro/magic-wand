@@ -26,25 +26,25 @@ internal class TargetSelectionActionTest {
     fun `should execute action on selected enemy`() {
         val gameViewModel = GameViewModel(getExampleGameState())
         val state = gameViewModel.getCurrentGameState().getOrThrow()
-        val enemyToHit = state.currentFight.battleBoard.getEnemies().first()
+        val fieldToHit = state.currentFight.battleBoard.fields.first()
         val wandToZap = state.currentFight.wands.first()
         val magicToPlace = state.currentFight.magicToPlay.first()
         val slotForMagic = wandToZap.slots.forMagic(magicToPlace)!!
         val placeMagicAction = PlaceMagicAction(magicToPlace = magicToPlace, wandId = wandToZap.id, slotId = slotForMagic.id)
         val showTargetsAction = ShowTargetSelectionAction(
             ZapAction(
-                target = enemyToHit.id,
+                target = fieldToHit.id,
                 wandId = wandToZap.id
             )
         )
-        val hitTargetAction = TargetSelectedAction(target = enemyToHit.id)
+        val hitTargetAction = TargetSelectedAction(targetFieldId = fieldToHit.id)
         gameViewModel.addAction(placeMagicAction)
         gameViewModel.addAction(showTargetsAction)
         gameViewModel.addAction(hitTargetAction)
         val updatedState = gameViewModel.getCurrentGameState().getOrThrow()
-        val hitEnemy = updatedState.currentFight.battleBoard.getEnemies().findById(enemyToHit.id)!!
-        hitEnemy.showTarget shouldBe false
-        hitEnemy.health shouldBeLessThan enemyToHit.health
+        val hitField = updatedState.currentFight.battleBoard.fields.findById(fieldToHit.id)!!
+        hitField.showTarget shouldBe false
+        hitField.enemy!!.health shouldBeLessThan fieldToHit.enemy!!.health
 
     }
 }

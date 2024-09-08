@@ -41,7 +41,7 @@ class LoadSaveTest {
             ZapAction(WandId()),
             NoOp(),
             EndTurnAction(),
-            TargetSelectedAction(target = EnemyId()),
+            TargetSelectedAction(targetFieldId = FieldId(0)),
             ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
             HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
         )
