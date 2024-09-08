@@ -12,14 +12,14 @@ class WandAffectTest {
 
     @Test
     fun `wand does damage to target field`() {
-        val battleBoard = createExampleBattleBoard(TargetDummy(10))
-        val spell = Bonk()
-        val wand = createExampleWand(MAGE_I_ID, spell)
-
+        val battleBoard = createExampleBattleBoardFilledWith(TargetDummy(10))
+        val wand = createExampleWand(MAGE_I_ID, Bonk())
         val affectedFieldId = battleBoard.fields.first().id
+
         val updatedBattleBoard = wand.affect(battleBoard, affectedFieldId)
 
         updatedBattleBoard.fields.findById(affectedFieldId)?.enemy?.health shouldBe 9
+        updatedBattleBoard.fields.filterIndexed { index, _ -> index != 0 }.all { it.enemy!!.health == 10 } shouldBe true
     }
 
 }
