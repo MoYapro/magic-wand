@@ -14,3 +14,6 @@ data class Enemy(
     val possibleActions: List<EnemyAction<*>>,
     val nextAction: GameAction = NoOp(),
 ) : HasId<EnemyId>
+
+
+fun TargetDummy(health: Int) = Enemy(name = "TargetDummy", health = health, possibleActions = emptyList())

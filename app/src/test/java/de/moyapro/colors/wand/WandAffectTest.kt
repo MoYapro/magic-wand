@@ -10,11 +10,10 @@ import org.junit.*
 
 class WandAffectTest {
 
-
     @Test
     fun `wand does damage to target field`() {
-        val battleBoard = createExampleBattleBoard(Enemy(health = 10, possibleActions = emptyList()))
-        val spell = Spell(name = "TestSpell", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))
+        val battleBoard = createExampleBattleBoard(TargetDummy(10))
+        val spell = Bonk()
         val wand = createExampleWand(MAGE_I_ID, spell)
 
         val affectedFieldId = battleBoard.fields.first().id

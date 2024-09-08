@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.model
 
+import de.moyapro.colors.*
 import de.moyapro.colors.util.*
 
 data class Spell(
@@ -19,3 +20,6 @@ data class Spell(
 
     fun hasRequiredMagic() = this.magicSlots.none { it.placedMagic == null }
 }
+
+
+fun Bonk() = Spell(name = "TestSpell", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))
