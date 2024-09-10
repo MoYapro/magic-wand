@@ -13,6 +13,7 @@ data class Enemy(
     val size: Int = 1,
     val possibleActions: List<EnemyAction<*>>,
     val nextAction: GameAction = NoOp(),
+    val statusEffects: List<StatusEffect> = emptyList(),
 ) : HasId<EnemyId>
 
 

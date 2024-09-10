@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.model
 
+import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.game.model.interfaces.*
@@ -40,24 +41,27 @@ data class Wand(
     }
 
     fun affect(battleBoard: BattleBoard, targetFieldId: FieldId?): BattleBoard {
-        // TODO each spell may leave  status effect stacks (% of slot power) and later spells can consume them
         require(targetFieldId != null) { "Cannot affect without target" }
         val targetedEnemy = battleBoard.fields.findById(targetFieldId)?.enemy
         require(targetedEnemy != null) { "Cannot affect without targetedEnemy" }
-        val damage = calculateWandDamage()
+        val spellsToExecute = slots.filter { it.spell != null && it.hasRequiredMagic() }
+
 
         return battleBoard.mapEnemies { enemy ->
             if (enemy.id == targetedEnemy.id) {
-                val damagedEnemy = enemy.copy(health = enemy.health - damage)
-                if (damagedEnemy.health <= 0) null else damagedEnemy
+                spellsToExecute.fold(enemy, ::applyNextSpellToEnemy)
             } else {
                 enemy
             }
         }
     }
 
-    private fun calculateWandDamage(): Int {
-        return slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
+    private fun applyNextSpellToEnemy(enemy: Enemy?, slot: Slot): Enemy? {
+        require(slot.spell != null) { "Must use a slot with a spell to apply to enemy" }
+        if (null == enemy) return null
+        val damagedEnemy = slot.spell.damage(enemy, slot.power)
+        val effectedEnemy = slot.spell.applyEffect(damagedEnemy, slot.power)
+        return effectedEnemy
     }
 
 }
