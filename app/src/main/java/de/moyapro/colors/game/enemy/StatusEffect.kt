@@ -13,10 +13,10 @@ data class StatusEffect(
     }
 }
 
-operator fun List<StatusEffect>.plus(additionalEffects: List<StatusEffect>): List<StatusEffect> {
-    val currentMap = this.associate { (effect, amount) -> Pair(effect, amount) }.toMutableMap()
+operator fun Map<Effect, Int>.plus(additionalEffects: Map<Effect, Int>): Map<Effect, Int> {
+    val currentMap = this.toMutableMap()
     additionalEffects.forEach { (additionalEffect, additionalAmount) ->
         currentMap[additionalEffect] = (currentMap[additionalEffect] ?: 0) + additionalAmount
     }
-    return currentMap.map { (effect, amount) -> StatusEffect(effect, amount) }
+    return currentMap.toMap()
 }

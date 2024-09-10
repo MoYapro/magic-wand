@@ -33,11 +33,14 @@ abstract class Spell<SPELL_TYPE : Spell<SPELL_TYPE>>(
 
 
     open fun applyEffect(enemy: Enemy, power: Int): Enemy {
-        val updatedStatusEffects: List<StatusEffect> = enemy.statusEffects + this.effects.map { effect -> StatusEffect(effect, power) }
+        val updatedStatusEffects: Map<Effect, Int> = enemy.statusEffects + this.effects.associateWith { _ -> power }
         return enemy.copy(statusEffects = updatedStatusEffects)
     }
-}
 
+    private fun consumeFromEachEffect(enemy: Enemy, power: Int) {
+
+    }
+}
 
 class Bonk(
     id: SpellId = SpellId(),
@@ -66,6 +69,17 @@ class Fizz(
 ) : Spell<Fizz>(id = id, name = "Fizz", magicSlots = magicSlots, effects = effects) {
     override fun copy(magicSlots: List<MagicSlot>): Fizz {
         return Fizz(this.id, magicSlots, this.effects)
+    }
+
+    override fun applyEffect(enemy: Enemy, power: Int): Enemy {
+        val allEff = super.applyEffect(enemy, power)
+        val currentEff = allEff.statusEffects.mapNotNull { (effect, amount) ->
+            if (effect == WET) {
+                if (amount <= 1) null // to remove it
+                else WET to amount - 1
+            } else effect to amount
+        }
+        return allEff.copy(statusEffects = currentEff.associate { it })
     }
 }
 
