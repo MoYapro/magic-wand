@@ -28,12 +28,14 @@ data class Spell(
     }
 
     fun applyEffect(enemy: Enemy, power: Int): Enemy {
-        val updatedStatusEffects: List<StatusEffect> = emptyList()
+        val updatedStatusEffects: List<StatusEffect> = enemy.statusEffects + this.effects.map { effect -> StatusEffect(effect, power) }
         return enemy.copy(statusEffects = updatedStatusEffects)
     }
 }
 
 
-fun Bonk() = Spell(name = "TestSpell", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))
+fun Bonk() = Spell(name = "Bonk", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))
 
-fun Splash() = Spell(name = "TestSpell", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)), effects = listOf(Effect.WET))
+fun Splash() = Spell(name = "Splash", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)), effects = listOf(Effect.WET))
+
+fun Fizz() = Spell(name = "Fizz", magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))

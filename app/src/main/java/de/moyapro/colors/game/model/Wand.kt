@@ -46,7 +46,6 @@ data class Wand(
         require(targetedEnemy != null) { "Cannot affect without targetedEnemy" }
         val spellsToExecute = slots.filter { it.spell != null && it.hasRequiredMagic() }
 
-
         return battleBoard.mapEnemies { enemy ->
             if (enemy.id == targetedEnemy.id) {
                 spellsToExecute.fold(enemy, ::applyNextSpellToEnemy)

@@ -6,7 +6,6 @@ import de.moyapro.colors.game.effect.Effect.WET
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
-import io.kotest.assertions.*
 import io.kotest.matchers.*
 import org.junit.*
 
@@ -31,13 +30,19 @@ class WandAffectTest {
         val affectedFieldId = battleBoard.fields.first().id
 
         val updatedBattleBoard = wand.affect(battleBoard, affectedFieldId)
-        updatedBattleBoard.fields.first().enemy!!.statusEffects shouldBe StatusEffect(effect = WET, amount = 1)
-// TODO spell dmg modifier needs to be 0       updatedBattleBoard.fields.all { it.enemy!!.health == 10 } shouldBe true
+        updatedBattleBoard.fields.first().enemy!!.statusEffects.single() shouldBe StatusEffect(effect = WET, amount = 1)
+        updatedBattleBoard.fields.filterIndexed { index, _ -> index != 0 }.all { it.enemy!!.statusEffects == emptyList<StatusEffect>() } shouldBe true
     }
 
     @Test
-    fun `spell stacks reduce at turn end`() {
-        fail("implement me")
+    fun `spell consumes status effects`() {
+        val battleBoard = createExampleBattleBoardFilledWith(enemyOnAllFields = TargetDummy(10))
+        val wand = createExampleWand(MAGE_I_ID, Splash(), Fizz())
+        val affectedFieldId = battleBoard.fields.first().id
+
+        val updatedBattleBoard = wand.affect(battleBoard, affectedFieldId)
+        updatedBattleBoard.fields.first().enemy!!.statusEffects.single() shouldBe StatusEffect(effect = WET, amount = 1)
+        updatedBattleBoard.fields.filterIndexed { index, _ -> index != 0 }.all { it.enemy!!.statusEffects == emptyList<StatusEffect>() } shouldBe true
     }
 
 }
