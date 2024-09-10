@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.actions.loot
 
+import de.moyapro.colors.game.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.*
 import io.kotest.matchers.*
 import org.junit.*
 
@@ -10,7 +10,7 @@ class PlaceSpellActionTest {
     @Test
     fun `place spell in wand at hand`() {
         val state = getExampleGameState()
-        val spellToPlace = Spell(name = "newSpell", magicSlots = emptyList())
+        val spellToPlace = Bonk()
         val wandToPutSpellInto = state.currentRun.activeWands.first()
         val slotToPutSpellInto = wandToPutSpellInto.slots.first()
         val action = PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wandToPutSpellInto.id)
@@ -20,7 +20,7 @@ class PlaceSpellActionTest {
 
     @Test
     fun `place spell in wand in loot`() {
-        val spellToPlace = Spell(name = "newSpell", magicSlots = emptyList())
+        val spellToPlace = Bonk()
         val state = getExampleGameState()
         val wandToPutSpellInto = state.currentRun.wandsInBag.first()
         val slotToPutSpellInto = wandToPutSpellInto.slots.first()

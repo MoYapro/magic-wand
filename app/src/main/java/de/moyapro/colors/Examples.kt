@@ -12,17 +12,17 @@ fun createExampleWand(mageId: MageId? = null, readyToZap: Boolean = false) =
         mageId = mageId,
         slots = listOf(
             createExampleSlot(
-                spellName = "Blitz", level = 0, 2, power = 3, readyToZap
+                level = 0, 2, power = 3, readyToZap
             ),
             createExampleSlot(
-                spellName = "Pow", level = 1, 1, power = 11, readyToZap
+                level = 1, 1, power = 11, readyToZap
             ),
-            createExampleSlot(spellName = "Bom", level = 0, 5, power = 4, readyToZap),
-            createExampleSlot(spellName = "Top", level = 2, 1, power = 7, readyToZap),
+            createExampleSlot(level = 0, 5, power = 4, readyToZap),
+            createExampleSlot(level = 2, 1, power = 7, readyToZap),
         )
     )
 
-fun createExampleWand(mageId: MageId? = null, vararg spells: Spell) = Wand(
+fun createExampleWand(mageId: MageId? = null, vararg spells: Spell<*>) = Wand(
     mageId = mageId,
     slots = spells.mapIndexed { index, spell -> Slot(level = index, spell = spell, power = 1) }
 )
@@ -38,7 +38,6 @@ fun createExampleMage(health: Int = 1, wandId: WandId? = null, mageId: MageId) =
     Mage(id = mageId, health = health, wandId = wandId)
 
 fun createExampleSlot(
-    spellName: String = "Pew",
     level: Int = 0,
     requiredMagic: Int = 1,
     power: Int = 1,
@@ -47,7 +46,7 @@ fun createExampleSlot(
     val random = Random(99)
     return Slot(
         level = level,
-        spell = Spell(name = spellName,
+        spell = Bonk(
             magicSlots = (1..requiredMagic).map {
                 createExampleMagicSlot(
                     MagicType.values().random(random),
@@ -58,8 +57,8 @@ fun createExampleSlot(
     )
 }
 
-fun createExampleSpell(): Spell {
-    return Spell(name = "The Spell" + Random.nextInt(), magicSlots = listOf(createExampleMagicSlot(readyToZap = true)))
+fun createExampleSpell(): Spell<*> {
+    return Bonk()
 }
 
 fun createExampleMagicSlot(type: MagicType = MagicType.SIMPLE, readyToZap: Boolean = false): MagicSlot {

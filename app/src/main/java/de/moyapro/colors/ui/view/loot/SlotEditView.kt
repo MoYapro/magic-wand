@@ -7,7 +7,6 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -27,7 +26,7 @@ fun SlotEditView(
     if (dropZoneDisabled)
         SpellView(spell = slot.spell)
     else
-        DropZone<Spell>(
+        DropZone<Spell<*>>(
             modifier = Modifier
                 .border(BorderStroke(1.dp, Color.LightGray))
                 .width(SPELL_SIZE.dp)

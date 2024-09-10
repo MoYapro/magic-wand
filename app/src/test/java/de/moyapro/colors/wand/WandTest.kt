@@ -5,7 +5,6 @@ import io.kotest.matchers.*
 import org.junit.*
 
 internal class WandTest {
-    private val spellName = "::SpellName::"
 
     @Test
     fun createEmpty() {
@@ -14,8 +13,7 @@ internal class WandTest {
 
     @Test
     fun addSpell() {
-        val spell = Spell(
-            name = spellName,
+        val spell = Bonk(
             magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
         )
         val (wand, slot) = getExampleWandWithSingleSlot(spell = spell)
@@ -25,8 +23,8 @@ internal class WandTest {
 
     @Test
     fun addTwoSpells() {
-        val spell1 = Spell(name = spellName + "1", magicSlots = emptyList())
-        val spell2 = Spell(name = spellName + "2", magicSlots = emptyList())
+        val spell1 = Bonk()
+        val spell2 = Splash()
         val (wand, slot1, slot2) = getExampleWandWithTwoSlots()
         wand
             .putSpell(slot1.id, spell1)
@@ -37,8 +35,7 @@ internal class WandTest {
     @Test
     fun placeMagicInAvailableSlot() {
         val magic = Magic()
-        val spell = Spell(
-            name = "",
+        val spell = Bonk(
             magicSlots = listOf(
                 MagicSlot(Magic()),
                 MagicSlot(Magic())

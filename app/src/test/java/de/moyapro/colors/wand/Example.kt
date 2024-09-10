@@ -22,9 +22,9 @@ val WAND_I_ID = WandId()
 val WAND_II_ID = WandId()
 val WAND_III_ID = WandId()
 
-fun getExampleWandWithSingleSlot(slot: Slot? = null, spell: Spell? = null): Pair<Wand, Slot> {
+fun getExampleWandWithSingleSlot(slot: Slot? = null, spell: Spell<*>? = null): Pair<Wand, Slot> {
     val actualSlot = slot ?: Slot(level = 0, power = 1)
-    val actualSpell = spell ?: Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic())))
+    val actualSpell = spell ?: Bonk()
     val newWand: Wand =
         Wand(slots = listOf(actualSlot)).putSpell(slotId = actualSlot.id, actualSpell)
     return Pair(newWand, actualSlot)
@@ -38,11 +38,11 @@ fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
         Wand(slots = listOf(slot1, slot2))
             .putSpell(
                 slotId = slot1.id,
-                Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic())))
+                Bonk(magicSlots = listOf(MagicSlot(Magic())))
             )
             .putSpell(
                 slotId = slot2.id,
-                Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic(type = GREEN))))
+                Bonk(magicSlots = listOf(MagicSlot(Magic(type = GREEN))))
             )
     return Triple(newWand, slot1, slot2)
 }
@@ -64,7 +64,7 @@ fun getExampleProgression() = ProgressionData(
     achievements = listOf(getExampleAchievement()),
 )
 
-fun getExampleSpell(magicType: MagicType = SIMPLE) = Spell(name = "SpellName", magicSlots = listOf(MagicSlot(Magic(type = magicType))))
+fun getExampleSpell(magicType: MagicType = SIMPLE) = Bonk(magicSlots = listOf(MagicSlot(Magic(type = magicType))))
 
 fun getExampleAchievement() = Achievement.ARCHIEVED_SOMETHING
 
@@ -85,7 +85,7 @@ fun getExampleRunData(): RunData {
 fun getExampleWand(
     mageId: MageId? = null,
     slot: Slot = Slot(level = 0, power = 1),
-    spell: Spell = Spell(name = "spell", magicSlots = listOf(MagicSlot(Magic()))),
+    spell: Spell<*> = getExampleSpell(),
 ): Wand {
     val someSlots = listOf(SIMPLE, GREEN, BLUE, RED).map { magicType -> getExampleSlot(magicType = magicType) }
     val newWand: Wand = Wand(mageId = mageId, slots = listOf(slot) + someSlots).putSpell(slotId = slot.id, spell)

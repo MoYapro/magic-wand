@@ -30,7 +30,7 @@ data class NewGameState(
 
     fun updateCurrentRun(
         mages: List<Mage> = this.currentRun.mages,
-        spells: List<Spell> = this.currentRun.spells,
+        spells: List<Spell<*>> = this.currentRun.spells,
         activeWands: List<Wand> = this.currentRun.activeWands,
         wandsInBag: List<Wand> = this.currentRun.wandsInBag,
     ): NewGameState = this.copy(

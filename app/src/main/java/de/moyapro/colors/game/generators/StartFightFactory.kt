@@ -83,11 +83,11 @@ object StartFightFactory {
     )
 
     private fun createStarterWand(): Wand {
-        val spell1 = Spell(
-            name = "Bolt", magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
+        val spell1 = Bonk(
+            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
         )
-        val spell2 = Spell(
-            name = "Double", magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
+        val spell2 = Splash(
+            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
         )
         val slot1 = Slot(level = 0, power = 2, spell = spell1)
         val slot2 = Slot(level = 1, power = 2, spell = spell2)

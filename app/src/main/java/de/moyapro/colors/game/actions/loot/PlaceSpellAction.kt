@@ -6,7 +6,7 @@ import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
-data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: Spell) :
+data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: Spell<*>) :
     GameAction("Place spell") {
     override val randomSeed: Int = this.hashCode()
 
@@ -22,7 +22,7 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
         )
     }
 
-    private fun placeSpellInWand(wandToUpdate: Wand, slotId: SlotId, spell: Spell): Wand {
+    private fun placeSpellInWand(wandToUpdate: Wand, slotId: SlotId, spell: Spell<*>): Wand {
         return wandToUpdate.copy(
             slots = wandToUpdate.slots.mapIf({ slot -> slot.id == slotId }) { slotToUpdate -> slotToUpdate.copy(spell = spell) }
         )

@@ -2,6 +2,7 @@ package de.moyapro.colors.wand
 
 import de.moyapro.colors.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.effect.Effect.ELECTRIFIED
 import de.moyapro.colors.game.effect.Effect.WET
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
@@ -41,7 +42,7 @@ class WandAffectTest {
         val affectedFieldId = battleBoard.fields.first().id
 
         val updatedBattleBoard = wand.affect(battleBoard, affectedFieldId)
-        updatedBattleBoard.fields.first().enemy!!.statusEffects.single() shouldBe StatusEffect(effect = WET, amount = 1)
+        updatedBattleBoard.fields.first().enemy!!.statusEffects.single() shouldBe StatusEffect(effect = ELECTRIFIED, amount = 1)
         updatedBattleBoard.fields.filterIndexed { index, _ -> index != 0 }.all { it.enemy!!.statusEffects == emptyList<StatusEffect>() } shouldBe true
     }
 

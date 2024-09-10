@@ -12,7 +12,7 @@ data class Wand(
     val zapped: Boolean = false,
     val mageId: MageId? = null,
 ) : HasId<WandId> {
-    fun putSpell(slotId: SlotId, spell: Spell): Wand {
+    fun putSpell(slotId: SlotId, spell: Spell<*>): Wand {
         return this.copy(slots = slots.mapIf({ it.id == slotId }, { it.copy(spell = spell) }))
     }
 

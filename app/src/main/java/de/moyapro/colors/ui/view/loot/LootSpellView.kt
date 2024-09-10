@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -20,14 +19,14 @@ private const val TAG = "LootSpellsView"
 
 @Composable
 fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState, addAction: (GameAction) -> Unit) {
-    DropZone<Spell>(
+    DropZone<Spell<*>>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.currentRun.spells.contains(dragData) },
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { dropModifier: Modifier, isInBound: Boolean, hoveredSpell: Spell? ->
+    { dropModifier: Modifier, isInBound: Boolean, hoveredspell: Spell<*>? ->
         LazyVerticalGrid(
             modifier = dropModifier
                 .fillMaxWidth()
@@ -39,7 +38,7 @@ fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: NewGameState
         ) {
             items(
                 items = currentGameState.currentRun.spells,
-                key = { it.hashCode() }) { spell ->
+                key = { spell -> spell.id.hashCode() }) { spell ->
                 Draggable(
                     modifier = Modifier
                         .height(SPELL_SIZE.dp)

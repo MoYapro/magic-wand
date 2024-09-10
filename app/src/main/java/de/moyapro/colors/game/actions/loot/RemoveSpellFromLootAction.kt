@@ -5,7 +5,7 @@ import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 
 data class RemoveSpellFromLootAction(
-    val spell: Spell,
+    val spell: Spell<*>,
 ) : GameAction("Remove spell from loot") {
     override val randomSeed: Int = this.hashCode()
 

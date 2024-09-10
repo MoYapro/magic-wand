@@ -6,7 +6,7 @@ data class Slot(
     override val id: SlotId = SlotId(),
     val power: Int,
     val level: Int,
-    val spell: Spell? = null,
+    val spell: Spell<*>? = null,
 ) : HasId<SlotId> {
     fun putMagic(magicToPlace: Magic): Result<Slot> {
         if (null == spell) return Result.failure(IllegalStateException("Slot does not have a spell"))
