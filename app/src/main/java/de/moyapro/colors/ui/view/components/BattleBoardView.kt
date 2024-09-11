@@ -5,7 +5,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.gameState.*
@@ -32,7 +31,7 @@ fun BattleBoardView(
     @PreviewParameter(provider = BattleBoardPreviewProviderBattleBoard::class)
     battleBoard: BattleBoard,
     modifier: Modifier = Modifier,
-    addAction: (GameAction) -> Unit = { GameViewModel() },
+    addAction: (GameAction) -> Unit = { },
 ) {
     val displedFields = MutableList(15) { true }
     Box(

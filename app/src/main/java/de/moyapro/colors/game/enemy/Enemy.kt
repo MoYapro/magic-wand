@@ -12,7 +12,7 @@ data class Enemy(
     val health: Int,
     val breadth: Int = 1,
     val size: Int = 1,
-    val possibleActions: List<EnemyAction<*>>,
+    val possibleActions: List<EnemyAction<*>> = emptyList(),
     val nextAction: GameAction = NoOp(),
     val statusEffects: Map<Effect, Int> = emptyMap(),
 ) : HasId<EnemyId>

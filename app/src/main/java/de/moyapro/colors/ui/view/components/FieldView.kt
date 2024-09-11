@@ -29,7 +29,7 @@ fun FieldView(
             .background(color = getColorForTerrain(field.terrain))
     ) {
         if (field.enemy != null) {
-            EnemyView(enemy = field.enemy, addAction)
+            EnemyView(enemy = field.enemy)
         }
         if (field.showTarget) {
 
