@@ -30,6 +30,7 @@ class SerializationWorldStateTest {
         val gameState = StartFightFactory.setupFightStage()
         val json = objectMapper.writeValueAsString(gameState)
         val deserialized: NewGameState = objectMapper.readValue(json)
-        deserialized shouldBeEqual gameState
+        objectMapper.writeValueAsString(deserialized) shouldBeEqual json // to check if IDs and stuff changed
+        deserialized shouldBeEqual gameState // to check if equals is implemented correctly
     }
 }
