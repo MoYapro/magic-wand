@@ -15,7 +15,7 @@ class PlaceSpellActionTest {
         val slotToPutSpellInto = wandToPutSpellInto.slots.first()
         val action = PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wandToPutSpellInto.id)
         val updatedState = action.apply(state).getOrThrow()
-        updatedState.currentRun.activeWands.findWand(wandToPutSpellInto.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "newSpell"
+        updatedState.currentRun.activeWands.findWand(wandToPutSpellInto.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "Bonk"
     }
 
     @Test
@@ -26,7 +26,7 @@ class PlaceSpellActionTest {
         val slotToPutSpellInto = wandToPutSpellInto.slots.first()
         val action = PlaceSpellAction(slotId = slotToPutSpellInto.id, spell = spellToPlace, wandId = wandToPutSpellInto.id)
         val updatedState = action.apply(state).getOrThrow()
-        updatedState.currentRun.wandsInBag.findWand(wandToPutSpellInto.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "newSpell"
+        updatedState.currentRun.wandsInBag.findWand(wandToPutSpellInto.id)!!.slots.single { it.id == slotToPutSpellInto.id }.spell?.name shouldBe "Bonk"
     }
 
 }

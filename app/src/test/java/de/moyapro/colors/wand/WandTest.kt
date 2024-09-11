@@ -59,10 +59,8 @@ internal class WandTest {
 
     @Test
     fun placeMagicNoAvailableSlot() {
-        val magic = Magic()
-        val (wand, slot) = getExampleWandWithSingleSlot()
-        val fullWand = wand.putMagic(slot.id, magic).getOrThrow()
-        fullWand.putMagic(slot.id, magic).isFailure shouldBe true
+        val (fullWand, slot) = getExampleWandWithSingleSlot()
+        fullWand.putMagic(slot.id, fullWand.slots.single().spell!!.magicSlots.single().requiredMagic).isFailure shouldBe true
     }
 
 }
