@@ -31,7 +31,6 @@ class LoadSaveTest {
 
     @Test
     fun saveActionsTest(): Unit = runBlocking {
-        val mageId = MageId(1)
         val actions = listOf(
             PlaceMagicAction(
                 magicToPlace = createExampleMagic(),
