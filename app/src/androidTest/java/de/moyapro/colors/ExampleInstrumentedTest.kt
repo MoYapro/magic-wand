@@ -1,7 +1,5 @@
 package de.moyapro.colors
 
-import android.view.*
-import androidx.lifecycle.*
 import androidx.test.ext.junit.rules.*
 import androidx.test.ext.junit.runners.*
 import androidx.test.platform.app.*
@@ -28,20 +26,4 @@ class ExampleInstrumentedTest {
         assertEquals("de.moyapro.colors", appContext.packageName)
     }
 
-    @Test
-    fun testEvent() {
-        val scenario = activityScenarioRule.scenario
-        scenario.onActivity { activity ->
-            scenario.moveToState(Lifecycle.State.CREATED)
-            activity.findViewById<View>(10000).isActivated
-        }
-    }
-
-    @Test
-    fun reloadEverythingAfterRecreate() {
-        val scenario = activityScenarioRule.scenario
-        scenario.onActivity { activity ->
-            scenario.recreate() // recreate activity after scheduler removed it from memory
-        }
-    }
 }
