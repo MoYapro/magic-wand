@@ -13,6 +13,7 @@ import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.effect.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.util.*
+import kotlin.math.*
 
 
 @Composable
@@ -44,22 +45,28 @@ fun StatusEffectsView(statusEffects: Map<Effect, Int>) {
             items = statusEffects.entries.toList(),
             key = { (effect, _) -> effect }
         ) { (effect: Effect, amount: Int) ->
-            Icon(
-                imageVector = effect.icon,
-                contentDescription = "Localized description",
-                tint = effect.color,
-                modifier = Modifier.size(16.dp) // Change the size
-            )
+            if (amount > 0)
+                Icon(
+                    imageVector = effect.icon,
+                    contentDescription = "Localized description",
+                    tint = effect.color.copy(alphaForAmount(amount)),
+                    modifier = Modifier.size(16.dp) // Change the size
+                )
         }
     }
 
+}
+
+fun alphaForAmount(input: Int): Float {
+    return (1 - 0.7 * exp(-0.1 * input)).toFloat()
 }
 
 class EnemyPreviewProvider(
     override val values: Sequence<Enemy> = sequenceOf(
         Enemy(health = 10),
         Enemy(health = 101, nextAction = UndoAction),
-        Enemy(health = 10, statusEffects = Effect.values().map { it to 1 }.associate { it })
+        Enemy(health = 10, statusEffects = Effect.values().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),
+        Enemy(health = 10, statusEffects = Effect.values().reversed().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),
     ),
 ) : PreviewParameterProvider<Enemy>
 

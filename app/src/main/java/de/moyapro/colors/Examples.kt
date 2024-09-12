@@ -1,5 +1,6 @@
 package de.moyapro.colors
 
+import de.moyapro.colors.game.effect.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
@@ -31,7 +32,8 @@ fun createExampleEnemy(health: Int = Random.nextInt(1, 1000), breadth: Int = 1, 
     health = health,
     breadth = breadth,
     size = size,
-    possibleActions = listOf(SelfHealEnemyAction())
+    possibleActions = listOf(SelfHealEnemyAction()),
+    statusEffects = Effect.values().associateWith { Random.nextInt(0..100) }
 )
 
 fun createExampleMage(health: Int = 1, wandId: WandId? = null, mageId: MageId) =
