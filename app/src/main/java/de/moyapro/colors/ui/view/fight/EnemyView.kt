@@ -44,7 +44,6 @@ fun StatusEffectsView(statusEffects: Map<Effect, Int>) {
             items = statusEffects.entries.toList(),
             key = { (effect, _) -> effect }
         ) { (effect: Effect, amount: Int) ->
-
             Icon(
                 imageVector = effect.icon,
                 contentDescription = "Localized description",
