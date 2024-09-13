@@ -7,6 +7,7 @@ data class BattleBoard(
 ) {
 
     init {
+        require(fields.size == 15) { "BattleBoard must have 15 fields" }
         fields.forEachIndexed { index, field -> require(index.toShort() == field.id.id) { "FieldId must match its index" } }
     }
 

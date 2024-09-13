@@ -11,4 +11,6 @@ data class Field(
     val width: Int = 1,
     val height: Int = 1,
     val showTarget: Boolean = false,
-) : HasId<FieldId>
+) : HasId<FieldId> {
+    fun hasNoEnemy(): Boolean = enemy == null
+}

@@ -1,7 +1,9 @@
 package de.moyapro.colors.game.actions.fight
 
 import android.util.*
+import de.moyapro.colors.*
 import de.moyapro.colors.game.*
+import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import io.kotest.matchers.*
@@ -26,26 +28,35 @@ internal class TargetSelectionActionTest {
     fun `should execute action on selected enemy`() {
         val gameViewModel = GameViewModel(getExampleGameState())
         val state = gameViewModel.getCurrentGameState().getOrThrow()
-        val fieldToHit = state.currentFight.battleBoard.fields.first()
+        val fieldToHitId = state.currentFight.battleBoard.fields.last().id
         val wandToZap = state.currentFight.wands.first()
         val magicToPlace = state.currentFight.magicToPlay.first()
         val slotForMagic = wandToZap.slots.forMagic(magicToPlace)!!
         val placeMagicAction = PlaceMagicAction(magicToPlace = magicToPlace, wandId = wandToZap.id, slotId = slotForMagic.id)
-        val showTargetsAction = ShowTargetSelectionAction(
-            ZapAction(
-                target = fieldToHit.id,
-                wandId = wandToZap.id
-            )
-        )
-        val hitTargetAction = TargetSelectedAction(targetFieldId = fieldToHit.id)
+        val showTargetsAction = ShowTargetSelectionAction(ZapAction(target = fieldToHitId, wandId = wandToZap.id))
+        val selectTargetAction = TargetSelectedAction(targetFieldId = fieldToHitId)
         gameViewModel.addAction(placeMagicAction)
         gameViewModel.addAction(showTargetsAction)
-        gameViewModel.addAction(hitTargetAction)
+        gameViewModel.addAction(selectTargetAction)
         val updatedState = gameViewModel.getCurrentGameState().getOrThrow()
-        val hitField = updatedState.currentFight.battleBoard.fields.findById(fieldToHit.id)!!
+        val hitField = updatedState.currentFight.battleBoard.fields.findById(fieldToHitId)!!
         hitField.showTarget shouldBe false
-        hitField.enemy!!.health shouldBeLessThan fieldToHit.enemy!!.health
+        hitField.enemy!!.health shouldBeLessThan state.currentFight.battleBoard.fields.findById(fieldToHitId)!!.enemy!!.health
+    }
 
+    @Test
+    fun `cannot target enemy in the backrow`() {
+        val exampleGameState = getExampleGameState()
+        val stateWithEnemies = exampleGameState.copy(currentFight = exampleGameState.currentFight.copy(battleBoard = createExampleBattleBoardFilledWith(TargetDummy(10))))
+        val wandToZap = stateWithEnemies.currentFight.wands.first()
+        val showTargetsAction = ShowTargetSelectionAction(ZapAction(wandId = wandToZap.id))
+        val stateWithTargets = showTargetsAction.apply(stateWithEnemies).getOrThrow()
+        stateWithTargets.currentFight.battleBoard
+            .fields.filterIndexed { index, _ -> index >= 10 }
+            .map { field -> field.showTarget } shouldBe List(size = 5) { true }
+        stateWithTargets.currentFight.battleBoard
+            .fields.filterIndexed { index, _ -> index < 10 }
+            .map { field -> field.showTarget } shouldBe List(size = 10) { false }
     }
 }
 

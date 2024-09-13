@@ -47,9 +47,23 @@ data class ZapAction(
         }
     }
 
-    override fun isValidTarget(field: BattleBoard, id: FieldId): Boolean {
-        return true
+    override fun isValidTarget(battleBoard: BattleBoard, fieldId: FieldId): Boolean {
+        if (isInFrontRow(fieldId)) return true
+        if (isInMiddleRow(fieldId) && battleBoard.fields[fieldInFront(fieldId).id.toInt()].hasNoEnemy()) return true
+        if (isInBackRow(fieldId) && battleBoard.fields[fieldInFront(fieldId).id.toInt()].hasNoEnemy() && battleBoard.fields[fieldInFront(fieldInFront(fieldId)).id.toInt()].hasNoEnemy()) return true
+        return false
     }
+
+    private fun fieldInFront(fieldId: FieldId): FieldId {
+        val fieldIdInFront = FieldId((fieldId.id + 5).toShort())
+        require(fieldIdInFront.id < 15) { "FieldId out of field" }
+        return fieldIdInFront
+    }
+
+    private fun isInFrontRow(fieldId: FieldId) = fieldId.id >= 10
+    private fun isInMiddleRow(fieldId: FieldId) = (5..9).contains(fieldId.id)
+    private fun isInBackRow(fieldId: FieldId) = (0..4).contains(fieldId.id)
+
 
     override fun withSelection(targetFieldId: FieldId): GameAction {
         return this.copy(target = targetFieldId)
