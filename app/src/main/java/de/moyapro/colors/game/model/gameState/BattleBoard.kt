@@ -5,6 +5,11 @@ import de.moyapro.colors.game.enemy.*
 data class BattleBoard(
     val fields: List<Field>,
 ) {
+
+    init {
+        fields.forEachIndexed { index, field -> require(index.toShort() == field.id.id) { "FieldId must match its index" } }
+    }
+
     fun getEnemies(): List<Enemy> = fields.mapNotNull(Field::enemy)
     fun mapEnemies(mf: (Enemy) -> Enemy?) = this.copy(fields = fields.map { field ->
         if (field.enemy == null) field

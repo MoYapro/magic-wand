@@ -47,7 +47,7 @@ data class ZapAction(
         }
     }
 
-    override fun isValidTarget(field: Field): Boolean {
+    override fun isValidTarget(field: BattleBoard, id: FieldId): Boolean {
         return true
     }
 

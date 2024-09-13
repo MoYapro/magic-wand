@@ -71,4 +71,4 @@ fun createExampleMagicSlot(type: MagicType = MagicType.SIMPLE, readyToZap: Boole
 fun createExampleMagic(type: MagicType = MagicType.SIMPLE) = Magic(type = type)
 
 
-fun createExampleBattleBoardFilledWith(enemyOnAllFields: Enemy) = BattleBoard((0..15).map { i -> Field(FieldId(i.toShort()), enemyOnAllFields.copy(id = EnemyId()), Terrain.PLAIN) })
+fun createExampleBattleBoardFilledWith(enemyOnAllFields: Enemy) = BattleBoard((0..14).map { i -> Field(FieldId(i.toShort()), enemyOnAllFields.copy(id = EnemyId()), Terrain.PLAIN) })

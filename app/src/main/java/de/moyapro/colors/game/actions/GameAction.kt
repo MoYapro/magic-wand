@@ -29,7 +29,7 @@ abstract class GameAction(
     private val type = this.javaClass.simpleName
     abstract fun apply(oldState: NewGameState): Result<NewGameState>
     open val target: FieldId? = null
-    open fun isValidTarget(field: Field): Boolean = false
+    open fun isValidTarget(field: BattleBoard, id: FieldId): Boolean = false
     open fun withSelection(targetFieldId: FieldId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {

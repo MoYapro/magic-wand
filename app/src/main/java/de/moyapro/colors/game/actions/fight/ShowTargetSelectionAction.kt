@@ -10,7 +10,7 @@ data class ShowTargetSelectionAction(val originalAction: GameAction) :
     override fun apply(oldState: NewGameState): Result<NewGameState> {
         val updatedFields = oldState.currentFight.battleBoard.fields
             .map { field ->
-                if (originalAction.isValidTarget(field)) field.copy(showTarget = true)
+                if (originalAction.isValidTarget(oldState.currentFight.battleBoard, field.id)) field.copy(showTarget = true)
                 else field
             }
         val updatedBattleBoard = oldState.currentFight.battleBoard.copy(fields = updatedFields)

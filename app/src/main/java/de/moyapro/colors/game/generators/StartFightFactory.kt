@@ -58,21 +58,21 @@ object StartFightFactory {
 
     private fun initialBattleBoard() = BattleBoard(
         fields = listOf(
+            Field(FieldId(0), null, Terrain.SAND),
             Field(FieldId(1), null, Terrain.PLAIN),
             Field(FieldId(2), null, Terrain.ROCK),
             Field(FieldId(3), null, Terrain.FORREST),
             Field(FieldId(4), null, Terrain.WATER),
-            Field(FieldId(5), null, Terrain.SAND),
-            Field(FieldId(6), createExampleEnemy(), Terrain.PLAIN),
-            Field(FieldId(7), createExampleEnemy(), Terrain.ROCK),
-            Field(FieldId(8), createExampleEnemy(), Terrain.FORREST),
-            Field(FieldId(9), createExampleEnemy(), Terrain.WATER),
-            Field(FieldId(10), createExampleEnemy(), Terrain.SAND),
+            Field(FieldId(5), createExampleEnemy(), Terrain.PLAIN),
+            Field(FieldId(6), createExampleEnemy(), Terrain.ROCK),
+            Field(FieldId(7), createExampleEnemy(), Terrain.FORREST),
+            Field(FieldId(8), createExampleEnemy(), Terrain.WATER),
+            Field(FieldId(9), createExampleEnemy(), Terrain.SAND),
+            Field(FieldId(10), null, Terrain.SAND),
             Field(FieldId(11), null, Terrain.PLAIN),
             Field(FieldId(12), null, Terrain.ROCK),
             Field(FieldId(13), null, Terrain.FORREST),
             Field(FieldId(14), null, Terrain.WATER),
-            Field(FieldId(15), null, Terrain.SAND),
         )
     )
 

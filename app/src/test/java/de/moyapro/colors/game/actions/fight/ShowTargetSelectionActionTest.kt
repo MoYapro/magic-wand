@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 import io.kotest.matchers.*
 import org.junit.*
@@ -32,7 +33,7 @@ internal class ShowTargetSelectionActionTest {
     private val targetNothingAction = object : GameAction("Target nothing") {
         override val randomSeed = -99
         override fun apply(oldState: NewGameState) = Result.success(oldState)
-        override fun isValidTarget(field: Field): Boolean {
+        override fun isValidTarget(field: BattleBoard, id: FieldId): Boolean {
             return false
         }
     }
