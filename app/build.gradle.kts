@@ -4,7 +4,7 @@ plugins {
 }
 object VERSIONS {
     const val JACKSON = "2.17.1"
-    const val COMPOSE_BOM = "2024.08.00"
+    const val COMPOSE_BOM = "2024.09.01"
 }
 
 android {
@@ -54,7 +54,7 @@ android {
     testOptions {
         unitTests {
 
-        isIncludeAndroidResources = true
+            isIncludeAndroidResources = true
         }
     }
 }
@@ -62,8 +62,8 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("androidx.activity:activity-compose:1.9.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
+    implementation("androidx.activity:activity-compose:1.9.2")
     implementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -83,7 +83,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("io.kotest:kotest-assertions-core-jvm:5.8.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
