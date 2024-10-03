@@ -33,12 +33,14 @@ data class NewGameState(
         spells: List<Spell<*>> = this.currentRun.spells,
         activeWands: List<Wand> = this.currentRun.activeWands,
         wandsInBag: List<Wand> = this.currentRun.wandsInBag,
+        generators: List<MagicGenerator> = this.currentRun.generators,
     ): NewGameState = this.copy(
         currentRun = this.currentRun.copy(
             mages = mages,
             spells = spells,
             activeWands = activeWands,
-            wandsInBag = wandsInBag
+            wandsInBag = wandsInBag,
+            generators = generators,
         )
     )
 }

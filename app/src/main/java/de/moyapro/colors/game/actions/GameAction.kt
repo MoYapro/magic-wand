@@ -19,6 +19,7 @@ import de.moyapro.colors.game.model.gameState.*
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
     JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
+    JsonSubTypes.Type(value = AddGeneratorAction::class, name = "AddGeneratorAction"),
     )
 abstract class GameAction(
     val name: String,

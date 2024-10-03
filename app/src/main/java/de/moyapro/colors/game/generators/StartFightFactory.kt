@@ -37,7 +37,8 @@ object StartFightFactory {
         activeWands = emptyList(),
         mages = emptyList(),
         spells = emptyList(),
-        wandsInBag = listOf(createStarterWand())
+        wandsInBag = listOf(createStarterWand()),
+        generators = emptyList(),
     )
 
     private fun initialFightData(wands: List<Wand>?): FightData {

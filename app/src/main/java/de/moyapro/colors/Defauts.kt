@@ -28,6 +28,7 @@ fun initEmptyRun(): RunData {
         mages = emptyList(),
         activeWands = emptyList(),
         spells = emptyList(),
-        wandsInBag = emptyList()
+        wandsInBag = emptyList(),
+        generators = emptyList(),
     )
 }

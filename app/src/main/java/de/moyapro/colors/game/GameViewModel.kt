@@ -34,13 +34,6 @@ class GameViewModel(
         return result
     }
 
-    private fun applyAllActions(
-        state: Result<NewGameState>,
-        action: GameAction,
-    ): Result<NewGameState> {
-        return state.flatMap { action.apply(it) }
-    }
-
     fun addAction(action: GameAction): GameViewModel {
         Log.d(TAG, "Add action: $action")
         action.onAddAction(this.actions)
@@ -49,10 +42,4 @@ class GameViewModel(
         return this
     }
 
-}
-
-fun <T> Result<T>.flatMap(transform: (T) -> Result<T>): Result<T> {
-    return if (this.isSuccess)
-        transform(this.getOrThrow())
-    else this
 }

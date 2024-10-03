@@ -78,7 +78,8 @@ fun getExampleRunData(): RunData {
         activeWands = activeWands,
         mages = magesWithWands,
         spells = listOf(getExampleSpell()),
-        wandsInBag = listOf(getExampleWandWithTwoSlots().first)
+        wandsInBag = listOf(getExampleWandWithTwoSlots().first),
+        generators = listOf(MagicGenerator(SIMPLE, 2..4), MagicGenerator(GREEN, 1..3), MagicGenerator(BLUE, 1..2), MagicGenerator(RED, 1..1))
     )
 }
 

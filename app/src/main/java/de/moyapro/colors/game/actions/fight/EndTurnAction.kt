@@ -1,6 +1,5 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.enemy.*
 import de.moyapro.colors.game.model.*
@@ -18,11 +17,8 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
     override fun apply(oldState: NewGameState): Result<NewGameState> {
         random = Random(randomSeed)
-        val foldingFunction = { state: Result<NewGameState>, action: GameAction ->
-            state.flatMap { action.apply(it) }
-        }
         val stateAfterEnemyActions =
-            oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), foldingFunction)
+            oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
         return stateAfterEnemyActions.map(this::prepareNextTurn)
     }
 
@@ -30,19 +26,24 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
     private fun prepareNextTurn(gameState: NewGameState): NewGameState {
 
         return gameState.updateCurrentFight(
-            currentTurn = gameState.currentFight.currentTurn + 1,
-            fightState = checkFightEnd(gameState),
+            currentTurn = nextTurn(gameState.currentFight.currentTurn),
+            fightState = checkFightEnd(gameState.currentFight),
             battlefield = calculateEnemyTurn(gameState),
             magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay)
         )
     }
 
-    private fun checkFightEnd(gameState: NewGameState): FightState {
+    private fun checkFightEnd(fight: FightData): FightState {
         return when {
-            gameState.currentFight.battleBoard.getEnemies().none { it.health > 0 } -> WIN
-            gameState.currentFight.mages.none { it.health > 0 } -> LOST
-            else -> ONGOING
+            fight.battleBoard.getEnemies().none { it.health > 0 } -> WIN
+            fight.mages.none { it.health > 0 } -> LOST
+            fight.fightState == ONGOING -> ONGOING
+            else -> throw IllegalStateException("Cannot progress fight state from: ${fight.fightState}")
         }
+    }
+
+    private fun nextTurn(currentTurn: Int): Int {
+        return currentTurn + 1
     }
 
     private fun refreshMagicToPlay(leftOverMagic: List<Magic>): List<Magic> {
