@@ -2,7 +2,6 @@ package de.moyapro.colors
 
 import android.content.*
 import android.os.*
-import android.widget.*
 import androidx.activity.*
 import androidx.activity.compose.*
 import androidx.compose.foundation.layout.*
@@ -10,15 +9,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.platform.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.ui.theme.*
 import de.moyapro.colors.ui.view.components.*
 import de.moyapro.colors.ui.view.fight.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.util.FightState.LOST
+import de.moyapro.colors.util.FightState.NOT_STARTED
+import de.moyapro.colors.util.FightState.ONGOING
+import de.moyapro.colors.util.FightState.WIN
 
 
 class FightActivity : ComponentActivity() {
@@ -31,43 +31,30 @@ class FightActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
-            val currentGameState: GameState = currentGameStateResult.getOrElse {
-                Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-                StartFightFactory.setupFightStage()
-            }
-
-            if (currentGameState.currentFight.fightState == FightState.WIN) {
-                //    initNextBattle(roundNumber = 1)
-            }
+            val currentGameState: GameState = currentGameStateResult.getOrThrow()
 
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Gray
                 ) {
-                    if (currentGameState.currentFight.fightState == FightState.NOT_STARTED) {
-                        gameViewModel.addAction(NoOp()) // TODO start fight here?
-                    }
                     when (currentGameState.currentFight.fightState) {
-                        FightState.ONGOING, FightState.NOT_STARTED -> WandsView(
+                        NOT_STARTED -> gameViewModel.addAction(StartFightAction())
+                        ONGOING -> WandsView(
                             currentGameState,
                             gameViewModel::addAction
                         )
 
-                        FightState.WIN -> WinFightView(::startMainActivity)
-                        FightState.LOST -> LostFightView(::startMainActivity)
+                        WIN -> WinFightView(::startMainActivity)
+                        LOST -> LostFightView(::startMainActivity)
                     }
                 }
             }
         }
     }
 
-    private fun initNextBattle(gameViewModel: GameViewModel, roundNumber: Int) {
-//        gameViewModel.materializeActions()
-        // place enemies based on roundNumber
-    }
-
     private fun startMainActivity() {
+        gameViewModel.addAction(EndFightAction())
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 }
