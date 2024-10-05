@@ -8,12 +8,12 @@ import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 object StartFightFactory {
-    fun setupFightStage(wands: List<Wand>? = null, fightState: FightData? = null): NewGameState {
+    fun setupFightStage(): NewGameState {
 //            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
 //                MagicSlot(requiredMagic = Magic(type = it))
 //            })))
         val newGameState = NewGameState(
-            currentFight = fightState ?: initialFightData(wands),
+            currentFight = initialFightData(),
             currentRun = initialRunData(),
             options = initialGameOptions(),
             progression = initialProgressionData(),
@@ -41,7 +41,7 @@ object StartFightFactory {
         generators = emptyList(),
     )
 
-    private fun initialFightData(wands: List<Wand>?): FightData {
+    private fun initialFightData(): FightData {
         val wandsAndMages = getInitialMages().map { mage ->
             val wand = createExampleWand(mageId = mage.id, readyToZap = true)
             val mageWithWand = mage.copy(wandId = wand.id)
@@ -51,7 +51,7 @@ object StartFightFactory {
             currentTurn = 0,
             fightState = FightState.ONGOING,
             battleBoard = initialBattleBoard(),
-            wands = wands ?: wandsAndMages.map { it.second },
+            wands = wandsAndMages.map { it.second },
             magicToPlay = listOf(createExampleMagic()),
             mages = wandsAndMages.map { it.first },
         )
