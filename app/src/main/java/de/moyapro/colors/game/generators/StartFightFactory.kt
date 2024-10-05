@@ -57,7 +57,7 @@ object StartFightFactory {
         )
     }
 
-    private fun initialBattleBoard() = BattleBoard(
+    fun initialBattleBoard() = BattleBoard(
         fields = listOf(
             Field(FieldId(0), null, Terrain.SAND),
             Field(FieldId(1), null, Terrain.PLAIN),
