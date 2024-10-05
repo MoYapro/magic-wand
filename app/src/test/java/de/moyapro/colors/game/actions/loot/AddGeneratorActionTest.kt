@@ -1,7 +1,10 @@
 package de.moyapro.colors.game.actions.loot
 
 import android.util.*
-import de.moyapro.colors.game.generators.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.MagicType.SIMPLE
+import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
 import io.mockk.*
 import org.junit.*
@@ -21,8 +24,9 @@ class AddGeneratorActionTest {
 
     @Test
     fun `generators are added`() {
-        val state = StartFightFactory.setupFightStage()
+        val state = getExampleGameState()
         val stateWithGenerator = AddGeneratorAction().apply(state).getOrThrow()
-        stateWithGenerator.currentRun.generators shouldHaveSize 1
+        stateWithGenerator.currentRun.generators.size shouldBe state.currentRun.generators.size + 1
+        stateWithGenerator.currentRun.generators shouldContain MagicGenerator(SIMPLE, 1..1)
     }
 }
