@@ -7,7 +7,7 @@ data class ShowTargetSelectionAction(val originalAction: GameAction) :
     GameAction("Show target selection") {
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val updatedFields = oldState.currentFight.battleBoard.fields
             .map { field ->
                 if (originalAction.isValidTarget(oldState.currentFight.battleBoard, field.id)) field.copy(showTarget = true)

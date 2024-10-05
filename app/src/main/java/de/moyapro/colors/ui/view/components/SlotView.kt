@@ -19,7 +19,7 @@ fun SlotView(
     wandId: WandId,
     slot: Slot = createExampleSlot(),
     addAction: (GameAction) -> Unit,
-    currentGameState: NewGameState,
+    currentGameState: GameState,
 ) {
     DropZone<Magic>(
         modifier = Modifier

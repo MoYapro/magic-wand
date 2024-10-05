@@ -13,7 +13,7 @@ data class PlaceMagicAction(
 
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         check(oldState.currentFight.magicToPlay.contains(magicToPlace)) { "Magic to place is not available in magicToPlay" }
         val targetWandWithMagic = oldState.currentFight.findWand(wandId).putMagic(slotId, magicToPlace)
         val updatedMagicToPlay = oldState.currentFight.magicToPlay.filter { magic -> magic != magicToPlace }

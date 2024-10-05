@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import de.moyapro.colors.game.model.gameState.*
 
 @Composable
-fun StatusBar(currentState: NewGameState) {
+fun StatusBar(currentState: GameState) {
     Row {
         Text("Turn: ${currentState.currentFight.currentTurn + 1}")
     }

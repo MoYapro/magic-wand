@@ -19,7 +19,7 @@ import de.moyapro.colors.util.*
 fun SlotEditView(
     wandId: WandId,
     slot: Slot = createExampleSlot(),
-    currentGameState: NewGameState,
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
     dropZoneDisabled: Boolean = false,
 ) {

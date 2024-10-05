@@ -6,7 +6,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -17,13 +16,13 @@ import de.moyapro.colors.util.*
 
 @Composable
 fun LootWandsView(
-    currentGameState: NewGameState,
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
 ) {
     DropZone<Wand>(
         addAction = addAction,
         currentGameState = currentGameState,
-        condition = { gameState: NewGameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
+        condition = { gameState: GameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
         onDropAction = { droppedWand -> AddWandToLootAction(droppedWand) },
     ) { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
         val wands = currentGameState.currentRun.wandsInBag

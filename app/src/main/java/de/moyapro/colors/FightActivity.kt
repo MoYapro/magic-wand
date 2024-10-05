@@ -30,8 +30,8 @@ class FightActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val currentGameStateResult: Result<NewGameState> by gameViewModel.uiState.collectAsState()
-            val currentGameState: NewGameState = currentGameStateResult.getOrElse {
+            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+            val currentGameState: GameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
                 StartFightFactory.setupFightStage()
             }

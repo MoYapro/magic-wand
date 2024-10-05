@@ -9,7 +9,7 @@ import de.moyapro.colors.util.*
 data class RemoveWandAction(val wandToRemove: Wand) : GameAction("Remove wand from mage") {
     override val randomSeed: Int = -1
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val currentRun = oldState.currentRun
         check(currentRun.activeWands.map(Wand::id).contains(wandToRemove.id)) { "Could not find wand to remove" }
         check(currentRun.mages.findMage(wandToRemove.id) != null) { "Could not remove wand because no mage is holding it" }

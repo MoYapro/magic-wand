@@ -19,7 +19,7 @@ fun WandView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
     addAction: (GameAction) -> Unit,
-    currentGameState: NewGameState,
+    currentGameState: GameState,
 ) {
     val mage = currentGameState.currentFight.mages.findMage(wand.id)
     Column(

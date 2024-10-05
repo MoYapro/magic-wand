@@ -10,7 +10,7 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
     GameAction("Place spell") {
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val (wandToUpdate, wandLocation) = findWand(oldState, wandId)
         check(wandToUpdate.slots.singleOrNull { slot -> slot.id == slotId } != null) { "Could not find slotId in wand when placing spell" }
         val updatedWand = placeSpellInWand(wandToUpdate, slotId, spell)
@@ -28,7 +28,7 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
         )
     }
 
-    private fun findWand(oldState: NewGameState, wandId: WandId): Pair<Wand, WandLocation> {
+    private fun findWand(oldState: GameState, wandId: WandId): Pair<Wand, WandLocation> {
         val wandInHand = oldState.currentRun.activeWands.findWand(wandId)
         val wandInLoot = oldState.currentRun.wandsInBag.findWand(wandId)
         val hasWandInHand = wandInHand != null

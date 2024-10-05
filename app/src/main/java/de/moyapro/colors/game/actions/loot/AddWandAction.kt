@@ -17,7 +17,7 @@ data class AddWandAction(
         const val MAX_WANDS = 3
     }
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val currentRun = oldState.currentRun
         if (currentRun.activeWands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
 

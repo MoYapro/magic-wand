@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -18,7 +17,7 @@ import de.moyapro.colors.util.*
 fun WandEditView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
-    currentGameState: NewGameState,
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
     isWandDragged: Boolean = false,
 ) {
@@ -40,7 +39,7 @@ fun WandEditView(
 }
 
 @Composable
-private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: NewGameState, addAction: (GameAction) -> Unit, isWandDragged: Boolean) {
+private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: GameState, addAction: (GameAction) -> Unit, isWandDragged: Boolean) {
     if (null == slot.spell) {
         SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
     } else {

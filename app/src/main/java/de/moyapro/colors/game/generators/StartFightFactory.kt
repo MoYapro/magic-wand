@@ -8,18 +8,18 @@ import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
 object StartFightFactory {
-    fun setupFightStage(): NewGameState {
+    fun setupFightStage(): GameState {
 //            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
 //                MagicSlot(requiredMagic = Magic(type = it))
 //            })))
-        val newGameState = NewGameState(
+        val gameState = GameState(
             currentFight = initialFightData(),
             currentRun = initialRunData(),
             options = initialGameOptions(),
             progression = initialProgressionData(),
         )
-        Log.d(TAG, getConfiguredJson().writerWithDefaultPrettyPrinter().writeValueAsString(newGameState))
-        return newGameState
+        Log.d(TAG, getConfiguredJson().writerWithDefaultPrettyPrinter().writeValueAsString(gameState))
+        return gameState
     }
 
     private fun initialProgressionData() = ProgressionData(

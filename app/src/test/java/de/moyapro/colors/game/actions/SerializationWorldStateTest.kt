@@ -29,7 +29,7 @@ class SerializationWorldStateTest {
     fun `de-serialize world state`() {
         val gameState = getExampleGameState()
         val json = objectMapper.writeValueAsString(gameState)
-        val deserialized: NewGameState = objectMapper.readValue(json)
+        val deserialized: GameState = objectMapper.readValue(json)
         objectMapper.writeValueAsString(deserialized) shouldBeEqual json // to check if IDs and stuff changed
         deserialized shouldBeEqual gameState // to check if equals is implemented correctly
     }

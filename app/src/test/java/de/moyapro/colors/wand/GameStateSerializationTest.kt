@@ -7,13 +7,13 @@ import io.kotest.matchers.*
 import io.kotest.matchers.equals.*
 import org.junit.*
 
-internal class NewGameStateSerializationTest {
+internal class GameStateSerializationTest {
 
     @Test
     fun serialization() {
         val newGameState = getExampleGameState()
         val jsonString = getConfiguredJson().writeValueAsString(newGameState)
-        val deserializedGameState: NewGameState = getConfiguredJson().readValue(jsonString)
+        val deserializedGameState: GameState = getConfiguredJson().readValue(jsonString)
         deserializedGameState shouldEqualSerialized newGameState
         deserializedGameState shouldBe newGameState
     }

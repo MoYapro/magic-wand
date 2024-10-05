@@ -10,14 +10,14 @@ import de.moyapro.colors.util.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-suspend fun loadSavedState(dataStore: DataStore<Preferences>): NewGameState =
+suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState =
     dataStore.data.map { preferences ->
         val objectMapper = getConfiguredJson()
         val currentFight: FightData? = objectMapper.readValue(preferences[CURRENT_FIGHT_STATE_KEY])
         val currentRun: RunData? = objectMapper.readValue(preferences[CURRENT_RUN_STATE_KEY])
         val progression: ProgressionData? = objectMapper.readValue(preferences[OVERALL_PROGRESSION_STATE_KEY])
         val options: GameOptions? = objectMapper.readValue(preferences[GAME_OPTIONS_STATE_KEY])
-        return@map NewGameState(
+        return@map GameState(
             currentFight = currentFight ?: initEmptyFight(),
             currentRun = currentRun ?: initEmptyRun(),
             progression = progression ?: initEmptyProgression(),
@@ -26,7 +26,7 @@ suspend fun loadSavedState(dataStore: DataStore<Preferences>): NewGameState =
     }.first()
 
 
-fun save(dataStore: DataStore<Preferences>, gameState: NewGameState): Unit = runBlocking {
+fun save(dataStore: DataStore<Preferences>, gameState: GameState): Unit = runBlocking {
     dataStore.edit { settings ->
         settings[CURRENT_FIGHT_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentFight)
         settings[CURRENT_RUN_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentRun)

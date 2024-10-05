@@ -9,7 +9,7 @@ data class HitMageAction(val targetMageId: MageId, val damage: Int) : GameAction
 
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val mageToHit = oldState.currentFight.findMage(targetMageId)
         val updatedMage = mageToHit.copy(health = calculateNewHealth(mageToHit))
         val updatedMageList = oldState.currentFight.updateMage(updatedMage)

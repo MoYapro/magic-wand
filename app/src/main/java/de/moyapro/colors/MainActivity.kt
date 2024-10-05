@@ -26,32 +26,32 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ga
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var newGameState: NewGameState
+        lateinit var gameState: GameState
         try {
-            newGameState = runBlocking { loadSavedState(dataStore) }
+            gameState = runBlocking { loadSavedState(dataStore) }
         } catch (e: Exception) {
-            newGameState = StartFightFactory.setupFightStage()
+            gameState = StartFightFactory.setupFightStage()
         }
         super.onCreate(savedInstanceState)
         setContent {
             ColorsTheme {
-                val menuActions: List<MenuEntryInfo> = determinMenuEntries(newGameState)
+                val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
                 Column {
-                    Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${newGameState.currentFight.fightState}")
+                    Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${gameState.currentFight.fightState}")
                     MainMenu(menuActions)
                 }
             }
         }
     }
 
-    private fun determinMenuEntries(newGameState: NewGameState?): List<MenuEntryInfo> {
+    private fun determinMenuEntries(gameState: GameState?): List<MenuEntryInfo> {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
         menuActions.add("Start all over" to ::initNewGame)
-        if (newGameState?.currentFight != null) {
-            if (newGameState.currentFight.fightState != ONGOING) {
+        if (gameState?.currentFight != null) {
+            if (gameState.currentFight.fightState != ONGOING) {
                 menuActions.add("Next fight" to ::startFightActivity)
             }
-            if (newGameState.currentFight.fightState == ONGOING) {
+            if (gameState.currentFight.fightState == ONGOING) {
                 menuActions.add("Continue fight" to ::startFightActivity)
             }
         } else {

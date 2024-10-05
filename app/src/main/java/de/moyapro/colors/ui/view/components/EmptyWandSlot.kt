@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -20,7 +19,7 @@ import de.moyapro.colors.util.*
 fun EmptyWandSlot(
     mageId: MageId,
     addAction: (GameAction) -> Unit,
-    currentGameState: NewGameState,
+    currentGameState: GameState,
 ) {
     DropZone<Wand>(
         modifier = Modifier

@@ -15,7 +15,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
     private lateinit var random: Random
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         random = Random(randomSeed)
         val stateAfterEnemyActions =
             oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
@@ -23,7 +23,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
     }
 
 
-    private fun prepareNextTurn(gameState: NewGameState): NewGameState {
+    private fun prepareNextTurn(gameState: GameState): GameState {
 
         return gameState.updateCurrentFight(
             currentTurn = nextTurn(gameState.currentFight.currentTurn),
@@ -57,7 +57,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
         return newMagicToPlay
     }
 
-    private fun calculateEnemyTurn(gameState: NewGameState): BattleBoard {
+    private fun calculateEnemyTurn(gameState: GameState): BattleBoard {
         return gameState.currentFight.battleBoard.mapEnemies { enemy ->
             val nextAction = enemy.possibleActions.random()
             val nextGameAction = nextAction.init(enemy.id, gameState)

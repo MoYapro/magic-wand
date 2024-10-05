@@ -3,7 +3,7 @@ package de.moyapro.colors.game.model.gameState
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.util.*
 
-data class NewGameState(
+data class GameState(
     val currentFight: FightData,
     val currentRun: RunData,
     val progression: ProgressionData,
@@ -17,7 +17,7 @@ data class NewGameState(
         mages: List<Mage> = this.currentFight.mages,
         wands: List<Wand> = this.currentFight.wands,
         magicToPlay: List<Magic> = this.currentFight.magicToPlay,
-    ): NewGameState = this.copy(
+    ): GameState = this.copy(
         currentFight = this.currentFight.copy(
             currentTurn = currentTurn,
             fightState = fightState,
@@ -34,7 +34,7 @@ data class NewGameState(
         activeWands: List<Wand> = this.currentRun.activeWands,
         wandsInBag: List<Wand> = this.currentRun.wandsInBag,
         generators: List<MagicGenerator> = this.currentRun.generators,
-    ): NewGameState = this.copy(
+    ): GameState = this.copy(
         currentRun = this.currentRun.copy(
             mages = mages,
             spells = spells,

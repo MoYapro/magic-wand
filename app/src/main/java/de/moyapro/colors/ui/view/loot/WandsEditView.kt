@@ -3,7 +3,6 @@ package de.moyapro.colors.ui.view.loot
 import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.actions.loot.*
 import de.moyapro.colors.game.model.*
@@ -15,7 +14,7 @@ import de.moyapro.colors.ui.view.dragdrop.*
 @Composable
 fun WandsEditView(
     modifier: Modifier = Modifier,
-    currentGameState: NewGameState,
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
 ) {
     LazyRow(modifier = modifier) {
@@ -33,7 +32,7 @@ fun WandsEditView(
 @Composable
 private fun ShowEditView(
     wand: Wand,
-    currentGameState: NewGameState,
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
     mage: Mage,
 ) {

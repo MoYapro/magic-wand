@@ -14,7 +14,7 @@ data class TargetSelectedAction(val targetFieldId: FieldId) :
         actions.add(showTargetSelectionAction.originalAction.withSelection(targetFieldId))
     }
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val updatedFields = oldState.currentFight.battleBoard.fields.map { field -> field.copy(showTarget = false) }
         val updatedBattleBoard = oldState.currentFight.battleBoard.copy(fields = updatedFields)
         return Result.success(

@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
-import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
@@ -15,8 +14,8 @@ import de.moyapro.colors.util.*
 @Composable
 inline fun <reified T : Any> DropZone(
     modifier: Modifier = Modifier,
-    noinline condition: (gameState: NewGameState, dropData: T) -> Boolean = { _, _ -> true },
-    currentGameState: NewGameState,
+    noinline condition: (gameState: GameState, dropData: T) -> Boolean = { _, _ -> true },
+    currentGameState: GameState,
     addAction: (GameAction) -> Unit,
     emitData: T? = null,
     noinline onDropAction: ((T) -> GameAction)? = null,

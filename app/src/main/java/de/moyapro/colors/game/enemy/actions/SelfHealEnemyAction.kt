@@ -12,7 +12,7 @@ import de.moyapro.colors.game.model.gameState.*
 data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
     override val randomSeed = this.hashCode()
 
-    override fun init(self: EnemyId, gameState: NewGameState): GameAction {
+    override fun init(self: EnemyId, gameState: GameState): GameAction {
         return SelfHealAction(self)
     }
 }
@@ -20,7 +20,7 @@ data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyA
 data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val currentFight = oldState.currentFight
         val updatedBattleBoard = currentFight.battleBoard.mapEnemies { enemy -> enemy.copy(health = enemy.health + 3) }
         return Result.success(

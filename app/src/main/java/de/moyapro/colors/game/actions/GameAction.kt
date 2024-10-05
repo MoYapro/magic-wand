@@ -28,7 +28,7 @@ abstract class GameAction(
 
     @JsonProperty("@type")
     private val type = this.javaClass.simpleName
-    abstract fun apply(oldState: NewGameState): Result<NewGameState>
+    abstract fun apply(oldState: GameState): Result<GameState>
     open val target: FieldId? = null
     open fun isValidTarget(field: BattleBoard, id: FieldId): Boolean = false
     open fun withSelection(targetFieldId: FieldId): GameAction = TODO("Overwrite me")

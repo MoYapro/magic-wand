@@ -31,9 +31,9 @@ class LootActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val currentGameStateResult: Result<NewGameState> by gameViewModel.uiState.collectAsState()
+            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
 
-            val currentGameState: NewGameState = currentGameStateResult.getOrElse {
+            val currentGameState: GameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
                 StartFightFactory.setupFightStage()
             }
@@ -92,12 +92,12 @@ class LootActivity : ComponentActivity() {
         }
     }
 
-    private fun saveAndBack(currentGameState: NewGameState) {
+    private fun saveAndBack(currentGameState: GameState) {
         startMainActivity()
         save(dataStore, currentGameState)
     }
 
-    private fun printState(currentGameState: NewGameState) {
+    private fun printState(currentGameState: GameState) {
         Log.d("DEBUG", currentGameState.toString())
     }
 

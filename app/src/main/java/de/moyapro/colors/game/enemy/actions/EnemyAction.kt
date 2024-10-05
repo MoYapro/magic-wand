@@ -12,5 +12,5 @@ import de.moyapro.colors.game.model.gameState.*
 interface EnemyAction<TARGET> {
     val randomSeed: Int
     val name: String
-    fun init(self: EnemyId, gameState: NewGameState): GameAction
+    fun init(self: EnemyId, gameState: GameState): GameAction
 }

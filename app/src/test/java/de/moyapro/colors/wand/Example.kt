@@ -47,7 +47,7 @@ fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
     return Triple(newWand, slot1, slot2)
 }
 
-fun getExampleGameState() = NewGameState(
+fun getExampleGameState() = GameState(
     currentRun = getExampleRunData(),
     currentFight = getExampleFight(),
     options = getExampleOptions(),

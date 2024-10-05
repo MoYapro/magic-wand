@@ -10,7 +10,7 @@ data class AddGeneratorAction(
     override val randomSeed: Int = Random.nextInt(),
 ) : GameAction("Add Generator") {
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val newGenerator = MagicGenerator(magicType, 1..1)
         val updatedState = oldState.updateCurrentRun(generators = oldState.currentRun.generators + newGenerator)
         return Result.success(updatedState)

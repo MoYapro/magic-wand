@@ -2,7 +2,7 @@ package de.moyapro.colors.game.actions
 
 import de.moyapro.colors.game.model.gameState.*
 
-fun applyAllActions(state: Result<NewGameState>, action: GameAction): Result<NewGameState> {
+fun applyAllActions(state: Result<GameState>, action: GameAction): Result<GameState> {
     return state.flatMap { action.apply(it) }
 }
 

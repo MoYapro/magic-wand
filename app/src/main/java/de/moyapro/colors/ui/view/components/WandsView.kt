@@ -18,7 +18,7 @@ import de.moyapro.colors.ui.view.fight.*
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(currentGameState: NewGameState, addAction: (GameAction) -> Unit) {
+fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
 
     Column {
         StatusBar(currentGameState)

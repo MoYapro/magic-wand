@@ -13,13 +13,13 @@ data class RemoveSpellFromWandAction(
     GameAction("Remove spell from wand") {
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val wandInHand = oldState.currentRun.activeWands.findWand(wandId)
         return if (wandInHand != null) removeSpellFromWandInHand(wandInHand, oldState)
         else removeSpellFromWandInLoot(wandId, oldState)
     }
 
-    private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: NewGameState): Result<NewGameState> {
+    private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: GameState): Result<GameState> {
         val slotToChange = wandInHand.slots.singleOrNull { it.id == slotId }
         check(slotToChange != null) { "Could not find slot to remove spell from" }
         val updatedSlot = slotToChange.copy(spell = null)
@@ -27,7 +27,7 @@ data class RemoveSpellFromWandAction(
         return Result.success(oldState.updateCurrentRun(activeWands = oldState.currentRun.activeWands.replace(updatedWand)))
     }
 
-    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: NewGameState): Result<NewGameState> {
+    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: GameState): Result<GameState> {
         val wandInLoot = oldState.currentRun.wandsInBag.findWand(wandId)
         check(wandInLoot != null) { "Could not find wand to remove spell from" }
         val slotToChange = wandInLoot.slots.singleOrNull { it.id == slotId }

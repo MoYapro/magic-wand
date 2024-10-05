@@ -11,12 +11,12 @@ data class AttackEnemyAction(override val name: String = "Attack") : EnemyAction
     override val randomSeed = this.hashCode()
     private val random = Random(randomSeed)
 
-    override fun init(self: EnemyId, gameState: NewGameState): GameAction {
+    override fun init(self: EnemyId, gameState: GameState): GameAction {
         val target = selectTarget(gameState)
         return AttackMageAction(target.id)
     }
 
-    private fun selectTarget(gameState: NewGameState): Mage {
+    private fun selectTarget(gameState: GameState): Mage {
         return gameState.currentFight.mages.random(random)
     }
 }
@@ -24,7 +24,7 @@ data class AttackEnemyAction(override val name: String = "Attack") : EnemyAction
 data class AttackMageAction(val mageId: MageId) : GameAction("Attack player action") {
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val mage = oldState.currentFight.findMage(mageId)
         val updatedMage = mage.copy(health = mage.health - 1)
         return Result.success(

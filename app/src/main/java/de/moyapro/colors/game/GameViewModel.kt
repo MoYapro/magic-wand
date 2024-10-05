@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.*
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: NewGameState = StartFightFactory.setupFightStage(),
+    private val initialState: GameState = StartFightFactory.setupFightStage(),
     private val saveActions: (Collection<GameAction>) -> Unit = {},
 ) : ViewModel() {
 
     private val actions: MutableList<GameAction> = mutableListOf()
-    private val _uiState: MutableStateFlow<Result<NewGameState>> =
+    private val _uiState: MutableStateFlow<Result<GameState>> =
         MutableStateFlow(Result.success(initialState))
-    val uiState: StateFlow<Result<NewGameState>>
+    val uiState: StateFlow<Result<GameState>>
         get() = _uiState.asStateFlow()
 
-    fun getCurrentGameState(): Result<NewGameState> {
+    fun getCurrentGameState(): Result<GameState> {
         val initial = Result.success(initialState)
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {

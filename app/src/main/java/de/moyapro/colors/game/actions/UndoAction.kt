@@ -9,7 +9,7 @@ object UndoAction : GameAction("Undo") {
         if (actions.isNotEmpty()) actions.removeLast()
     }
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         return Result.success(oldState)
     }
 }

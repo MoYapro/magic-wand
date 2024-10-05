@@ -13,7 +13,7 @@ data class ZapAction(
 
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: NewGameState): Result<NewGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         val wandToZap = oldState.currentFight.wands.findById(wandId)
         check(wandToZap != null) { "Wand to zap does not exist for id $wandId" }
         val zappedWand = wandToZap.copy(slots = removeMagicFromFullSlots(wandToZap))
