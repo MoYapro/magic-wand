@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.model.gameState
 
+import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.interfaces.*
 import de.moyapro.colors.util.*
@@ -12,3 +13,13 @@ data class FightData(
     override val wands: List<Wand>,
     val magicToPlay: List<Magic>,
 ) : HasWands, HasMages
+
+
+fun notStartedFight() = FightData(
+    currentTurn = 0,
+    fightState = FightState.NOT_STARTED,
+    battleBoard = StartFightFactory.initialBattleBoard(),
+    mages = emptyList(),
+    wands = emptyList(),
+    magicToPlay = emptyList(),
+)
