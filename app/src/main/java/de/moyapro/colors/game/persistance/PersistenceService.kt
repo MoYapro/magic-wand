@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.persistance
 
+import android.util.*
 import androidx.datastore.core.*
 import androidx.datastore.preferences.core.*
 import com.fasterxml.jackson.databind.*
@@ -17,12 +18,14 @@ suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState =
         val currentRun: RunData? = objectMapper.readValue(preferences[CURRENT_RUN_STATE_KEY])
         val progression: ProgressionData? = objectMapper.readValue(preferences[OVERALL_PROGRESSION_STATE_KEY])
         val options: GameOptions? = objectMapper.readValue(preferences[GAME_OPTIONS_STATE_KEY])
-        return@map GameState(
-            currentFight = currentFight ?: initEmptyFight(),
+        val gameState = GameState(
+            currentFight = currentFight ?: notStartedFight(),
             currentRun = currentRun ?: initEmptyRun(),
             progression = progression ?: initEmptyProgression(),
             options = options ?: initDefaultOptions()
         )
+        Log.d("Load game state", getConfiguredJson().writeValueAsString(gameState))
+        return@map gameState
     }.first()
 
 

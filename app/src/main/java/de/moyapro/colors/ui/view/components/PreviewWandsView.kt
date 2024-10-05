@@ -9,6 +9,6 @@ import de.moyapro.colors.game.generators.*
 @Preview
 fun PreviewWandsView() {
     Box {
-        WandsView(currentGameState = StartFightFactory.setupFightStage()) {}
+        WandsView(currentGameState = Initializer.createInitialGameState()) {}
     }
 }

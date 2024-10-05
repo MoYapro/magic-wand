@@ -70,6 +70,12 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
             Button(onClick = { addAction(EndTurnAction()) }) {
                 Text("End Turn")
             }
+            Button(onClick = { addAction(LoseFightAction()) }) {
+                Text("Give up")
+            }
+            Button(onClick = { addAction(WinFightAction()) }) {
+                Text("Win fight")
+            }
         }
     }
 }

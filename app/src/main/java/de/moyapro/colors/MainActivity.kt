@@ -26,13 +26,8 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ga
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var gameState: GameState
-        try {
-            gameState = runBlocking { loadSavedState(dataStore) }
-        } catch (e: Exception) {
-            gameState = StartFightFactory.setupFightStage()
-        }
         super.onCreate(savedInstanceState)
+        val gameState: GameState = runBlocking { loadSavedState(dataStore) }
         setContent {
             ColorsTheme {
                 val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
@@ -62,7 +57,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun initNewGame() = runBlocking {
-        val initialGameState = StartFightFactory.setupFightStage()
+        val initialGameState = Initializer.createInitialGameState()
         save(dataStore, initialGameState)
     }
 

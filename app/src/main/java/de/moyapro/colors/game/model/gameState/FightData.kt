@@ -18,7 +18,7 @@ data class FightData(
 fun notStartedFight() = FightData(
     currentTurn = 0,
     fightState = FightState.NOT_STARTED,
-    battleBoard = StartFightFactory.initialBattleBoard(),
+    battleBoard = Initializer.initialBattleBoard(),
     mages = emptyList(),
     wands = emptyList(),
     magicToPlay = emptyList(),

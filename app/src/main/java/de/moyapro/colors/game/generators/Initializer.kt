@@ -7,13 +7,13 @@ import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 
-object StartFightFactory {
-    fun setupFightStage(): GameState {
+object Initializer {
+    fun createInitialGameState(): GameState {
 //            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
 //                MagicSlot(requiredMagic = Magic(type = it))
 //            })))
         val gameState = GameState(
-            currentFight = initialFightData(),
+            currentFight = notStartedFight(),
             currentRun = initialRunData(),
             options = initialGameOptions(),
             progression = initialProgressionData(),
@@ -33,29 +33,21 @@ object StartFightFactory {
         thisIsAnOption = true
     )
 
-    private fun initialRunData() = RunData(
-        activeWands = emptyList(),
-        mages = emptyList(),
-        spells = emptyList(),
-        wandsInBag = listOf(createStarterWand()),
-        generators = emptyList(),
-    )
-
-    private fun initialFightData(): FightData {
+    private fun initialRunData(): RunData {
         val wandsAndMages = getInitialMages().map { mage ->
             val wand = createExampleWand(mageId = mage.id, readyToZap = true)
             val mageWithWand = mage.copy(wandId = wand.id)
             kotlin.Pair(mageWithWand, wand)
         }
-        return FightData(
-            currentTurn = 0,
-            fightState = FightState.ONGOING,
-            battleBoard = initialBattleBoard(),
-            wands = wandsAndMages.map { it.second },
-            magicToPlay = listOf(createExampleMagic()),
+        return RunData(
+            activeWands = wandsAndMages.map { it.second },
             mages = wandsAndMages.map { it.first },
+            spells = emptyList(),
+            wandsInBag = listOf(createStarterWand()),
+            generators = emptyList(),
         )
     }
+
 
     fun initialBattleBoard() = BattleBoard(
         fields = listOf(

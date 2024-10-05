@@ -4,9 +4,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 
 @Composable
-fun WinFightView(startMainActivity: () -> Unit) {
+fun WinFightView(startLootActivity: () -> Unit) {
     Text("You won the fight")
-    Button(onClick = startMainActivity) {
-        Text("Back to main menu")
+    Button(onClick = startLootActivity) {
+        Text("Prepare next fight")
     }
 }

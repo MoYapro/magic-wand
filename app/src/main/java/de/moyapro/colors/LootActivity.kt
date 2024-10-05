@@ -35,7 +35,7 @@ class LootActivity : ComponentActivity() {
 
             val currentGameState: GameState = currentGameStateResult.getOrElse {
                 Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-                StartFightFactory.setupFightStage()
+                Initializer.createInitialGameState()
             }
             ColorsTheme {
                 Surface(
@@ -79,8 +79,8 @@ class LootActivity : ComponentActivity() {
                                 .fillMaxHeight(1f / 4f)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            Button(onClick = { saveAndBack(currentGameState) }) {
-                                Text(text = "Done")
+                            Button(onClick = { saveAndStartFight(currentGameState) }) {
+                                Text(text = "Next fight")
                             }
                             Button(onClick = { printState(currentGameState) }) {
                                 Text(text = "Debug state")
@@ -92,17 +92,17 @@ class LootActivity : ComponentActivity() {
         }
     }
 
-    private fun saveAndBack(currentGameState: GameState) {
-        startMainActivity()
+    private fun saveAndStartFight(currentGameState: GameState) {
         save(dataStore, currentGameState)
+        startFightActivity()
     }
 
     private fun printState(currentGameState: GameState) {
         Log.d("DEBUG", currentGameState.toString())
     }
 
-    private fun startMainActivity() {
-        this.startActivity(Intent(this, MainActivity::class.java))
+    private fun startFightActivity() {
+        this.startActivity(Intent(this, FightActivity::class.java))
     }
 
 }
