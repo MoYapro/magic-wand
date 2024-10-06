@@ -2,8 +2,7 @@ package de.moyapro.colors.game.actions
 
 import de.moyapro.colors.game.model.gameState.*
 
-object IncreaseActionCounterAction : GameAction("Increase action counter") {
-    override val randomSeed: Int = -1
+data class IncreaseActionCounterAction(override val randomSeed: Int = -1) : GameAction("Increase action counter") {
 
     override fun apply(oldState: GameState): Result<GameState> {
 

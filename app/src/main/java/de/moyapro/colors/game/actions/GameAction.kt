@@ -20,6 +20,12 @@ import de.moyapro.colors.game.model.gameState.*
     JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
     JsonSubTypes.Type(value = AddGeneratorAction::class, name = "AddGeneratorAction"),
+    JsonSubTypes.Type(value = IncreaseActionCounterAction::class, name = "IncreaseActionCounterAction"),
+    JsonSubTypes.Type(value = StartFightAction::class, name = "StartFightAction"),
+    JsonSubTypes.Type(value = EndFightAction::class, name = "EndFightAction"),
+    JsonSubTypes.Type(value = EndFightAction::class, name = "EndFightAction"),
+    JsonSubTypes.Type(value = WinFightAction::class, name = "WinFightAction"),
+    JsonSubTypes.Type(value = LoseFightAction::class, name = "LoseFightAction"),
     )
 abstract class GameAction(
     val name: String,
@@ -35,7 +41,7 @@ abstract class GameAction(
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {
         removeTargetAction(actions)
-        actions.add(IncreaseActionCounterAction)
+        actions.add(IncreaseActionCounterAction())
         actions.add(this)
     }
 

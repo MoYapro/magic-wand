@@ -13,7 +13,8 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
         check(modelClass.isAssignableFrom(GameViewModel::class.java)) { "Cannot create GameViewModel from ${modelClass::class}" }
         return runBlocking {
             val gameState = loadSavedState(dataStore)
-            return@runBlocking GameViewModel(gameState) { actions -> saveActions(dataStore, actions) } as T
+            val actions = loadActions(dataStore)
+            return@runBlocking GameViewModel(gameState, actions) { actionsToSave -> saveActions(dataStore, actionsToSave) } as T
         }
     }
 }

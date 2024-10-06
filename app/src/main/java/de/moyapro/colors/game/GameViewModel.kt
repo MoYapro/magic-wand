@@ -11,17 +11,22 @@ private const val TAG = "GameViewModel"
 
 class GameViewModel(
     private val initialState: GameState = Initializer.createInitialGameState(),
+    private val initialActions: Collection<GameAction> = emptyList(),
     private val saveActions: (Collection<GameAction>) -> Unit = {},
 ) : ViewModel() {
 
-    private val actions: MutableList<GameAction> = mutableListOf()
-    private val _uiState: MutableStateFlow<Result<GameState>> =
-        MutableStateFlow(Result.success(initialState))
+    init {
+        Log.d(TAG, "Create new GameViewModel")
+    }
+
+    private val actions: MutableList<GameAction> = initialActions.toMutableList()
+    private val _uiState: MutableStateFlow<Result<GameState>> = MutableStateFlow(Result.success(initialState))
     val uiState: StateFlow<Result<GameState>>
         get() = _uiState.asStateFlow()
 
     fun getCurrentGameState(): Result<GameState> {
         val initial = Result.success(initialState)
+        Log.d(TAG, "get current game state from initial: $initialState")
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")

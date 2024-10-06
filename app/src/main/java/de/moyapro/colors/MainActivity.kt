@@ -2,15 +2,19 @@ package de.moyapro.colors
 
 import android.content.*
 import android.os.*
+import android.util.*
 import androidx.activity.*
 import androidx.activity.compose.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.layout.*
 import androidx.datastore.core.*
 import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
+import de.moyapro.colors.game.*
+import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.game.persistance.*
@@ -25,10 +29,15 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ga
 
 class MainActivity : ComponentActivity() {
 
+    private val gameViewModel: GameViewModel by viewModels {
+        GameViewModelFactory(this.dataStore)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val gameState: GameState = runBlocking { loadSavedState(dataStore) }
         setContent {
+            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+            val gameState = currentGameStateResult.getOrThrow()
             ColorsTheme {
                 val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
                 Column {
@@ -39,20 +48,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val currentGameState = gameViewModel.getCurrentGameState()
+        Log.i("resume main activity", getConfiguredJson().writeValueAsString(currentGameState))
+    }
+
     private fun determinMenuEntries(gameState: GameState?): List<MenuEntryInfo> {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
-        menuActions.add("Start all over" to ::initNewGame)
-        if (gameState?.currentFight != null) {
-            if (gameState.currentFight.fightState != ONGOING) {
-                menuActions.add("Next fight" to ::startFightActivity)
-            }
-            if (gameState.currentFight.fightState == ONGOING) {
-                menuActions.add("Continue fight" to ::startFightActivity)
-            }
-        } else {
-            menuActions.add("New game" to ::initNewGame)
+        menuActions.add("Set state to fight started" to { gameViewModel.addAction(StartFightAction()) })
+        menuActions.add("Reset all progress" to ::initNewGame)
+        if (gameState?.currentFight?.fightState == ONGOING) {
+            menuActions.add("Continue fight" to ::startFightActivity)
         }
-        menuActions.add("Loot" to ::startLootActivity)
+        menuActions.add("Prepare next fight" to ::startLootActivity)
         return menuActions
     }
 
