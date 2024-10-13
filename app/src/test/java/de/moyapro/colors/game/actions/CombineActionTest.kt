@@ -28,17 +28,14 @@ class CombineActionTest {
         val magic = state.currentFight.magicToPlay.first()
         val wandToPlaceMagicIn = state.currentFight.wands.first()
         val slotToPlaceMagicIn = wandToPlaceMagicIn.slots.first()
-        val viewModel = GameViewModel(state)
-            .addAction(
-                CombinedAction(
-                    PlaceMagicAction(
-                        wandToPlaceMagicIn.id,
-                        slotToPlaceMagicIn.id,
-                        magicToPlace = magic
-                    ),
-                )
-            )
-        viewModel.getCurrentGameState().getOrThrow()
+        CombinedAction(
+            PlaceMagicAction(
+                wandToPlaceMagicIn.id,
+                slotToPlaceMagicIn.id,
+                magicToPlace = magic
+            ),
+        )
+            .apply(state).getOrThrow()
             .currentFight.wands.findWand(wandToPlaceMagicIn.id)!!
             .slots.findSlot(slotToPlaceMagicIn.id)!!
             .spell!!
@@ -54,9 +51,9 @@ class CombineActionTest {
         val (slotToInsert1, slotToInsert2) = wandToEdit.slots
         val magic1 = state.currentFight.magicToPlay.first { slotToInsert1.spell!!.magicSlots.first().requiredMagic.type == it.type }
         val magic2 = state.currentFight.magicToPlay.last { slotToInsert2.spell!!.magicSlots.first().requiredMagic.type == it.type }
-        val viewModel = GameViewModel(state)
-        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
-        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        val viewModel = GameViewModel(initialState = state, loadActions = { emptyList() }, saveActions = {})
+        viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
         viewModel
             .addAction(
                 CombinedAction(
@@ -72,13 +69,12 @@ class CombineActionTest {
                     )
                 )
             )
-        val currentGameState = viewModel.getCurrentGameState()
+        val currentGameState = viewModel.uiState.value
         currentGameState.isSuccess shouldBe true
         currentGameState.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldNotBe null
         currentGameState.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldNotBe null
         viewModel.addAction(UndoAction)
-        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
-        viewModel.getCurrentGameState().getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
-
+        viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
+        viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
     }
 }

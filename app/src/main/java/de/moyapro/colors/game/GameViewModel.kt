@@ -25,7 +25,7 @@ class GameViewModel(
     val uiState: StateFlow<Result<GameState>>
         get() = _uiState.asStateFlow()
 
-    fun getCurrentGameState(): Result<GameState> {
+    private fun getCurrentGameState(): Result<GameState> {
         val initial = Result.success(initialState)
         Log.d(TAG, "get current game state from initial: $initialState")
         val result = actions.fold(initial, ::applyAllActions)

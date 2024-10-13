@@ -26,8 +26,8 @@ internal class TargetSelectionActionTest {
 
     @Test
     fun `should execute action on selected enemy`() {
-        val gameViewModel = GameViewModel(getExampleGameState())
-        val state = gameViewModel.getCurrentGameState().getOrThrow()
+        val gameViewModel = GameViewModel(getExampleGameState(), loadActions = { emptyList() }, saveActions = {})
+        val state = gameViewModel.uiState.value.getOrThrow()
         val fieldToHitId = state.currentFight.battleBoard.fields.last().id
         val wandToZap = state.currentFight.wands.first()
         val magicToPlace = state.currentFight.magicToPlay.first()
@@ -38,7 +38,7 @@ internal class TargetSelectionActionTest {
         gameViewModel.addAction(placeMagicAction)
         gameViewModel.addAction(showTargetsAction)
         gameViewModel.addAction(selectTargetAction)
-        val updatedState = gameViewModel.getCurrentGameState().getOrThrow()
+        val updatedState = gameViewModel.uiState.value.getOrThrow()
         val hitField = updatedState.currentFight.battleBoard.fields.findById(fieldToHitId)!!
         hitField.showTarget shouldBe false
         hitField.enemy!!.health shouldBeLessThan state.currentFight.battleBoard.fields.findById(fieldToHitId)!!.enemy!!.health
