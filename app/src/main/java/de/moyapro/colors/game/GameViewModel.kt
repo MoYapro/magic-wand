@@ -11,8 +11,9 @@ private const val TAG = "GameViewModel"
 
 class GameViewModel(
     private val initialState: GameState = Initializer.createInitialGameState(),
-    private val initialActions: Collection<GameAction> = emptyList(),
-    private val saveActions: (Collection<GameAction>) -> Unit = {},
+    initialActions: Collection<GameAction> = emptyList(),
+    private val saveActions: (Collection<GameAction>) -> Unit,
+    private val loadActions: () -> Collection<GameAction>,
 ) : ViewModel() {
 
     init {
@@ -42,6 +43,12 @@ class GameViewModel(
         this._uiState.value = getCurrentGameState()
         this._uiState.value.onSuccess { saveActions(this.actions) }
         return this
+    }
+
+    fun reloadActions() {
+        this.actions.clear()
+        this.actions.addAll(loadActions())
+        this._uiState.value = getCurrentGameState()
     }
 
 }

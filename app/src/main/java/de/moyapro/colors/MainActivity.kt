@@ -2,7 +2,6 @@ package de.moyapro.colors
 
 import android.content.*
 import android.os.*
-import android.util.*
 import androidx.activity.*
 import androidx.activity.compose.*
 import androidx.compose.foundation.layout.*
@@ -36,22 +35,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
-            val gameState = currentGameStateResult.getOrThrow()
-            ColorsTheme {
-                val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
-                Column {
-                    Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${gameState.currentFight.fightState}")
-                    MainMenu(menuActions)
-                }
-            }
+            MainView(gameViewModel)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val currentGameState = gameViewModel.getCurrentGameState()
-        Log.i("resume main activity", getConfiguredJson().writeValueAsString(currentGameState))
+    @Composable
+    private fun MainView(gameViewModel: GameViewModel) {
+        val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+        val gameState = currentGameStateResult.getOrThrow()
+        ColorsTheme {
+            val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
+            Column {
+                Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${gameState.currentFight.fightState}")
+                MainMenu(menuActions)
+            }
+        }
     }
 
     private fun determinMenuEntries(gameState: GameState?): List<MenuEntryInfo> {
@@ -67,7 +65,8 @@ class MainActivity : ComponentActivity() {
 
     private fun initNewGame() = runBlocking {
         val initialGameState = Initializer.createInitialGameState()
-        save(dataStore, initialGameState)
+        save(dataStore, initialGameState, emptyList())
+        gameViewModel.reloadActions()
     }
 
 
@@ -81,3 +80,5 @@ class MainActivity : ComponentActivity() {
 
 
 }
+
+
