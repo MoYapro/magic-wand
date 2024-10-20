@@ -20,7 +20,7 @@ fun initEmptyFight(): FightData {
         mages = emptyList(),
         magicToPlay = emptyList(),
         wands = emptyList(),
-        generator = emptyList(),
+        generators = emptyList(),
     )
 }
 

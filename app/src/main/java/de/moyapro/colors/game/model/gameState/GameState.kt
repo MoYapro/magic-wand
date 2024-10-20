@@ -17,6 +17,7 @@ data class GameState(
         mages: List<Mage> = this.currentFight.mages,
         wands: List<Wand> = this.currentFight.wands,
         magicToPlay: List<Magic> = this.currentFight.magicToPlay,
+        generators: List<MagicGenerator> = this.currentFight.generators,
     ): GameState = this.copy(
         currentFight = this.currentFight.copy(
             currentTurn = currentTurn,
@@ -24,7 +25,8 @@ data class GameState(
             battleBoard = battlefield,
             mages = mages,
             wands = wands,
-            magicToPlay = magicToPlay
+            magicToPlay = magicToPlay,
+            generators = generators,
         )
     )
 

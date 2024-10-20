@@ -16,7 +16,7 @@ class StartFightActionTest {
         stateWithFightData.currentFight.wands shouldBeEqual state.currentRun.activeWands
         stateWithFightData.currentFight.currentTurn shouldBe 1
         stateWithFightData.currentFight.magicToPlay shouldBe emptyList()
-        stateWithFightData.currentFight.generator shouldBe state.currentRun.generators
+        stateWithFightData.currentFight.generators shouldBe state.currentRun.generators
     }
 
     @Test

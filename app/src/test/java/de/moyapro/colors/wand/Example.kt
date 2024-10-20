@@ -110,7 +110,7 @@ fun getExampleFight(magicToPlay: List<Magic>?): FightData {
         mages = getExampleMages(),
         wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },
         magicToPlay = magicToPlay ?: (magics.map { Magic(type = it) } + magics.map { Magic(type = it) } + magics.map { Magic(type = it) }),
-        generator = getExampleMagicGenerator()
+        generators = getExampleMagicGenerator()
     )
 }
 

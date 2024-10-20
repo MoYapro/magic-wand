@@ -4,6 +4,9 @@ import android.util.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.actions.loot.*
+import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.MagicType.GREEN
+import io.kotest.matchers.*
 import io.kotest.matchers.equality.*
 import io.kotest.matchers.ints.*
 import io.mockk.*
@@ -43,5 +46,12 @@ class EndTurnActionTest {
         val stateWithGenerator = AddGeneratorAction().apply(state).getOrThrow()
         val stateAfterTurn = EndTurnAction().apply(stateWithGenerator).getOrThrow()
         stateWithGenerator.currentFight.magicToPlay.size shouldBeLessThan stateAfterTurn.currentFight.magicToPlay.size
+    }
+
+    @Test
+    fun `Generators create correct magic type`() {
+        val state = getExampleGameState().updateCurrentFight(generators = listOf(MagicGenerator(GREEN, 1..1)), magicToPlay = emptyList())
+        val stateAfterTurn = EndTurnAction().apply(state).getOrThrow()
+        stateAfterTurn.currentFight.magicToPlay.map(Magic::type) shouldBe listOf(GREEN)
     }
 }
