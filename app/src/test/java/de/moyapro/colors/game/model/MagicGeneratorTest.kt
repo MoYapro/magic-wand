@@ -3,7 +3,6 @@ package de.moyapro.colors.game.model
 import io.kotest.matchers.*
 import io.kotest.matchers.collections.*
 import org.junit.*
-import kotlin.random.*
 
 class MagicGeneratorTest {
 
@@ -19,7 +18,7 @@ class MagicGeneratorTest {
 
     @Test
     fun `generator creates lots of magic`() {
-        val generatedMagic = MagicGenerator(MagicType.SIMPLE, 1..100, Random(99)).generate().map(Magic::type)
+        val generatedMagic = MagicGenerator(MagicType.SIMPLE, 1..100, 99).generate().map(Magic::type)
         generatedMagic.all { it == MagicType.SIMPLE } shouldBe true
         generatedMagic shouldHaveSize 98
     }

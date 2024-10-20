@@ -30,7 +30,7 @@ class EndTurnActionTest {
         val state = getExampleGameState()
         val endTurnAction = EndTurnAction(1)
         val nextTurnStates = (0..10).map { endTurnAction.apply(state).getOrThrow() }
-        nextTurnStates.forEach { nextTurnStates.first() shouldBeEqualToComparingFields it }
+        nextTurnStates.forEachIndexed { index, bob -> nextTurnStates.first() shouldBeEqualToComparingFields bob }
     }
 
     @Test

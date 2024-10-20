@@ -1,12 +1,18 @@
 package de.moyapro.colors.game.model
 
+import de.moyapro.colors.util.*
 import kotlin.random.*
 
-data class MagicGenerator(val magicType: MagicType, val amount: IntRange, val random: Random = Random(-1)) {
+data class MagicGenerator(val magicType: MagicType, val amount: IntRange, val randomSeed: Int = -1) {
+
+    private lateinit var random: Random
+
     fun generate(): List<Magic> {
+        random = Random(randomSeed)
+
         val magicCount = amount.random(random)
         return (1..magicCount).map {
-            Magic(type = magicType)
+            Magic(id = MagicId(HashUuidFunctions.v5(random.nextDouble().toString())), type = magicType)
         }
     }
 }
