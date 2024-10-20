@@ -47,9 +47,9 @@ fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
     return Triple(newWand, slot1, slot2)
 }
 
-fun getExampleGameState() = GameState(
+fun getExampleGameState(magicToPlay: List<Magic>? = null) = GameState(
     currentRun = getExampleRunData(),
-    currentFight = getExampleFight(),
+    currentFight = getExampleFight(magicToPlay),
     options = getExampleOptions(),
     progression = getExampleProgression(),
 )
@@ -101,7 +101,7 @@ fun getExampleSlot(magicType: MagicType = SIMPLE): Slot {
     )
 }
 
-fun getExampleFight(): FightData {
+fun getExampleFight(magicToPlay: List<Magic>?): FightData {
     val magics = listOf(SIMPLE, GREEN, BLUE, RED)
     return FightData(
         currentTurn = 1,
@@ -109,9 +109,12 @@ fun getExampleFight(): FightData {
         fightState = FightState.ONGOING,
         mages = getExampleMages(),
         wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },
-        magicToPlay = magics.map { Magic(type = it) } + magics.map { Magic(type = it) } + magics.map { Magic(type = it) }
+        magicToPlay = magicToPlay ?: (magics.map { Magic(type = it) } + magics.map { Magic(type = it) } + magics.map { Magic(type = it) }),
+        generator = getExampleMagicGenerator()
     )
 }
+
+fun getExampleMagicGenerator(): List<MagicGenerator> = listOf(MagicGenerator(amount = 1..2, magicType = SIMPLE))
 
 fun getExampleMages() = listOf(
     Mage(MAGE_I_ID, health = 10, wandId = WAND_I_ID),

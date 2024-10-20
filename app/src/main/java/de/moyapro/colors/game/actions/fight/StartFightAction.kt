@@ -17,7 +17,8 @@ data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Star
             battleBoard = Initializer.initialBattleBoard(),
             mages = oldState.currentRun.mages,
             wands = oldState.currentRun.activeWands,
-            magicToPlay = emptyList()
+            magicToPlay = emptyList(),
+            generator = emptyList(),
         )
         val newState = oldState.copy(currentFight = newFightData)
         return Result.success(newState)

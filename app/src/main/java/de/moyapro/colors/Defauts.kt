@@ -19,7 +19,8 @@ fun initEmptyFight(): FightData {
         battleBoard = BattleBoard(fields = emptyList()),
         mages = emptyList(),
         magicToPlay = emptyList(),
-        wands = emptyList()
+        wands = emptyList(),
+        generator = emptyList(),
     )
 }
 

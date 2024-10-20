@@ -12,6 +12,7 @@ data class FightData(
     override val mages: List<Mage>,
     override val wands: List<Wand>,
     val magicToPlay: List<Magic>,
+    val generator: List<MagicGenerator>,
 ) : HasWands, HasMages
 
 
@@ -22,4 +23,5 @@ fun notStartedFight() = FightData(
     mages = emptyList(),
     wands = emptyList(),
     magicToPlay = emptyList(),
+    generator = emptyList(),
 )
