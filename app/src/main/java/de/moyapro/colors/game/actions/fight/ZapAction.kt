@@ -1,6 +1,7 @@
 package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.functions.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
@@ -59,11 +60,6 @@ data class ZapAction(
         require(fieldIdInFront.id < 15) { "FieldId out of field" }
         return fieldIdInFront
     }
-
-    private fun isInFrontRow(fieldId: FieldId) = fieldId.id >= 10
-    private fun isInMiddleRow(fieldId: FieldId) = (5..9).contains(fieldId.id)
-    private fun isInBackRow(fieldId: FieldId) = (0..4).contains(fieldId.id)
-
 
     override fun withSelection(targetFieldId: FieldId): GameAction {
         return this.copy(target = targetFieldId)
