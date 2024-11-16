@@ -43,11 +43,10 @@ class MainActivity : ComponentActivity() {
                     }
                     menuActions.add("Start all over" to ::initNewGame)
                 } else {
-                    menuActions.add("New game" to ::initNewGame)
+                    menuActions.add("New game" to {initNewGame(); startFightActivity()})
                 }
                 menuActions.add("Loot" to ::startLootActivity)
                 Column {
-
                     Text(text = "fightState: ${fightState?.fightHasEnded}")
                     MainMenu(
                         menuActions
