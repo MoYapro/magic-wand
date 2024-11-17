@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
         menuActions.add("Reset all progress" to ::initNewGame)
         if (gameState?.currentRun == null || gameState.currentRun.mages.isEmpty()) {
-            menuActions.add("Start new Run" to ::initNewGame)
+            menuActions.add("Start new Run" to { initNewGame(); startLootActivity() })
         } else {
             if (gameState?.currentFight?.fightState == ONGOING) {
                 menuActions.add("Continue fight" to ::startFightActivity)
