@@ -13,7 +13,6 @@ import androidx.datastore.core.*
 import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
 import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.generators.*
 import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.game.persistance.*
@@ -54,12 +53,17 @@ class MainActivity : ComponentActivity() {
 
     private fun determinMenuEntries(gameState: GameState?): List<MenuEntryInfo> {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
-        menuActions.add("Set state to fight started" to { gameViewModel.addAction(StartFightAction()) })
         menuActions.add("Reset all progress" to ::initNewGame)
-        if (gameState?.currentFight?.fightState == ONGOING) {
-            menuActions.add("Continue fight" to ::startFightActivity)
+        if (gameState?.currentRun == null || gameState.currentRun.mages.isEmpty()) {
+            menuActions.add("Start new Run" to { initNewGame(); startLootActivity() })
+        } else {
+            if (gameState?.currentFight?.fightState == ONGOING) {
+                menuActions.add("Continue fight" to ::startFightActivity)
+            } else {
+                menuActions.add("Prepare next fight" to ::startLootActivity)
+            }
         }
-        menuActions.add("Prepare next fight" to ::startLootActivity)
+        menuActions.add("Quit" to { this.finishAffinity() })
         return menuActions
     }
 

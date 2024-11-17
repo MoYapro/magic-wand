@@ -26,7 +26,8 @@ import de.moyapro.colors.game.model.gameState.*
     JsonSubTypes.Type(value = EndFightAction::class, name = "EndFightAction"),
     JsonSubTypes.Type(value = WinFightAction::class, name = "WinFightAction"),
     JsonSubTypes.Type(value = LoseFightAction::class, name = "LoseFightAction"),
-    )
+    JsonSubTypes.Type(value = CombinedAction::class, name = "CombinedAction")
+)
 abstract class GameAction(
     val name: String,
 ) {

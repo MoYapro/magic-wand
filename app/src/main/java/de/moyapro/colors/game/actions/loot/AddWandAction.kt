@@ -19,7 +19,7 @@ data class AddWandAction(
 
     override fun apply(oldState: GameState): Result<GameState> {
         val currentRun = oldState.currentRun
-        if (currentRun.activeWands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS allowed"))
+        if (currentRun.activeWands.size >= MAX_WANDS) return Result.failure(IllegalStateException("There are only $MAX_WANDS wands allowed but trying to add $wandToAdd"))
 
         val targetMage = currentRun.findMage(targetMageId)
         require(targetMage.wandId == null) { "Mage already has a wand" }
