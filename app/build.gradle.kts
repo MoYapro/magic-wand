@@ -4,7 +4,7 @@ plugins {
 }
 object VERSIONS {
     const val JACKSON = "2.17.1"
-    const val COMPOSE_BOM = "2024.09.01"
+    const val COMPOSE_BOM = "2024.11.00"
 }
 
 android {
@@ -61,9 +61,9 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
-    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.activity:activity-compose:1.9.3")
     implementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
