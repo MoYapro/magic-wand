@@ -48,10 +48,10 @@ data class ZapAction(
         }
     }
 
-    override fun isValidTarget(battleBoard: BattleBoard, fieldId: FieldId): Boolean {
-        if (isInFrontRow(fieldId)) return true
-        if (isInMiddleRow(fieldId) && battleBoard.fields[fieldInFront(fieldId).id.toInt()].hasNoEnemy()) return true
-        if (isInBackRow(fieldId) && battleBoard.fields[fieldInFront(fieldId).id.toInt()].hasNoEnemy() && battleBoard.fields[fieldInFront(fieldInFront(fieldId)).id.toInt()].hasNoEnemy()) return true
+    override fun isValidTarget(battleBoard: BattleBoard, id: FieldId): Boolean {
+        if (isInFrontRow(id)) return true
+        if (isInMiddleRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy()) return true
+        if (isInBackRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy() && battleBoard.fields[fieldInFront(fieldInFront(id)).id.toInt()].hasNoEnemy()) return true
         return false
     }
 

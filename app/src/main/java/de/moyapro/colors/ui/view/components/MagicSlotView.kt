@@ -17,7 +17,7 @@ fun MagicSlotView(
     magicSlot: MagicSlot = createExampleMagicSlot(),
 ) {
     val magicColor = magicSlot.requiredMagic.type.color.copy(alpha = if (magicSlot.hasRequiredMagic()) 1f else DROP_ZONE_ALPHA)
-    Canvas(modifier = Modifier.size(MAGIC_SIZE.dp), onDraw = {
+    Canvas(modifier = modifier.size(MAGIC_SIZE.dp), onDraw = {
         drawCircle(color = magicColor)
     })
 }

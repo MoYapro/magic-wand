@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
         if (gameState?.currentRun == null || gameState.currentRun.mages.isEmpty()) {
             menuActions.add("Start new Run" to { initNewGame(); startLootActivity() })
         } else {
-            if (gameState?.currentFight?.fightState == ONGOING) {
+            if (gameState.currentFight.fightState == ONGOING) {
                 menuActions.add("Continue fight" to ::startFightActivity)
             } else {
                 menuActions.add("Prepare next fight" to ::startLootActivity)

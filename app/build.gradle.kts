@@ -9,12 +9,12 @@ object VERSIONS {
 
 android {
     namespace = "de.moyapro.colors"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "de.moyapro.colors"
-        minSdk = 34
-        targetSdk = 34
+        minSdk = 35
+        targetSdk = 35
         versionCode = 2
         versionName = "2.0"
 

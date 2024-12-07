@@ -18,7 +18,7 @@ fun MagicView(magic: Magic = createExampleMagic()) {
         dataToDrop = magic
     ) { theMagic, _ ->
         Canvas(modifier = Modifier.size(SPELL_SIZE.dp), onDraw = {
-            drawCircle(color = magic.type.color)
+            drawCircle(color = theMagic.type.color)
         })
     }
 }

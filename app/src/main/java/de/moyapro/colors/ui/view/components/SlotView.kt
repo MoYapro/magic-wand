@@ -29,7 +29,7 @@ fun SlotView(
         addAction = addAction,
         condition = { _, droppedMagic -> slot.canPlace(droppedMagic) },
         onDropAction = { droppedMagic -> PlaceMagicAction(wandId = wandId, slotId = slot.id, magicToPlace = droppedMagic) }
-    ) { modifier: Modifier, isInBound: Boolean, hoveredMagic: Magic? ->
+    ) { modifier: Modifier, _: Boolean, _: Magic? ->
         Box(
             modifier = modifier
                 .width(SPELL_SIZE.dp)

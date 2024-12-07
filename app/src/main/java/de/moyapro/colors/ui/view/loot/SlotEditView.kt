@@ -37,7 +37,7 @@ fun SlotEditView(
             addAction = addAction,
             emitData = slot.spell
         )
-        { modifier: Modifier, isInBound: Boolean, _: Any? ->
+        { modifier: Modifier, _: Boolean, _: Any? ->
             Box(
                 modifier = modifier
                     .width(SPELL_SIZE.dp)

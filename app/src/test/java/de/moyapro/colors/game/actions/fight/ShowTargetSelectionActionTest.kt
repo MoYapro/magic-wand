@@ -50,7 +50,7 @@ internal class ShowTargetSelectionActionTest {
     private val targetNothingAction = object : GameAction("Target nothing") {
         override val randomSeed = -99
         override fun apply(oldState: GameState) = Result.success(oldState)
-        override fun isValidTarget(field: BattleBoard, id: FieldId): Boolean {
+        override fun isValidTarget(battleBoard: BattleBoard, id: FieldId): Boolean {
             return false
         }
     }

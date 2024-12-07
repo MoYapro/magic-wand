@@ -26,7 +26,7 @@ fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: GameState, a
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { dropModifier: Modifier, isInBound: Boolean, hoveredspell: Spell<*>? ->
+    { dropModifier: Modifier, _: Boolean, _: Spell<*>? ->
         LazyVerticalGrid(
             modifier = dropModifier
                 .fillMaxWidth()

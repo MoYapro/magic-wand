@@ -24,7 +24,7 @@ fun LootWandsView(
         currentGameState = currentGameState,
         condition = { gameState: GameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
         onDropAction = { droppedWand -> AddWandToLootAction(droppedWand) },
-    ) { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
+    ) { modifier: Modifier, _: Boolean, _: Wand? ->
         val wands = currentGameState.currentRun.wandsInBag
         Box(
             modifier = modifier

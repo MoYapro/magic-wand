@@ -26,7 +26,7 @@ fun EmptyWandSlot(
             .border(BorderStroke(1.dp, Color.LightGray))
             .width(2 * SPELL_SIZE.dp)
             .fillMaxHeight(),
-        condition = { state, newWand -> newWand.mageId != mageId },
+        condition = { _, newWand -> newWand.mageId != mageId },
         addAction = addAction,
         currentGameState = currentGameState,
         onDropAction = { droppedWand -> AddWandAction(droppedWand, mageId) },
