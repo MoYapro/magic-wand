@@ -6,9 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.*
 
 @Composable
-fun HealthView(health: Int) {
+fun HealthView(health: Int = 21) {
     Row {
-        Text("$health x ")
         Text(text = "♥", color = Color.Red)
+        Text(" x $health")
     }
 }

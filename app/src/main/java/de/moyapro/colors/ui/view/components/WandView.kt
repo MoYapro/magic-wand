@@ -33,9 +33,6 @@ fun WandView(
                     modifier = Modifier.width(SPELL_SIZE.dp),
                     onClick = { addAction(ZapAction(wand.id)) }) { Text(text = "Zap") }
                 MageView(
-                    modifier = Modifier
-                        .width(SPELL_SIZE.dp)
-                        .height(SPELL_SIZE.dp),
                     mage = mage
                 )
             }

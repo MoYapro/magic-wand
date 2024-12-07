@@ -6,15 +6,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.ui.view.fight.*
+import de.moyapro.colors.util.*
 
 @Composable
-fun MageView(modifier: Modifier = Modifier, mage: Mage) {
+@Preview
+fun MageView(mage: Mage = Mage(health = 10)) {
     Box(
-        modifier
+        Modifier
+            .width(SPELL_SIZE.dp)
+            .height(SPELL_SIZE.dp)
+            .border(1.dp, Color.Black)
             .border(1.dp, Color.Blue)
     ) {
-        Text(text = "Mage: ${mage.id}")
+        Column {
+            Text(text = "Mage: ${mage.id.id}")
+            HealthView(mage.health)
+        }
     }
 }
