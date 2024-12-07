@@ -82,6 +82,9 @@ class LootActivity : ComponentActivity() {
                             Button(onClick = { saveAndStartFight(currentGameState) }) {
                                 Text(text = "Next fight")
                             }
+                            Button(onClick = { saveAndMain(currentGameState) }) {
+                                Text(text = "Main menu")
+                            }
                             Button(onClick = { printState(currentGameState) }) {
                                 Text(text = "Debug state")
                             }
@@ -97,12 +100,21 @@ class LootActivity : ComponentActivity() {
         startFightActivity()
     }
 
+    private fun saveAndMain(currentGameState: GameState) {
+        save(dataStore, currentGameState)
+        startMainActivity()
+    }
+
     private fun printState(currentGameState: GameState) {
         Log.d("DEBUG", currentGameState.toString())
     }
 
     private fun startFightActivity() {
         this.startActivity(Intent(this, FightActivity::class.java))
+    }
+
+    private fun startMainActivity() {
+        this.startActivity(Intent(this, MainActivity::class.java))
     }
 
 }
