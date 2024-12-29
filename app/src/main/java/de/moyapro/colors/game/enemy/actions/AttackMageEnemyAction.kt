@@ -21,7 +21,7 @@ data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAc
     }
 }
 
-data class AttackMageAction(val mageId: MageId) : GameAction("Attack player action") {
+data class AttackMageAction(val mageId: MageId) : GameAction("Attack ${symbolForMageId(mageId)}") {
     override val randomSeed = this.hashCode()
 
     override fun apply(oldState: GameState): Result<GameState> {
@@ -34,4 +34,15 @@ data class AttackMageAction(val mageId: MageId) : GameAction("Attack player acti
         )
     }
 
+
 }
+
+fun symbolForMageId(mageId: MageId): String {
+    return when (mageId.id.toInt()) {
+        0 -> "<"
+        1 -> "v"
+        2 -> ">"
+        else -> throw IllegalArgumentException("MageId must be 0,1,2 but this was: $mageId")
+    }
+}
+

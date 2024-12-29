@@ -23,6 +23,7 @@ fun HasMages.findMage(mageId: MageId): Mage {
     check(foundMage != null) { "Could not find mage for id $mageId in $this" }
     return foundMage
 }
+
 fun HasMages.findMage(wandId: WandId): Mage {
     val foundMage = mages.findMage(wandId)
     check(foundMage != null) { "Could not find mage for wandId $wandId in $this" }
@@ -32,6 +33,7 @@ fun HasMages.findMage(wandId: WandId): Mage {
 fun List<Mage>.findMage(mageId: MageId): Mage? {
     return this.find { it.id == mageId }
 }
+
 fun List<Mage>.findMage(wandId: WandId): Mage? {
     return this.find { it.wandId == wandId }
 }
@@ -41,7 +43,8 @@ fun <T, U : HasId<T>> List<U>.findById(id: T): U? {
 }
 
 fun List<Wand>.inOrder(): List<Wand> {
-    return this.sortedBy { wand -> wand.id.id }.mapNotNull { wand -> findWand(wand.id) }
+    require(this.all { wand -> wand.mageId?.id != null })
+    return this.sortedBy { wand -> wand.mageId!!.id }.mapNotNull { wand -> findWand(wand.id) }
 }
 
 fun HasMages.updateMage(mage: Mage): List<Mage> = mages.replace(mage)
