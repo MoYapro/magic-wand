@@ -7,7 +7,7 @@ import de.moyapro.colors.game.model.gameState.*
 import de.moyapro.colors.util.*
 import kotlin.random.*
 
-data class AttackEnemyAction(override val name: String = "Attack") : EnemyAction<MageId> {
+data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAction<MageId> {
     override val randomSeed = this.hashCode()
     private val random = Random(randomSeed)
 

@@ -68,7 +68,7 @@ fun getExampleSpell(magicType: MagicType = SIMPLE) = Bonk(magicSlots = listOf(Ma
 
 fun getExampleAchievement() = Achievement.ARCHIEVED_SOMETHING
 
-fun getExampleEnemy() = Enemy(name = "Example Enemy", health = 10, possibleActions = listOf(SelfHealEnemyAction()))
+fun getExampleEnemy() = Enemy(name = "Example Enemy", health = 10, possibleActions = listOf(SelfHealEnemyAction(), HitMageAction(MAGE_I_ID, 1)))
 
 fun getExampleRunData(): RunData {
     val mages = getExampleMages()

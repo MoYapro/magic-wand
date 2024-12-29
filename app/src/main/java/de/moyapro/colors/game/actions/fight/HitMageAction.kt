@@ -1,15 +1,16 @@
 package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.enemy.actions.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.accessor.*
 import de.moyapro.colors.game.model.gameState.*
+import kotlin.random.*
 
-data class HitMageAction(val targetMageId: MageId, val damage: Int) : GameAction("Hit Action") {
+data class HitMageAction(val targetMageId: MageId, val damage: Int, override val randomSeed: Int = Random.nextInt(), override val name: String = "HitMageAction") : EnemyAction<Mage> {
 
-    override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: GameState): Result<GameState> {
+    fun apply(oldState: GameState): Result<GameState> {
         val mageToHit = oldState.currentFight.findMage(targetMageId)
         val updatedMage = mageToHit.copy(health = calculateNewHealth(mageToHit))
         val updatedMageList = oldState.currentFight.updateMage(updatedMage)
@@ -23,4 +24,7 @@ data class HitMageAction(val targetMageId: MageId, val damage: Int) : GameAction
     }
 
     private fun calculateNewHealth(mageToHit: Mage) = maxOf(0, mageToHit.health - damage)
+    override fun init(self: EnemyId, gameState: GameState): GameAction {
+        TODO("Not yet implemented")
+    }
 }

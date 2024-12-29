@@ -2,12 +2,15 @@ package de.moyapro.colors.game.enemy.actions
 
 import com.fasterxml.jackson.annotation.*
 import de.moyapro.colors.game.actions.*
+import de.moyapro.colors.game.actions.fight.*
 import de.moyapro.colors.game.model.*
 import de.moyapro.colors.game.model.gameState.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = SelfHealEnemyAction::class, name = "SelfHealEnemyAction"),
+    JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
+    JsonSubTypes.Type(value = AttackMageEnemyAction::class, name = "AttackMageEnemyAction"),
 )
 interface EnemyAction<TARGET> {
     val randomSeed: Int

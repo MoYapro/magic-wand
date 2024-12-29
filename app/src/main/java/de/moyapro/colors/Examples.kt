@@ -32,7 +32,7 @@ fun createExampleEnemy(health: Int = Random.nextInt(1, 1000), breadth: Int = 1, 
     health = health,
     breadth = breadth,
     size = size,
-    possibleActions = listOf(SelfHealEnemyAction()),
+    possibleActions = listOf(SelfHealEnemyAction(), AttackMageEnemyAction()),
     statusEffects = Effect.values().associateWith { Random.nextInt(0..100) }
 )
 
