@@ -7,8 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.res.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.*
+import de.moyapro.colors.*
 import de.moyapro.colors.game.actions.*
 import de.moyapro.colors.game.effect.*
 import de.moyapro.colors.game.enemy.*
@@ -25,11 +27,16 @@ fun EnemyView(@PreviewParameter(EnemyPreviewProvider::class) enemy: Enemy) {
             .height((enemy.size) * ENEMY_SIZE.dp)
             .border(1.dp, Color.Black)
     ) {
-        Column {
-            Text("Enemy")
-            HealthView(enemy.health)
-            Text(enemy.nextAction.name)
+        val image = painterResource(listOf(R.drawable.grunt_l, R.drawable.grunt_c, R.drawable.grunt_r, R.drawable.slime_l, R.drawable.slime_l, R.drawable.slime_c).random())
+        Image(
+            painter = image, contentDescription = "Name", modifier = Modifier
+                .height(SPELL_SIZE.dp)
+                .width(SPELL_SIZE.dp)
+        )
+        Column(Modifier.size(SPELL_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
             StatusEffectsView(enemy.statusEffects)
+            Text(enemy.nextAction.name)
+            HealthView(enemy.health)
         }
     }
 }
