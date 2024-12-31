@@ -9,6 +9,6 @@ import androidx.compose.ui.graphics.*
 fun HealthView(health: Int = 21) {
     Row {
         Text(text = "♥", color = Color.Red)
-        Text(" x $health")
+        Text(" x $health", color = Color.Green)
     }
 }
