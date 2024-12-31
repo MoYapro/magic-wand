@@ -1,21 +1,33 @@
 package de.moyapro.colors.ui.view.fight
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.res.*
-import androidx.compose.ui.tooling.preview.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.effect.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.util.*
-import kotlin.math.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.game.actions.UndoAction
+import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.util.ENEMY_SIZE
+import de.moyapro.colors.R
+import kotlin.math.exp
 
 
 @Composable
@@ -30,10 +42,10 @@ fun EnemyView(@PreviewParameter(EnemyPreviewProvider::class) enemy: Enemy) {
         val image = painterResource(listOf(R.drawable.grunt_l, R.drawable.grunt_c, R.drawable.grunt_r, R.drawable.slime_l, R.drawable.slime_l, R.drawable.slime_c).random())
         Image(
             painter = image, contentDescription = "Name", modifier = Modifier
-                .height(SPELL_SIZE.dp)
-                .width(SPELL_SIZE.dp)
+                .height(ENEMY_SIZE.dp)
+                .width(ENEMY_SIZE.dp)
         )
-        Column(Modifier.size(SPELL_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(Modifier.size(ENEMY_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
             StatusEffectsView(enemy.statusEffects)
             Text(enemy.nextAction.name)
             HealthView(enemy.health)
