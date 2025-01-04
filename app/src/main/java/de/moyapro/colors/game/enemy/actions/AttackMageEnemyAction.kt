@@ -1,11 +1,13 @@
 package de.moyapro.colors.game.enemy.actions
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-import kotlin.random.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.EnemyId
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.accessor.findMage
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.replace
+import kotlin.random.Random
 
 data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAction<MageId> {
     override val randomSeed = this.hashCode()

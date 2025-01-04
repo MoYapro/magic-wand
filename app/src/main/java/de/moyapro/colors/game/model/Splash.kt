@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.model
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.effect.*
+import de.moyapro.colors.createExampleMagicSlot
+import de.moyapro.colors.game.effect.Effect
 
 class Splash(
     id: SpellId = SpellId(),

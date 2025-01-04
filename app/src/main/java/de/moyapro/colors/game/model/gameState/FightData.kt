@@ -1,9 +1,13 @@
 package de.moyapro.colors.game.model.gameState
 
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.interfaces.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.interfaces.HasMages
+import de.moyapro.colors.game.model.interfaces.HasWands
+import de.moyapro.colors.util.FightState
 
 data class FightData(
     val currentTurn: Int,

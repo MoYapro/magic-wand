@@ -1,8 +1,12 @@
 package de.moyapro.colors.ui.view.dragdrop
 
-import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.*
-import de.moyapro.colors.game.actions.*
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.NoOp
 
 val LocalDragTargetInfo = compositionLocalOf { DragInfo<Any>() }
 

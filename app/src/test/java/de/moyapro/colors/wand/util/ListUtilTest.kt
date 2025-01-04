@@ -1,10 +1,17 @@
 package de.moyapro.colors.game.util
 
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import io.kotest.matchers.collections.*
-import org.junit.*
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.util.mapFirst
+import de.moyapro.colors.util.mapIf
+import de.moyapro.colors.util.minus
+import de.moyapro.colors.util.replace
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import org.junit.Test
 
 internal class ListUtilTest {
 

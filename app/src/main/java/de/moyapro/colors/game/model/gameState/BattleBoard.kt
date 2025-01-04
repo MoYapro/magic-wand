@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.model.gameState
 
-import de.moyapro.colors.game.enemy.*
+import de.moyapro.colors.game.enemy.Enemy
 
 data class BattleBoard(
     val fields: List<Field>,

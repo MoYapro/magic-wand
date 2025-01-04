@@ -1,10 +1,10 @@
 package de.moyapro.colors.game.model
 
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.game.model.interfaces.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.interfaces.HasId
+import de.moyapro.colors.util.mapIf
 
 data class Wand(
     override val id: WandId = WandId(),

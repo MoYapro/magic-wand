@@ -1,15 +1,22 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.res.*
-import androidx.compose.ui.unit.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.util.MAGIC_SIZE
+import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.R
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
 
 @Composable
 fun SpellView(spell: Spell<*>?) {

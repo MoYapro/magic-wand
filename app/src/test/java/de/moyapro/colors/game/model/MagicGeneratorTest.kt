@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.model
 
-import io.kotest.matchers.*
-import io.kotest.matchers.collections.*
-import org.junit.*
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 class MagicGeneratorTest {
 

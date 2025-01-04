@@ -1,9 +1,9 @@
 package de.moyapro.colors.ui.view.fight
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import de.moyapro.colors.game.model.gameState.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import de.moyapro.colors.game.model.gameState.GameState
 
 @Composable
 fun StatusBar(currentState: GameState) {

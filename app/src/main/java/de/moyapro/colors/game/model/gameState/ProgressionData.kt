@@ -1,7 +1,8 @@
 package de.moyapro.colors.game.model.gameState
 
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.Wand
 
 data class ProgressionData(
     val unlockedSpells: List<Spell<*>>,

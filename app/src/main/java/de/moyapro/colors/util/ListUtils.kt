@@ -1,7 +1,7 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.interfaces.*
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.interfaces.HasId
 
 
 fun <T, E : HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {

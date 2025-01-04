@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.model
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.effect.*
-import de.moyapro.colors.game.enemy.*
+import de.moyapro.colors.createExampleMagicSlot
+import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.enemy.Enemy
 
 class Fizz(
     id: SpellId = SpellId(),

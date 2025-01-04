@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.model.gameState.*
+import de.moyapro.colors.game.model.gameState.GameState
 
 
 data class NoOp(val nothing: Unit = Unit) : GameAction("NoOp") {

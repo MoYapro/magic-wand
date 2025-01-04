@@ -1,15 +1,19 @@
 package de.moyapro.colors.game.actions.fight
 
-import android.util.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import io.kotest.matchers.*
-import io.kotest.matchers.ints.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.createExampleBattleBoardFilledWith
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.enemy.TargetDummy
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.accessor.findById
+import io.kotest.matchers.ints.shouldBeLessThan
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 internal class TargetSelectionActionTest {
 

@@ -1,8 +1,9 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.*
-import io.kotest.matchers.collections.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.collections.shouldNotContain
+import org.junit.Test
 
 class RemoveSpellFromLootActionTest {
     @Test

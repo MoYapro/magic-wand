@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.functions
 
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.FieldId
 
 fun isInFrontRow(fieldId: FieldId) = fieldId.id >= 10
 fun isInMiddleRow(fieldId: FieldId) = (5..9).contains(fieldId.id)

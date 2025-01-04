@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.gameState.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.gameState.GameState
 
 data class ShowTargetSelectionAction(val originalAction: GameAction) :
     GameAction("Show target selection") {

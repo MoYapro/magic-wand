@@ -1,11 +1,26 @@
 package de.moyapro.colors.game.actions
 
-import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.enemy.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.actions.fight.EndFightAction
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.fight.HitMageAction
+import de.moyapro.colors.game.actions.fight.LoseFightAction
+import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
+import de.moyapro.colors.game.actions.fight.StartFightAction
+import de.moyapro.colors.game.actions.fight.TargetSelectedAction
+import de.moyapro.colors.game.actions.fight.WinFightAction
+import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.actions.loot.AddGeneratorAction
+import de.moyapro.colors.game.actions.loot.AddWandAction
+import de.moyapro.colors.game.actions.loot.PlaceSpellAction
+import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.enemy.actions.SelfHealAction
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.GameState
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(

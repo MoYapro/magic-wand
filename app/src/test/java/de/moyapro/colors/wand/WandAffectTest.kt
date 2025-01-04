@@ -1,16 +1,18 @@
 package de.moyapro.colors.wand
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.effect.*
-import de.moyapro.colors.game.effect.Effect.ELECTRIFIED
-import de.moyapro.colors.game.effect.Effect.WET
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import io.kotest.matchers.*
-import io.kotest.matchers.collections.*
-import org.junit.*
+import de.moyapro.colors.createExampleBattleBoardFilledWith
+import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.effect.Effect.*
+import de.moyapro.colors.game.enemy.TargetDummy
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.Fizz
+import de.moyapro.colors.game.model.Splash
+import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.util.MAGE_I_ID
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 class WandAffectTest {
 

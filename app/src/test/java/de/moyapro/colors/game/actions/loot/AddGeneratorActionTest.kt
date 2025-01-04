@@ -1,13 +1,15 @@
 package de.moyapro.colors.game.actions.loot
 
-import android.util.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.MagicType.SIMPLE
-import io.kotest.matchers.*
-import io.kotest.matchers.collections.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.MagicType.*
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class AddGeneratorActionTest {
 

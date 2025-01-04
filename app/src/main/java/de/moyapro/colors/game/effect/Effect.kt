@@ -1,10 +1,11 @@
 package de.moyapro.colors.game.effect
 
-import androidx.compose.material.icons.*
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.vector.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.rounded.Fireplace
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Effect(val icon: ImageVector, val color: Color) {
     WET(Icons.Filled.WaterDrop, Color(45, 153, 207)),

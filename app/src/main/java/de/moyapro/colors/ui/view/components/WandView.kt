@@ -1,18 +1,27 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.accessor.findMage
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
 fun WandView(

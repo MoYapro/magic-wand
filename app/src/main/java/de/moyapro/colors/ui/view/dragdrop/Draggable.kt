@@ -1,16 +1,24 @@
 package de.moyapro.colors.ui.view.dragdrop
 
-import android.util.*
-import androidx.compose.foundation.gestures.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.geometry.*
-import androidx.compose.ui.input.pointer.*
-import androidx.compose.ui.layout.*
-import androidx.compose.ui.platform.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.util.*
+import android.util.Log
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.NoOp
+import de.moyapro.colors.util.castOrNull
 
 
 private const val TAG = "DRAGABLE"

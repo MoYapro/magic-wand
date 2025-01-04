@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.enemy
 
-import de.moyapro.colors.game.effect.*
+import de.moyapro.colors.game.effect.Effect
 
 operator fun Map<Effect, Int>.plus(additionalEffects: Map<Effect, Int>): Map<Effect, Int> {
     val currentMap = this.toMutableMap()

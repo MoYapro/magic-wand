@@ -1,9 +1,10 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
-import kotlin.random.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.gameState.GameState
+import kotlin.random.Random
 
 data class AddGeneratorAction(
     val magicType: MagicType = MagicType.SIMPLE,

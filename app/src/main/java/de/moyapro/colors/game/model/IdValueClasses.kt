@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.model
 
-import java.util.*
+import java.util.UUID
 
 @JvmInline
 value class WandId(val id: UUID = UUID.randomUUID())

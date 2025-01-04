@@ -1,9 +1,9 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.*
-import io.kotest.matchers.ints.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.accessor.findMage
+import io.kotest.matchers.ints.shouldBeLessThan
+import org.junit.Test
 
 internal class HitMageActionTest {
 

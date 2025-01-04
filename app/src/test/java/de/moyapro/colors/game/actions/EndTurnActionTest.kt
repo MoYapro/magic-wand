@@ -1,16 +1,19 @@
 package de.moyapro.colors.game.actions
 
-import android.util.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.MagicType.GREEN
-import io.kotest.matchers.*
-import io.kotest.matchers.equality.*
-import io.kotest.matchers.ints.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.loot.AddGeneratorAction
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.MagicType.*
+import io.kotest.matchers.equality.shouldBeEqualToComparingFields
+import io.kotest.matchers.ints.shouldBeLessThan
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class EndTurnActionTest {
 

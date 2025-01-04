@@ -1,11 +1,28 @@
 package de.moyapro.colors.game.generators
 
-import android.content.ContentValues.TAG
-import android.util.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import android.content.ContentValues.*
+import android.util.Log
+import de.moyapro.colors.createExampleEnemy
+import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Splash
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.Field
+import de.moyapro.colors.game.model.gameState.GameOptions
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.model.gameState.ProgressionData
+import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.game.model.gameState.Terrain
+import de.moyapro.colors.game.model.gameState.notStartedFight
+import de.moyapro.colors.util.getConfiguredJson
 
 object Initializer {
     fun createInitialGameState(): GameState {

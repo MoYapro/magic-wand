@@ -1,9 +1,9 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.*
-import io.kotest.matchers.*
-import io.kotest.matchers.collections.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 class RemoveWandFromLootActionTest {
     @Test

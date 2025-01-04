@@ -1,14 +1,16 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-import de.moyapro.colors.util.FightState.LOST
-import de.moyapro.colors.util.FightState.ONGOING
-import de.moyapro.colors.util.FightState.WIN
-import kotlin.random.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.applyAllActions
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.FightState
+import de.moyapro.colors.util.FightState.*
+import kotlin.random.Random
 
 
 data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End turn") {

@@ -1,12 +1,12 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.equals.*
-import org.junit.*
-import org.junit.runner.*
-import org.junit.runners.*
-import org.junit.runners.Parameterized.Parameters
+import de.moyapro.colors.game.createExampleActionList
+import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.matchers.equals.shouldBeEqual
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.*
 
 @RunWith(Parameterized::class)
 class SerializationGameActionsTest(private val value: Any) {

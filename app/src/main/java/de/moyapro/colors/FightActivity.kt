@@ -1,24 +1,26 @@
 package de.moyapro.colors
 
-import android.content.*
-import android.os.*
-import androidx.activity.*
-import androidx.activity.compose.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.ui.theme.*
-import de.moyapro.colors.ui.view.components.*
-import de.moyapro.colors.ui.view.fight.*
-import de.moyapro.colors.util.FightState.LOST
-import de.moyapro.colors.util.FightState.NOT_STARTED
-import de.moyapro.colors.util.FightState.ONGOING
-import de.moyapro.colors.util.FightState.WIN
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.GameViewModelFactory
+import de.moyapro.colors.game.actions.fight.EndFightAction
+import de.moyapro.colors.game.actions.fight.StartFightAction
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.ui.view.components.WandsView
+import de.moyapro.colors.ui.view.fight.LostFightView
+import de.moyapro.colors.ui.view.fight.WinFightView
+import de.moyapro.colors.util.FightState.*
 
 
 class FightActivity : ComponentActivity() {
@@ -57,6 +59,7 @@ class FightActivity : ComponentActivity() {
         gameViewModel.addAction(EndFightAction())
         this.startActivity(Intent(this, MainActivity::class.java))
     }
+
     private fun startLootActivity() {
         gameViewModel.addAction(EndFightAction())
         this.startActivity(Intent(this, LootActivity::class.java))

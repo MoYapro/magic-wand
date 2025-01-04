@@ -1,11 +1,17 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.functions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.functions.isInBackRow
+import de.moyapro.colors.game.functions.isInFrontRow
+import de.moyapro.colors.game.functions.isInMiddleRow
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.replace
 
 data class ZapAction(
     val wandId: WandId,

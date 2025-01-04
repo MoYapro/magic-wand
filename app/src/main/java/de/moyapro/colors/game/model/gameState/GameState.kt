@@ -1,7 +1,11 @@
 package de.moyapro.colors.game.model.gameState
 
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.util.FightState
 
 data class GameState(
     val currentFight: FightData,

@@ -1,11 +1,14 @@
 package de.moyapro.colors.game
 
-import androidx.datastore.core.*
-import androidx.datastore.preferences.core.*
-import androidx.lifecycle.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.persistance.*
-import kotlinx.coroutines.*
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.persistance.loadActions
+import de.moyapro.colors.game.persistance.loadSavedState
+import de.moyapro.colors.game.persistance.saveActions
+import kotlinx.coroutines.runBlocking
 
 class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     ViewModelProvider.Factory {

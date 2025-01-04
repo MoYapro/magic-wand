@@ -1,11 +1,26 @@
 package de.moyapro.colors
 
-import de.moyapro.colors.game.effect.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.enemy.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
-import kotlin.random.*
+import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.enemy.actions.AttackMageEnemyAction
+import de.moyapro.colors.game.enemy.actions.SelfHealEnemyAction
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.EnemyId
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.Field
+import de.moyapro.colors.game.model.gameState.Terrain
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 fun createExampleWand(mageId: MageId? = null, readyToZap: Boolean = false) =

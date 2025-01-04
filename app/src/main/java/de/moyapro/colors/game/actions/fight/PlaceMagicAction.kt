@@ -1,9 +1,12 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.SlotId
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.accessor.findWand
+import de.moyapro.colors.game.model.accessor.updateWand
+import de.moyapro.colors.game.model.gameState.GameState
 
 data class PlaceMagicAction(
     val wandId: WandId,

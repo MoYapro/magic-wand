@@ -1,11 +1,11 @@
 package de.moyapro.colors.game
 
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import io.kotest.matchers.equals.*
-import org.junit.*
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 internal class GameStateSerializationTest {
 

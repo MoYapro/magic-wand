@@ -1,7 +1,11 @@
 package de.moyapro.colors
 
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameOptions
+import de.moyapro.colors.game.model.gameState.ProgressionData
+import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.util.FightState
 
 fun initDefaultOptions() = GameOptions(thisIsAnOption = true)
 

@@ -1,8 +1,14 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.game.model.*
-import io.kotest.matchers.*
-import org.junit.*
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Splash
+import de.moyapro.colors.game.model.Wand
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 internal class WandTest {
 

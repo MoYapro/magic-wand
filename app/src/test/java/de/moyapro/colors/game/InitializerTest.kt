@@ -1,11 +1,13 @@
 package de.moyapro.colors.game
 
-import android.util.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.generators.*
-import io.kotest.assertions.throwables.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.game.actions.fight.StartFightAction
+import de.moyapro.colors.game.generators.Initializer
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class InitializerTest {
 

@@ -1,10 +1,14 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.accessor.findMage
+import de.moyapro.colors.game.model.accessor.findWandOnMage
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.util.minus
+import de.moyapro.colors.util.replace
 
 data class AddWandAction(
     val wandToAdd: Wand,

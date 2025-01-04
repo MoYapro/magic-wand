@@ -1,9 +1,10 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.*
-import io.kotest.matchers.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.accessor.findSlot
+import de.moyapro.colors.game.model.accessor.findWand
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 class PlaceMagicActionTest {
 

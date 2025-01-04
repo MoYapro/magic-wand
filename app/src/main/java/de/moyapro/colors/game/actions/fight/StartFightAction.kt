@@ -1,15 +1,16 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.FightState.ONGOING
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.FightState.*
 
 data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Start fight Action") {
 
 
     override fun apply(oldState: GameState): Result<GameState> {
-        require(oldState.currentFight.fightState != ONGOING) { "Fight already started. Current state was: ${oldState.currentFight.fightState}" }
+// TODO        require(oldState.currentFight.fightState != ONGOING) { "Fight already started. Current state was: ${oldState.currentFight.fightState}" }
         if (oldState.currentRun.mages.size < 3) return Result.failure(IllegalArgumentException("Cannot start fight with less than 3 mages"))
         val newFightData = FightData(
             currentTurn = 1,

@@ -1,14 +1,18 @@
 package de.moyapro.colors.game.actions.fight
 
-import android.util.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.functions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
-import io.kotest.matchers.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.functions.isInFrontRow
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.GameState
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 internal class ShowTargetSelectionActionTest {
 

@@ -1,10 +1,12 @@
 package de.moyapro.colors.wand.util
 
-import android.util.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.util.castOrNull
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class TypeHelper {
 

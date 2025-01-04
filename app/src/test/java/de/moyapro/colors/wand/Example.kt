@@ -1,26 +1,45 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.enemy.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.MagicType.BLUE
-import de.moyapro.colors.game.model.MagicType.GREEN
-import de.moyapro.colors.game.model.MagicType.RED
-import de.moyapro.colors.game.model.MagicType.SIMPLE
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-
-val MAGE_I_ID = MageId(1)
-val MAGE_II_ID = MageId(2)
-val MAGE_III_ID = MageId(3)
-
-val WAND_I_ID = WandId()
-val WAND_II_ID = WandId()
-val WAND_III_ID = WandId()
+import de.moyapro.colors.createExampleBattleBoardFilledWith
+import de.moyapro.colors.createExampleEnemy
+import de.moyapro.colors.createExampleMagic
+import de.moyapro.colors.game.actions.NoOp
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.fight.HitMageAction
+import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
+import de.moyapro.colors.game.actions.fight.TargetSelectedAction
+import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.enemy.actions.SelfHealEnemyAction
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.MagicType.*
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.SlotId
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.accessor.findMage
+import de.moyapro.colors.game.model.gameState.Achievement
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameOptions
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.model.gameState.ProgressionData
+import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.util.FightState
+import de.moyapro.colors.util.MAGE_III_ID
+import de.moyapro.colors.util.MAGE_II_ID
+import de.moyapro.colors.util.MAGE_I_ID
+import de.moyapro.colors.util.WAND_III_ID
+import de.moyapro.colors.util.WAND_II_ID
+import de.moyapro.colors.util.WAND_I_ID
 
 fun getExampleWandWithSingleSlot(slot: Slot? = null, spell: Spell<*>? = null): Pair<Wand, Slot> {
     val actualSlot = slot ?: Slot(level = 0, power = 1)
@@ -133,5 +152,4 @@ fun createExampleActionList() = listOf(
     EndTurnAction(),
     TargetSelectedAction(targetFieldId = FieldId(0)),
     ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
-    HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
 )

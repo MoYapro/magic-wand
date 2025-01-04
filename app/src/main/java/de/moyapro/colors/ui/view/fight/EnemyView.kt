@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -25,6 +26,8 @@ import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.actions.UndoAction
 import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.enemy.blueprints.Grunt
+import de.moyapro.colors.game.model.ImageRef
 import de.moyapro.colors.util.ENEMY_SIZE
 import de.moyapro.colors.R
 import kotlin.math.exp
@@ -39,7 +42,7 @@ fun EnemyView(@PreviewParameter(EnemyPreviewProvider::class) enemy: Enemy) {
             .height((enemy.size) * ENEMY_SIZE.dp)
             .border(1.dp, Color.Black)
     ) {
-        val image = painterResource(listOf(R.drawable.grunt_l, R.drawable.grunt_c, R.drawable.grunt_r, R.drawable.slime_l, R.drawable.slime_l, R.drawable.slime_c).random())
+        val image: Painter = painterResource(selectImage(enemy).imageRef)
         Image(
             painter = image, contentDescription = "Name", modifier = Modifier
                 .height(ENEMY_SIZE.dp)
@@ -80,9 +83,13 @@ fun alphaForAmount(input: Int): Float {
     return (1 - 0.7 * exp(-0.1 * input)).toFloat()
 }
 
+fun selectImage(enemy: Enemy): ImageRef {
+    return enemy.image?.center ?: ImageRef(R.drawable.monster)
+}
+
 class EnemyPreviewProvider(
     override val values: Sequence<Enemy> = sequenceOf(
-        Enemy(health = 10),
+        Grunt(),
         Enemy(health = 101, nextAction = UndoAction),
         Enemy(health = 10, statusEffects = Effect.values().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),
         Enemy(health = 10, statusEffects = Effect.values().reversed().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),

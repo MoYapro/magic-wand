@@ -1,12 +1,12 @@
 package de.moyapro.colors.game.actions
 
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import io.kotest.matchers.equals.*
-import io.kotest.matchers.string.*
-import org.junit.*
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.moyapro.colors.game.createExampleActionList
+import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import org.junit.Test
 
 class SerializationGameActionListTest() {
 

@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.model
 
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
 
 //◉ ○ ◌ ◍ ◎ ● ◐ ◑ ◒ ◓
 enum class MagicType(val symbol: Char, val color: Color) {

@@ -1,13 +1,15 @@
 package de.moyapro.colors.game.actions
 
-import android.util.*
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.equals.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.matchers.equals.shouldBeEqual
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class SerializationWorldStateTest {
 

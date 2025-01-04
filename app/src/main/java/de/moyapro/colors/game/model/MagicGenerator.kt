@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.model
 
-import de.moyapro.colors.util.*
-import kotlin.random.*
+import de.moyapro.colors.util.HashUuidFunctions
+import kotlin.random.Random
 
 data class MagicGenerator(val magicType: MagicType, val amount: IntRange, val randomSeed: Int = -1) {
 

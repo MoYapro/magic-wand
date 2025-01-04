@@ -1,10 +1,10 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.accessor.findMage
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.replace
 
 data class RemoveWandAction(val wandToRemove: Wand) : GameAction("Remove wand from mage") {
     override val randomSeed: Int = -1

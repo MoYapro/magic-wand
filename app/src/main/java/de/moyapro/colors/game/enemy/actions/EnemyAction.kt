@@ -1,10 +1,11 @@
 package de.moyapro.colors.game.enemy.actions
 
-import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.fight.HitMageAction
+import de.moyapro.colors.game.model.EnemyId
+import de.moyapro.colors.game.model.gameState.GameState
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(

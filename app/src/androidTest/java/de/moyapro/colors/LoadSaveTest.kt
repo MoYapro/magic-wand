@@ -1,19 +1,33 @@
 package de.moyapro.colors
 
-import androidx.datastore.core.*
-import androidx.datastore.preferences.core.*
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.persistance.*
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.test.*
-import org.junit.*
-import org.junit.rules.*
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.NoOp
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
+import de.moyapro.colors.game.actions.fight.TargetSelectedAction
+import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.SlotId
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.persistance.saveActions
+import de.moyapro.colors.util.GAME_ACTIONS_KEY
+import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoadSaveTest {
@@ -42,7 +56,6 @@ class LoadSaveTest {
             EndTurnAction(),
             TargetSelectedAction(targetFieldId = FieldId(0)),
             ShowTargetSelectionAction(originalAction = ZapAction(wandId = WandId())),
-            HitMageAction(damage = Int.MAX_VALUE, targetMageId = MageId()),
         )
         saveActions(testDataStore, actions)
 

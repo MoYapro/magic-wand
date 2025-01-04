@@ -1,10 +1,10 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import io.kotest.matchers.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.accessor.findWand
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 class PlaceSpellActionTest {
     @Test

@@ -1,16 +1,30 @@
 package de.moyapro.colors.game.persistance
 
-import android.util.*
-import androidx.datastore.core.*
-import androidx.datastore.preferences.core.*
-import com.fasterxml.jackson.databind.*
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.util.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameOptions
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.model.gameState.ProgressionData
+import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.game.model.gameState.notStartedFight
+import de.moyapro.colors.initDefaultOptions
+import de.moyapro.colors.initEmptyProgression
+import de.moyapro.colors.initEmptyRun
+import de.moyapro.colors.util.CURRENT_FIGHT_STATE_KEY
+import de.moyapro.colors.util.CURRENT_RUN_STATE_KEY
+import de.moyapro.colors.util.GAME_ACTIONS_KEY
+import de.moyapro.colors.util.GAME_OPTIONS_STATE_KEY
+import de.moyapro.colors.util.OVERALL_PROGRESSION_STATE_KEY
+import de.moyapro.colors.util.getConfiguredJson
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 private const val TAG = "PersistenceService"
 

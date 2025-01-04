@@ -1,9 +1,11 @@
 package de.moyapro.colors.ui.view.components.previewdata
 
-import androidx.compose.ui.tooling.preview.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.gameState.*
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import de.moyapro.colors.createExampleEnemy
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.Field
+import de.moyapro.colors.game.model.gameState.Terrain
 
 
 class BattleBoardPreviewProviderBattleBoard(override val values: Sequence<BattleBoard> = sequenceOf(simpleMiddle(), largeEnemies())) : PreviewParameterProvider<BattleBoard>

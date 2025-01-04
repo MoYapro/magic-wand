@@ -1,8 +1,15 @@
 package de.moyapro.colors.game.model.accessor
 
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.interfaces.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.SlotId
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.interfaces.HasId
+import de.moyapro.colors.game.model.interfaces.HasMages
+import de.moyapro.colors.game.model.interfaces.HasWands
+import de.moyapro.colors.util.replace
 
 fun HasWands.findWand(wandId: WandId): Wand {
     val foundWand: Wand? = wands.findWand(wandId)

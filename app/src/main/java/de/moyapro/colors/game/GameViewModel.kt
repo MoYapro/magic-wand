@@ -1,11 +1,15 @@
 package de.moyapro.colors.game
 
-import android.util.*
-import androidx.lifecycle.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.gameState.*
-import kotlinx.coroutines.flow.*
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.UndoAction
+import de.moyapro.colors.game.actions.applyAllActions
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.gameState.GameState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 private const val TAG = "GameViewModel"
 

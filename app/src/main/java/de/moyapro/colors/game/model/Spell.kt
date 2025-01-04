@@ -1,9 +1,12 @@
 package de.moyapro.colors.game.model
 
-import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.effect.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.util.*
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.enemy.plus
+import de.moyapro.colors.util.replace
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(

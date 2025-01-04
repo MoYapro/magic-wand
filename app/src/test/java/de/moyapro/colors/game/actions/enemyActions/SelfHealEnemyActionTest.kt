@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions.enemyActions
 
-import org.junit.*
+import org.junit.Test
 
 class SelfHealEnemyActionTest {
 

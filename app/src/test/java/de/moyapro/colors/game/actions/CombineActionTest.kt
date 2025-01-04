@@ -1,12 +1,17 @@
 package de.moyapro.colors.game.actions
 
-import android.util.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.model.accessor.*
-import io.kotest.matchers.*
-import io.mockk.*
-import org.junit.*
+import android.util.Log
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.game.model.accessor.findSlot
+import de.moyapro.colors.game.model.accessor.findWand
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
+import org.junit.Test
 
 class CombineActionTest {
 

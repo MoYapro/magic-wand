@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.model
 
-import de.moyapro.colors.game.model.interfaces.*
+import de.moyapro.colors.game.model.interfaces.HasId
 
 data class Slot(
     override val id: SlotId = SlotId(),

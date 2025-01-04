@@ -1,15 +1,19 @@
 package de.moyapro.colors.ui.view.loot
 
-import androidx.compose.foundation.lazy.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.game.model.accessor.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.ui.view.components.*
-import de.moyapro.colors.ui.view.dragdrop.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.loot.AddWandAction
+import de.moyapro.colors.game.actions.loot.RemoveWandAction
+import de.moyapro.colors.game.model.Mage
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.accessor.findWandOnMage
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.components.EmptyWandSlot
+import de.moyapro.colors.ui.view.dragdrop.Draggable
+import de.moyapro.colors.ui.view.dragdrop.DropZone
 
 @Composable
 fun WandsEditView(

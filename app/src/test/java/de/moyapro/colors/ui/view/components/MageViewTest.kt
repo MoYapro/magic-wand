@@ -1,12 +1,13 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.*
-import androidx.test.ext.junit.runners.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.*
-import org.junit.*
-import org.junit.runner.*
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import de.moyapro.colors.createExampleMage
+import de.moyapro.colors.util.MAGE_I_ID
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MageViewTest {

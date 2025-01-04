@@ -1,26 +1,31 @@
 package de.moyapro.colors
 
-import android.content.*
-import android.os.*
-import androidx.activity.*
-import androidx.activity.compose.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.layout.*
-import androidx.datastore.core.*
-import androidx.datastore.preferences.*
-import androidx.datastore.preferences.core.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.gameState.*
-import de.moyapro.colors.game.persistance.*
-import de.moyapro.colors.ui.theme.*
-import de.moyapro.colors.ui.view.mainmenu.*
-import de.moyapro.colors.util.*
-import de.moyapro.colors.util.FightState.ONGOING
-import kotlinx.coroutines.*
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.GameViewModelFactory
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.persistance.save
+import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.ui.view.mainmenu.MainMenu
+import de.moyapro.colors.util.FightState.*
+import de.moyapro.colors.util.MenuEntryInfo
+import kotlinx.coroutines.runBlocking
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gameSaveState")
 

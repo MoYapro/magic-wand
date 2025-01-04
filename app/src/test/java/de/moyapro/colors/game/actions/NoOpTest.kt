@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.*
-import io.kotest.matchers.*
-import org.junit.*
+import de.moyapro.colors.game.getExampleGameState
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 internal class NoOpTest {
     @Test
