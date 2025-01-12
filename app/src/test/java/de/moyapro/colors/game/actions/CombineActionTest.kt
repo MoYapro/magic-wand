@@ -56,7 +56,7 @@ class CombineActionTest {
         val (slotToInsert1, slotToInsert2) = wandToEdit.slots
         val magic1 = state.currentFight.magicToPlay.first { slotToInsert1.spell!!.magicSlots.first().requiredMagic.type == it.type }
         val magic2 = state.currentFight.magicToPlay.last { slotToInsert2.spell!!.magicSlots.first().requiredMagic.type == it.type }
-        val viewModel = GameViewModel(initialState = state, loadActions = { emptyList() }, saveActions = {})
+        val viewModel = GameViewModel(initialState = state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {})
         viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
         viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
         viewModel

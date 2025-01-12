@@ -4,7 +4,7 @@ import de.moyapro.colors.createExampleBattleBoardFilledWith
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.effect.Effect.*
-import de.moyapro.colors.game.enemy.TargetDummy
+import de.moyapro.colors.game.enemy.blueprints.TargetDummy
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Splash

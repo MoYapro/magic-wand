@@ -19,6 +19,3 @@ data class Enemy(
     val statusEffects: Map<Effect, Int> = emptyMap(),
     val image: DirectionalImage? = null,
 ) : HasId<EnemyId>
-
-
-fun TargetDummy(health: Int) = Enemy(name = "TargetDummy", health = health, possibleActions = emptyList())

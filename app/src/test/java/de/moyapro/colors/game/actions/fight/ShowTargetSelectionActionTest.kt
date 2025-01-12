@@ -30,7 +30,7 @@ internal class ShowTargetSelectionActionTest {
     @Test
     fun `should set targets on hitable fields`() {
         val state = getExampleGameState()
-        val gameViewModel = GameViewModel(state, loadActions = { emptyList() }, saveActions = {})
+        val gameViewModel = GameViewModel(state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {})
         gameViewModel.addAction(
             ZapAction(
                 target = state.currentFight.battleBoard.fields.first().id,

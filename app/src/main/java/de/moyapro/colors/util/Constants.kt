@@ -16,9 +16,9 @@ val OVERALL_PROGRESSION_STATE_KEY = stringPreferencesKey("overall_progression_st
 val GAME_OPTIONS_STATE_KEY = stringPreferencesKey("game_options_state_key")
 val GAME_ACTIONS_KEY = stringPreferencesKey("game_actions")
 
-val MAGE_I_ID = MageId(1)
-val MAGE_II_ID = MageId(2)
-val MAGE_III_ID = MageId(3)
+val MAGE_I_ID = MageId(0)
+val MAGE_II_ID = MageId(1)
+val MAGE_III_ID = MageId(2)
 
 val WAND_I_ID = WandId()
 val WAND_II_ID = WandId()

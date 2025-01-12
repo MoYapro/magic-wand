@@ -31,9 +31,9 @@ class EndTurnActionTest {
     @Test
     fun `EndTurn should yield the same results`() {
         val state = getExampleGameState()
-        val endTurnAction = EndTurnAction(1)
+        val endTurnAction = EndTurnAction(99)
         val nextTurnStates = (0..10).map { endTurnAction.apply(state).getOrThrow() }
-        nextTurnStates.forEachIndexed { index, bob -> nextTurnStates.first() shouldBeEqualToComparingFields bob }
+        nextTurnStates.forEachIndexed { _, bob -> nextTurnStates.first() shouldBeEqualToComparingFields bob }
     }
 
     @Test
