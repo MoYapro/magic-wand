@@ -32,19 +32,18 @@ class FightActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        gameViewModel.materializeActions()
         setContent {
             val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
             val currentGameState: GameState = currentGameStateResult.getOrThrow()
             ColorsTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Gray
+                    modifier = Modifier.fillMaxSize(), color = Color.Gray
                 ) {
                     when (currentGameState.currentFight.fightState) {
                         NOT_STARTED -> gameViewModel.addAction(StartFightAction())
                         ONGOING -> WandsView(
-                            currentGameState,
-                            gameViewModel::addAction
+                            currentGameState, gameViewModel::addAction
                         )
 
                         WIN -> WinFightView(::startLootActivity)
@@ -57,11 +56,13 @@ class FightActivity : ComponentActivity() {
 
     private fun startMainActivity() {
         gameViewModel.addAction(EndFightAction())
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun startLootActivity() {
         gameViewModel.addAction(EndFightAction())
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, LootActivity::class.java))
     }
 }

@@ -30,6 +30,7 @@ private const val TAG = "PersistenceService"
 
 suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState =
     dataStore.data.map { preferences ->
+        Log.d(TAG, "load current fight state: ${preferences[CURRENT_FIGHT_STATE_KEY]}")
         val objectMapper = getConfiguredJson()
         val currentFight: FightData? = objectMapper.readOptionalValue(preferences[CURRENT_FIGHT_STATE_KEY])
         val currentRun: RunData? = objectMapper.readOptionalValue(preferences[CURRENT_RUN_STATE_KEY])

@@ -17,6 +17,7 @@ import de.moyapro.colors.game.actions.loot.AddGeneratorAction
 import de.moyapro.colors.game.actions.loot.AddWandAction
 import de.moyapro.colors.game.actions.loot.PlaceSpellAction
 import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.enemy.actions.AttackMageAction
 import de.moyapro.colors.game.enemy.actions.SelfHealAction
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.gameState.BattleBoard
@@ -33,7 +34,6 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = TargetSelectedAction::class, name = "TargetSelectedAction"),
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
     JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
-    JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
     JsonSubTypes.Type(value = AddGeneratorAction::class, name = "AddGeneratorAction"),
     JsonSubTypes.Type(value = IncreaseActionCounterAction::class, name = "IncreaseActionCounterAction"),
     JsonSubTypes.Type(value = StartFightAction::class, name = "StartFightAction"),
@@ -44,6 +44,8 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = CombinedAction::class, name = "CombinedAction"),
     JsonSubTypes.Type(value = RemoveSpellFromWandAction::class, name = "RemoveSpellFromWandAction"),
     JsonSubTypes.Type(value = PlaceSpellAction::class, name = "PlaceSpellAction"),
+    JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
+    JsonSubTypes.Type(value = AttackMageAction::class, name = "AttackMageAction"),
 )
 abstract class GameAction(
     val name: String,

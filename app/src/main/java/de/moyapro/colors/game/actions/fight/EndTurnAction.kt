@@ -19,10 +19,13 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
     override fun apply(oldState: GameState): Result<GameState> {
         random = Random(randomSeed)
-        val stateAfterEnemyActions =
-            oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
-        return stateAfterEnemyActions.map(this::prepareNextTurn)
+        val stateAfterEnemyActions = executeAllEnemyActions(oldState)
+        val nextTurnState = stateAfterEnemyActions.map(this::prepareNextTurn)
+        return nextTurnState
     }
+
+    private fun executeAllEnemyActions(oldState: GameState) =
+        oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
 
 
     private fun prepareNextTurn(gameState: GameState): GameState {
