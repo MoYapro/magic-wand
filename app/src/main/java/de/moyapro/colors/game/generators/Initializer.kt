@@ -2,8 +2,9 @@ package de.moyapro.colors.game.generators
 
 import android.content.ContentValues.*
 import android.util.Log
-import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.enemy.blueprints.Grunt
+import de.moyapro.colors.game.enemy.blueprints.Slime
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
@@ -73,11 +74,11 @@ object Initializer {
             Field(FieldId(2), null, Terrain.ROCK),
             Field(FieldId(3), null, Terrain.FORREST),
             Field(FieldId(4), null, Terrain.WATER),
-            Field(FieldId(5), createExampleEnemy(), Terrain.PLAIN),
-            Field(FieldId(6), createExampleEnemy(), Terrain.ROCK),
-            Field(FieldId(7), createExampleEnemy(), Terrain.FORREST),
-            Field(FieldId(8), createExampleEnemy(), Terrain.WATER),
-            Field(FieldId(9), createExampleEnemy(), Terrain.SAND),
+            Field(FieldId(5), Grunt(), Terrain.PLAIN),
+            Field(FieldId(6), Grunt(), Terrain.ROCK),
+            Field(FieldId(7), Slime(), Terrain.FORREST),
+            Field(FieldId(8), Slime(), Terrain.WATER),
+            Field(FieldId(9), Grunt(), Terrain.SAND),
             Field(FieldId(10), null, Terrain.SAND),
             Field(FieldId(11), null, Terrain.PLAIN),
             Field(FieldId(12), null, Terrain.ROCK),

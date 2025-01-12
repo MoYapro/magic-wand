@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import de.moyapro.colors.game.actions.fight.EndFightAction
 import de.moyapro.colors.game.actions.fight.EndTurnAction
-import de.moyapro.colors.game.actions.fight.HitMageAction
 import de.moyapro.colors.game.actions.fight.LoseFightAction
 import de.moyapro.colors.game.actions.fight.PlaceMagicAction
 import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
@@ -33,7 +32,6 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
     JsonSubTypes.Type(value = TargetSelectedAction::class, name = "TargetSelectedAction"),
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
-    JsonSubTypes.Type(value = HitMageAction::class, name = "HitMageAction"),
     JsonSubTypes.Type(value = AddGeneratorAction::class, name = "AddGeneratorAction"),
     JsonSubTypes.Type(value = IncreaseActionCounterAction::class, name = "IncreaseActionCounterAction"),
     JsonSubTypes.Type(value = StartFightAction::class, name = "StartFightAction"),

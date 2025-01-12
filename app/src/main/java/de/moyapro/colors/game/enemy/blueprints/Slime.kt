@@ -1,15 +1,13 @@
 package de.moyapro.colors.game.enemy.blueprints
 
-import de.moyapro.colors.game.actions.fight.HitMageAction
 import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.enemy.actions.AttackMageEnemyAction
 import de.moyapro.colors.game.model.DirectionalImage
 import de.moyapro.colors.game.model.ImageRef
-import de.moyapro.colors.util.MAGE_III_ID
-import de.moyapro.colors.util.MAGE_I_ID
 import de.moyapro.colors.R
 
 fun Slime(): Enemy {
-    val possibleActions = listOf(HitMageAction(MAGE_I_ID, 1), HitMageAction(MAGE_III_ID, 1), HitMageAction(MAGE_III_ID, 1))
+    val possibleActions = listOf(AttackMageEnemyAction("Smash"))
     return Enemy(
         name = "Slime",
         health = 5,

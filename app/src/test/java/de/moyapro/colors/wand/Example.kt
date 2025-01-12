@@ -1,17 +1,16 @@
 package de.moyapro.colors.game
 
 import de.moyapro.colors.createExampleBattleBoardFilledWith
-import de.moyapro.colors.createExampleEnemy
 import de.moyapro.colors.createExampleMagic
 import de.moyapro.colors.game.actions.NoOp
 import de.moyapro.colors.game.actions.fight.EndTurnAction
-import de.moyapro.colors.game.actions.fight.HitMageAction
 import de.moyapro.colors.game.actions.fight.PlaceMagicAction
 import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
 import de.moyapro.colors.game.actions.fight.TargetSelectedAction
 import de.moyapro.colors.game.actions.fight.ZapAction
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.enemy.actions.SelfHealEnemyAction
+import de.moyapro.colors.game.enemy.blueprints.Grunt
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
@@ -124,7 +123,7 @@ fun getExampleFight(magicToPlay: List<Magic>?): FightData {
     val magics = listOf(SIMPLE, GREEN, BLUE, RED)
     return FightData(
         currentTurn = 1,
-        battleBoard = createExampleBattleBoardFilledWith(createExampleEnemy(10)),
+        battleBoard = createExampleBattleBoardFilledWith(Grunt()),
         fightState = FightState.ONGOING,
         mages = getExampleMages(),
         wands = getExampleMages().map { getExampleWand(it.id, getExampleSlot()) },

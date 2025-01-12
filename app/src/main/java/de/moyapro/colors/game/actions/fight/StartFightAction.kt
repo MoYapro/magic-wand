@@ -8,6 +8,7 @@ import de.moyapro.colors.util.FightState.*
 
 data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Start fight Action") {
 
+    private val initialBoardConfiguration = Initializer.initialBattleBoard()
 
     override fun apply(oldState: GameState): Result<GameState> {
 // TODO        require(oldState.currentFight.fightState != ONGOING) { "Fight already started. Current state was: ${oldState.currentFight.fightState}" }
@@ -15,7 +16,7 @@ data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Star
         val newFightData = FightData(
             currentTurn = 1,
             fightState = ONGOING,
-            battleBoard = Initializer.initialBattleBoard(),
+            battleBoard = initialBoardConfiguration,
             mages = oldState.currentRun.mages,
             wands = oldState.currentRun.activeWands,
             magicToPlay = emptyList(),
