@@ -5,8 +5,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.game.persistance.loadActions
 import de.moyapro.colors.game.persistance.loadSavedState
+import de.moyapro.colors.game.persistance.save
 import de.moyapro.colors.game.persistance.saveActions
 import kotlinx.coroutines.runBlocking
 
@@ -20,7 +22,8 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
             val actions = loadActions(dataStore)
             val saveActions: (Collection<GameAction>) -> Unit = { actionsToSave -> saveActions(dataStore, actionsToSave) }
             val loadActions: () -> Collection<GameAction> = { loadActions(dataStore) }
-            return@runBlocking GameViewModel(gameState, actions, saveActions, loadActions) as T
+            val saveState: (GameState, Collection<GameAction>) -> Unit = { gameStateToSave, actionsToSave -> save(dataStore, gameStateToSave, actionsToSave) }
+            return@runBlocking GameViewModel(gameState, actions, saveActions, loadActions, saveState) as T
         }
     }
 }

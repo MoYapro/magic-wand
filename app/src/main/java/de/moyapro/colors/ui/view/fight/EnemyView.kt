@@ -23,10 +23,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import de.moyapro.colors.game.actions.UndoAction
 import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.enemy.blueprints.Grunt
+import de.moyapro.colors.game.enemy.blueprints.Slime
 import de.moyapro.colors.game.model.ImageRef
 import de.moyapro.colors.util.ENEMY_SIZE
 import de.moyapro.colors.R
@@ -90,7 +90,7 @@ fun selectImage(enemy: Enemy): ImageRef {
 class EnemyPreviewProvider(
     override val values: Sequence<Enemy> = sequenceOf(
         Grunt(),
-        Enemy(health = 101, nextAction = UndoAction),
+        Slime(),
         Enemy(health = 10, statusEffects = Effect.values().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),
         Enemy(health = 10, statusEffects = Effect.values().reversed().mapIndexed { index, effect -> effect to ((index + 1) * 5) }.associate { it }),
     ),

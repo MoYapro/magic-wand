@@ -22,6 +22,7 @@ import de.moyapro.colors.ui.view.fight.LostFightView
 import de.moyapro.colors.ui.view.fight.WinFightView
 import de.moyapro.colors.util.FightState.*
 
+private const val TAG = "FightActivity"
 
 class FightActivity : ComponentActivity() {
 
@@ -34,7 +35,6 @@ class FightActivity : ComponentActivity() {
         setContent {
             val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
             val currentGameState: GameState = currentGameStateResult.getOrThrow()
-
             ColorsTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

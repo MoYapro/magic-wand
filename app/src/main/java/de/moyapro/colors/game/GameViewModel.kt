@@ -18,6 +18,7 @@ class GameViewModel(
     initialActions: Collection<GameAction> = emptyList(),
     private val saveActions: (Collection<GameAction>) -> Unit,
     private val loadActions: () -> Collection<GameAction>,
+    private val saveState: (GameState, Collection<GameAction>) -> Unit,
 ) : ViewModel() {
 
     init {
@@ -53,6 +54,10 @@ class GameViewModel(
         this.actions.clear()
         this.actions.addAll(loadActions())
         this._uiState.value = getCurrentGameState()
+    }
+
+    fun materializeActions() {
+        saveState(_uiState.value.getOrThrow(), emptyList())
     }
 
 }
