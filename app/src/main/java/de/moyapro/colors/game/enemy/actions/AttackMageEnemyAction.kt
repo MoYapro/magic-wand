@@ -1,6 +1,7 @@
 package de.moyapro.colors.game.enemy.actions
 
 import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.NoOp
 import de.moyapro.colors.game.model.EnemyId
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.MageId
@@ -11,20 +12,26 @@ import kotlin.random.Random
 
 data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAction<MageId> {
     override val randomSeed = this.hashCode()
-    private val random = Random(randomSeed)
 
     override fun init(self: EnemyId, gameState: GameState): GameAction {
-        val target = selectTarget(gameState)
+        val random = Random(self.id.hashCode())
+
+        val target = selectTarget(gameState, random)
+        if (target == null) return NoOp()
         return AttackMageAction(target.id)
     }
 
-    private fun selectTarget(gameState: GameState): Mage {
-        return gameState.currentFight.mages.filter { it.health > 0 }.random(random)
+    private fun selectTarget(gameState: GameState, random: Random): Mage? {
+        val aliveMage = gameState.currentFight.mages.filter { it.health > 0 }
+        if (aliveMage.isEmpty()) {
+            return null
+        }
+        return aliveMage.random(random)
     }
 }
 
 data class AttackMageAction(val mageId: MageId) : GameAction("Attack ${symbolForMageId(mageId)}") {
-    override val randomSeed = this.hashCode()
+    override val randomSeed = this.mageId.hashCode()
 
     override fun apply(oldState: GameState): Result<GameState> {
         val mage = oldState.currentFight.findMage(mageId)
