@@ -19,7 +19,7 @@ data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAc
     }
 
     private fun selectTarget(gameState: GameState): Mage {
-        return gameState.currentFight.mages.random(random)
+        return gameState.currentFight.mages.filter { it.health > 0 }.random(random)
     }
 }
 
