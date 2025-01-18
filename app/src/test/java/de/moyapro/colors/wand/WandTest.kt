@@ -7,6 +7,8 @@ import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.wand.getExampleWandWithSingleSlot
+import de.moyapro.colors.wand.getExampleWandWithTwoSlots
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 

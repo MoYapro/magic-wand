@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import org.junit.Test
 

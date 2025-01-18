@@ -4,10 +4,10 @@ import android.util.Log
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.functions.isInFrontRow
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkStatic

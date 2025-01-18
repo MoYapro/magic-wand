@@ -1,13 +1,13 @@
 package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.createExampleWand
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.accessor.findMage
 import de.moyapro.colors.game.model.accessor.findWandOnMage
 import de.moyapro.colors.util.MAGE_III_ID
 import de.moyapro.colors.util.MAGE_II_ID
 import de.moyapro.colors.util.MAGE_I_ID
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.junit.Test

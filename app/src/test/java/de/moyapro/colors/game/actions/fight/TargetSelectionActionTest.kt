@@ -4,10 +4,10 @@ import android.util.Log
 import de.moyapro.colors.createExampleBattleBoardFilledWith
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.enemy.blueprints.TargetDummy
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.mockk.every

@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.getExampleGameState
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 

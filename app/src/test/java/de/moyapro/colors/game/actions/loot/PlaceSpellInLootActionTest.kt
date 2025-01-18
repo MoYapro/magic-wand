@@ -3,6 +3,7 @@ package de.moyapro.colors.game.actions.loot
 import de.moyapro.colors.*
 import de.moyapro.colors.game.*
 import de.moyapro.colors.game.model.*
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.collections.*
 import org.junit.*
 

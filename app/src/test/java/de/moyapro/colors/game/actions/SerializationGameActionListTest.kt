@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.actions
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.moyapro.colors.game.createExampleActionList
 import de.moyapro.colors.util.getConfiguredJson
+import de.moyapro.colors.wand.createExampleActionList
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain

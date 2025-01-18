@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.gameState.notStartedFight
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe

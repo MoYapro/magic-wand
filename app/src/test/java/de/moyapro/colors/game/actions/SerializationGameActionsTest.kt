@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.createExampleActionList
 import de.moyapro.colors.util.getConfiguredJson
+import de.moyapro.colors.wand.createExampleActionList
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.Test
 import org.junit.runner.RunWith

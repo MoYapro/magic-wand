@@ -1,4 +1,4 @@
-package de.moyapro.colors.game
+package de.moyapro.colors.wand
 
 import de.moyapro.colors.createExampleBattleBoardFilledWith
 import de.moyapro.colors.createExampleMagic
@@ -8,9 +8,8 @@ import de.moyapro.colors.game.actions.fight.PlaceMagicAction
 import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
 import de.moyapro.colors.game.actions.fight.TargetSelectedAction
 import de.moyapro.colors.game.actions.fight.ZapAction
-import de.moyapro.colors.game.enemy.Enemy
-import de.moyapro.colors.game.enemy.actions.SelfHealEnemyAction
 import de.moyapro.colors.game.enemy.blueprints.Grunt
+import de.moyapro.colors.game.enemy.blueprints.TargetDummy
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
@@ -43,25 +42,18 @@ import de.moyapro.colors.util.WAND_I_ID
 fun getExampleWandWithSingleSlot(slot: Slot? = null, spell: Spell<*>? = null): Pair<Wand, Slot> {
     val actualSlot = slot ?: Slot(level = 0, power = 1)
     val actualSpell = spell ?: Bonk()
-    val newWand: Wand =
-        Wand(slots = listOf(actualSlot)).putSpell(slotId = actualSlot.id, actualSpell)
+    val newWand: Wand = Wand(slots = listOf(actualSlot)).putSpell(slotId = actualSlot.id, actualSpell)
     return Pair(newWand, actualSlot)
 }
 
 fun getExampleWandWithTwoSlots(): Triple<Wand, Slot, Slot> {
     val slot1 = Slot(level = 0, power = 1)
-    val slot2 =
-        Slot(level = 0, power = 2)
-    val newWand: Wand =
-        Wand(slots = listOf(slot1, slot2))
-            .putSpell(
-                slotId = slot1.id,
-                Bonk(magicSlots = listOf(MagicSlot(Magic())))
-            )
-            .putSpell(
-                slotId = slot2.id,
-                Bonk(magicSlots = listOf(MagicSlot(Magic(type = GREEN))))
-            )
+    val slot2 = Slot(level = 0, power = 2)
+    val newWand: Wand = Wand(slots = listOf(slot1, slot2)).putSpell(
+        slotId = slot1.id, Bonk(magicSlots = listOf(MagicSlot(Magic())))
+    ).putSpell(
+        slotId = slot2.id, Bonk(magicSlots = listOf(MagicSlot(Magic(type = GREEN))))
+    )
     return Triple(newWand, slot1, slot2)
 }
 
@@ -78,7 +70,7 @@ fun getExampleOptions() = GameOptions(thisIsAnOption = true)
 fun getExampleProgression() = ProgressionData(
     unlockedSpells = listOf(getExampleSpell()),
     unlockedWands = listOf(getExampleWandWithSingleSlot().first),
-    unlockedEnemies = listOf(getExampleEnemy()),
+    unlockedEnemies = listOf(TargetDummy(1)),
     achievements = listOf(getExampleAchievement()),
 )
 
@@ -86,7 +78,6 @@ fun getExampleSpell(magicType: MagicType = SIMPLE) = Bonk(magicSlots = listOf(Ma
 
 fun getExampleAchievement() = Achievement.ARCHIEVED_SOMETHING
 
-fun getExampleEnemy() = Enemy(name = "Example Enemy", health = 10, possibleActions = listOf(SelfHealEnemyAction(), HitMageAction(MAGE_I_ID, 1)))
 
 fun getExampleRunData(): RunData {
     val mages = getExampleMages()
@@ -113,9 +104,7 @@ fun getExampleWand(
 
 fun getExampleSlot(magicType: MagicType = SIMPLE): Slot {
     return Slot(
-        level = 3,
-        power = 2,
-        spell = getExampleSpell(magicType)
+        level = 3, power = 2, spell = getExampleSpell(magicType)
     )
 }
 
@@ -142,9 +131,7 @@ fun getExampleMages() = listOf(
 
 fun createExampleActionList() = listOf(
     PlaceMagicAction(
-        magicToPlace = createExampleMagic(),
-        slotId = SlotId(),
-        wandId = WandId()
+        magicToPlace = createExampleMagic(), slotId = SlotId(), wandId = WandId()
     ),
     ZapAction(WandId()),
     NoOp(),

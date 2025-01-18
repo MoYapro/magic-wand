@@ -1,8 +1,8 @@
 package de.moyapro.colors.game.actions.loot
 
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.accessor.findWand
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 

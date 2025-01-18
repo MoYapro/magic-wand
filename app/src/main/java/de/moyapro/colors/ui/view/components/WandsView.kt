@@ -45,10 +45,7 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 .fillMaxHeight(1f / 2f)
                 .border(1.dp, Color.LightGray)
         ) {
-            items(
-                items = currentGameState.currentFight.wands.inOrder(),
-                key = { wand: Wand -> wand.id.hashCode() }
-            ) { theWand ->
+            items(items = currentGameState.currentFight.wands.inOrder(), key = { wand: Wand -> wand.id.hashCode() }) { theWand ->
                 WandView(
                     wand = theWand,
                     addAction = addAction,
@@ -62,35 +59,30 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 .fillMaxHeight(1f / 2f)
                 .border(1.dp, Color.LightGray)
         ) {
-            items(
-                items = currentGameState.currentFight.magicToPlay,
-                key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
+            items(items = currentGameState.currentFight.magicToPlay, key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .border(1.dp, Color.LightGray)
-            ) {
-                Button(onClick = { addAction(UndoAction) }) {
-                    Text("undo")
-                }
-                Button(onClick = { addAction(EndTurnAction()) }) {
-                    Text("End Turn")
-                }
-                Button(onClick = { addAction(LoseFightAction()) }) {
-                    Text("Give up")
-                }
-                Button(onClick = { addAction(WinFightAction()) }) {
-                    Text("Win fight")
-                }
-                Row {
-                    currentGameState.currentFight.generators.forEach { generator ->
-                        Text("Gen ${generator.magicType} -> ${generator.amountRange}")
-                    }
-                }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .border(1.dp, Color.LightGray)
+        ) {
+            Button(onClick = { addAction(UndoAction) }) {
+                Text("undo")
             }
+            Button(onClick = { addAction(EndTurnAction()) }) {
+                Text("End Turn")
+            }
+            Button(onClick = { addAction(LoseFightAction()) }) {
+                Text("Give up")
+            }
+            Button(onClick = { addAction(WinFightAction()) }) {
+                Text("Win fight")
+            }
+        }
+        LazyRow {
+            items(items = currentGameState.currentFight.generators, key = { generator -> generator.hashCode() })
+            { generator -> Text("Gen ${generator.magicType} -> ${generator.amountRange}") }
         }
     }
 }

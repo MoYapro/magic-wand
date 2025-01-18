@@ -3,6 +3,7 @@ package de.moyapro.colors.game
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.util.getConfiguredJson
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import org.junit.Test

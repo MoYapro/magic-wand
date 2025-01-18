@@ -3,10 +3,10 @@ package de.moyapro.colors.game.actions
 import android.util.Log
 import de.moyapro.colors.game.actions.fight.EndTurnAction
 import de.moyapro.colors.game.actions.loot.AddGeneratorAction
-import de.moyapro.colors.game.getExampleGameState
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicGenerator
 import de.moyapro.colors.game.model.MagicType.*
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
