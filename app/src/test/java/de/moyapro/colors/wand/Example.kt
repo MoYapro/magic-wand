@@ -132,7 +132,7 @@ fun getExampleFight(magicToPlay: List<Magic>?): FightData {
     )
 }
 
-fun getExampleMagicGenerator(): List<MagicGenerator> = listOf(MagicGenerator(amount = 1..2, magicType = SIMPLE))
+fun getExampleMagicGenerator(): List<MagicGenerator> = listOf(MagicGenerator(amountRange = 1..2, magicType = SIMPLE))
 
 fun getExampleMages() = listOf(
     Mage(MAGE_I_ID, health = 10, wandId = WAND_I_ID),

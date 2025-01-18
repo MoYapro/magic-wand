@@ -66,24 +66,30 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 items = currentGameState.currentFight.magicToPlay,
                 key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .border(1.dp, Color.LightGray)
-        ) {
-            Button(onClick = { addAction(UndoAction) }) {
-                Text("undo")
-            }
-            Button(onClick = { addAction(EndTurnAction()) }) {
-                Text("End Turn")
-            }
-            Button(onClick = { addAction(LoseFightAction()) }) {
-                Text("Give up")
-            }
-            Button(onClick = { addAction(WinFightAction()) }) {
-                Text("Win fight")
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .border(1.dp, Color.LightGray)
+            ) {
+                Button(onClick = { addAction(UndoAction) }) {
+                    Text("undo")
+                }
+                Button(onClick = { addAction(EndTurnAction()) }) {
+                    Text("End Turn")
+                }
+                Button(onClick = { addAction(LoseFightAction()) }) {
+                    Text("Give up")
+                }
+                Button(onClick = { addAction(WinFightAction()) }) {
+                    Text("Win fight")
+                }
+                Row {
+                    currentGameState.currentFight.generators.forEach { generator ->
+                        Text("Gen ${generator.magicType} -> ${generator.amountRange}")
+                    }
+                }
             }
         }
     }

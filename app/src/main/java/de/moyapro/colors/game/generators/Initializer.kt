@@ -10,6 +10,7 @@ import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.MageId
 import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
 import de.moyapro.colors.game.model.MagicSlot
 import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Slot
@@ -24,6 +25,7 @@ import de.moyapro.colors.game.model.gameState.RunData
 import de.moyapro.colors.game.model.gameState.Terrain
 import de.moyapro.colors.game.model.gameState.notStartedFight
 import de.moyapro.colors.util.getConfiguredJson
+import java.util.Random
 
 object Initializer {
     fun createInitialGameState(): GameState {
@@ -41,10 +43,7 @@ object Initializer {
     }
 
     private fun initialProgressionData() = ProgressionData(
-        achievements = emptyList(),
-        unlockedEnemies = emptyList(),
-        unlockedWands = emptyList(),
-        unlockedSpells = emptyList()
+        achievements = emptyList(), unlockedEnemies = emptyList(), unlockedWands = emptyList(), unlockedSpells = emptyList()
     )
 
     private fun initialGameOptions() = GameOptions(
@@ -55,14 +54,23 @@ object Initializer {
         val wandsAndMages = getInitialMages().map { mage ->
             val wand = createExampleWand(mageId = mage.id, readyToZap = true)
             val mageWithWand = mage.copy(wandId = wand.id)
-            kotlin.Pair(mageWithWand, wand)
+            Pair(mageWithWand, wand)
         }
         return RunData(
             activeWands = wandsAndMages.map { it.second },
             mages = wandsAndMages.map { it.first },
             spells = emptyList(),
             wandsInBag = listOf(createStarterWand()),
-            generators = emptyList(),
+            generators = generateMagicGenerators(),
+        )
+    }
+
+    private fun generateMagicGenerators(): List<MagicGenerator> {
+        return listOf(
+            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt()),
+            MagicGenerator(MagicType.RED, amountRange = 0..2, randomSeed = Random().nextInt()),
+            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt()),
+            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt())
         )
     }
 
