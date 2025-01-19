@@ -34,7 +34,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
             currentTurn = nextTurn(gameState.currentFight.currentTurn),
             fightState = checkFightEnd(gameState.currentFight),
             battlefield = calculateEnemyTurn(gameState),
-            magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay, gameState.currentFight.generators)
+            magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay, gameState.currentFight.generators, gameState.currentFight.currentTurn)
         )
     }
 
@@ -51,10 +51,10 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
         return currentTurn + 1
     }
 
-    private fun refreshMagicToPlay(leftOverMagic: List<Magic>, generators: List<MagicGenerator>): List<Magic> {
-        val generatedMagic = generators.flatMap(MagicGenerator::generate)
+    private fun refreshMagicToPlay(leftOverMagic: List<Magic>, generators: List<MagicGenerator>, currentTurn: Int): List<Magic> {
+        val generatedMagic = generators.flatMap { it.generate(currentTurn) }
         val newMagicToPlay = leftOverMagic + generatedMagic
-        check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does not contain all of the old" }
+        check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does contain all of the old" }
         return newMagicToPlay
     }
 

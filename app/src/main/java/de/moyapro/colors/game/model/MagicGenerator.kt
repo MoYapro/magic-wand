@@ -9,11 +9,9 @@ data class MagicGenerator(val magicType: MagicType, val amountRange: IntRange, v
         Log.d("magigGenerator", "init")
     }
 
-    private lateinit var random: Random
 
-    fun generate(): List<Magic> {
-        random = Random(randomSeed)
-
+    fun generate(randomSeedAddition: Int): List<Magic> {
+        val random: Random = Random(randomSeed + randomSeedAddition)
         val magicCount = amountRange.random(random)
         return (1..magicCount).map {
             Magic(id = MagicId(HashUuidFunctions.v5(random.nextDouble().toString())), type = magicType)

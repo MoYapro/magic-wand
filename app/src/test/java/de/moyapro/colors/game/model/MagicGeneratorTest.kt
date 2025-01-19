@@ -24,28 +24,28 @@ class MagicGeneratorTest {
 
     @Test
     fun `generator creates magic`() {
-        MagicGenerator(MagicType.SIMPLE, 1..1).generate().map(Magic::type) shouldBe listOf(MagicType.SIMPLE)
+        MagicGenerator(MagicType.SIMPLE, 1..1).generate(1).map(Magic::type) shouldBe listOf(MagicType.SIMPLE)
     }
 
     @Test
     fun `generator creates correct magic`() {
-        MagicGenerator(MagicType.GREEN, 1..1).generate().map(Magic::type) shouldBe listOf(MagicType.GREEN)
+        MagicGenerator(MagicType.GREEN, 1..1).generate(1).map(Magic::type) shouldBe listOf(MagicType.GREEN)
     }
 
     @Test
     fun `generator creates new magic every time`() {
         val magicGenerator = MagicGenerator(MagicType.SIMPLE, 1..1)
-        val generatedMagicOne = magicGenerator.generate()
-        val generatedMagicTwo = magicGenerator.generate()
+        val currentTurn = 1
+        val generatedMagicOne = magicGenerator.generate(currentTurn)
+        val generatedMagicTwo = magicGenerator.generate(currentTurn + 1)
         generatedMagicOne.single().id shouldNotBe generatedMagicTwo.single().id
-        
     }
 
 
     @Test
     fun `generator creates lots of magic`() {
-        val generatedMagic = MagicGenerator(MagicType.SIMPLE, 1..100, 99).generate().map(Magic::type)
+        val generatedMagic = MagicGenerator(MagicType.SIMPLE, 1..100, 99).generate(99).map(Magic::type)
         generatedMagic.all { it == MagicType.SIMPLE } shouldBe true
-        generatedMagic shouldHaveSize 98
+        generatedMagic shouldHaveSize 84
     }
 }

@@ -59,8 +59,9 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 .fillMaxHeight(1f / 2f)
                 .border(1.dp, Color.LightGray)
         ) {
-            items(items = currentGameState.currentFight.magicToPlay, key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
+            items(items = currentGameState.currentFight.magicToPlay.sortedBy { it.id.hashCode() }, key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
         }
+        Text("Magic ${currentGameState.currentFight.magicToPlay.size}")
         Row(
             modifier = Modifier
                 .fillMaxWidth()
