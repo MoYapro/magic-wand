@@ -67,10 +67,10 @@ object Initializer {
 
     private fun generateMagicGenerators(): List<MagicGenerator> {
         return listOf(
-            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt()),
             MagicGenerator(MagicType.RED, amountRange = 0..2, randomSeed = Random().nextInt()),
-            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt()),
-            MagicGenerator(MagicType.SIMPLE, amountRange = 0..2, randomSeed = Random().nextInt())
+            MagicGenerator(MagicType.RED, amountRange = 0..2, randomSeed = Random().nextInt()),
+            MagicGenerator(MagicType.GREEN, amountRange = 0..2, randomSeed = Random().nextInt()),
+            MagicGenerator(MagicType.RED, amountRange = 0..2, randomSeed = Random().nextInt())
         )
     }
 
