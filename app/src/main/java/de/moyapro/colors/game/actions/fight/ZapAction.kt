@@ -29,8 +29,7 @@ data class ZapAction(
         return Result.success(
             oldState.copy(
                 currentFight = oldState.currentFight.copy(
-                    battleBoard = updatedBattleBoard,
-                    wands = oldState.currentFight.wands.replace(zappedWand)
+                    battleBoard = updatedBattleBoard, wands = oldState.currentFight.wands.replace(zappedWand)
                 )
             )
         )
@@ -44,10 +43,9 @@ data class ZapAction(
 
     private fun removeMagicFromFullSlots(wand: Wand): List<Slot> = wand.slots.map { slot ->
         if (slot.hasRequiredMagic() && slot.spell != null) {
-            val updatedSpell =
-                slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
-                    magicSlot.copy(placedMagic = null)
-                })
+            val updatedSpell = slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
+                magicSlot.copy(placedMagic = null)
+            })
             slot.copy(spell = updatedSpell)
         } else {
             slot
@@ -55,6 +53,7 @@ data class ZapAction(
     }
 
     override fun isValidTarget(battleBoard: BattleBoard, id: FieldId): Boolean {
+        if (battleBoard[id] == null) return false
         if (isInFrontRow(id)) return true
         if (isInMiddleRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy()) return true
         if (isInBackRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy() && battleBoard.fields[fieldInFront(fieldInFront(id)).id.toInt()].hasNoEnemy()) return true

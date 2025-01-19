@@ -40,11 +40,16 @@ data class Wand(
         else Result.failure(IllegalStateException("Could not place magic. No fitting free slot found."))
     }
 
+    fun hasAnySpellToZap(): Boolean {
+        return slots.any { it.spell != null && it.hasRequiredMagic() }
+    }
+
     fun affect(battleBoard: BattleBoard, targetFieldId: FieldId?): BattleBoard {
         require(targetFieldId != null) { "Cannot affect without target" }
         val targetedEnemy = battleBoard.fields.findById(targetFieldId)?.enemy
         require(targetedEnemy != null) { "Cannot affect without targetedEnemy" }
         val spellsToExecute = slots.filter { it.spell != null && it.hasRequiredMagic() }
+        require(spellsToExecute.isNotEmpty(), { "Cannot affect without spells to execute" })
 
         return battleBoard.mapEnemies { enemy ->
             if (enemy.id == targetedEnemy.id) {
@@ -52,6 +57,8 @@ data class Wand(
             } else {
                 enemy
             }
+        }.mapEnemies { enemy ->
+            if (enemy.health > 0) enemy else null
         }
     }
 

@@ -2,9 +2,11 @@ package de.moyapro.colors.game.enemy.actions
 
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.NoOp
+import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.model.EnemyId
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.accessor.findById
 import de.moyapro.colors.game.model.accessor.findMage
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.util.replace
@@ -18,7 +20,7 @@ data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAc
 
         val target = selectTarget(gameState, random)
         if (target == null) return NoOp()
-        return AttackMageAction(target.id)
+        return AttackMageAction(target.id, self)
     }
 
     private fun selectTarget(gameState: GameState, random: Random): Mage? {
@@ -30,11 +32,13 @@ data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAc
     }
 }
 
-data class AttackMageAction(val mageId: MageId) : GameAction("Attack ${symbolForMageId(mageId)}") {
+data class AttackMageAction(val mageId: MageId, val self: EnemyId) : GameAction("Attack ${symbolForMageId(mageId)}") {
     override val randomSeed = this.mageId.hashCode()
 
     override fun apply(oldState: GameState): Result<GameState> {
         val mage = oldState.currentFight.findMage(mageId)
+        val self: Enemy? = oldState.currentFight.battleBoard.getEnemies().findById(self)
+        if (self == null || self.health <= 0) return Result.success(oldState)
         val updatedMage = mage.copy(health = mage.health - 1)
         return Result.success(
             oldState.updateCurrentFight(

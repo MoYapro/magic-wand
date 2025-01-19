@@ -1,6 +1,7 @@
 package de.moyapro.colors.game.model.gameState
 
 import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.model.FieldId
 
 data class BattleBoard(
     val fields: List<Field>,
@@ -16,4 +17,9 @@ data class BattleBoard(
         if (field.enemy == null) field
         else field.copy(enemy = mf(field.enemy))
     })
+
+    operator fun get(id: FieldId): Enemy? {
+        return fields[id.id.toInt()].enemy
+
+    }
 }

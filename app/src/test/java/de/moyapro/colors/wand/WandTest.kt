@@ -71,4 +71,15 @@ internal class WandTest {
         fullWand.putMagic(slot.id, fullWand.slots.single().spell!!.magicSlots.single().requiredMagic).isFailure shouldBe true
     }
 
+    @Test
+    fun hasAnySpellToZap_yes() {
+        getExampleWandWithSingleSlot().first.hasAnySpellToZap() shouldBe true
+    }
+
+    @Test
+    fun hasAnySpellToZap_no() {
+        val wand = getExampleWandWithSingleSlot(spell = Bonk(magicSlots = listOf(MagicSlot(Magic())))).first
+        wand.hasAnySpellToZap() shouldBe false
+    }
+
 }
