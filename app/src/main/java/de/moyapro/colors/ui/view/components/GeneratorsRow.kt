@@ -14,11 +14,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.util.SPELL_SIZE
 
 
 @Composable
 fun GeneratorsRow(generators: List<MagicGenerator>) {
+    val aggegatedGenerators: Map<MagicType, IntRange> = generators
+        .map { it.magicType to it.amountRange }
+        .groupBy({ it.first }, { it.second })
+        .mapValues { (_, ranges) ->
+            ranges.fold(IntRange(Int.MAX_VALUE, Int.MIN_VALUE)) { acc, range ->
+                IntRange(minOf(acc.first, range.first), maxOf(acc.last, range.last))
+            }
+        }
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
