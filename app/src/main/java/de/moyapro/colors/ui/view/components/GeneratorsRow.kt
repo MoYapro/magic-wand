@@ -2,12 +2,14 @@ package de.moyapro.colors.ui.view.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +29,13 @@ fun GeneratorsRow(generators: List<MagicGenerator>) {
             .fillMaxHeight(1f / 2f)
             .border(1.dp, Color.LightGray)
     ) {
-        items(items = generators, key = { generator: MagicGenerator -> generator.hashCode() }) { generator: MagicGenerator -> GeneratorView(generator) }
+        items(
+            items = aggegatedGenerators.entries.toList().sortedBy { it.key.ordinal },
+            key = { generator: Map.Entry<MagicType, IntRange> -> generator.hashCode() }) { generator: Map.Entry<MagicType, IntRange> ->
+            GeneratorView(
+                generator
+            )
+        }
     }
 }
 
@@ -39,12 +47,16 @@ fun getAggegatedGenerators(generators: List<MagicGenerator>) = generators.map { 
 }
 
 @Composable
-fun GeneratorView(generator: MagicGenerator) {
-    Image(
-        modifier = Modifier
-            .height(SPELL_SIZE.dp)
-            .width(SPELL_SIZE.dp),
-        painter = painterResource(generator.magicType.image.imageRef),
-        contentDescription = "Name",
-    )
+fun GeneratorView(generator: Map.Entry<MagicType, IntRange>) {
+    val modifier = Modifier
+        .height(SPELL_SIZE.dp)
+        .width(SPELL_SIZE.dp)
+    Box(modifier) {
+        Text(generator.value.last.toString() + "\n" + generator.value.first.toString())
+        Image(
+            modifier = modifier,
+            painter = painterResource(generator.key.image.imageRef),
+            contentDescription = "Name",
+        )
+    }
 }
