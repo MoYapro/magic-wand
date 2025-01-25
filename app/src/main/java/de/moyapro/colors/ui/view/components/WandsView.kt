@@ -18,7 +18,6 @@ import de.moyapro.colors.game.actions.UndoAction
 import de.moyapro.colors.game.actions.fight.EndTurnAction
 import de.moyapro.colors.game.actions.fight.LoseFightAction
 import de.moyapro.colors.game.actions.fight.WinFightAction
-import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.accessor.inOrder
 import de.moyapro.colors.game.model.gameState.GameState
@@ -53,15 +52,8 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 )
             }
         }
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(1f / 2f)
-                .border(1.dp, Color.LightGray)
-        ) {
-            items(items = currentGameState.currentFight.magicToPlay.sortedBy { it.id.hashCode() }, key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
-        }
-        Text("Magic ${currentGameState.currentFight.magicToPlay.size}")
+        MagicRow(currentGameState.currentFight.magicToPlay)
+        GeneratorsRow(currentGameState.currentFight.generators)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
