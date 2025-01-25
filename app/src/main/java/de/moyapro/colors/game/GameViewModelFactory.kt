@@ -1,14 +1,16 @@
 package de.moyapro.colors.game
 
-import androidx.datastore.core.*
-import androidx.datastore.preferences.core.*
-import androidx.lifecycle.*
-import com.fasterxml.jackson.module.kotlin.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.persistance.loadActions
+import de.moyapro.colors.game.persistance.loadSavedState
+import de.moyapro.colors.game.persistance.save
+import de.moyapro.colors.game.persistance.saveActions
+import kotlinx.coroutines.runBlocking
 
 class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     ViewModelProvider.Factory {
@@ -16,31 +18,12 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         check(modelClass.isAssignableFrom(GameViewModel::class.java)) { "Cannot create GameViewModel from ${modelClass::class}" }
         return runBlocking {
-            val fightState = loadFightState()
-            val wandState = if (null == fightState) {
-                loadWandState()
-            } else {
-                null
-            }
-            check(fightState != null || wandState != null) { "Cannot open fight without wands" }
-            val state = StartFightFactory.setupFightStage(fightState = fightState, wands = wandState)
-            return@runBlocking GameViewModel(state, ::saveFightState) as T
-        }
-    }
-
-    private suspend fun loadWandState() = dataStore.data.map { preferences ->
-        val jsonData = preferences[WAND_STATE]
-        jsonData?.let { data -> getConfiguredJson().readValue<List<Wand>>(data) }
-    }.first()
-
-    private suspend fun loadFightState() = dataStore.data.map { preferences ->
-        val jsonData = preferences[FIGHT_STATE]
-        jsonData?.let { data -> getConfiguredJson().readValue<MyGameState>(data) }
-    }.first()
-
-    private fun saveFightState(state: MyGameState): Unit = runBlocking {
-        dataStore.edit { settings ->
-            settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(state)
+            val gameState = loadSavedState(dataStore)
+            val actions = loadActions(dataStore)
+            val saveActions: (Collection<GameAction>) -> Unit = { actionsToSave -> saveActions(dataStore, actionsToSave) }
+            val loadActions: () -> Collection<GameAction> = { loadActions(dataStore) }
+            val saveState: (GameState, Collection<GameAction>) -> Unit = { gameStateToSave, actionsToSave -> save(dataStore, gameStateToSave, actionsToSave) }
+            return@runBlocking GameViewModel(gameState, actions, saveActions, loadActions, saveState) as T
         }
     }
 }

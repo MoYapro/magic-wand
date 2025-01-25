@@ -1,39 +1,42 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.view.fight.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.UndoAction
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.fight.LoseFightAction
+import de.moyapro.colors.game.actions.fight.WinFightAction
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.accessor.inOrder
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.fight.StatusBar
 
 private const val TAG = "WandsView"
 
 @Composable
-fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
+fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
 
     Column {
         StatusBar(currentGameState)
-        LazyRow(
+        BattleBoardView(
+            battleBoard = currentGameState.currentFight.battleBoard,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(1f / 3f)
-        ) {
-            items(
-                items = currentGameState.enemies,
-                key = { enemy: Enemy -> enemy.hashCode() }
-            ) { enemy ->
-                EnemyView(enemy, addAction)
-            }
-        }
+                .fillMaxHeight(1f / 3f),
+            addAction,
+        )
 
         LazyRow(
             modifier = Modifier
@@ -41,10 +44,7 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
                 .fillMaxHeight(1f / 2f)
                 .border(1.dp, Color.LightGray)
         ) {
-            items(
-                items = currentGameState.wandsInOrder(),
-                key = { wand: Wand -> wand.hashCode() }
-            ) { theWand ->
+            items(items = currentGameState.currentFight.wands.inOrder(), key = { wand: Wand -> wand.id.hashCode() }) { theWand ->
                 WandView(
                     wand = theWand,
                     addAction = addAction,
@@ -52,17 +52,8 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
                 )
             }
         }
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(1f / 2f)
-                .border(1.dp, Color.LightGray)
-        ) {
-            items(
-                items = currentGameState.magicToPlay,
-                key = { magic: Magic -> magic.hashCode() }) { magic: Magic -> MagicView(magic) }
-        }
-
+        MagicRow(currentGameState.currentFight.magicToPlay)
+        GeneratorsRow(currentGameState.currentFight.generators)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,6 +66,16 @@ fun WandsView(currentGameState: MyGameState, addAction: (GameAction) -> GameView
             Button(onClick = { addAction(EndTurnAction()) }) {
                 Text("End Turn")
             }
+            Button(onClick = { addAction(LoseFightAction()) }) {
+                Text("Give up")
+            }
+            Button(onClick = { addAction(WinFightAction()) }) {
+                Text("Win fight")
+            }
+        }
+        LazyRow {
+            items(items = currentGameState.currentFight.generators, key = { generator -> generator.hashCode() })
+            { generator -> Text("Gen ${generator.magicType} -> ${generator.amountRange}") }
         }
     }
 }

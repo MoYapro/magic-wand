@@ -1,13 +1,28 @@
 package de.moyapro.colors.game.actions
 
-import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.actions.fight.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.enemy.actions.*
-import de.moyapro.colors.game.model.*
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.actions.fight.EndFightAction
+import de.moyapro.colors.game.actions.fight.EndTurnAction
+import de.moyapro.colors.game.actions.fight.LoseFightAction
+import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.actions.fight.ShowTargetSelectionAction
+import de.moyapro.colors.game.actions.fight.StartFightAction
+import de.moyapro.colors.game.actions.fight.TargetSelectedAction
+import de.moyapro.colors.game.actions.fight.WinFightAction
+import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.actions.loot.AddGeneratorAction
+import de.moyapro.colors.game.actions.loot.AddWandAction
+import de.moyapro.colors.game.actions.loot.PlaceSpellAction
+import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.enemy.actions.AttackMageAction
+import de.moyapro.colors.game.enemy.actions.SelfHealAction
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.GameState
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = PlaceMagicAction::class, name = "PlaceMagicAction"),
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
@@ -17,23 +32,34 @@ import de.moyapro.colors.game.model.*
     JsonSubTypes.Type(value = EndTurnAction::class, name = "EndTurnAction"),
     JsonSubTypes.Type(value = TargetSelectedAction::class, name = "TargetSelectedAction"),
     JsonSubTypes.Type(value = ShowTargetSelectionAction::class, name = "ShowTargetSelectionAction"),
-    JsonSubTypes.Type(value = HitAction::class, name = "HitAction"),
-    JsonSubTypes.Type(value = GiveWandAction::class, name = "GiveWandAction"),
+    JsonSubTypes.Type(value = AddGeneratorAction::class, name = "AddGeneratorAction"),
+    JsonSubTypes.Type(value = IncreaseActionCounterAction::class, name = "IncreaseActionCounterAction"),
+    JsonSubTypes.Type(value = StartFightAction::class, name = "StartFightAction"),
+    JsonSubTypes.Type(value = EndFightAction::class, name = "EndFightAction"),
+    JsonSubTypes.Type(value = EndFightAction::class, name = "EndFightAction"),
+    JsonSubTypes.Type(value = WinFightAction::class, name = "WinFightAction"),
+    JsonSubTypes.Type(value = LoseFightAction::class, name = "LoseFightAction"),
+    JsonSubTypes.Type(value = CombinedAction::class, name = "CombinedAction"),
+    JsonSubTypes.Type(value = RemoveSpellFromWandAction::class, name = "RemoveSpellFromWandAction"),
+    JsonSubTypes.Type(value = PlaceSpellAction::class, name = "PlaceSpellAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
-
-    )
+    JsonSubTypes.Type(value = AttackMageAction::class, name = "AttackMageAction"),
+)
 abstract class GameAction(
     val name: String,
 ) {
     abstract val randomSeed: Int
-    abstract fun apply(oldState: MyGameState): Result<MyGameState>
-    open val target: EnemyId? = null
-    open fun isValidTarget(enemy: Enemy): Boolean = false
-    open fun withSelection(targetId: EnemyId): GameAction = TODO("Overwrite me")
+
+    @JsonProperty("@type")
+    private val type = this.javaClass.simpleName
+    abstract fun apply(oldState: GameState): Result<GameState>
+    open val target: FieldId? = null
+    open fun isValidTarget(battleBoard: BattleBoard, id: FieldId): Boolean = false
+    open fun withSelection(targetFieldId: FieldId): GameAction = TODO("Overwrite me")
     open fun requireTargetSelection(): Boolean = false
     open fun onAddAction(actions: MutableList<GameAction>) {
         removeTargetAction(actions)
-        actions.add(IncreaseActionCounterAction)
+        actions.add(IncreaseActionCounterAction())
         actions.add(this)
     }
 

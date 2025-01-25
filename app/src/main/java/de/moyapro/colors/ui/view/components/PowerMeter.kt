@@ -1,12 +1,19 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.util.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
+import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
 fun PowerMeter(power: Int) {
@@ -21,6 +28,7 @@ fun PowerMeter(power: Int) {
                         .width(8.dp)
                         .height(6.dp)
                         .background(Color.White)
+                        .testTag("5Box")
                 )
                 Spacer(modifier = Modifier.height(2.dp))
             }
@@ -30,6 +38,7 @@ fun PowerMeter(power: Int) {
                         .width(8.dp)
                         .height(2.dp)
                         .background(Color.White)
+                        .testTag("1Box")
                 )
                 Spacer(modifier = Modifier.height(2.dp))
             }

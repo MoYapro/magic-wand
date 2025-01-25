@@ -1,6 +1,7 @@
 package de.moyapro.colors.util
 
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.interfaces.HasId
 
 
 fun <T, E : HasId<T>> List<E>.replace(key: T, newValue: E): List<E> {
@@ -33,10 +34,6 @@ fun <T> List<T>.mapFirst(predicate: (T) -> Boolean, transformer: (T) -> T): List
             firstOccurenceTransformed
         } else it
     }
-}
-
-fun <T> List<T>.nullIfEmpty(): List<T>? {
-    return this.ifEmpty { return null }
 }
 
 operator fun <T> List<T>.minus(itemToRemove: T?): List<T> {

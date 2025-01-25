@@ -1,12 +1,13 @@
 package de.moyapro.colors.ui.view.fight
 
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 
 @Composable
-fun WinFightView(startMainActivity: () -> Unit) {
+fun WinFightView(startLootActivity: () -> Unit) {
     Text("You won the fight")
-    Button(onClick = startMainActivity) {
-        Text("Back to main menu")
+    Button(onClick = startLootActivity) {
+        Text("Prepare next fight")
     }
 }

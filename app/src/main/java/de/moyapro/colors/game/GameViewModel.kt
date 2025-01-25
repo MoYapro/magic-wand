@@ -1,30 +1,38 @@
 package de.moyapro.colors.game
 
-import android.util.*
-import androidx.lifecycle.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.*
-import kotlinx.coroutines.flow.*
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.UndoAction
+import de.moyapro.colors.game.actions.applyAllActions
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.gameState.GameState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 private const val TAG = "GameViewModel"
 
 class GameViewModel(
-    private val initialState: MyGameState = StartFightFactory.setupFightStage(
-        listOf(createExampleWand()),
-    ),
-    private val saveFightState: (MyGameState) -> Unit = {},
+    private val initialState: GameState = Initializer.createInitialGameState(),
+    initialActions: Collection<GameAction> = emptyList(),
+    private val saveActions: (Collection<GameAction>) -> Unit,
+    private val loadActions: () -> Collection<GameAction>,
+    private val saveState: (GameState, Collection<GameAction>) -> Unit,
 ) : ViewModel() {
 
-    private val actions: MutableList<GameAction> = mutableListOf()
-    private val _uiState: MutableStateFlow<Result<MyGameState>> =
-        MutableStateFlow(Result.success(initialState))
-    val uiState: StateFlow<Result<MyGameState>>
+    init {
+        Log.d(TAG, "Create new GameViewModel")
+    }
+
+    private val actions: MutableList<GameAction> = initialActions.toMutableList()
+    private val _uiState: MutableStateFlow<Result<GameState>> = MutableStateFlow(Result.success(initialState))
+    val uiState: StateFlow<Result<GameState>>
         get() = _uiState.asStateFlow()
 
-    fun getCurrentGameState(): Result<MyGameState> {
+    private fun getCurrentGameState(): Result<GameState> {
         val initial = Result.success(initialState)
+        Log.d(TAG, "get current game state from initial: $initialState")
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")
@@ -34,25 +42,22 @@ class GameViewModel(
         return result
     }
 
-    private fun applyAllActions(
-        state: Result<MyGameState>,
-        action: GameAction,
-    ): Result<MyGameState> {
-        return state.flatMap { action.apply(it) }
-    }
-
     fun addAction(action: GameAction): GameViewModel {
         Log.d(TAG, "Add action: $action")
         action.onAddAction(this.actions)
         this._uiState.value = getCurrentGameState()
-        this._uiState.value.onSuccess(saveFightState)
+        this._uiState.value.onSuccess { saveActions(this.actions) }
         return this
     }
 
-}
+    fun reloadActions() {
+        this.actions.clear()
+        this.actions.addAll(loadActions())
+        this._uiState.value = getCurrentGameState()
+    }
 
-fun <T> Result<T>.flatMap(transform: (T) -> Result<T>): Result<T> {
-    return if (this.isSuccess)
-        transform(this.getOrThrow())
-    else this
+    fun materializeActions() {
+        saveState(_uiState.value.getOrThrow(), emptyList())
+    }
+
 }

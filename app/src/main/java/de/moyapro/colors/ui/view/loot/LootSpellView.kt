@@ -1,32 +1,42 @@
 package de.moyapro.colors.ui.view.loot
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.view.components.*
-import de.moyapro.colors.ui.view.dragdrop.*
-import de.moyapro.colors.util.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.loot.PlaceSpellInLootAction
+import de.moyapro.colors.game.actions.loot.RemoveSpellFromLootAction
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.components.SpellView
+import de.moyapro.colors.ui.view.dragdrop.Draggable
+import de.moyapro.colors.ui.view.dragdrop.DropZone
+import de.moyapro.colors.util.SPELL_SIZE
 
 private const val TAG = "LootSpellsView"
 
 @Composable
-fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel) {
-    DropZone<Spell>(
+fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: GameState, addAction: (GameAction) -> Unit) {
+    DropZone<Spell<*>>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
-        condition = { state, dragData -> !state.loot.spells.contains(dragData) },
+        condition = { state, dragData -> !state.currentRun.spells.contains(dragData) },
         onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
-    { dropModifier: Modifier, isInBound: Boolean, hoveredSpell: Spell? ->
+    { dropModifier: Modifier, _: Boolean, _: Spell<*>? ->
         LazyVerticalGrid(
             modifier = dropModifier
                 .fillMaxWidth()
@@ -37,8 +47,8 @@ fun LootSpellsView(modifier: Modifier = Modifier, spells: List<Spell>, currentGa
             userScrollEnabled = false,
         ) {
             items(
-                items = spells,
-                key = { it.hashCode() }) { spell ->
+                items = currentGameState.currentRun.spells,
+                key = { spell -> spell.id.hashCode() }) { spell ->
                 Draggable(
                     modifier = Modifier
                         .height(SPELL_SIZE.dp)

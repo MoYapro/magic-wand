@@ -1,62 +1,65 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
-import de.moyapro.colors.util.FightOutcome.LOST
-import de.moyapro.colors.util.FightOutcome.ONGOING
-import de.moyapro.colors.util.FightOutcome.WIN
-import kotlin.random.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.applyAllActions
+import de.moyapro.colors.game.enemy.Enemy
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicGenerator
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.FightData
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.FightState
+import de.moyapro.colors.util.FightState.*
+import kotlin.random.Random
 
 
 data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End turn") {
 
     private lateinit var random: Random
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         random = Random(randomSeed)
-        val foldingFunction = { state: Result<MyGameState>, action: GameAction ->
-            state.flatMap { action.apply(it) }
-        }
-        val result =
-            oldState.enemies.map(Enemy::nextAction).fold(Result.success(oldState), foldingFunction)
-        return result.map(this::prepareNextTurn)
+        val stateAfterEnemyActions = executeAllEnemyActions(oldState)
+        val nextTurnState = stateAfterEnemyActions.map(this::prepareNextTurn)
+        return nextTurnState
     }
 
+    private fun executeAllEnemyActions(oldState: GameState) =
+        oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
 
-    private fun prepareNextTurn(gameState: MyGameState): MyGameState {
 
-        return gameState.copy(
-            fightHasEnded = checkFightEnd(gameState),
-            currentTurn = gameState.currentTurn + 1,
-            enemies = calculateEnemyTurn(gameState),
-            magicToPlay = refreshMagicToPlay(gameState.magicToPlay)
+    private fun prepareNextTurn(gameState: GameState): GameState {
+
+        return gameState.updateCurrentFight(
+            currentTurn = nextTurn(gameState.currentFight.currentTurn),
+            fightState = checkFightEnd(gameState.currentFight),
+            battlefield = calculateEnemyTurn(gameState),
+            magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay, gameState.currentFight.generators, gameState.currentFight.currentTurn)
         )
     }
 
-    private fun checkFightEnd(gameState: MyGameState): FightOutcome {
+    private fun checkFightEnd(fight: FightData): FightState {
         return when {
-            gameState.enemies.none { it.health > 0 } -> WIN
-            gameState.mages.none { it.health > 0 } -> LOST
-            else -> ONGOING
+            fight.battleBoard.getEnemies().none { it.health > 0 } -> WIN
+            fight.mages.none { it.health > 0 } -> LOST
+            fight.fightState == ONGOING -> ONGOING
+            else -> throw IllegalStateException("Cannot progress fight state from: ${fight.fightState}")
         }
     }
 
-    private fun refreshMagicToPlay(leftOverMagic: List<Magic>): List<Magic> {
-        val randomData = random.nextDouble().toString()
-        val newMagicToPlay =
-            leftOverMagic + Magic(
-                id = MagicId(HashUuidFunctions.v5(randomData)),
-                type = if (random.nextBoolean()) MagicType.GREEN else MagicType.SIMPLE,
-            )
-        check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does not contain all of the old" }
+    private fun nextTurn(currentTurn: Int): Int {
+        return currentTurn + 1
+    }
+
+    private fun refreshMagicToPlay(leftOverMagic: List<Magic>, generators: List<MagicGenerator>, currentTurn: Int): List<Magic> {
+        val generatedMagic = generators.flatMap { it.generate(currentTurn) }
+        val newMagicToPlay = leftOverMagic + generatedMagic
+        check(newMagicToPlay.containsAll(leftOverMagic)) { "New magic to play does contain all of the old" }
         return newMagicToPlay
     }
 
-    private fun calculateEnemyTurn(gameState: MyGameState): List<Enemy> {
-        return gameState.enemies.map { enemy ->
+    private fun calculateEnemyTurn(gameState: GameState): BattleBoard {
+        return gameState.currentFight.battleBoard.mapEnemies { enemy ->
             val nextAction = enemy.possibleActions.random()
             val nextGameAction = nextAction.init(enemy.id, gameState)
             enemy.copy(nextAction = nextGameAction)

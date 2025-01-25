@@ -1,10 +1,11 @@
-package de.moyapro.colors.wand.util
+package de.moyapro.colors.game.util
 
-import de.moyapro.colors.util.*
-import io.kotest.matchers.*
-import org.junit.*
-import java.util.*
-import kotlin.random.*
+import de.moyapro.colors.util.HashUuidFunctions
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import org.junit.Test
+import java.util.UUID
+import kotlin.random.Random
 
 class HashUuidFunctionsTest {
     @Test
@@ -13,6 +14,7 @@ class HashUuidFunctionsTest {
         val uuid2: UUID = HashUuidFunctions.v5("the input string")
         uuid1 shouldBe uuid2
     }
+
     @Test
     fun generateUuidTwiceWithRandom() {
         val random1 = Random(3634534)

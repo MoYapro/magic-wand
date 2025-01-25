@@ -1,7 +1,6 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.GameState
 
 data class CombinedAction(val actions: List<GameAction>) : GameAction("Combined") {
 
@@ -9,15 +8,7 @@ data class CombinedAction(val actions: List<GameAction>) : GameAction("Combined"
 
     override val randomSeed: Int = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         return actions.fold(Result.success(oldState), ::applyAllActions)
     }
-
-    private fun applyAllActions(
-        state: Result<MyGameState>,
-        action: GameAction,
-    ): Result<MyGameState> {
-        return state.flatMap { action.apply(it) }
-    }
-
 }

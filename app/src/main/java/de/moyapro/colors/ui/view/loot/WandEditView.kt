@@ -1,24 +1,31 @@
 package de.moyapro.colors.ui.view.loot
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.view.dragdrop.*
-import de.moyapro.colors.util.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.loot.PlaceSpellAction
+import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.dragdrop.Draggable
+import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
 fun WandEditView(
     modifier: Modifier = Modifier,
     wand: Wand = createExampleWand(),
-    currentGameState: MyGameState,
-    addAction: (GameAction) -> GameViewModel,
+    currentGameState: GameState,
+    addAction: (GameAction) -> Unit,
     isWandDragged: Boolean = false,
 ) {
     val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
@@ -39,7 +46,7 @@ fun WandEditView(
 }
 
 @Composable
-private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: MyGameState, addAction: (GameAction) -> GameViewModel, isWandDragged: Boolean) {
+private fun SlotHelper(slot: Slot, wand: Wand, currentGameState: GameState, addAction: (GameAction) -> Unit, isWandDragged: Boolean) {
     if (null == slot.spell) {
         SlotEditView(wand.id, slot, currentGameState, addAction, isWandDragged)
     } else {

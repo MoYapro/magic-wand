@@ -1,11 +1,18 @@
-package de.moyapro.colors.wand
+package de.moyapro.colors.game
 
-import de.moyapro.colors.game.model.*
-import io.kotest.matchers.*
-import org.junit.*
+import de.moyapro.colors.game.model.Bonk
+import de.moyapro.colors.game.model.Magic
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.MagicType
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Splash
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.wand.getExampleWandWithSingleSlot
+import de.moyapro.colors.wand.getExampleWandWithTwoSlots
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 
 internal class WandTest {
-    private val spellName = "::SpellName::"
 
     @Test
     fun createEmpty() {
@@ -14,8 +21,7 @@ internal class WandTest {
 
     @Test
     fun addSpell() {
-        val spell = Spell(
-            name = spellName,
+        val spell = Bonk(
             magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
         )
         val (wand, slot) = getExampleWandWithSingleSlot(spell = spell)
@@ -25,8 +31,8 @@ internal class WandTest {
 
     @Test
     fun addTwoSpells() {
-        val spell1 = Spell(name = spellName + "1", magicSlots = emptyList())
-        val spell2 = Spell(name = spellName + "2", magicSlots = emptyList())
+        val spell1 = Bonk()
+        val spell2 = Splash()
         val (wand, slot1, slot2) = getExampleWandWithTwoSlots()
         wand
             .putSpell(slot1.id, spell1)
@@ -37,8 +43,7 @@ internal class WandTest {
     @Test
     fun placeMagicInAvailableSlot() {
         val magic = Magic()
-        val spell = Spell(
-            name = "",
+        val spell = Bonk(
             magicSlots = listOf(
                 MagicSlot(Magic()),
                 MagicSlot(Magic())
@@ -62,10 +67,19 @@ internal class WandTest {
 
     @Test
     fun placeMagicNoAvailableSlot() {
-        val magic = Magic()
-        val (wand, slot) = getExampleWandWithSingleSlot()
-        val fullWand = wand.putMagic(slot.id, magic).getOrThrow()
-        fullWand.putMagic(slot.id, magic).isFailure shouldBe true
+        val (fullWand, slot) = getExampleWandWithSingleSlot()
+        fullWand.putMagic(slot.id, fullWand.slots.single().spell!!.magicSlots.single().requiredMagic).isFailure shouldBe true
+    }
+
+    @Test
+    fun hasAnySpellToZap_yes() {
+        getExampleWandWithSingleSlot().first.hasAnySpellToZap() shouldBe true
+    }
+
+    @Test
+    fun hasAnySpellToZap_no() {
+        val wand = getExampleWandWithSingleSlot(spell = Bonk(magicSlots = listOf(MagicSlot(Magic())))).first
+        wand.hasAnySpellToZap() shouldBe false
     }
 
 }

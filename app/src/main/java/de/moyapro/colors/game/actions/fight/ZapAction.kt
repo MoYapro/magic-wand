@@ -1,33 +1,36 @@
 package de.moyapro.colors.game.actions.fight
 
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.functions.isInBackRow
+import de.moyapro.colors.game.functions.isInFrontRow
+import de.moyapro.colors.game.functions.isInMiddleRow
+import de.moyapro.colors.game.model.FieldId
+import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.WandId
+import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.game.model.gameState.BattleBoard
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.util.replace
 
 data class ZapAction(
     val wandId: WandId,
-    override val target: EnemyId? = null,
+    override val target: FieldId? = null,
 ) : GameAction("Zap") {
 
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val updatedWand = setWandZapped(oldState).onFailure { return Result.failure(it) }
-        val damage = updatedWand.map(::calculateWandDamage)
-        val updatedWand2 = removeMagicFromFullSlots(updatedWand.getOrThrow())
-        val updatedEnemy =
-            oldState.enemies.singleOrNull { it.id == target }
-                ?.let { firstEnemy -> firstEnemy.copy(health = firstEnemy.health - damage.getOrThrow()) }
-        val updatedEnemies = if (null != updatedEnemy) oldState.enemies.replace(
-            updatedEnemy.id,
-            updatedEnemy
-        ) else oldState.enemies
-        val removedKilledEnemies = updatedEnemies.filter { enemy -> enemy.health > 0 }
+    override fun apply(oldState: GameState): Result<GameState> {
+        val wandToZap = oldState.currentFight.wands.findById(wandId)
+        check(wandToZap != null) { "Wand to zap does not exist for id $wandId" }
+        val zappedWand = wandToZap.copy(slots = removeMagicFromFullSlots(wandToZap))
+        val updatedBattleBoard = wandToZap.affect(oldState.currentFight.battleBoard, target)
+
         return Result.success(
             oldState.copy(
-                enemies = removedKilledEnemies,
-                wands = oldState.wands.replace(wandId, updatedWand2),
+                currentFight = oldState.currentFight.copy(
+                    battleBoard = updatedBattleBoard, wands = oldState.currentFight.wands.replace(zappedWand)
+                )
             )
         )
     }
@@ -38,37 +41,33 @@ data class ZapAction(
 
     override fun requireTargetSelection() = true
 
-    private fun removeMagicFromFullSlots(wand: Wand): Wand {
-        val updatedSlots = wand.slots.map { slot ->
-            if (slot.hasRequiredMagic() && slot.spell != null) {
-                val updatedSpell =
-                    slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
-                        magicSlot.copy(placedMagic = null)
-                    })
-                slot.copy(spell = updatedSpell)
-            } else {
-                slot
-            }
+    private fun removeMagicFromFullSlots(wand: Wand): List<Slot> = wand.slots.map { slot ->
+        if (slot.hasRequiredMagic() && slot.spell != null) {
+            val updatedSpell = slot.spell.copy(magicSlots = slot.spell.magicSlots.map { magicSlot ->
+                magicSlot.copy(placedMagic = null)
+            })
+            slot.copy(spell = updatedSpell)
+        } else {
+            slot
         }
-        return wand.copy(slots = updatedSlots)
     }
 
-    private fun setWandZapped(oldState: MyGameState): Result<Wand> {
-        val targetWand: Wand = oldState.findWand(wandId)
-            ?: return Result.failure(IllegalStateException("Could not find wand with id $wandId"))
-        return Result.success(targetWand.copy(zapped = true))
+    override fun isValidTarget(battleBoard: BattleBoard, id: FieldId): Boolean {
+        if (battleBoard[id] == null) return false
+        if (isInFrontRow(id)) return true
+        if (isInMiddleRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy()) return true
+        if (isInBackRow(id) && battleBoard.fields[fieldInFront(id).id.toInt()].hasNoEnemy() && battleBoard.fields[fieldInFront(fieldInFront(id)).id.toInt()].hasNoEnemy()) return true
+        return false
     }
 
-    private fun calculateWandDamage(wand: Wand): Int {
-        return wand.slots.sumOf { slot -> if (slot.hasRequiredMagic()) slot.power else 0 }
+    private fun fieldInFront(fieldId: FieldId): FieldId {
+        val fieldIdInFront = FieldId((fieldId.id + 5).toShort())
+        require(fieldIdInFront.id < 15) { "FieldId out of field" }
+        return fieldIdInFront
     }
 
-    override fun isValidTarget(enemy: Enemy): Boolean {
-        return true
-    }
-
-    override fun withSelection(targetId: EnemyId): GameAction {
-        return this.copy(target = targetId)
+    override fun withSelection(targetFieldId: FieldId): GameAction {
+        return this.copy(target = targetFieldId)
     }
 
 }

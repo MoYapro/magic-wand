@@ -1,37 +1,46 @@
 package de.moyapro.colors.ui.view.loot
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.view.dragdrop.*
-import de.moyapro.colors.util.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.loot.AddWandToLootAction
+import de.moyapro.colors.game.actions.loot.RemoveWandFromLootAction
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.dragdrop.Draggable
+import de.moyapro.colors.ui.view.dragdrop.DropZone
+import de.moyapro.colors.util.SPELL_SIZE
 
 
 @Composable
 fun LootWandsView(
-    wands: List<Wand>,
-    currentGameState: MyGameState,
-    addAction: (GameAction) -> GameViewModel,
+    currentGameState: GameState,
+    addAction: (GameAction) -> Unit,
 ) {
     DropZone<Wand>(
         addAction = addAction,
         currentGameState = currentGameState,
-        condition = { gameState: MyGameState, dropData: Wand -> !gameState.loot.wands.contains(dropData) },
+        condition = { gameState: GameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
         onDropAction = { droppedWand -> AddWandToLootAction(droppedWand) },
-    ) { modifier: Modifier, isInBound: Boolean, hoveredWand: Wand? ->
+    ) { modifier: Modifier, _: Boolean, _: Wand? ->
+        val wands = currentGameState.currentRun.wandsInBag
         Box(
             modifier = modifier
                 .fillMaxWidth()
                 .height(3 * SPELL_SIZE.dp)
         ) {
-            if (wands.size >= 1) {
+            if (wands.isEmpty()) {
+                Text("Win fights to get wands")
+            } else {
                 LazyRow(
                     modifier = modifier.fillMaxSize()
                 ) {
@@ -55,8 +64,6 @@ fun LootWandsView(
                         }
                     }
                 }
-            } else {
-                Text("Win fights to get wands")
             }
         }
     }

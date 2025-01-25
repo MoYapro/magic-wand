@@ -1,32 +1,40 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.unit.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.actions.loot.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.view.dragdrop.*
-import de.moyapro.colors.ui.view.loot.*
-import de.moyapro.colors.util.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.actions.loot.AddWandAction
+import de.moyapro.colors.game.model.MageId
+import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.ui.view.dragdrop.DropZone
+import de.moyapro.colors.ui.view.loot.WandEditView
+import de.moyapro.colors.util.SPELL_SIZE
+import de.moyapro.colors.util.castOrNull
 
 @Composable
 fun EmptyWandSlot(
     mageId: MageId,
-    addAction: (GameAction) -> GameViewModel,
-    currentGameState: MyGameState,
+    addAction: (GameAction) -> Unit,
+    currentGameState: GameState,
 ) {
     DropZone<Wand>(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.LightGray))
             .width(2 * SPELL_SIZE.dp)
             .fillMaxHeight(),
-        condition = { state, newWand -> newWand.mageId != mageId },
+        condition = { _, newWand -> newWand.mageId != mageId },
         addAction = addAction,
         currentGameState = currentGameState,
         onDropAction = { droppedWand -> AddWandAction(droppedWand, mageId) },

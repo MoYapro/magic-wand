@@ -1,10 +1,10 @@
 package de.moyapro.colors.game.enemy.actions
 
-import com.fasterxml.jackson.annotation.*
-import de.moyapro.colors.game.actions.*
-import de.moyapro.colors.game.enemy.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.util.*
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import de.moyapro.colors.game.actions.GameAction
+import de.moyapro.colors.game.model.EnemyId
+import de.moyapro.colors.game.model.gameState.GameState
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
@@ -13,7 +13,7 @@ import de.moyapro.colors.util.*
 data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyAction<EnemyId> {
     override val randomSeed = this.hashCode()
 
-    override fun init(self: EnemyId, gameState: MyGameState): GameAction {
+    override fun init(self: EnemyId, gameState: GameState): GameAction {
         return SelfHealAction(self)
     }
 }
@@ -21,14 +21,11 @@ data class SelfHealEnemyAction(override val name: String = "Self Heal") : EnemyA
 data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
     override val randomSeed = this.hashCode()
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
-        val target: Enemy = oldState.enemies.find { enemy -> enemy.id == self }
-            ?: throw IllegalStateException("Could not find self: $self")
-        val updatedEnemy = target.copy(health = target.health + 3)
+    override fun apply(oldState: GameState): Result<GameState> {
+        val currentFight = oldState.currentFight
+        val updatedBattleBoard = currentFight.battleBoard.mapEnemies { enemy -> enemy.copy(health = enemy.health + 3) }
         return Result.success(
-            oldState.copy(
-                enemies = oldState.enemies.replace(self, updatedEnemy)
-            )
+            oldState.updateCurrentFight(battlefield = updatedBattleBoard)
         )
     }
 

@@ -1,6 +1,6 @@
 package de.moyapro.colors.util
 
-import android.util.*
+import android.util.Log
 
 inline fun <reified T> castOrNull(value: Any?): T? {
     if (null == value) return null

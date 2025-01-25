@@ -1,14 +1,14 @@
 package de.moyapro.colors.ui.view.fight
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import de.moyapro.colors.game.model.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import de.moyapro.colors.game.model.gameState.GameState
 
 @Composable
-fun StatusBar(currentState: MyGameState) {
+fun StatusBar(currentState: GameState) {
     Row {
-        Text("Turn: ${currentState.currentTurn + 1}")
+        Text("Turn: ${currentState.currentFight.currentTurn + 1}")
     }
 
 }

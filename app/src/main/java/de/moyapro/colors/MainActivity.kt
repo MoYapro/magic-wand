@@ -1,96 +1,83 @@
 package de.moyapro.colors
 
-import android.content.*
-import android.os.*
-import androidx.activity.*
-import androidx.activity.compose.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.datastore.core.*
-import androidx.datastore.preferences.*
-import androidx.datastore.preferences.core.*
-import com.fasterxml.jackson.databind.*
-import de.moyapro.colors.game.generators.*
-import de.moyapro.colors.game.model.*
-import de.moyapro.colors.ui.theme.*
-import de.moyapro.colors.ui.view.mainmenu.*
-import de.moyapro.colors.util.*
-import de.moyapro.colors.util.FightOutcome.ONGOING
-import de.moyapro.colors.util.FightOutcome.WIN
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.GameViewModelFactory
+import de.moyapro.colors.game.generators.Initializer
+import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.persistance.save
+import de.moyapro.colors.ui.theme.ColorsTheme
+import de.moyapro.colors.ui.view.mainmenu.MainMenu
+import de.moyapro.colors.util.FightState.*
+import de.moyapro.colors.util.MenuEntryInfo
+import kotlinx.coroutines.runBlocking
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gameSaveState")
 
 
 class MainActivity : ComponentActivity() {
 
+    private val gameViewModel: GameViewModel by viewModels {
+        GameViewModelFactory(this.dataStore)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        initNewGame()
-//        startLootActivity()
-        val (fightState, wandState, mageState) = loadSavedState()
         super.onCreate(savedInstanceState)
         setContent {
-            ColorsTheme {
-                val menuActions: MutableList<Pair<String, () -> Unit>> = mutableListOf()
-                if (fightState != null) {
-                    if (fightState.fightHasEnded == WIN) {
-                        menuActions.add("Next fight" to ::startFightActivity)
-                    }
-                    if (fightState.fightHasEnded == ONGOING && fightState.wands.mapNotNull(Wand::mageId).isNotEmpty()) {
-                        menuActions.add("Continue fight" to ::startFightActivity)
-                    }
-                    menuActions.add("Start all over" to ::initNewGame)
-                } else {
-                    menuActions.add("New game" to {initNewGame(); startFightActivity()})
-                }
-                menuActions.add("Loot" to ::startLootActivity)
-                Column {
-                    Text(text = "fightState: ${fightState?.fightHasEnded}")
-                    MainMenu(
-                        menuActions
-                    )
-                }
+            MainView(gameViewModel)
+        }
+    }
+
+    @Composable
+    private fun MainView(gameViewModel: GameViewModel) {
+        val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+        val gameState = currentGameStateResult.getOrThrow()
+        ColorsTheme {
+            val menuActions: List<MenuEntryInfo> = determinMenuEntries(gameState)
+            Column {
+                Text(modifier = Modifier.layoutId(10000), text = "newGameState: ${gameState.currentFight.fightState}")
+                MainMenu(menuActions)
             }
         }
     }
 
-
-    private fun loadSavedState(): Triple<MyGameState?, List<Wand>?, Unit> = runBlocking {
-        dataStore.data.map { preferences ->
-            val objectMapper = getConfiguredJson()
-            Triple<MyGameState?, List<Wand>?, Unit>(
-                objectMapper.readValue(preferences[FIGHT_STATE]),
-                objectMapper.readValue(preferences[WAND_STATE]),
-                //objectMapper.readValue(preferences[MAGE_STATE],
-                Unit
-            )
-        }.first()
-    }
-
-    private inline fun <reified T> ObjectMapper.readValue(value: String?): T? {
-        if (null == value) return null
-        return this.readValue(value, T::class.java)
+    private fun determinMenuEntries(gameState: GameState?): List<MenuEntryInfo> {
+        val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
+        menuActions.add("Reset all progress" to ::initNewGame)
+        if (gameState?.currentRun == null || gameState.currentRun.mages.isEmpty()) {
+            menuActions.add("Start new Run" to { initNewGame(); startLootActivity() })
+        } else {
+            if (gameState.currentFight.fightState == ONGOING) {
+                menuActions.add("Continue fight" to ::startFightActivity)
+            } else {
+                menuActions.add("Prepare next fight" to ::startLootActivity)
+            }
+        }
+        menuActions.add("Quit" to { this.finishAffinity() })
+        return menuActions
     }
 
     private fun initNewGame() = runBlocking {
-        val initialGameState = StartFightFactory.setupFightStage()
-        saveFightState(initialGameState)
-        saveWands(initialGameState.wands)
+        val initialGameState = Initializer.createInitialGameState()
+        save(dataStore, initialGameState, emptyList())
+        gameViewModel.reloadActions()
     }
 
-    private fun saveFightState(gameState: MyGameState): Unit = runBlocking {
-        dataStore.edit { settings ->
-            settings[FIGHT_STATE] = getConfiguredJson().writeValueAsString(gameState)
-        }
-    }
-
-    private fun saveWands(wands: List<Wand>): Unit = runBlocking {
-        dataStore.edit { settings ->
-            settings[WAND_STATE] = getConfiguredJson().writeValueAsString(wands)
-        }
-    }
 
     private fun startLootActivity() {
         this.startActivity(Intent(this, LootActivity::class.java))
@@ -99,4 +86,8 @@ class MainActivity : ComponentActivity() {
     private fun startFightActivity() {
         this.startActivity(Intent(this, FightActivity::class.java))
     }
+
+
 }
+
+

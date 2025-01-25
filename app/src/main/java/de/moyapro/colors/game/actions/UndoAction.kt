@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.game.model.gameState.GameState
 
 object UndoAction : GameAction("Undo") {
     override val randomSeed: Int = 0
@@ -9,7 +9,7 @@ object UndoAction : GameAction("Undo") {
         if (actions.isNotEmpty()) actions.removeLast()
     }
 
-    override fun apply(oldState: MyGameState): Result<MyGameState> {
+    override fun apply(oldState: GameState): Result<GameState> {
         return Result.success(oldState)
     }
 }
