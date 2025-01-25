@@ -20,14 +20,7 @@ import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
 fun GeneratorsRow(generators: List<MagicGenerator>) {
-    val aggegatedGenerators: Map<MagicType, IntRange> = generators
-        .map { it.magicType to it.amountRange }
-        .groupBy({ it.first }, { it.second })
-        .mapValues { (_, ranges) ->
-            ranges.fold(IntRange(Int.MAX_VALUE, Int.MIN_VALUE)) { acc, range ->
-                IntRange(minOf(acc.first, range.first), maxOf(acc.last, range.last))
-            }
-        }
+    val aggegatedGenerators: Map<MagicType, IntRange> = getAggegatedGenerators(generators)
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,6 +28,13 @@ fun GeneratorsRow(generators: List<MagicGenerator>) {
             .border(1.dp, Color.LightGray)
     ) {
         items(items = generators, key = { generator: MagicGenerator -> generator.hashCode() }) { generator: MagicGenerator -> GeneratorView(generator) }
+    }
+}
+
+
+fun getAggegatedGenerators(generators: List<MagicGenerator>) = generators.map { it.magicType to it.amountRange }.groupBy({ it.first }, { it.second }).mapValues { (_, ranges) ->
+    ranges.fold(0..0) { acc, range ->
+        (acc.first + range.first)..(acc.last + range.last)
     }
 }
 
