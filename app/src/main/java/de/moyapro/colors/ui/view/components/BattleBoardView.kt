@@ -53,7 +53,7 @@ fun BattleBoardView(
             alreadyRenderedIndices(index, field.enemy).forEach {
                 if (it != index) displedFields[it] = false
             }
-            if (displedFields[index]) FieldView(field, modifier.offset(offsetY, offsetX), addAction)
+            if (displedFields[index]) FieldView(modifier.offset(offsetY, offsetX), field, addAction)
         }
     }
 }

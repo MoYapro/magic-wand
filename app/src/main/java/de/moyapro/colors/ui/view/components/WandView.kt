@@ -39,7 +39,7 @@ fun WandView(
         if (mage != null) {
             Row(Modifier.fillMaxWidth()) {
                 Button(
-                    enabled = wand.hasAnySpellToZap(),
+                    enabled = wand.hasAnySpellToZap() && mage.health > 0,
                     modifier = Modifier.width(SPELL_SIZE.dp),
                     onClick = { addAction(ZapAction(wand.id)) }) { Text(text = "Zap") }
 

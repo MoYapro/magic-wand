@@ -13,9 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.ui.view.fight.HealthView
+import de.moyapro.colors.util.MAGE_III_ID
+import de.moyapro.colors.util.MAGE_II_ID
+import de.moyapro.colors.util.MAGE_I_ID
 import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.R
 
@@ -24,7 +29,7 @@ private val mages = listOf(R.drawable.mage_blue, R.drawable.mage_green, R.drawab
 
 @Composable
 @Preview
-fun MageView(mage: Mage = Mage(health = 10)) {
+fun MageView(@PreviewParameter(provider = MageProvider::class) mage: Mage) {
     Box(
         Modifier
             .width(SPELL_SIZE.dp)
@@ -37,8 +42,21 @@ fun MageView(mage: Mage = Mage(health = 10)) {
                 .height(SPELL_SIZE.dp)
                 .width(SPELL_SIZE.dp)
         )
+        if (mage.health <= 0) {
+            Image(
+                painter = painterResource(R.drawable.red_cross), contentDescription = "dead", modifier = Modifier
+                    .height(SPELL_SIZE.dp)
+                    .width(SPELL_SIZE.dp)
+            )
+        }
         Column(Modifier.size(SPELL_SIZE.dp), verticalArrangement = Arrangement.Bottom) {
             HealthView(mage.health)
         }
     }
+}
+
+private class MageProvider : PreviewParameterProvider<Mage> {
+    override val values: Sequence<Mage>
+        get() = sequenceOf(Mage(MAGE_I_ID, health = 10), Mage(MAGE_II_ID, health = -10), Mage(MAGE_III_ID, health = 100))
+
 }

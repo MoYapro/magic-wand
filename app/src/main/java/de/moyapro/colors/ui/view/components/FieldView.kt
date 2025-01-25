@@ -10,11 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.fight.TargetSelectedAction
+import de.moyapro.colors.game.enemy.blueprints.Grunt
+import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.gameState.Field
 import de.moyapro.colors.game.model.gameState.Terrain
 import de.moyapro.colors.ui.view.fight.EnemyView
@@ -24,10 +29,11 @@ import de.moyapro.colors.util.ENEMY_SIZE
 private const val targetSymbol = "\uD83C\uDFAF"
 
 @Composable
+@Preview
 fun FieldView(
-    field: Field,
-    modifier: Modifier,
-    addAction: (GameAction) -> Unit,
+    modifier: Modifier = Modifier,
+    @PreviewParameter(provider = FieldPreviewProvider::class) field: Field,
+    addAction: (GameAction) -> Unit = {},
 ) {
     Box(
         modifier
@@ -39,7 +45,6 @@ fun FieldView(
             EnemyView(enemy = field.enemy)
         }
         if (field.showTarget) {
-
             Text(
                 text = targetSymbol,
                 color = Color.Red,
@@ -53,12 +58,19 @@ fun FieldView(
     }
 }
 
+
 fun getColorForTerrain(terrain: Terrain): Color {
     return when (terrain) {
-        Terrain.PLAIN -> Color.Green
+        Terrain.PLAIN -> Color(30, 62, 30, alpha = 255)
         Terrain.ROCK -> Color.Gray
         Terrain.WATER -> Color.Blue
         Terrain.SAND -> Color.Yellow
         Terrain.FORREST -> Color(165, 62, 2, alpha = 255)
     }
+}
+
+private class FieldPreviewProvider : PreviewParameterProvider<Field> {
+    override val values: Sequence<Field>
+        get() = sequenceOf(Field(id = FieldId(), enemy = Grunt(), terrain = Terrain.ROCK))
+
 }
