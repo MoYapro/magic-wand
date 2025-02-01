@@ -32,14 +32,14 @@ data class AttackMageEnemyAction(override val name: String = "Attack") : EnemyAc
     }
 }
 
-data class AttackMageAction(val mageId: MageId, val self: EnemyId) : GameAction("Attack ${symbolForMageId(mageId)}") {
+data class AttackMageAction(val mageId: MageId, val attackerId: EnemyId) : GameAction("Attack ${symbolForMageId(mageId)}") {
     override val randomSeed = this.mageId.hashCode()
 
     override fun apply(oldState: GameState): Result<GameState> {
         val mage = oldState.currentFight.findMage(mageId)
-        val self: Enemy? = oldState.currentFight.battleBoard.getEnemies().findById(self)
-        if (self == null || self.health <= 0) return Result.success(oldState)
-        val updatedMage = mage.copy(health = mage.health - 1)
+        val attacker: Enemy? = oldState.currentFight.battleBoard.getEnemies().findById(attackerId)
+        if (attacker == null || attacker.health <= 0) return Result.success(oldState)
+        val updatedMage = mage.copy(health = mage.health - attacker.power)
         return Result.success(
             oldState.updateCurrentFight(
                 mages = oldState.currentFight.mages.replace(updatedMage)

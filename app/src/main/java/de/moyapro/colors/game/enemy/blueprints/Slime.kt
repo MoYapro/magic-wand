@@ -10,9 +10,10 @@ fun Slime(): Enemy {
     val possibleActions = listOf(AttackMageEnemyAction("Smash"))
     return Enemy(
         name = "Slime",
-        health = 5,
+        health = 2,
         breadth = 1,
         size = 1,
+        power = 3,
         possibleActions = possibleActions,
         statusEffects = emptyMap(),
         image = DirectionalImage(ImageRef(R.drawable.slime_l), ImageRef(R.drawable.slime_c), ImageRef(R.drawable.grunt_r))

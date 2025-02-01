@@ -13,15 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
-fun PowerMeter(power: Int) {
+fun PowerMeter(height: Int, power: Int) {
     val fives = power / 5
     val ones = power % 5
     Row {
         Spacer(modifier = Modifier.width(1.dp))
-        Column(modifier = Modifier.height(SPELL_SIZE.dp), verticalArrangement = Arrangement.Bottom) {
+        Column(modifier = Modifier.height(height.dp), verticalArrangement = Arrangement.Bottom) {
             repeat(fives) {
                 Box(
                     modifier = Modifier

@@ -10,9 +10,10 @@ fun Grunt(): Enemy {
     val possibleActions = listOf(AttackMageEnemyAction("Smash"))
     return Enemy(
         name = "Grunt",
-        health = 10,
+        health = 5,
         breadth = 1,
         size = 1,
+        power = 1,
         possibleActions = possibleActions,
         statusEffects = emptyMap(),
         image = DirectionalImage(ImageRef(R.drawable.grunt_l), ImageRef(R.drawable.grunt_c), ImageRef(R.drawable.grunt_r))

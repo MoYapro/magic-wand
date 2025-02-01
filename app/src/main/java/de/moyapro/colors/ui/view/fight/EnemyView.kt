@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -28,6 +29,7 @@ import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.enemy.blueprints.Grunt
 import de.moyapro.colors.game.enemy.blueprints.Slime
 import de.moyapro.colors.game.model.ImageRef
+import de.moyapro.colors.ui.view.components.PowerMeter
 import de.moyapro.colors.util.ENEMY_SIZE
 import de.moyapro.colors.R
 import kotlin.math.exp
@@ -48,10 +50,13 @@ fun EnemyView(@PreviewParameter(EnemyPreviewProvider::class) enemy: Enemy) {
                 .height(ENEMY_SIZE.dp)
                 .width(ENEMY_SIZE.dp)
         )
-        Column(Modifier.size(ENEMY_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
-            StatusEffectsView(enemy.statusEffects)
-            Text(enemy.nextAction.name)
-            HealthView(enemy.health)
+        Row(Modifier.height(ENEMY_SIZE.dp)) {
+            PowerMeter(height = ENEMY_SIZE, power = enemy.power)
+            Column(Modifier.size(ENEMY_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
+                Text(enemy.nextAction.name)
+                StatusEffectsView(enemy.statusEffects)
+                HealthView(enemy.health)
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import de.moyapro.colors.util.ENEMY_SIZE
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +18,7 @@ class PowerMeterTest {
     @Test
     fun powerMeterTest() {
         composeTestRule.setContent {
-            PowerMeter(1)
+            PowerMeter(1, ENEMY_SIZE)
         }
         composeTestRule.onAllNodesWithTag("1Box").assertCountEquals(1)
     }
