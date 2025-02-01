@@ -52,7 +52,7 @@ object Initializer {
 
     private fun initialRunData(): RunData {
         val wandsAndMages = getInitialMages().map { mage ->
-            val wand = createExampleWand(mageId = mage.id, readyToZap = true)
+            val wand = createStarterWand().copy(mageId = mage.id)
             val mageWithWand = mage.copy(wandId = wand.id)
             Pair(mageWithWand, wand)
         }
@@ -60,7 +60,7 @@ object Initializer {
             activeWands = wandsAndMages.map { it.second },
             mages = wandsAndMages.map { it.first },
             spells = emptyList(),
-            wandsInBag = listOf(createStarterWand()),
+            wandsInBag = listOf(createExampleWand()),
             generators = generateMagicGenerators(),
         )
     }
@@ -79,14 +79,14 @@ object Initializer {
         fields = listOf(
             Field(FieldId(0), null, Terrain.SAND),
             Field(FieldId(1), null, Terrain.PLAIN),
-            Field(FieldId(2), null, Terrain.ROCK),
+            Field(FieldId(2), Slime(), Terrain.ROCK),
             Field(FieldId(3), null, Terrain.FORREST),
             Field(FieldId(4), null, Terrain.WATER),
-            Field(FieldId(5), Grunt(), Terrain.PLAIN),
+            Field(FieldId(5), null, Terrain.PLAIN),
             Field(FieldId(6), Grunt(), Terrain.ROCK),
-            Field(FieldId(7), Slime(), Terrain.FORREST),
-            Field(FieldId(8), Slime(), Terrain.WATER),
-            Field(FieldId(9), Grunt(), Terrain.SAND),
+            Field(FieldId(7), Grunt(), Terrain.FORREST),
+            Field(FieldId(8), Grunt(), Terrain.WATER),
+            Field(FieldId(9), null, Terrain.SAND),
             Field(FieldId(10), null, Terrain.SAND),
             Field(FieldId(11), null, Terrain.PLAIN),
             Field(FieldId(12), null, Terrain.ROCK),
@@ -103,7 +103,7 @@ object Initializer {
 
     private fun createStarterWand(): Wand {
         val spell1 = Bonk(
-            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.SIMPLE)))
+            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.RED)))
         )
         val spell2 = Splash(
             magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
