@@ -1,4 +1,4 @@
-package de.moyapro.colors.ui.view.loot
+package de.moyapro.colors.ui.view.stash
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.createExampleSlot
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.PlaceSpellAction
+import de.moyapro.colors.game.actions.stash.PlaceSpellAction
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.WandId

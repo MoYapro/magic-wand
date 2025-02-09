@@ -30,12 +30,12 @@ import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.game.persistance.save
 import de.moyapro.colors.ui.theme.ColorsTheme
-import de.moyapro.colors.ui.view.loot.LootSpellsView
-import de.moyapro.colors.ui.view.loot.LootWandsView
-import de.moyapro.colors.ui.view.loot.WandsEditView
+import de.moyapro.colors.ui.view.stash.LootSpellsView
+import de.moyapro.colors.ui.view.stash.LootWandsView
+import de.moyapro.colors.ui.view.stash.WandsEditView
 import de.moyapro.colors.util.SPELL_SIZE
 
-class LootActivity : ComponentActivity() {
+class StashActivity : ComponentActivity() {
 
     private val gameViewModel: GameViewModel by viewModels {
         GameViewModelFactory(this.dataStore)

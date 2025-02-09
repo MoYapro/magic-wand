@@ -1,10 +1,10 @@
-package de.moyapro.colors.game.actions.loot
+package de.moyapro.colors.game.actions.stash
 
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
 
-data class AddWandToLootAction(val wand: Wand) : GameAction("Add wand to loot") {
+data class AddWandToStashAction(val wand: Wand) : GameAction("Add wand to loot") {
     override val randomSeed: Int = -1
 
     override fun apply(oldState: GameState): Result<GameState> {

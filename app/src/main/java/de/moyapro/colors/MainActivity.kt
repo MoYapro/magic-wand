@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
 
     private fun startLootActivity() {
-        this.startActivity(Intent(this, LootActivity::class.java))
+        this.startActivity(Intent(this, StashActivity::class.java))
     }
 
     private fun startFightActivity() {

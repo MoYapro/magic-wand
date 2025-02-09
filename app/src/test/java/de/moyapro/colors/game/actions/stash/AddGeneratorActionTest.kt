@@ -1,4 +1,4 @@
-package de.moyapro.colors.game.actions.loot
+package de.moyapro.colors.game.actions.stash
 
 import android.util.Log
 import de.moyapro.colors.game.model.MagicGenerator

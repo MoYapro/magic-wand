@@ -1,4 +1,4 @@
-package de.moyapro.colors.ui.view.loot
+package de.moyapro.colors.ui.view.stash
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.PlaceSpellAction
-import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.actions.stash.PlaceSpellAction
+import de.moyapro.colors.game.actions.stash.RemoveSpellFromWandAction
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState

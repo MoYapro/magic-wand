@@ -14,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.AddWandAction
+import de.moyapro.colors.game.actions.stash.AddWandAction
 import de.moyapro.colors.game.model.MageId
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.view.dragdrop.DropZone
-import de.moyapro.colors.ui.view.loot.WandEditView
+import de.moyapro.colors.ui.view.stash.WandEditView
 import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.util.castOrNull
 

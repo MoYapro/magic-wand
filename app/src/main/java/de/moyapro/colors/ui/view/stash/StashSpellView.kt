@@ -1,4 +1,4 @@
-package de.moyapro.colors.ui.view.loot
+package de.moyapro.colors.ui.view.stash
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.PlaceSpellInLootAction
-import de.moyapro.colors.game.actions.loot.RemoveSpellFromLootAction
+import de.moyapro.colors.game.actions.stash.PlaceSpellInStashAction
+import de.moyapro.colors.game.actions.stash.RemoveSpellFromStashAction
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.view.components.SpellView
@@ -32,7 +32,7 @@ fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: GameState, a
     DropZone<Spell<*>>(
         modifier = modifier.border(BorderStroke(1.dp, Color.LightGray)),
         condition = { state, dragData -> !state.currentRun.spells.contains(dragData) },
-        onDropAction = { droppedSpell -> PlaceSpellInLootAction(droppedSpell) },
+        onDropAction = { droppedSpell -> PlaceSpellInStashAction(droppedSpell) },
         currentGameState = currentGameState,
         addAction = addAction,
     )
@@ -56,8 +56,8 @@ fun LootSpellsView(modifier: Modifier = Modifier, currentGameState: GameState, a
                         .border(1.dp, Color.LightGray)
                         .align(Alignment.Center),
                     dataToDrop = spell,
-                    onDropAction = RemoveSpellFromLootAction(spell),
-                    onDropDidReplaceAction = { replaceSpell -> PlaceSpellInLootAction(replaceSpell) }
+                    onDropAction = RemoveSpellFromStashAction(spell),
+                    onDropDidReplaceAction = { replaceSpell -> PlaceSpellInStashAction(replaceSpell) }
                 ) { theSpell, _ ->
                     SpellView(spell = theSpell)
                 }

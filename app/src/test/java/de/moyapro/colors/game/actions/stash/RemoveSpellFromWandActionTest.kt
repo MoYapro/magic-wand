@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.actions
 
-import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.actions.stash.RemoveSpellFromWandAction
 import de.moyapro.colors.game.model.accessor.findWand
 import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe

@@ -1,10 +1,10 @@
-package de.moyapro.colors.game.actions.loot
+package de.moyapro.colors.game.actions.stash
 
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.gameState.GameState
 
-data class PlaceSpellInLootAction(val spell: Spell<*>) : GameAction("Place spell in loot") {
+data class PlaceSpellInStashAction(val spell: Spell<*>) : GameAction("Place spell in loot") {
     override val randomSeed: Int = -1
 
     override fun apply(oldState: GameState): Result<GameState> {

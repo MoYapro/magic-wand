@@ -12,10 +12,10 @@ import de.moyapro.colors.game.actions.fight.StartFightAction
 import de.moyapro.colors.game.actions.fight.TargetSelectedAction
 import de.moyapro.colors.game.actions.fight.WinFightAction
 import de.moyapro.colors.game.actions.fight.ZapAction
-import de.moyapro.colors.game.actions.loot.AddGeneratorAction
-import de.moyapro.colors.game.actions.loot.AddWandAction
-import de.moyapro.colors.game.actions.loot.PlaceSpellAction
-import de.moyapro.colors.game.actions.loot.RemoveSpellFromWandAction
+import de.moyapro.colors.game.actions.stash.AddGeneratorAction
+import de.moyapro.colors.game.actions.stash.AddWandAction
+import de.moyapro.colors.game.actions.stash.PlaceSpellAction
+import de.moyapro.colors.game.actions.stash.RemoveSpellFromWandAction
 import de.moyapro.colors.game.enemy.actions.AttackMageAction
 import de.moyapro.colors.game.enemy.actions.SelfHealAction
 import de.moyapro.colors.game.model.FieldId

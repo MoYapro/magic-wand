@@ -1,4 +1,4 @@
-package de.moyapro.colors.game.actions.loot
+package de.moyapro.colors.game.actions.stash
 
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.model.Wand

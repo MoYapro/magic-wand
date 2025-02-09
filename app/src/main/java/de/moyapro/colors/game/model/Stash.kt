@@ -1,6 +1,6 @@
 package de.moyapro.colors.game.model
 
-data class Loot(
+data class Stash(
     val wands: List<Wand> = emptyList(),
     val spells: List<Spell<*>> = emptyList(),
 ) {

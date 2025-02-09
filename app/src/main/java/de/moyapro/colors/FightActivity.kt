@@ -63,6 +63,6 @@ class FightActivity : ComponentActivity() {
     private fun startLootActivity() {
         gameViewModel.addAction(EndFightAction())
         gameViewModel.materializeActions()
-        this.startActivity(Intent(this, LootActivity::class.java))
+        this.startActivity(Intent(this, StashActivity::class.java))
     }
 }

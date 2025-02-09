@@ -1,10 +1,10 @@
-package de.moyapro.colors.game.actions.loot
+package de.moyapro.colors.game.actions.stash
 
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.gameState.GameState
 
-data class RemoveSpellFromLootAction(
+data class RemoveSpellFromStashAction(
     val spell: Spell<*>,
 ) : GameAction("Remove spell from loot") {
     override val randomSeed: Int = this.hashCode()

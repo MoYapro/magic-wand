@@ -1,4 +1,4 @@
-package de.moyapro.colors.ui.view.loot
+package de.moyapro.colors.ui.view.stash
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.AddWandToLootAction
-import de.moyapro.colors.game.actions.loot.RemoveWandFromLootAction
+import de.moyapro.colors.game.actions.stash.AddWandToStashAction
+import de.moyapro.colors.game.actions.stash.RemoveWandFromStashAction
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.view.dragdrop.Draggable
@@ -30,7 +30,7 @@ fun LootWandsView(
         addAction = addAction,
         currentGameState = currentGameState,
         condition = { gameState: GameState, dropData: Wand -> !gameState.currentRun.wandsInBag.contains(dropData) },
-        onDropAction = { droppedWand -> AddWandToLootAction(droppedWand) },
+        onDropAction = { droppedWand -> AddWandToStashAction(droppedWand) },
     ) { modifier: Modifier, _: Boolean, _: Wand? ->
         val wands = currentGameState.currentRun.wandsInBag
         Box(
@@ -51,9 +51,9 @@ fun LootWandsView(
                         require(wand.mageId == null) { "Wand in loot must not have a mage" }
                         Draggable(
                             dataToDrop = wand,
-                            onDropAction = RemoveWandFromLootAction(wand),
+                            onDropAction = RemoveWandFromStashAction(wand),
                             requireLongPress = true,
-                            onDropDidReplaceAction = { replacedWand -> AddWandToLootAction(replacedWand) }
+                            onDropDidReplaceAction = { replacedWand -> AddWandToStashAction(replacedWand) }
                         ) { theWand, isDragging ->
                             WandEditView(
                                 wand = theWand,

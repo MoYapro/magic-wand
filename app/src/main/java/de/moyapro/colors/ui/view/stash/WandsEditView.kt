@@ -1,12 +1,12 @@
-package de.moyapro.colors.ui.view.loot
+package de.moyapro.colors.ui.view.stash
 
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import de.moyapro.colors.game.actions.GameAction
-import de.moyapro.colors.game.actions.loot.AddWandAction
-import de.moyapro.colors.game.actions.loot.RemoveWandAction
+import de.moyapro.colors.game.actions.stash.AddWandAction
+import de.moyapro.colors.game.actions.stash.RemoveWandAction
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.accessor.findWandOnMage

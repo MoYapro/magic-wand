@@ -16,7 +16,7 @@
             android:label="@string/title_activity_fight"
             android:theme="@style/Theme.Colors" />
         <activity
-            android:name=".LootActivity"
+            android:name=".StashActivity"
             android:exported="false"
             android:label="@string/title_activity_loot"
             android:theme="@style/Theme.Colors" />
