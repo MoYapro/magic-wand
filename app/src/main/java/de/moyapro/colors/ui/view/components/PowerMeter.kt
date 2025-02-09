@@ -12,10 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import de.moyapro.colors.util.ENEMY_SIZE
 
 @Composable
-fun PowerMeter(height: Int, power: Int) {
+@Preview
+fun PowerMeter(height: Int = ENEMY_SIZE, power: Int = 6) {
     val fives = power / 5
     val ones = power % 5
     Row {

@@ -3,7 +3,9 @@ package de.moyapro.colors.ui.view.fight
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -17,7 +19,7 @@ fun HealthView(@PreviewParameter(provider = HealthProvider::class) health: Int) 
             Text("💔")
         } else {
             Text(text = "♥", color = Color.Green)
-            Text(" x $health", color = Color.Green)
+            Text(" x $health", color = Color.Green, modifier = Modifier.testTag("healthDisplay"))
         }
     }
 }

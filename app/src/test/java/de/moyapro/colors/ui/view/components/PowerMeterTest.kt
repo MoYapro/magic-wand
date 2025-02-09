@@ -18,7 +18,7 @@ class PowerMeterTest {
     @Test
     fun powerMeterTest() {
         composeTestRule.setContent {
-            PowerMeter(1, ENEMY_SIZE)
+            PowerMeter(ENEMY_SIZE, 1)
         }
         composeTestRule.onAllNodesWithTag("1Box").assertCountEquals(1)
     }

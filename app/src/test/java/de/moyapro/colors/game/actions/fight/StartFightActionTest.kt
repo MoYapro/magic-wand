@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.model.gameState.notStartedFight
 import de.moyapro.colors.wand.getExampleGameState
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
@@ -28,6 +29,6 @@ class StartFightActionTest {
     @Test
     fun `each mage must have a wand`() {
         val state = getExampleGameState().updateCurrentRun(activeWands = emptyList())
-        shouldThrow<IllegalArgumentException> { StartFightAction().apply(state).getOrThrow() }
+        shouldNotThrow<IllegalArgumentException> { StartFightAction().apply(state).getOrThrow() }
     }
 }

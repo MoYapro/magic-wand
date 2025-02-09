@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -41,6 +42,7 @@ fun MageView(@PreviewParameter(provider = MageProvider::class) mage: Mage) {
             painter = painterResource(mages[mage.id.id.toInt()]), contentDescription = "Mage_blue", modifier = Modifier
                 .height(SPELL_SIZE.dp)
                 .width(SPELL_SIZE.dp)
+                .testTag("mageImage")
         )
         if (mage.health <= 0) {
             Image(
