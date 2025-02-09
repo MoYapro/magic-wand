@@ -9,11 +9,11 @@ import org.junit.*
 
 class PlaceSpellInStashActionTest {
     @Test
-    fun placeSpellInLoot() {
+    fun placeSpellInStash() {
         val targetSlot = createExampleWand().slots.first { it.spell?.name == "Bonk" }
-        val spellToPlaceInLoot = targetSlot.spell!!
+        val spellToPlaceInStash = targetSlot.spell!!
         val state = getExampleGameState()
-        val action = PlaceSpellInStashAction(spellToPlaceInLoot)
+        val action = PlaceSpellInStashAction(spellToPlaceInStash)
         val updatedState = action.apply(state).getOrThrow()
         updatedState.currentRun.spells.map(Spell<*>::name) shouldContain "Bonk"
         updatedState.currentRun.spells shouldHaveSize state.currentRun.spells.size + 1

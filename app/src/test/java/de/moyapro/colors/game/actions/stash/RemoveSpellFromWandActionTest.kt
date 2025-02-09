@@ -19,7 +19,7 @@ class RemoveSpellFromWandActionTest {
     }
 
     @Test
-    fun `remove spell from wand in loot`() {
+    fun `remove spell from wand in stash`() {
         val state = getExampleGameState()
         val wandToRemoveSpellFrom = state.currentRun.wandsInBag.first()
         val slotToRemoveSpellFrom = wandToRemoveSpellFrom.slots.first()

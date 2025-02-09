@@ -19,7 +19,7 @@ class PlaceSpellActionTest {
     }
 
     @Test
-    fun `place spell in wand in loot`() {
+    fun `place spell in wand in stash`() {
         val spellToPlace = Bonk()
         val state = getExampleGameState()
         val wandToPutSpellInto = state.currentRun.wandsInBag.first()

@@ -22,7 +22,7 @@ import de.moyapro.colors.util.SPELL_SIZE
 
 
 @Composable
-fun LootWandsView(
+fun StashWandsView(
     currentGameState: GameState,
     addAction: (GameAction) -> Unit,
 ) {
@@ -48,7 +48,7 @@ fun LootWandsView(
                         items = wands,
                         key = { wand -> wand.hashCode() })
                     { wand ->
-                        require(wand.mageId == null) { "Wand in loot must not have a mage" }
+                        require(wand.mageId == null) { "Wand in stash must not have a mage" }
                         Draggable(
                             dataToDrop = wand,
                             onDropAction = RemoveWandFromStashAction(wand),

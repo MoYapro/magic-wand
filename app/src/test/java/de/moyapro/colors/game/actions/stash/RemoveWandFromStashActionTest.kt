@@ -7,7 +7,7 @@ import org.junit.Test
 
 class RemoveWandFromStashActionTest {
     @Test
-    fun `should remove wand from loot`() {
+    fun `should remove wand from stash`() {
         val state = getExampleGameState()
         val wandToRemove = state.currentRun.wandsInBag.first()
         val updatedState = RemoveWandFromStashAction(wandToRemove).apply(state).getOrThrow()

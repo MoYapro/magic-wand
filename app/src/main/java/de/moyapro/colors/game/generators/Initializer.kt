@@ -29,7 +29,7 @@ import java.util.Random
 
 object Initializer {
     fun createInitialGameState(): GameState {
-//            loot = Loot(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
+//            stash = Stash(wands = listOf(createExampleWand()), spells = listOf(Spell(name = "Foo", magicSlots = MagicType.values().map {
 //                MagicSlot(requiredMagic = Magic(type = it))
 //            })))
         val gameState = GameState(

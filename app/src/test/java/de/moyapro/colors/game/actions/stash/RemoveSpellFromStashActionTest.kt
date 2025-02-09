@@ -7,7 +7,7 @@ import org.junit.Test
 
 class RemoveSpellFromStashActionTest {
     @Test
-    fun removeSpellFromLoot() {
+    fun removeSpellFromStash() {
         val state = getExampleGameState()
         val spellToRemove = state.currentRun.spells.first()
         val action = RemoveSpellFromStashAction(spellToRemove)

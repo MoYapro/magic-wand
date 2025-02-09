@@ -8,7 +8,7 @@ import org.junit.Test
 
 class AddWandToStashActionTest {
     @Test
-    fun `should add wand to loot`() {
+    fun `should add wand to stash`() {
         val wandToAdd = createExampleWand()
         val state = getExampleGameState()
         val updatedState = AddWandToStashAction(wand = wandToAdd).apply(state).getOrThrow()

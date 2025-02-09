@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.util
 
 import de.moyapro.colors.*
-import de.moyapro.colors.game.actions.loot.*
+import de.moyapro.colors.game.actions.stash.*
 import de.moyapro.colors.game.generators.*
 import io.kotest.matchers.*
 import org.junit.*

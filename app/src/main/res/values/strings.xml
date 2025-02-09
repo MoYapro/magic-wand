@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Colors</string>
     <string name="title_activity_fight">FightActivity</string>
-    <string name="title_activity_loot">LootActivity</string>
+    <string name="title_activity_stash">StashActivity</string>
 </resources>

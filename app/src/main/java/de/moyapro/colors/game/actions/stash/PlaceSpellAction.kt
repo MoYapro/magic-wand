@@ -21,7 +21,7 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
         return Result.success(
             when (wandLocation) {
                 WandLocation.HAND -> oldState.updateCurrentRun(activeWands = oldState.currentRun.activeWands.replace(updatedWand))
-                WandLocation.LOOT -> oldState.updateCurrentRun(wandsInBag = oldState.currentRun.wandsInBag.replace(updatedWand))
+                WandLocation.STASH -> oldState.updateCurrentRun(wandsInBag = oldState.currentRun.wandsInBag.replace(updatedWand))
             }
         )
     }
@@ -34,18 +34,18 @@ data class PlaceSpellAction(val wandId: WandId, val slotId: SlotId, val spell: S
 
     private fun findWand(oldState: GameState, wandId: WandId): Pair<Wand, WandLocation> {
         val wandInHand = oldState.currentRun.activeWands.findWand(wandId)
-        val wandInLoot = oldState.currentRun.wandsInBag.findWand(wandId)
+        val wandInStash = oldState.currentRun.wandsInBag.findWand(wandId)
         val hasWandInHand = wandInHand != null
-        val hasWandInLoot = wandInLoot != null
-        check(!(hasWandInHand && hasWandInLoot)) { "Found wand in hand AND loot" }
-        val foundWand = wandInHand ?: wandInLoot
-        val foundLocation = if (hasWandInHand) WandLocation.HAND else WandLocation.LOOT
+        val hasWandInStash = wandInStash != null
+        check(!(hasWandInHand && hasWandInStash)) { "Found wand in hand AND stash" }
+        val foundWand = wandInHand ?: wandInStash
+        val foundLocation = if (hasWandInHand) WandLocation.HAND else WandLocation.STASH
         check(foundWand != null) { "Could not find wand to place spell into" }
 
         return Pair(foundWand, foundLocation)
     }
 
     private enum class WandLocation {
-        HAND, LOOT
+        HAND, STASH
     }
 }

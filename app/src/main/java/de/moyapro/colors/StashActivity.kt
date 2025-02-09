@@ -30,8 +30,8 @@ import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.game.persistance.save
 import de.moyapro.colors.ui.theme.ColorsTheme
-import de.moyapro.colors.ui.view.stash.LootSpellsView
-import de.moyapro.colors.ui.view.stash.LootWandsView
+import de.moyapro.colors.ui.view.stash.StashSpellsView
+import de.moyapro.colors.ui.view.stash.StashWandsView
 import de.moyapro.colors.ui.view.stash.WandsEditView
 import de.moyapro.colors.util.SPELL_SIZE
 
@@ -62,7 +62,7 @@ class StashActivity : ComponentActivity() {
                                 .height(3 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            LootWandsView(
+                            StashWandsView(
                                 currentGameState = currentGameState,
                                 addAction = gameViewModel::addAction
                             )
@@ -73,7 +73,7 @@ class StashActivity : ComponentActivity() {
                                 .height(2 * SPELL_SIZE.dp)
                                 .border(1.dp, Color.LightGray)
                         ) {
-                            LootSpellsView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
+                            StashSpellsView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
                         }
                         Row(
                             modifier = Modifier

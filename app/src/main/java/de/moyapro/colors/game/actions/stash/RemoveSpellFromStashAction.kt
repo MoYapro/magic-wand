@@ -6,7 +6,7 @@ import de.moyapro.colors.game.model.gameState.GameState
 
 data class RemoveSpellFromStashAction(
     val spell: Spell<*>,
-) : GameAction("Remove spell from loot") {
+) : GameAction("Remove spell from stash") {
     override val randomSeed: Int = this.hashCode()
 
     override fun apply(oldState: GameState): Result<GameState> {

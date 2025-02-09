@@ -18,7 +18,7 @@ data class RemoveSpellFromWandAction(
     override fun apply(oldState: GameState): Result<GameState> {
         val wandInHand = oldState.currentRun.activeWands.findWand(wandId)
         return if (wandInHand != null) removeSpellFromWandInHand(wandInHand, oldState)
-        else removeSpellFromWandInLoot(wandId, oldState)
+        else removeSpellFromWandInStash(wandId, oldState)
     }
 
     private fun removeSpellFromWandInHand(wandInHand: Wand, oldState: GameState): Result<GameState> {
@@ -29,13 +29,13 @@ data class RemoveSpellFromWandAction(
         return Result.success(oldState.updateCurrentRun(activeWands = oldState.currentRun.activeWands.replace(updatedWand)))
     }
 
-    private fun removeSpellFromWandInLoot(wandId: WandId, oldState: GameState): Result<GameState> {
-        val wandInLoot = oldState.currentRun.wandsInBag.findWand(wandId)
-        check(wandInLoot != null) { "Could not find wand to remove spell from" }
-        val slotToChange = wandInLoot.slots.singleOrNull { it.id == slotId }
+    private fun removeSpellFromWandInStash(wandId: WandId, oldState: GameState): Result<GameState> {
+        val wandInStash = oldState.currentRun.wandsInBag.findWand(wandId)
+        check(wandInStash != null) { "Could not find wand to remove spell from" }
+        val slotToChange = wandInStash.slots.singleOrNull { it.id == slotId }
         check(slotToChange != null) { "Could not find slot to remove spell from" }
         val updatedSlot = slotToChange.copy(spell = null)
-        val updatedWand = wandInLoot.copy(slots = wandInLoot.slots.replace(updatedSlot))
+        val updatedWand = wandInStash.copy(slots = wandInStash.slots.replace(updatedSlot))
         return Result.success(
             oldState.updateCurrentRun(
                 wandsInBag = oldState.currentRun.wandsInBag.replace(updatedWand)

@@ -5,9 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun WinFightView(startLootActivity: () -> Unit) {
+fun WinFightView(startStashActivity: () -> Unit) {
     Text("You won the fight")
-    Button(onClick = startLootActivity) {
+    Button(onClick = startStashActivity) {
         Text("Prepare next fight")
     }
 }

@@ -60,12 +60,12 @@ class MainActivity : ComponentActivity() {
         val menuActions: MutableList<MenuEntryInfo> = mutableListOf()
         menuActions.add("Reset all progress" to ::initNewGame)
         if (gameState?.currentRun == null || gameState.currentRun.mages.isEmpty()) {
-            menuActions.add("Start new Run" to { initNewGame(); startLootActivity() })
+            menuActions.add("Start new Run" to { initNewGame(); startStashActivity() })
         } else {
             if (gameState.currentFight.fightState == ONGOING) {
                 menuActions.add("Continue fight" to ::startFightActivity)
             } else {
-                menuActions.add("Prepare next fight" to ::startLootActivity)
+                menuActions.add("Prepare next fight" to ::startStashActivity)
             }
         }
         menuActions.add("Quit" to { this.finishAffinity() })
@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun startLootActivity() {
+    private fun startStashActivity() {
         this.startActivity(Intent(this, StashActivity::class.java))
     }
 

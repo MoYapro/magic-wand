@@ -18,7 +18,7 @@
         <activity
             android:name=".StashActivity"
             android:exported="false"
-            android:label="@string/title_activity_loot"
+            android:label="@string/title_activity_stash"
             android:theme="@style/Theme.Colors" />
         <activity
             android:name=".MainActivity"

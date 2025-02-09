@@ -4,11 +4,11 @@ import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
 
-data class AddWandToStashAction(val wand: Wand) : GameAction("Add wand to loot") {
+data class AddWandToStashAction(val wand: Wand) : GameAction("Add wand to stash") {
     override val randomSeed: Int = -1
 
     override fun apply(oldState: GameState): Result<GameState> {
-        require(!oldState.currentRun.wandsInBag.contains(wand)) { "Wand is already in loot" }
+        require(!oldState.currentRun.wandsInBag.contains(wand)) { "Wand is already in stash" }
         val updatedWand = wand.copy(mageId = null)
         return Result.success(
             oldState.updateCurrentRun(
