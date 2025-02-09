@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 object VERSIONS {
-    const val JACKSON = "2.17.1"
-    const val COMPOSE_BOM = "2025.01.00"
+    const val JACKSON = "2.17.2"
+    const val COMPOSE_BOM = "2025.01.01"
 }
 
 android {
@@ -73,7 +73,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:${VERSIONS.JACKSON}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${VERSIONS.JACKSON}")
     implementation("androidx.datastore:datastore-preferences:1.1.2")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:5.8.0")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("org.robolectric:robolectric:4.14")
@@ -85,7 +85,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation("io.kotest:kotest-assertions-core-jvm:5.8.0")
+    androidTestImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
