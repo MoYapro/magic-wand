@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import de.moyapro.colors.createExampleWand
@@ -35,13 +36,11 @@ fun WandView(
         modifier = modifier
             .height(4 * SPELL_SIZE.dp)
             .width(2 * SPELL_SIZE.dp)
+            .testTag(buildWandTag(wand))
     ) {
         if (mage != null) {
             Row(Modifier.fillMaxWidth()) {
-                Button(
-                    enabled = wand.hasAnySpellToZap() && mage.health > 0,
-                    modifier = Modifier.width(SPELL_SIZE.dp),
-                    onClick = { addAction(ZapAction(wand.id)) }) { Text(text = "Zap") }
+                Button(enabled = wand.hasAnySpellToZap() && mage.health > 0, modifier = Modifier.width(SPELL_SIZE.dp), onClick = { addAction(ZapAction(wand.id)) }) { Text(text = "Zap") }
 
                 MageView(
                     mage = mage
@@ -58,11 +57,15 @@ fun WandView(
         ) {
             (maxLevel downTo 0).forEach { level ->
                 LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
-                    items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() })
-                    { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
+                    items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() }) { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
                 }
             }
         }
 
     }
+}
+
+
+private fun buildWandTag(wand: Wand): String {
+    return "wand_${wand.id}_${wand.mageId}"
 }
