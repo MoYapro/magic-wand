@@ -5,24 +5,23 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
-import de.moyapro.colors.ui.view.loot.LootView
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class LootViewTest {
+class SpellViewTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun lootViewTest() {
-        val newSpells: List<Spell<Fizz>> = listOf(Fizz())
+    fun spellViewTest() {
+        val spell: Spell<Fizz> = Fizz()
         composeTestRule.setContent {
-            LootView(newSpells)
+            SpellView(spell)
         }
-        composeTestRule.onNodeWithTag("${newSpells[0].id.id}_${newSpells[0].name}").assertExists()
+        composeTestRule.onNodeWithTag("${spell.id.id}_${spell.name}").assertExists()
     }
 }
 

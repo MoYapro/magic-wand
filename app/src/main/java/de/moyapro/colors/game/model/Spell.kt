@@ -12,6 +12,7 @@ import de.moyapro.colors.util.replace
 @JsonSubTypes(
     JsonSubTypes.Type(value = Bonk::class, name = "Bonk"),
     JsonSubTypes.Type(value = Splash::class, name = "Splash"),
+    JsonSubTypes.Type(value = Fizz::class, name = "Fizz"),
 )
 abstract class Spell<SPELL_TYPE : Spell<SPELL_TYPE>>(
     val id: SpellId = SpellId(),
