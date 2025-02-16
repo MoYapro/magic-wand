@@ -3,8 +3,10 @@ package de.moyapro.colors.ui.view.components
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.ui.view.loot.LootView
 import org.junit.Rule
 import org.junit.Test
@@ -18,11 +20,11 @@ class LootViewTest {
 
     @Test
     fun lootViewTest() {
-        val newSpells: List<Spell<Fizz>> = listOf(Fizz())
+        val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
         composeTestRule.setContent {
             LootView(newSpells)
         }
-        composeTestRule.onNodeWithTag("${newSpells[0].id.id}_${newSpells[0].name}").assertExists()
+        newSpells.map { spell -> "${spell.id.id}_${spell.name}" }.forEach { spellTag -> composeTestRule.onNodeWithTag(spellTag).assertExists() }
     }
 }
 

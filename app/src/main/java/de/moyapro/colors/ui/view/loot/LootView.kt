@@ -10,13 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.ui.view.components.SpellView
 import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
-fun LootView(newSpells: List<Spell<Fizz>>) {
+fun LootView(newSpells: List<Spell<*>>) {
 
     LazyVerticalGrid(
         modifier = Modifier
