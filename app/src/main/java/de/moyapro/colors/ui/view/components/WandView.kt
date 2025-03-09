@@ -1,7 +1,6 @@
 package de.moyapro.colors.ui.view.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -35,21 +34,15 @@ fun WandView(
     val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
     val maxLevel = slotsByLevel.keys.max()
 
-    Box(
+    Column(
         modifier = actualModifier
             .height(5 * SPELL_SIZE.dp)
             .width(2 * SPELL_SIZE.dp)
             .testTag(getTag(wand))
     ) {
-        Column(
-            modifier = actualModifier
-                .height(5 * SPELL_SIZE.dp)
-                .width(2 * SPELL_SIZE.dp)
-        ) {
-            (maxLevel downTo 0).forEach { level ->
-                LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
-                    items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() }) { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
-                }
+        (maxLevel downTo 0).forEach { level ->
+            LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
+                items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() }) { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
             }
         }
     }
