@@ -45,7 +45,7 @@ fun WandsView(currentGameState: GameState, addAction: (GameAction) -> Unit) {
                 .border(1.dp, Color.LightGray)
         ) {
             items(items = currentGameState.currentFight.wands.inOrder(), key = { wand: Wand -> wand.id.hashCode() }) { theWand ->
-                WandView(
+                WandAndMageView(
                     wand = theWand,
                     addAction = addAction,
                     currentGameState = currentGameState,

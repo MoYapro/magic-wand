@@ -84,7 +84,7 @@ class LootViewTest {
 
         claimAction shouldBe instanceOf<ClaimLootAction>()
         (claimAction as ClaimLootAction).newSpells shouldBe emptyList()
-        (claimAction as ClaimLootAction).newWands.single() shouldBe newWands[1]
+        (claimAction as ClaimLootAction).newWands.single() shouldBe newWands[0]
     }
 }
 

@@ -15,9 +15,9 @@ import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.R
 
 @Composable
-fun SpellView(spell: Spell<*>?, clickAction: (spell: Spell<*>) -> Unit = {}) {
+fun SpellView(spell: Spell<*>?, clickAction: ((spell: Spell<*>) -> Unit)? = null) {
     if (spell == null) return
-    val modifier = if ({ } == clickAction) Modifier else Modifier.clickable { clickAction(spell) }
+    val modifier = if (clickAction == null) Modifier else Modifier.clickable { clickAction(spell) }
     val image = painterResource(R.drawable.bad_heart)
     Image(
         painter = image, contentDescription = "Name", modifier = modifier
