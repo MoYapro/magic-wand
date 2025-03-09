@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
                 menuActions.add("Continue fight" to ::startFightActivity)
             } else {
                 menuActions.add("Prepare next fight" to ::startStashActivity)
+                menuActions.add("Loot test" to ::startLootActivity)
             }
         }
         menuActions.add("Quit" to { this.finishAffinity() })
@@ -81,6 +82,10 @@ class MainActivity : ComponentActivity() {
 
     private fun startStashActivity() {
         this.startActivity(Intent(this, StashActivity::class.java))
+    }
+
+    private fun startLootActivity() {
+        this.startActivity(Intent(this, LootActivity::class.java))
     }
 
     private fun startFightActivity() {

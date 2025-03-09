@@ -68,7 +68,7 @@ class LootViewTest {
 
     @Test
     fun claimSelectedWands() {
-        val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
+        val newWands: List<Wand> = listOf(createExampleWand(null), createExampleWand(null))
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
