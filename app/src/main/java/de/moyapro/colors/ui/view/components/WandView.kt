@@ -1,5 +1,6 @@
 package de.moyapro.colors.ui.view.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.times
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.functions.getTag
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.accessor.findMage
@@ -30,21 +32,24 @@ fun WandView(
     wand: Wand = createExampleWand(),
     addAction: (GameAction) -> Unit,
     currentGameState: GameState,
+    clickAction: (() -> Unit)? = null,
 ) {
     val mage = currentGameState.currentFight.mages.findMage(wand.id)
+    val actualModifier = if (clickAction != null) modifier.clickable(onClick = clickAction) else modifier
     Column(
-        modifier = modifier
+        modifier = actualModifier
             .height(4 * SPELL_SIZE.dp)
             .width(2 * SPELL_SIZE.dp)
-            .testTag(buildWandTag(wand))
+            .testTag(getTag(wand))
     ) {
         if (mage != null) {
             Row(Modifier.fillMaxWidth()) {
-                Button(enabled = wand.hasAnySpellToZap() && mage.health > 0, modifier = Modifier.width(SPELL_SIZE.dp), onClick = { addAction(ZapAction(wand.id)) }) { Text(text = "Zap") }
-
-                MageView(
-                    mage = mage
-                )
+                Button(
+                    enabled = wand.hasAnySpellToZap() && mage.health > 0,
+                    modifier = Modifier.width(SPELL_SIZE.dp),
+                    onClick = { addAction(ZapAction(wand.id)) }
+                ) { Text(text = "Zap") }
+                MageView(mage = mage)
             }
         }
         val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
@@ -61,11 +66,5 @@ fun WandView(
                 }
             }
         }
-
     }
-}
-
-
-private fun buildWandTag(wand: Wand): String {
-    return "wand_${wand.id}_${wand.mageId}"
 }
