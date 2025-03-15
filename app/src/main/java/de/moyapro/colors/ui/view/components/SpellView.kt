@@ -15,12 +15,16 @@ import de.moyapro.colors.util.SPELL_SIZE
 import de.moyapro.colors.R
 
 @Composable
-fun SpellView(spell: Spell<*>?, clickAction: ((spell: Spell<*>) -> Unit)? = null) {
+fun SpellView(
+    modifier: Modifier = Modifier,
+    spell: Spell<*>?,
+    clickAction: ((spell: Spell<*>) -> Unit)? = null,
+) {
     if (spell == null) return
-    val modifier = if (clickAction == null) Modifier else Modifier.clickable { clickAction(spell) }
+    val actualModifier = if (clickAction == null) modifier else modifier.clickable { clickAction(spell) }
     val image = painterResource(R.drawable.bad_heart)
     Image(
-        painter = image, contentDescription = "Name", modifier = modifier
+        painter = image, contentDescription = "Name", modifier = actualModifier
             .height(SPELL_SIZE.dp)
             .width(SPELL_SIZE.dp)
             .testTag(getTag(spell))

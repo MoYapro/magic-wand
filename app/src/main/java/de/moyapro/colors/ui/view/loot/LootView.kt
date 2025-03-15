@@ -3,7 +3,6 @@ package de.moyapro.colors.ui.view.loot
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,9 +63,10 @@ fun LootView(
             userScrollEnabled = false,
         ) {
             items(items = newSpells, key = { spell -> spell.id.hashCode() }) { spell ->
-                SpellHighlight(
-                    view = { SpellView(spell = spell, clickAction = { if (selectedSpells.contains(spell)) selectedSpells -= spell else selectedSpells += spell }) },
-                    highlight = newSpells.contains(spell)
+                SpellView(
+                    modifier = Modifier.background(if (selectedSpells.contains(spell)) Color.Cyan else Color.Transparent),
+                    spell = spell,
+                    clickAction = { if (selectedSpells.contains(spell)) selectedSpells -= spell else selectedSpells += spell }
                 )
             }
         }
@@ -81,6 +81,7 @@ fun LootView(
         ) {
             items(items = newWands, key = { wand -> wand.id.hashCode() }) { wand ->
                 WandView(
+                    modifier = Modifier.background(if (selectedWands.contains(wand)) Color.Cyan else Color.Transparent),
                     wand = wand,
                     addAction = {},
                     currentGameState = currentGameState,
@@ -96,16 +97,6 @@ fun LootView(
         ) {
             Text("Claim")
         }
-    }
-}
-
-@Composable
-fun SpellHighlight(view: @Composable () -> Unit, highlight: Boolean) {
-    Box(modifier = Modifier.background(if (highlight) Color.Cyan else Color.Transparent)) {
-        Log.d(
-            TAG, "highlight: $highlight"
-        )
-        view()
     }
 }
 
