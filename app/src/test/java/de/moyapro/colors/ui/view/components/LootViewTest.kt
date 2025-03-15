@@ -83,5 +83,39 @@ class LootViewTest {
         (claimAction as ClaimLootAction).newSpells shouldBe emptyList()
         (claimAction as ClaimLootAction).newWands.single() shouldBe newWands[0]
     }
+
+    @Test
+    fun `select - deselect wands`() {
+        val newWands: List<Wand> = listOf(createExampleWand(null), createExampleWand(null))
+        var claimAction: GameAction? = null
+        val addAction = { action: GameAction -> claimAction = action }
+        composeTestRule.setContent {
+            LootView(emptyList(), newWands, gameState, addAction, nextMock)
+        }
+        composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
+        composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
+        composeTestRule.onNode(hasText("Claim") and hasClickAction()).assertIsDisplayed().performClick()
+
+        claimAction shouldBe instanceOf<ClaimLootAction>()
+        (claimAction as ClaimLootAction).newSpells shouldBe emptyList()
+        (claimAction as ClaimLootAction).newWands shouldBe emptyList()
+    }
+
+    @Test
+    fun `select - deselect spells`() {
+        val newSpells: List<Spell<*>> = listOf(Bonk(), Fizz())
+        var claimAction: GameAction? = null
+        val addAction = { action: GameAction -> claimAction = action }
+        composeTestRule.setContent {
+            LootView(newSpells, emptyList(), gameState, addAction, nextMock)
+        }
+        composeTestRule.onNode(hasTestTag(getTag(newSpells[0])) and hasClickAction()).assertIsDisplayed().performClick()
+        composeTestRule.onNode(hasTestTag(getTag(newSpells[0])) and hasClickAction()).assertIsDisplayed().performClick()
+        composeTestRule.onNode(hasText("Claim") and hasClickAction()).assertIsDisplayed().performClick()
+
+        claimAction shouldBe instanceOf<ClaimLootAction>()
+        (claimAction as ClaimLootAction).newSpells shouldBe emptyList()
+        (claimAction as ClaimLootAction).newWands shouldBe emptyList()
+    }
 }
 

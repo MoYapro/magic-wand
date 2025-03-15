@@ -65,7 +65,7 @@ fun LootView(
         ) {
             items(items = newSpells, key = { spell -> spell.id.hashCode() }) { spell ->
                 SpellHighlight(
-                    view = { SpellView(spell = spell, clickAction = { selectedSpells += spell }) },
+                    view = { SpellView(spell = spell, clickAction = { if (selectedSpells.contains(spell)) selectedSpells -= spell else selectedSpells += spell }) },
                     highlight = newSpells.contains(spell)
                 )
             }
@@ -84,9 +84,7 @@ fun LootView(
                     wand = wand,
                     addAction = {},
                     currentGameState = currentGameState,
-                    clickAction = {
-                        selectedWands += wand
-                    }
+                    clickAction = { if (selectedWands.contains(wand)) selectedWands -= wand else selectedWands += wand }
                 )
             }
         }
