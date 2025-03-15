@@ -9,7 +9,15 @@ data class ClaimLootAction(val newSpells: List<Spell<*>>, val newWands: List<Wan
     override val randomSeed: Int = 1
 
     override fun apply(oldState: GameState): Result<GameState> {
-        TODO("Not yet implemented")
+        if (newSpells.isEmpty() && newWands.isEmpty()) return Result.success(oldState)
+        return Result.success(
+            oldState.copy(
+                currentRun = oldState.currentRun.copy(
+                    spells = oldState.currentRun.spells + newSpells,
+                    wandsInBag = oldState.currentRun.wandsInBag + newWands
+                )
+            )
+        )
     }
 
 }
