@@ -12,6 +12,7 @@ import de.moyapro.colors.game.actions.fight.StartFightAction
 import de.moyapro.colors.game.actions.fight.TargetSelectedAction
 import de.moyapro.colors.game.actions.fight.WinFightAction
 import de.moyapro.colors.game.actions.fight.ZapAction
+import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.actions.stash.AddGeneratorAction
 import de.moyapro.colors.game.actions.stash.AddWandAction
 import de.moyapro.colors.game.actions.stash.PlaceSpellAction
@@ -44,6 +45,7 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = PlaceSpellAction::class, name = "PlaceSpellAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
     JsonSubTypes.Type(value = AttackMageAction::class, name = "AttackMageAction"),
+    JsonSubTypes.Type(value = ClaimLootAction::class, name = "ClaimLootAction"),
 )
 abstract class GameAction(
     val name: String,
