@@ -18,9 +18,11 @@ import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.view.loot.LootView
 import de.moyapro.colors.util.MAGE_II_ID
 import de.moyapro.colors.util.MAGE_I_ID
+import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import org.junit.Rule
@@ -33,12 +35,15 @@ class LootViewTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    val nextMock: (GameState) -> Unit = {}
+    val gameState: GameState = getExampleGameState()
+
     @Test
     fun lootViewTest() {
         val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
         val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
         composeTestRule.setContent {
-            LootView(newSpells, newWands)
+            LootView(newSpells, newWands, goToNextScreenAction = nextMock, currentGameState = gameState)
         }
         newSpells.map(::getTag).forEach { spellTag -> composeTestRule.onNode(hasTestTag(spellTag)).assertIsDisplayed() }
         newWands.map(::getTag).forEach { wandTag -> composeTestRule.onNodeWithTag(wandTag).assertExists() }
@@ -51,15 +56,11 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(newSpells, emptyList(), addAction)
+            LootView(newSpells, emptyList(), gameState, addAction, nextMock)
         }
-        composeTestRule.onNode(hasTestTag(getTag(newSpells[1])) and hasClickAction())
-            .assertIsDisplayed()
-            .performClick()
+        composeTestRule.onNode(hasTestTag(getTag(newSpells[1])) and hasClickAction()).assertIsDisplayed().performClick()
 
-        composeTestRule.onNode(hasText("Claim") and hasClickAction())
-            .assertIsDisplayed()
-            .performClick()
+        composeTestRule.onNode(hasText("Claim") and hasClickAction()).assertIsDisplayed().performClick()
 
         claimAction shouldBe instanceOf<ClaimLootAction>()
         (claimAction as ClaimLootAction).newSpells.single() shouldBe newSpells[1]
@@ -72,15 +73,11 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(emptyList(), newWands, addAction)
+            LootView(emptyList(), newWands, gameState, addAction, nextMock)
         }
-        composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction())
-            .assertIsDisplayed()
-            .performClick()
+        composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
 
-        composeTestRule.onNode(hasText("Claim") and hasClickAction())
-            .assertIsDisplayed()
-            .performClick()
+        composeTestRule.onNode(hasText("Claim") and hasClickAction()).assertIsDisplayed().performClick()
 
         claimAction shouldBe instanceOf<ClaimLootAction>()
         (claimAction as ClaimLootAction).newSpells shouldBe emptyList()

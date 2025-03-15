@@ -4,6 +4,7 @@ import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicSlot
 import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.util.hasDuplicates
 import de.moyapro.colors.util.mapFirst
 import de.moyapro.colors.util.mapIf
 import de.moyapro.colors.util.minus
@@ -72,5 +73,15 @@ internal class ListUtilTest {
         val input = listOf(replaceMe, Magic(type = MagicType.GREEN), Magic())
         input.mapFirst({ it.type == MagicType.SIMPLE }) { Magic(type = MagicType.GREEN) }
             .map { it.type } shouldBe listOf(MagicType.GREEN, MagicType.GREEN, MagicType.SIMPLE)
+    }
+    
+    @Test
+    fun hasDuplicates_true() {
+        listOf(1, 2, 1).hasDuplicates() shouldBe true
+    }
+
+    @Test
+    fun hasDuplicates_false() {
+        listOf(1, 2).hasDuplicates() shouldBe false
     }
 }

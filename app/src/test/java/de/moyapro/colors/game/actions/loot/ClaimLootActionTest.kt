@@ -2,10 +2,12 @@ package de.moyapro.colors.game.actions.loot
 
 import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.wand.getExampleGameState
+import de.moyapro.colors.wand.getExampleWand
 import de.moyapro.colors.wand.getExampleWandWithTwoSlots
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.instanceOf
 import org.junit.Test
 
 class ClaimLootActionTest {
@@ -33,6 +35,26 @@ class ClaimLootActionTest {
         val updatedGameState = ClaimLootAction(newSpells = emptyList(), newWands = newWands).apply(gameState).getOrThrow()
         updatedGameState.currentRun.wandsInBag shouldContain newWands.single()
         updatedGameState.currentRun.wandsInBag shouldHaveSize gameState.currentRun.wandsInBag.size + newWands.size
+    }
+
+    @Test
+    fun disallowDuplicateSpells() {
+        val spell = Bonk()
+        val newSpells = listOf(spell, spell)
+        val gameState = getExampleGameState()
+        val updatedResult = ClaimLootAction(newSpells = newSpells, newWands = emptyList()).apply(gameState)
+        updatedResult.isFailure shouldBe true
+        updatedResult.exceptionOrNull() shouldBe instanceOf<IllegalArgumentException>()
+    }
+
+    @Test
+    fun disallowDuplicateWands() {
+        val wand = getExampleWand()
+        val newWands = listOf(wand, wand)
+        val gameState = getExampleGameState()
+        val updatedResult = ClaimLootAction(newSpells = emptyList(), newWands = newWands).apply(gameState)
+        updatedResult.isFailure shouldBe true
+        updatedResult.exceptionOrNull() shouldBe instanceOf<IllegalArgumentException>()
     }
 
 }

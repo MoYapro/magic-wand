@@ -1,6 +1,9 @@
 package de.moyapro.colors.ui.view.loot
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -28,19 +32,26 @@ import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.view.components.SpellView
 import de.moyapro.colors.ui.view.components.WandView
 import de.moyapro.colors.util.MAGE_II_ID
 import de.moyapro.colors.util.MAGE_I_ID
 import de.moyapro.colors.util.SPELL_SIZE
 
+const val TAG = "LootView"
+
+
 @Composable
 fun LootView(
     newSpells: List<Spell<*>>,
     newWands: List<Wand>,
-    addAction: ((GameAction) -> Unit) = {},
+    currentGameState: GameState,
+    addAction: (GameAction) -> Unit = {},
+    goToNextScreenAction: (GameState) -> Unit,
 ) {
     var selectedSpells: List<Spell<*>> by remember { mutableStateOf(listOf()) }
+    Log.d(TAG, "selectedSpells: $selectedSpells")
     var selectedWands: List<Wand> by remember { mutableStateOf(listOf()) }
     Column(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
@@ -52,7 +63,12 @@ fun LootView(
             horizontalArrangement = Arrangement.SpaceEvenly,
             userScrollEnabled = false,
         ) {
-            items(items = newSpells, key = { spell -> spell.id.hashCode() }) { spell -> SpellView(spell = spell, clickAction = { selectedSpells += spell }) }
+            items(items = newSpells, key = { spell -> spell.id.hashCode() }) { spell ->
+                SpellHighlight(
+                    view = { SpellView(spell = spell, clickAction = { selectedSpells += spell }) },
+                    highlight = newSpells.contains(spell)
+                )
+            }
         }
         LazyVerticalGrid(
             modifier = Modifier
@@ -67,7 +83,7 @@ fun LootView(
                 WandView(
                     wand = wand,
                     addAction = {},
-                    currentGameState = Initializer.createInitialGameState(),
+                    currentGameState = currentGameState,
                     clickAction = {
                         selectedWands += wand
                     }
@@ -77,6 +93,7 @@ fun LootView(
         Button(
             onClick = {
                 addAction(ClaimLootAction(selectedSpells, selectedWands))
+                goToNextScreenAction(currentGameState)
             }
         ) {
             Text("Claim")
@@ -85,9 +102,19 @@ fun LootView(
 }
 
 @Composable
+fun SpellHighlight(view: @Composable () -> Unit, highlight: Boolean) {
+    Box(modifier = Modifier.background(if (highlight) Color.Cyan else Color.Transparent)) {
+        Log.d(
+            TAG, "highlight: $highlight"
+        )
+        view()
+    }
+}
+
+@Composable
 @Preview
 fun PreviewLootView() {
     val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
     val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
-    LootView(newSpells, newWands)
+    LootView(newSpells, newWands, goToNextScreenAction = {}, currentGameState = Initializer.createInitialGameState())
 }

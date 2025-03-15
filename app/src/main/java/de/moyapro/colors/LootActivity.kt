@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.model.Bonk
@@ -27,7 +29,14 @@ class LootActivity : ComponentActivity() {
         val newWands: List<Wand> = listOf(createExampleWand(null), createExampleWand(null))
         val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
         setContent {
-            LootView(newSpells = newSpells, newWands = newWands, addAction = gameViewModel::addAction)
+            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+            LootView(
+                newSpells = newSpells,
+                newWands = newWands,
+                currentGameState = currentGameStateResult.getOrThrow(),
+                addAction = gameViewModel::addAction,
+                goToNextScreenAction = ::saveAndStartStashActivity
+            )
         }
     }
 

@@ -40,3 +40,7 @@ operator fun <T> List<T>.minus(itemToRemove: T?): List<T> {
     if (itemToRemove == null) return this
     return this.filter { itemInLIst -> itemInLIst != itemToRemove }
 }
+
+fun <T> List<T>.hasDuplicates(): Boolean {
+    return this.size != this.distinct().size
+}
