@@ -32,7 +32,6 @@ class GameViewModel(
 
     private fun getCurrentGameState(): Result<GameState> {
         val initial = Result.success(initialState)
-        Log.d(TAG, "get current game state from initial: $initialState")
         val result = actions.fold(initial, ::applyAllActions)
         if (result.isFailure) {
             Log.e(TAG, "Error in action '${actions.last()}': $result")

@@ -49,7 +49,7 @@ suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState =
 
 fun save(dataStore: DataStore<Preferences>, gameState: GameState, actions: Collection<GameAction>? = null): Unit = runBlocking {
     dataStore.edit { settings ->
-        Log.d(TAG, "save current game state")
+        Log.d(TAG, "save current game state ${gameState.currentRun.spells}")
         settings[CURRENT_FIGHT_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentFight)
         settings[CURRENT_RUN_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentRun)
         settings[OVERALL_PROGRESSION_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.progression)
