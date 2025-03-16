@@ -28,9 +28,9 @@ fun WandView(
     wand: Wand,
     addAction: (GameAction) -> Unit,
     currentGameState: GameState,
-    clickAction: (() -> Unit)? = null,
+    clickAction: ((Wand) -> Unit)? = null,
 ) {
-    val actualModifier = if (clickAction != null) modifier.clickable(onClick = clickAction) else modifier
+    val actualModifier = if (clickAction != null) modifier.clickable(onClick = { clickAction(wand) }) else modifier
     val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { key1, key2 -> key2.compareTo(key1) }
     val maxLevel = slotsByLevel.keys.max()
 
