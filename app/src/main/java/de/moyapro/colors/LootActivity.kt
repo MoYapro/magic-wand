@@ -15,7 +15,6 @@ import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
-import de.moyapro.colors.game.persistance.save
 import de.moyapro.colors.ui.view.loot.LootView
 
 class LootActivity : ComponentActivity() {
@@ -40,21 +39,23 @@ class LootActivity : ComponentActivity() {
         }
     }
 
-    private fun saveAndStartStashActivity(currentGameState: GameState) {
-        save(dataStore, currentGameState)
+    private fun saveAndStartStashActivity() {
+        gameViewModel.materializeActions()
         startStashActivity()
     }
 
-    private fun saveAndMain(currentGameState: GameState) {
-        save(dataStore, currentGameState)
+    private fun saveAndMain() {
+        gameViewModel.materializeActions()
         startMainActivity()
     }
 
     private fun startStashActivity() {
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, StashActivity::class.java))
     }
 
     private fun startMainActivity() {
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 

@@ -35,15 +35,14 @@ class LootViewTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val nextMock: (GameState) -> Unit = {}
-    val gameState: GameState = getExampleGameState()
+    private val gameState: GameState = getExampleGameState()
 
     @Test
     fun lootViewTest() {
         val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
         val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
         composeTestRule.setContent {
-            LootView(newSpells, newWands, goToNextScreenAction = nextMock, currentGameState = gameState)
+            LootView(newSpells, newWands, goToNextScreenAction = {}, currentGameState = gameState)
         }
         newSpells.map(::getTag).forEach { spellTag -> composeTestRule.onNode(hasTestTag(spellTag)).assertIsDisplayed() }
         newWands.map(::getTag).forEach { wandTag -> composeTestRule.onNodeWithTag(wandTag).assertExists() }
@@ -56,7 +55,7 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(newSpells, emptyList(), gameState, addAction, nextMock)
+            LootView(newSpells, emptyList(), gameState, addAction, goToNextScreenAction = {})
         }
         composeTestRule.onNode(hasTestTag(getTag(newSpells[1])) and hasClickAction()).assertIsDisplayed().performClick()
 
@@ -73,7 +72,7 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(emptyList(), newWands, gameState, addAction, nextMock)
+            LootView(emptyList(), newWands, gameState, addAction, goToNextScreenAction = {})
         }
         composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
 
@@ -90,7 +89,7 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(emptyList(), newWands, gameState, addAction, nextMock)
+            LootView(emptyList(), newWands, gameState, addAction, goToNextScreenAction = {})
         }
         composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
         composeTestRule.onNode(hasTestTag(getTag(newWands[0])) and hasClickAction()).assertIsDisplayed().performClick()
@@ -107,7 +106,7 @@ class LootViewTest {
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
-            LootView(newSpells, emptyList(), gameState, addAction, nextMock)
+            LootView(newSpells, emptyList(), gameState, addAction, goToNextScreenAction = {})
         }
         composeTestRule.onNode(hasTestTag(getTag(newSpells[0])) and hasClickAction()).assertIsDisplayed().performClick()
         composeTestRule.onNode(hasTestTag(getTag(newSpells[0])) and hasClickAction()).assertIsDisplayed().performClick()

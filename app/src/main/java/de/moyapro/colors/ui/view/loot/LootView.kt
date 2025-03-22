@@ -36,7 +36,7 @@ fun LootView(
     newWands: List<Wand>,
     currentGameState: GameState,
     addAction: (GameAction) -> Unit = {},
-    goToNextScreenAction: (GameState) -> Unit,
+    goToNextScreenAction: () -> Unit,
 ) {
     var selectedSpells: List<Spell<*>> by remember { mutableStateOf(listOf()) }
     Log.d(TAG, "selectedSpells: $selectedSpells")
@@ -57,7 +57,7 @@ fun LootView(
         Button(
             onClick = {
                 addAction(ClaimLootAction(selectedSpells, selectedWands))
-                goToNextScreenAction(currentGameState)
+                goToNextScreenAction()
             }
         ) {
             Text("Claim")

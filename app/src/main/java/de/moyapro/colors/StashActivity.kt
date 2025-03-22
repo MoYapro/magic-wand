@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
 import de.moyapro.colors.game.model.gameState.GameState
-import de.moyapro.colors.game.persistance.save
 
 class StashActivity : ComponentActivity() {
 
@@ -24,13 +23,13 @@ class StashActivity : ComponentActivity() {
         }
     }
 
-    private fun saveAndStartFight(currentGameState: GameState) {
-        save(dataStore, currentGameState)
+    private fun saveAndStartFight() {
+        gameViewModel.materializeActions()
         startFightActivity()
     }
 
-    private fun saveAndMain(currentGameState: GameState) {
-        save(dataStore, currentGameState)
+    private fun saveAndMain() {
+        gameViewModel.materializeActions()
         startMainActivity()
     }
 
@@ -39,10 +38,12 @@ class StashActivity : ComponentActivity() {
     }
 
     private fun startFightActivity() {
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, FightActivity::class.java))
     }
 
     private fun startMainActivity() {
+        gameViewModel.materializeActions()
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 

@@ -32,8 +32,8 @@ import de.moyapro.colors.ui.view.stash.WandsEditView
 @Preview
 fun StashView(
     @PreviewParameter(provider = GameViewModelPreviewProvider::class) gameViewModel: GameViewModel,
-    saveAndStartFight: (GameState) -> Unit = {},
-    saveAndMain: (GameState) -> Unit = {},
+    saveAndStartFight: () -> Unit = {},
+    saveAndMain: () -> Unit = {},
     printState: (GameState) -> Unit = {},
 ) {
 
@@ -60,17 +60,22 @@ fun StashView(
 }
 
 @Composable
-fun Buttons(currentGameState: GameState, saveAndStartFight: (GameState) -> Unit, saveAndMain: (GameState) -> Unit, printState: (GameState) -> Unit) {
+fun Buttons(
+    currentGameState: GameState,
+    saveAndStartFight: () -> Unit,
+    saveAndMain: () -> Unit,
+    printState: (GameState) -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(1f / 4f)
             .border(1.dp, Color.LightGray)
     ) {
-        Button(onClick = { saveAndStartFight(currentGameState) }) {
+        Button(onClick = { saveAndStartFight() }) {
             Text(text = "Next fight")
         }
-        Button(onClick = { saveAndMain(currentGameState) }) {
+        Button(onClick = { saveAndMain() }) {
             Text(text = "Main menu")
         }
         Button(onClick = { printState(currentGameState) }) {
