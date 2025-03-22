@@ -16,13 +16,13 @@ import de.moyapro.colors.R
 
 @Composable
 fun SpellView(
-    modifier: Modifier = Modifier,
     spell: Spell<*>?,
+    modifier: Modifier = Modifier,
     clickAction: ((spell: Spell<*>) -> Unit)? = null,
 ) {
     if (spell == null) return
     val actualModifier = if (clickAction == null) modifier else modifier.clickable { clickAction(spell) }
-    val image = painterResource(R.drawable.bad_heart)
+    val image = painterResource(spell.image?.imageRef ?: R.drawable.bad_heart)
     Image(
         painter = image, contentDescription = "Name", modifier = actualModifier
             .height(SPELL_SIZE.dp)

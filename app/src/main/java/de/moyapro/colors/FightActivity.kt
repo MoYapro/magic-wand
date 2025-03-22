@@ -46,7 +46,7 @@ class FightActivity : ComponentActivity() {
                         }
 
                         ONGOING -> WandsView(currentGameState, gameViewModel::addAction)
-                        WIN -> WinFightView(::startStashActivity)
+                        WIN -> WinFightView(::startLootActivity)
                         LOST -> LostFightView(::startMainActivity)
                     }
                 }
@@ -60,9 +60,9 @@ class FightActivity : ComponentActivity() {
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
-    private fun startStashActivity() {
+    private fun startLootActivity() {
         gameViewModel.addAction(EndFightAction())
         gameViewModel.materializeActions()
-        this.startActivity(Intent(this, StashActivity::class.java))
+        this.startActivity(Intent(this, LootActivity::class.java))
     }
 }

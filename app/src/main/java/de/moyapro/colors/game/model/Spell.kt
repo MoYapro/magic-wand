@@ -19,6 +19,7 @@ abstract class Spell<SPELL_TYPE : Spell<SPELL_TYPE>>(
     val name: String,
     val magicSlots: List<MagicSlot>,
     val effects: List<Effect> = emptyList(),
+    val image: ImageRef? = null,
 ) {
 
     @JsonProperty("@type")

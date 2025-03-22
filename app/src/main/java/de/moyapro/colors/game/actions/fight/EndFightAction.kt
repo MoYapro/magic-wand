@@ -8,7 +8,7 @@ data class EndFightAction(override val randomSeed: Int = 1) : GameAction("End fi
 
 
     override fun apply(oldState: GameState): Result<GameState> {
-        val newState = oldState.updateCurrentFight(fightState = FightState.NOT_STARTED)
+        val newState = oldState.updateCurrentFight(fightState = FightState.NOT_STARTED, currentTurn = 0)
         return Result.success(newState)
     }
 
