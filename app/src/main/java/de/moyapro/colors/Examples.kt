@@ -4,7 +4,6 @@ import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.enemy.actions.AttackMageEnemyAction
 import de.moyapro.colors.game.enemy.actions.SelfHealEnemyAction
-import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.EnemyId
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
@@ -19,6 +18,7 @@ import de.moyapro.colors.game.model.WandId
 import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.game.model.gameState.Field
 import de.moyapro.colors.game.model.gameState.Terrain
+import de.moyapro.colors.game.spell.Bonk
 import kotlin.random.Random
 import kotlin.random.nextInt
 

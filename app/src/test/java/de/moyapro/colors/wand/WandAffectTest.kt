@@ -5,10 +5,10 @@ import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.effect.Effect.*
 import de.moyapro.colors.game.enemy.blueprints.TargetDummy
-import de.moyapro.colors.game.model.Bonk
-import de.moyapro.colors.game.model.Fizz
-import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.accessor.findById
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Fizz
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.MAGE_I_ID
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe

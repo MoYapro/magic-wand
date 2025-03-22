@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.enemy.plus
+import de.moyapro.colors.game.spell.Acid
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Fizz
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.replace
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
@@ -13,6 +17,7 @@ import de.moyapro.colors.util.replace
     JsonSubTypes.Type(value = Bonk::class, name = "Bonk"),
     JsonSubTypes.Type(value = Splash::class, name = "Splash"),
     JsonSubTypes.Type(value = Fizz::class, name = "Fizz"),
+    JsonSubTypes.Type(value = Acid::class, name = "Acid"),
 )
 abstract class Spell<SPELL_TYPE : Spell<SPELL_TYPE>>(
     val id: SpellId = SpellId(),

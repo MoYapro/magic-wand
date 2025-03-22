@@ -5,7 +5,6 @@ import android.util.Log
 import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.enemy.blueprints.Grunt
 import de.moyapro.colors.game.enemy.blueprints.Slime
-import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.MageId
@@ -14,7 +13,6 @@ import de.moyapro.colors.game.model.MagicGenerator
 import de.moyapro.colors.game.model.MagicSlot
 import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Slot
-import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.game.model.gameState.Field
@@ -24,6 +22,8 @@ import de.moyapro.colors.game.model.gameState.ProgressionData
 import de.moyapro.colors.game.model.gameState.RunData
 import de.moyapro.colors.game.model.gameState.Terrain
 import de.moyapro.colors.game.model.gameState.notStartedFight
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.getConfiguredJson
 import java.util.Random
 

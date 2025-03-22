@@ -1,7 +1,10 @@
-package de.moyapro.colors.game.model
+package de.moyapro.colors.game.spell
 
 import de.moyapro.colors.createExampleMagicSlot
 import de.moyapro.colors.game.effect.Effect
+import de.moyapro.colors.game.model.MagicSlot
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.model.SpellId
 
 class Bonk(
     id: SpellId = SpellId(),

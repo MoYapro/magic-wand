@@ -16,12 +16,12 @@ import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.generators.Initializer
-import de.moyapro.colors.game.model.Bonk
-import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
-import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.spell.Acid
+import de.moyapro.colors.game.spell.Fizz
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.ui.view.components.SpellGrid
 import de.moyapro.colors.ui.view.components.WandGrid
 import de.moyapro.colors.util.MAGE_II_ID
@@ -68,7 +68,7 @@ fun LootView(
 @Composable
 @Preview
 fun PreviewLootView() {
-    val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
+    val newSpells: List<Spell<*>> = listOf(Fizz(), Acid(), Splash())
     val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
     LootView(newSpells, newWands, goToNextScreenAction = {}, currentGameState = Initializer.createInitialGameState())
 }

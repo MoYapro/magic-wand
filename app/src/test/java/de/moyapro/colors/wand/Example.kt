@@ -10,7 +10,6 @@ import de.moyapro.colors.game.actions.fight.TargetSelectedAction
 import de.moyapro.colors.game.actions.fight.ZapAction
 import de.moyapro.colors.game.enemy.blueprints.Grunt
 import de.moyapro.colors.game.enemy.blueprints.TargetDummy
-import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.Mage
 import de.moyapro.colors.game.model.MageId
@@ -31,6 +30,7 @@ import de.moyapro.colors.game.model.gameState.GameOptions
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.game.model.gameState.ProgressionData
 import de.moyapro.colors.game.model.gameState.RunData
+import de.moyapro.colors.game.spell.Bonk
 import de.moyapro.colors.util.FightState
 import de.moyapro.colors.util.MAGE_III_ID
 import de.moyapro.colors.util.MAGE_II_ID

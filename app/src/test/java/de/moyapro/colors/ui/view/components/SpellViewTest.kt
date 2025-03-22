@@ -3,8 +3,8 @@ package de.moyapro.colors.ui.view.components
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.spell.Fizz
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

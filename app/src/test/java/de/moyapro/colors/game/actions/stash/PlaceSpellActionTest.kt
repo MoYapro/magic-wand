@@ -1,7 +1,7 @@
 package de.moyapro.colors.game.actions.stash
 
-import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.accessor.findWand
+import de.moyapro.colors.game.spell.Bonk
 import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.shouldBe
 import org.junit.Test

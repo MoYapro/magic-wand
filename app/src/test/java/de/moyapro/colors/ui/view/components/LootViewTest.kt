@@ -13,12 +13,12 @@ import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.functions.getTag
-import de.moyapro.colors.game.model.Bonk
-import de.moyapro.colors.game.model.Fizz
 import de.moyapro.colors.game.model.Spell
-import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Fizz
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.ui.view.loot.LootView
 import de.moyapro.colors.util.MAGE_II_ID
 import de.moyapro.colors.util.MAGE_I_ID

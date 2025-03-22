@@ -1,12 +1,12 @@
 package de.moyapro.colors.game
 
-import de.moyapro.colors.game.model.Bonk
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicSlot
 import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Slot
-import de.moyapro.colors.game.model.Splash
 import de.moyapro.colors.game.model.Wand
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.wand.getExampleWandWithSingleSlot
 import de.moyapro.colors.wand.getExampleWandWithTwoSlots
 import io.kotest.matchers.shouldBe
