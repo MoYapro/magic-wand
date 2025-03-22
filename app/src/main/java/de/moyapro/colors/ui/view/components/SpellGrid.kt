@@ -19,8 +19,8 @@ import de.moyapro.colors.util.SPELL_SIZE
 @Composable
 fun SpellGrid(
     spells: List<Spell<*>>,
-    highlightedSpells: List<SpellId>,
-    clickSpellAction: (Spell<*>) -> Unit,
+    highlightedSpells: List<SpellId> = emptyList(),
+    clickSpellAction: (Spell<*>) -> Unit = {},
 ) {
     LazyVerticalGrid(
         modifier = Modifier

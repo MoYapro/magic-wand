@@ -53,6 +53,7 @@ fun LootView(
             clickWandAction = { wand -> if (selectedWands.contains(wand)) selectedWands -= wand else selectedWands += wand },
             currentGameState = currentGameState
         )
+        SpellGrid(currentGameState.currentRun.spells) { }
         Button(
             onClick = {
                 addAction(ClaimLootAction(selectedSpells, selectedWands))
