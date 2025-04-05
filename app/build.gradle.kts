@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 object VERSIONS {
-    const val JACKSON = "2.17.2"
-    const val COMPOSE_BOM = "2025.01.01"
+    const val JACKSON = "2.18.2"
+    const val COMPOSE_BOM = "2025.03.01"
 }
 
 android {
@@ -63,7 +63,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.activity:activity-compose:1.10.0")
+    implementation("androidx.activity:activity-compose:1.10.1")
     implementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -72,7 +72,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.fasterxml.jackson.core:jackson-databind:${VERSIONS.JACKSON}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${VERSIONS.JACKSON}")
-    implementation("androidx.datastore:datastore-preferences:1.1.2")
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.10")
