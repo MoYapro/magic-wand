@@ -42,14 +42,12 @@ suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState =
             progression = progression ?: initEmptyProgression(),
             options = options ?: initDefaultOptions()
         )
-        Log.d(TAG, "loaded data: ${getConfiguredJson().writeValueAsString(gameState)}")
         return@map gameState
     }.first()
 
 
 fun save(dataStore: DataStore<Preferences>, gameState: GameState, actions: Collection<GameAction>? = null): Unit = runBlocking {
     dataStore.edit { settings ->
-        Log.d(TAG, "save current game state ${gameState.currentRun.spells}")
         settings[CURRENT_FIGHT_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentFight)
         settings[CURRENT_RUN_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.currentRun)
         settings[OVERALL_PROGRESSION_STATE_KEY] = getConfiguredJson().writeValueAsString(gameState.progression)
@@ -73,7 +71,6 @@ fun loadActions(dataStore: DataStore<Preferences>): Collection<GameAction> = run
 fun saveActions(dataStore: DataStore<Preferences>, actions: Collection<GameAction>): Preferences {
     val actionsJson = getConfiguredJson().writeValueAsString(actions)
     return runBlocking {
-        Log.d(TAG, "Save Actions: $actionsJson")
         dataStore.edit { settings ->
             settings[GAME_ACTIONS_KEY] = actionsJson
         }
