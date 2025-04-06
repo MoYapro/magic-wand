@@ -51,7 +51,7 @@ fun EnemyView(@PreviewParameter(EnemyPreviewProvider::class) enemy: Enemy) {
                 .width(ENEMY_SIZE.dp)
         )
         Row(Modifier.height(ENEMY_SIZE.dp)) {
-            PowerMeter(height = ENEMY_SIZE, power = enemy.power)
+            PowerMeter(power = enemy.power, height = ENEMY_SIZE)
             Column(Modifier.size(ENEMY_SIZE.dp), verticalArrangement = Arrangement.SpaceBetween) {
                 Text(enemy.nextAction.name)
                 StatusEffectsView(enemy.statusEffects)

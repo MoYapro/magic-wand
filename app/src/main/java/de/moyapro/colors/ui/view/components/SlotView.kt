@@ -41,7 +41,7 @@ fun SlotView(
                 .width(SPELL_SIZE.dp)
                 .height(SPELL_SIZE.dp),
         ) {
-            PowerMeter(slot.power, SPELL_SIZE)
+            PowerMeter(SPELL_SIZE, slot.power)
             if (slot.spell != null) SpellView(spell = slot.spell)
         }
     }
