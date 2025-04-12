@@ -36,7 +36,7 @@ fun PowerMeter(
                             .width(8.dp)
                             .height((2 * powerMeterValue.size).dp)
                             .background(Color.White)
-                            .testTag("${powerMeterValue.value}Box")
+                            .testTag("${powerMeterValue.name}_Box")
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                 }
@@ -61,7 +61,10 @@ private data class PowerMeterFold(val rest: Int, val acc: List<Pair<PowerMeterVa
 
 class PowerValuesProvider : PreviewParameterProvider<Int> {
     override val values: Sequence<Int>
-        get() = sequenceOf(1, 2, 3, 6, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946)
+        get() = sequenceOf(
+            1, 2, 3, 6, 8, 13, 21, 34, 55, 89, 144, 233,
+            377, 610, 987, 1597, 2584, 4181, 6765, 10946
+        )
 
 }
 
