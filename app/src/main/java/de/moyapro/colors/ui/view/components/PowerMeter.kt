@@ -16,13 +16,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import de.moyapro.colors.util.ENEMY_SIZE
+import de.moyapro.colors.util.SPELL_SIZE
 
 @Composable
 @Preview
 fun PowerMeter(
     @PreviewParameter(provider = PowerValuesProvider::class) power: Int,
-    height: Int = ENEMY_SIZE,
+    height: Int = SPELL_SIZE,
 ) {
     val powerSplit = splitPower(power)
     Row {

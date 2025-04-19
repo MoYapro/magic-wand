@@ -1,16 +1,18 @@
 package de.moyapro.colors.game.actions.stash
 
-import de.moyapro.colors.*
-import de.moyapro.colors.game.*
-import de.moyapro.colors.game.model.*
+import de.moyapro.colors.createExampleWand
+import de.moyapro.colors.game.model.Spell
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.util.MAGE_I_ID
 import de.moyapro.colors.wand.getExampleGameState
-import io.kotest.matchers.collections.*
-import org.junit.*
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldHaveSize
+import org.junit.Test
 
 class PlaceSpellInStashActionTest {
     @Test
     fun placeSpellInStash() {
-        val targetSlot = createExampleWand().slots.first { it.spell?.name == "Bonk" }
+        val targetSlot = createExampleWand(MAGE_I_ID, Bonk()).slots.first { it.spell?.name == "Bonk" }
         val spellToPlaceInStash = targetSlot.spell!!
         val state = getExampleGameState()
         val action = PlaceSpellInStashAction(spellToPlaceInStash)

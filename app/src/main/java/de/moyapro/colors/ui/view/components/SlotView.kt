@@ -1,24 +1,27 @@
 package de.moyapro.colors.ui.view.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.moyapro.colors.createExampleSlot
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.WandId
 import de.moyapro.colors.game.model.gameState.GameState
+import de.moyapro.colors.game.spell.Fizz
+import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.ui.view.dragdrop.DropZone
 import de.moyapro.colors.util.SPELL_SIZE
+import de.moyapro.colors.R
 
 @Composable
 fun SlotView(
@@ -28,9 +31,7 @@ fun SlotView(
     currentGameState: GameState,
 ) {
     DropZone<Magic>(
-        modifier = Modifier
-            .border(BorderStroke(1.dp, Color.LightGray))
-            .size(SPELL_SIZE.dp),
+        modifier = Modifier.size(SPELL_SIZE.dp),
         currentGameState = currentGameState,
         addAction = addAction,
         condition = { _, droppedMagic -> slot.canPlace(droppedMagic) },
@@ -38,11 +39,40 @@ fun SlotView(
     ) { modifier: Modifier, _: Boolean, _: Magic? ->
         Box(
             modifier = modifier
-                .width(SPELL_SIZE.dp)
-                .height(SPELL_SIZE.dp),
+                .size(SPELL_SIZE.dp)
         ) {
+            Image(
+                modifier = modifier.size(SPELL_SIZE.dp),
+                painter = painterResource(id = R.drawable.empty_spell_slot),
+                contentDescription = "slot background"
+            )
+            SpellView(spell = slot.spell)
             PowerMeter(SPELL_SIZE, slot.power)
-            if (slot.spell != null) SpellView(spell = slot.spell)
         }
+    }
+}
+
+@Composable
+@Preview
+fun SlotViewPreview() {
+    Column {
+        SlotView(
+            wandId = WandId(),
+            slot = createExampleSlot(spell = null),
+            addAction = {},
+            currentGameState = Initializer.createInitialGameState()
+        )
+        SlotView(
+            wandId = WandId(),
+            slot = createExampleSlot(spell = Fizz()),
+            addAction = {},
+            currentGameState = Initializer.createInitialGameState()
+        )
+        SlotView(
+            wandId = WandId(),
+            slot = createExampleSlot(power = 4, spell = Splash()),
+            addAction = {},
+            currentGameState = Initializer.createInitialGameState()
+        )
     }
 }
