@@ -1,10 +1,11 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
 }
 object VERSIONS {
     const val JACKSON = "2.18.2"
-    const val COMPOSE_BOM = "2025.03.01"
+    const val COMPOSE_BOM = "2025.04.01"
 }
 
 android {
@@ -43,8 +44,9 @@ android {
     buildFeatures {
         compose = true
     }
+    @Suppress("UnstableApiUsage")
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "2.1.20"
     }
     packaging {
         resources {
@@ -61,7 +63,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.10.1")
     implementation(platform("androidx.compose:compose-bom:${VERSIONS.COMPOSE_BOM}"))
@@ -72,7 +74,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.fasterxml.jackson.core:jackson-databind:${VERSIONS.JACKSON}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${VERSIONS.JACKSON}")
-    implementation("androidx.datastore:datastore-preferences:1.1.4")
+    implementation("androidx.datastore:datastore-preferences:1.1.4") // 1.1.5 breaks some imports
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.10")
