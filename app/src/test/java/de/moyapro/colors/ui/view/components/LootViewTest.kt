@@ -69,7 +69,7 @@ class LootViewTest {
 
     @Test
     fun claimSelectedWands() {
-        val newWands: List<Wand> = listOf(createExampleWand(null), createExampleWand(null))
+        val newWands: List<Wand> = listOf(createExampleWand(null, additionalSlots = emptyArray<Slot>()), createExampleWand(null, additionalSlots = emptyArray<Slot>()))
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
@@ -86,7 +86,7 @@ class LootViewTest {
 
     @Test
     fun `select - deselect wands`() {
-        val newWands: List<Wand> = listOf(createExampleWand(null), createExampleWand(null))
+        val newWands: List<Wand> = listOf(createExampleWand(null, additionalSlots = emptyArray<Slot>()), createExampleWand(null, additionalSlots = emptyArray<Slot>()))
         var claimAction: GameAction? = null
         val addAction = { action: GameAction -> claimAction = action }
         composeTestRule.setContent {
