@@ -22,12 +22,14 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 
-fun createExampleWand(mageId: MageId? = null) = Wand(
-    mageId = mageId, slots = listOf(
+fun createExampleWand(mageId: MageId? = null, vararg additionalSlots: Slot = emptyArray()) = Wand(
+    mageId = mageId,
+    slots = listOf(
         createExampleSlot(level = 0, power = 3),
         createExampleSlot(level = 1, power = 11),
         createExampleSlot(level = 0, power = 4),
         createExampleSlot(level = 2, power = 7),
+        *additionalSlots
     )
 )
 
