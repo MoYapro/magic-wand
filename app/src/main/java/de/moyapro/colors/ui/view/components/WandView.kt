@@ -38,17 +38,19 @@ fun WandView(
 ) {
     val actualModifier = if (clickAction != null) modifier.clickable(onClick = { clickAction(wand) }) else modifier
     val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { level1, level2 -> level2.compareTo(level1) }
-    val maxLevel = slotsByLevel.keys.max()
+    if (slotsByLevel.isNotEmpty()) {
+        val maxLevel = slotsByLevel.keys.max()
 
-    Column(
-        modifier = actualModifier
-            .height(5 * SPELL_SIZE.dp)
-            .width(2 * SPELL_SIZE.dp)
-            .testTag(getTag(wand))
-    ) {
-        (maxLevel downTo 0).forEach { level ->
-            LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
-                items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() }) { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
+        Column(
+            modifier = actualModifier
+                .height(5 * SPELL_SIZE.dp)
+                .width(2 * SPELL_SIZE.dp)
+                .testTag(getTag(wand))
+        ) {
+            (maxLevel downTo 0).forEach { level ->
+                LazyRow(modifier = modifier.align(Alignment.CenterHorizontally)) {
+                    items(slotsByLevel[level]!!, key = { slot -> slot.hashCode() }) { slot -> SlotView(wand.id, slot, addAction, currentGameState) }
+                }
             }
         }
     }

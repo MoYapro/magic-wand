@@ -13,6 +13,7 @@ import de.moyapro.colors.createExampleWand
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.functions.getTag
+import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.GameState
@@ -40,7 +41,7 @@ class LootViewTest {
     @Test
     fun lootViewTest() {
         val newSpells: List<Spell<*>> = listOf(Fizz(), Bonk(), Splash())
-        val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID), createExampleWand(mageId = MAGE_II_ID))
+        val newWands: List<Wand> = listOf(createExampleWand(mageId = MAGE_I_ID, additionalSlots = emptyArray<Slot>()), createExampleWand(mageId = MAGE_II_ID, additionalSlots = emptyArray<Slot>()))
         composeTestRule.setContent {
             LootView(newSpells, newWands, goToNextScreenAction = {}, currentGameState = gameState)
         }
