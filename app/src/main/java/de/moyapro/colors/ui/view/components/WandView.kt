@@ -27,6 +27,7 @@ import de.moyapro.colors.game.spell.Fizz
 import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.MAGE_I_ID
 import de.moyapro.colors.util.SPELL_SIZE
+import java.util.SortedMap
 
 @Composable
 fun WandView(
@@ -36,8 +37,8 @@ fun WandView(
     currentGameState: GameState,
     clickAction: ((Wand) -> Unit)? = null,
 ) {
-    val actualModifier = if (clickAction != null) modifier.clickable(onClick = { clickAction(wand) }) else modifier
-    val slotsByLevel = wand.slots.groupBy(Slot::level).toSortedMap { level1, level2 -> level2.compareTo(level1) }
+    val actualModifier: Modifier = if (clickAction != null) modifier.clickable(onClick = { clickAction(wand) }) else modifier
+    val slotsByLevel: SortedMap<Int, List<Slot>> = wand.slots.groupBy(Slot::level).toSortedMap { level1, level2 -> level2.compareTo(level1) }
     if (slotsByLevel.isNotEmpty()) {
         val maxLevel = slotsByLevel.keys.max()
 
