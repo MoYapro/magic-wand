@@ -32,6 +32,7 @@ import de.moyapro.colors.util.GAME_ACTIONS_KEY
 import de.moyapro.colors.util.GAME_OPTIONS_STATE_KEY
 import de.moyapro.colors.util.OVERALL_PROGRESSION_STATE_KEY
 import de.moyapro.colors.util.getConfiguredJson
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -81,7 +82,7 @@ class LoadSaveTest {
         val initialGameState: GameState = Initializer.createInitialGameState()
         save(testDataStore, initialGameState, emptyActions)
         val gameViewModel: GameViewModel = GameViewModelFactory(testDataStore).create(GameViewModel::class.java)
-        getConfiguredJson().readValue<FightData>(testDataStore.data.first()[CURRENT_FIGHT_STATE_KEY]!!).fightState shouldBe FightState.NOT_STARTED
+        getConfiguredJson().readValue<FightData>(testDataStore.data.first()[CURRENT_FIGHT_STATE_KEY]!!).fightState shouldBe initialGameState.currentFight.fightState
         gameViewModel.uiState.value.getOrThrow() shouldBe initialGameState
         gameViewModel.addAction(StartFightAction())
         testDataStore.data.first()[GAME_ACTIONS_KEY] shouldBe """[{"randomSeed":-1,"name":"Increase action counter","target":null,"@type":"IncreaseActionCounterAction"},{"randomSeed":1,"name":"Start fight Action","target":null,"@type":"StartFightAction"}]"""
@@ -97,5 +98,15 @@ class LoadSaveTest {
         getConfiguredJson().readValue<ProgressionData>(testDataStore.data.first()[OVERALL_PROGRESSION_STATE_KEY]!!) shouldBe gameViewModel.uiState.value.getOrThrow().progression
 
         testDataStore.data.first()[GAME_ACTIONS_KEY] shouldBe """[]"""
+    }
+
+
+    @Test
+    fun `start fight action only once`(): Unit = runBlocking {
+        val actions: List<GameAction> = listOf(StartFightAction())
+        val initialGameState: GameState = Initializer.createInitialGameState()
+        save(testDataStore, initialGameState, actions)
+        val gameViewModel: GameViewModel = GameViewModelFactory(testDataStore).create(GameViewModel::class.java)
+        shouldThrow<Exception> { gameViewModel.addAction(StartFightAction()) }
     }
 }

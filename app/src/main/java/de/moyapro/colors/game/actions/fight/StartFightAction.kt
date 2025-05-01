@@ -29,9 +29,10 @@ data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Star
     }
 
     override fun onAddAction(actions: MutableList<GameAction>) {
-        if (actions.none { it is StartFightAction }) {
+        if (actions.any { it is StartFightAction }) {
             Log.w(TAG, "Cannot add multiple StartFightActions")
             throw IllegalStateException("Cannot add multiple StartFightActions")
         }
+        super.onAddAction(actions)
     }
 }
