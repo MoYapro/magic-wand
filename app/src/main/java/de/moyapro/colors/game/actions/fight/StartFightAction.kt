@@ -1,5 +1,6 @@
 package de.moyapro.colors.game.actions.fight
 
+import android.util.Log
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.gameState.FightData
@@ -7,11 +8,12 @@ import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.util.FightState.*
 
 data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Start fight Action") {
-
+    private val TAG = "StartFightAction"
     private val initialBoardConfiguration = Initializer.initialBattleBoard()
 
     override fun apply(oldState: GameState): Result<GameState> {
-// TODO        require(oldState.currentFight.fightState != ONGOING) { "Fight already started. Current state was: ${oldState.currentFight.fightState}" }
+        Log.d(TAG, "apply StartFightAction")
+        require(oldState.currentFight.fightState != ONGOING) { "Fight already started. Current state was: ${oldState.currentFight.fightState}" }
         if (oldState.currentRun.mages.size < 3) return Result.failure(IllegalArgumentException("Cannot start fight with less than 3 mages"))
         val newFightData = FightData(
             currentTurn = 1,
@@ -26,4 +28,10 @@ data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Star
         return Result.success(newState)
     }
 
+    override fun onAddAction(actions: MutableList<GameAction>) {
+        if (actions.none { it is StartFightAction }) {
+            Log.w(TAG, "Cannot add multiple StartFightActions")
+            throw IllegalStateException("Cannot add multiple StartFightActions")
+        }
+    }
 }

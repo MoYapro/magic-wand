@@ -1,6 +1,5 @@
 package de.moyapro.colors
 
-import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,48 +10,43 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import de.moyapro.colors.game.GameViewModel
+import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.gameState.GameState
 import de.moyapro.colors.ui.theme.ColorsTheme
 import de.moyapro.colors.ui.view.stash.StashSpellsView
 import de.moyapro.colors.ui.view.stash.StashWandsView
 import de.moyapro.colors.ui.view.stash.WandsEditView
+import de.moyapro.colors.util.FightState
 
 @Composable
 @Preview
 fun StashView(
-    @PreviewParameter(provider = GameViewModelPreviewProvider::class) gameViewModel: GameViewModel,
+    @PreviewParameter(provider = GameStatePreviewProvider::class) gameState: GameState,
     saveAndStartFight: () -> Unit = {},
     saveAndMain: () -> Unit = {},
     printState: (GameState) -> Unit = {},
+    addAction: (GameAction) -> Unit = {},
+    save: () -> Unit,
+    reloadState: () -> Unit,
 ) {
-
-    val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
-
-    val currentGameState: GameState = currentGameStateResult.getOrElse {
-        Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
-        Initializer.createInitialGameState()
-    }
+    require(gameState.currentFight.fightState == FightState.NOT_STARTED) { "Cannot stash while in fight" }
     ColorsTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.Gray
+            modifier = Modifier.fillMaxSize(), color = Color.Gray
         ) {
             Column(Modifier.fillMaxSize()) {
-                StashWandsView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
-                StashSpellsView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
-                WandsEditView(currentGameState = currentGameState, addAction = gameViewModel::addAction)
-                Buttons(currentGameState, saveAndStartFight, saveAndMain, printState)
+                StashWandsView(currentGameState = gameState, addAction = addAction)
+                StashSpellsView(currentGameState = gameState, addAction = addAction)
+                WandsEditView(currentGameState = gameState, addAction = addAction)
+                Buttons(gameState, saveAndStartFight, saveAndMain, printState, save, reloadState)
+
             }
         }
     }
@@ -65,31 +59,45 @@ fun Buttons(
     saveAndStartFight: () -> Unit,
     saveAndMain: () -> Unit,
     printState: (GameState) -> Unit,
+    save: () -> Unit,
+    reloadState: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(1f / 4f)
-            .border(1.dp, Color.LightGray)
-    ) {
-        Button(onClick = { saveAndStartFight() }) {
-            Text(text = "Next fight")
+    Column {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f / 4f)
+                .border(1.dp, Color.LightGray)
+        ) {
+            Button(onClick = { saveAndStartFight() }) {
+                Text(text = "Next fight")
+            }
+            Button(onClick = { saveAndMain() }) {
+                Text(text = "Main menu")
+            }
+            Button(onClick = { printState(currentGameState) }) {
+                Text(text = "Debug state")
+            }
         }
-        Button(onClick = { saveAndMain() }) {
-            Text(text = "Main menu")
-        }
-        Button(onClick = { printState(currentGameState) }) {
-            Text(text = "Debug state")
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f / 4f)
+                .border(1.dp, Color.LightGray)
+        ) {
+            Button(onClick = save) {
+                Text(text = "Save")
+            }
+            Button(onClick = reloadState) {
+                Text(text = "Reload")
+            }
         }
     }
 
 }
 
-private class GameViewModelPreviewProvider : PreviewParameterProvider<GameViewModel> {
-    override val values: Sequence<GameViewModel>
-        get() = sequenceOf(GameViewModel(
-            saveActions = {},
-            loadActions = { emptyList() },
-            saveState = { _, _ -> Unit }
-        ))
+private class GameStatePreviewProvider : PreviewParameterProvider<GameState> {
+    override val values: Sequence<GameState>
+        get() = sequenceOf(Initializer.createInitialGameState())
 }

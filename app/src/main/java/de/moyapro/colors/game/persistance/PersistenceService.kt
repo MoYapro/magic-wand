@@ -30,17 +30,32 @@ import kotlinx.coroutines.runBlocking
 private const val TAG = "PersistenceService"
 
 suspend fun loadSavedState(dataStore: DataStore<Preferences>): GameState = dataStore.data.map { preferences ->
-    Log.d(TAG, "load current fight state: ${preferences[CURRENT_FIGHT_STATE_KEY]}")
-    val objectMapper = getConfiguredJson()
-    val currentFight: FightData? = objectMapper.readOptionalValue(preferences[CURRENT_FIGHT_STATE_KEY])
-    val currentRun: RunData? = objectMapper.readOptionalValue(preferences[CURRENT_RUN_STATE_KEY])
-    val progression: ProgressionData? = objectMapper.readOptionalValue(preferences[OVERALL_PROGRESSION_STATE_KEY])
-    val options: GameOptions? = objectMapper.readOptionalValue(preferences[GAME_OPTIONS_STATE_KEY])
+    val currentFight: FightData? = load(preferences, PreferencesKey.CURRENT_FIGHT_STATE)
+    val currentRun: RunData? = load(preferences, PreferencesKey.CURRENT_RUN_STATE)
+    val progression: ProgressionData? = load(preferences, PreferencesKey.OVERALL_PROGRESSION_STATE)
+    val options: GameOptions? = load(preferences, PreferencesKey.GAME_OPTIONS_STATE)
     val gameState = GameState(
-        currentFight = currentFight ?: notStartedFight(), currentRun = currentRun ?: initEmptyRun(), progression = progression ?: initEmptyProgression(), options = options ?: initDefaultOptions()
+        currentFight = currentFight ?: notStartedFight(),
+        currentRun = currentRun ?: initEmptyRun(),
+        progression = progression ?: initEmptyProgression(),
+        options = options ?: initDefaultOptions()
     )
     return@map gameState
 }.first()
+
+private inline fun <reified T> load(preferences: Preferences, key: PreferencesKey): T? {
+    val data: String? = preferences[key.key]
+    Log.d(TAG, "load ${T::class.simpleName} from preferences: $data")
+    return getConfiguredJson().readNullableValue(data)
+
+}
+
+enum class PreferencesKey(val key: Preferences.Key<String>) {
+    CURRENT_FIGHT_STATE(CURRENT_FIGHT_STATE_KEY),
+    CURRENT_RUN_STATE(CURRENT_RUN_STATE_KEY),
+    OVERALL_PROGRESSION_STATE(OVERALL_PROGRESSION_STATE_KEY),
+    GAME_OPTIONS_STATE(GAME_OPTIONS_STATE_KEY)
+}
 
 
 fun save(dataStore: DataStore<Preferences>, gameState: GameState, actions: Collection<GameAction>? = null): Unit = runBlocking {
@@ -56,9 +71,8 @@ fun save(dataStore: DataStore<Preferences>, gameState: GameState, actions: Colle
 fun loadActions(dataStore: DataStore<Preferences>): Collection<GameAction> = runBlocking {
     dataStore.data.map { preferences: Preferences ->
         val actionsJson = preferences[GAME_ACTIONS_KEY]
-        Log.d(TAG, "load actions json: $actionsJson")
-        val actions: Collection<GameAction> = getConfiguredJson().readOptionalValue(actionsJson) ?: emptyList()
-        Log.d(TAG, "load actions object: $actions")
+        Log.d(TAG, "load actions: $actionsJson")
+        val actions: Collection<GameAction> = getConfiguredJson().readNullableValue(actionsJson) ?: emptyList()
         require(actions.all { it is GameAction }) { "failed to load game actions => are they mapped correctly?" }
         return@map actions
     }.first()
@@ -74,7 +88,7 @@ fun saveActions(dataStore: DataStore<Preferences>, actions: Collection<GameActio
     }
 }
 
-private inline fun <reified T> ObjectMapper.readOptionalValue(value: String?): T? {
+private inline fun <reified T> ObjectMapper.readNullableValue(value: String?): T? {
     if (null == value) return null
     return this.readValue(value)
 }

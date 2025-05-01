@@ -16,6 +16,8 @@ import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.actions.stash.AddGeneratorAction
 import de.moyapro.colors.game.actions.stash.AddWandAction
 import de.moyapro.colors.game.actions.stash.PlaceSpellAction
+import de.moyapro.colors.game.actions.stash.PlaceSpellInStashAction
+import de.moyapro.colors.game.actions.stash.RemoveSpellFromStashAction
 import de.moyapro.colors.game.actions.stash.RemoveSpellFromWandAction
 import de.moyapro.colors.game.enemy.actions.AttackMageAction
 import de.moyapro.colors.game.enemy.actions.SelfHealAction
@@ -43,6 +45,8 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = CombinedAction::class, name = "CombinedAction"),
     JsonSubTypes.Type(value = RemoveSpellFromWandAction::class, name = "RemoveSpellFromWandAction"),
     JsonSubTypes.Type(value = PlaceSpellAction::class, name = "PlaceSpellAction"),
+    JsonSubTypes.Type(value = PlaceSpellInStashAction::class, name = "PlaceSpellInStashAction"),
+    JsonSubTypes.Type(value = RemoveSpellFromStashAction::class, name = "RemoveSpellFromStashAction"),
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
     JsonSubTypes.Type(value = AttackMageAction::class, name = "AttackMageAction"),
     JsonSubTypes.Type(value = ClaimLootAction::class, name = "ClaimLootAction"),

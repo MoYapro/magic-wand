@@ -19,6 +19,7 @@ class GameViewModel(
     private val saveActions: (Collection<GameAction>) -> Unit,
     private val loadActions: () -> Collection<GameAction>,
     private val saveState: (GameState, Collection<GameAction>) -> Unit,
+    private val loadState: () -> GameState,
 ) : ViewModel() {
 
     init {
@@ -56,7 +57,13 @@ class GameViewModel(
     }
 
     fun materializeActions() {
+        Log.d(TAG, "Materialize actions" + actions.joinToString())
         saveState(_uiState.value.getOrThrow(), emptyList())
+    }
+
+    fun reloadState() {
+        Log.d(TAG, "Reload state")
+        this._uiState.value = Result.success(loadState())
     }
 
 }

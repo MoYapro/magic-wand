@@ -3,11 +3,16 @@ package de.moyapro.colors
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.GameViewModelFactory
+import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.gameState.GameState
 
 class StashActivity : ComponentActivity() {
@@ -19,18 +24,22 @@ class StashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            StashView(gameViewModel, ::saveAndStartFight, ::saveAndMain, ::printState)
+            val currentGameStateResult: Result<GameState> by gameViewModel.uiState.collectAsState()
+
+            val currentGameState: GameState = currentGameStateResult.getOrElse {
+                Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
+                Initializer.createInitialGameState()
+            }
+            StashView(
+                currentGameState,
+                ::startFightActivity,
+                ::startMainActivity,
+                ::printState,
+                gameViewModel::addAction,
+                gameViewModel::materializeActions,
+                gameViewModel::reloadState
+            )
         }
-    }
-
-    private fun saveAndStartFight() {
-        gameViewModel.materializeActions()
-        startFightActivity()
-    }
-
-    private fun saveAndMain() {
-        gameViewModel.materializeActions()
-        startMainActivity()
     }
 
     private fun printState(currentGameState: GameState) {

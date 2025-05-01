@@ -23,7 +23,8 @@ class GameViewModelFactory(private val dataStore: DataStore<Preferences>) :
             val saveActions: (Collection<GameAction>) -> Unit = { actionsToSave -> saveActions(dataStore, actionsToSave) }
             val loadActions: () -> Collection<GameAction> = { loadActions(dataStore) }
             val saveState: (GameState, Collection<GameAction>) -> Unit = { gameStateToSave, actionsToSave -> save(dataStore, gameStateToSave, actionsToSave) }
-            return@runBlocking GameViewModel(gameState, actions, saveActions, loadActions, saveState) as T
+            val loadState: () -> GameState = { runBlocking { loadSavedState(dataStore) } }
+            return@runBlocking GameViewModel(gameState, actions, saveActions, loadActions, saveState, loadState) as T
         }
     }
 }
