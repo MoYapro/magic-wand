@@ -1,14 +1,29 @@
 package de.moyapro.colors.game.actions.fight
 
+import android.util.Log
 import de.moyapro.colors.game.model.gameState.notStartedFight
 import de.moyapro.colors.wand.getExampleGameState
-import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import org.junit.BeforeClass
 import org.junit.Test
 
 class StartFightActionTest {
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            mockkStatic(Log::class)
+            every { Log.d(any(), any()) } returns 1
+            every { Log.e(any(), any()) } returns 1
+            every { Log.i(any(), any()) } returns 1
+        }
+    }
+
     @Test
     fun `copy data from currentRun to current fight`() {
         val state = getExampleGameState().copy(currentFight = notStartedFight())
@@ -29,6 +44,6 @@ class StartFightActionTest {
     @Test
     fun `each mage must have a wand`() {
         val state = getExampleGameState().updateCurrentRun(activeWands = emptyList())
-        shouldNotThrow<IllegalArgumentException> { StartFightAction().apply(state).getOrThrow() }
+        shouldThrow<IllegalArgumentException> { StartFightAction().apply(state).getOrThrow() }
     }
 }

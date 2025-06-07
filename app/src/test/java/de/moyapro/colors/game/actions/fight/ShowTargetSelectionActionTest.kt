@@ -4,6 +4,7 @@ import android.util.Log
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.functions.isInFrontRow
+import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.FieldId
 import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.game.model.gameState.GameState
@@ -30,7 +31,7 @@ internal class ShowTargetSelectionActionTest {
     @Test
     fun `should set targets on hitable fields`() {
         val state = getExampleGameState()
-        val gameViewModel = GameViewModel(state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {})
+        val gameViewModel = GameViewModel(state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {}, loadState = { Initializer.createInitialGameState() })
         gameViewModel.addAction(
             ZapAction(
                 target = state.currentFight.battleBoard.fields.first().id,

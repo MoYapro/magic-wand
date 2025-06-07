@@ -4,6 +4,7 @@ import android.util.Log
 import de.moyapro.colors.createExampleBattleBoardFilledWith
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.enemy.blueprints.TargetDummy
+import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.Slot
 import de.moyapro.colors.game.model.accessor.findById
@@ -30,7 +31,7 @@ internal class TargetSelectionActionTest {
 
     @Test
     fun `should execute action on selected enemy`() {
-        val gameViewModel = GameViewModel(getExampleGameState(), loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {})
+        val gameViewModel = GameViewModel(getExampleGameState(), loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {}, loadState = { Initializer.createInitialGameState() })
         val state = gameViewModel.uiState.value.getOrThrow()
         val fieldToHitId = state.currentFight.battleBoard.fields.last().id
         val wandToZap = state.currentFight.wands.first()

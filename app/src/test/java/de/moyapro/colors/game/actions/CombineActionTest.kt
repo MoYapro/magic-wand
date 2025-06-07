@@ -3,6 +3,7 @@ package de.moyapro.colors.game.actions
 import android.util.Log
 import de.moyapro.colors.game.GameViewModel
 import de.moyapro.colors.game.actions.fight.PlaceMagicAction
+import de.moyapro.colors.game.generators.Initializer
 import de.moyapro.colors.game.model.accessor.findSlot
 import de.moyapro.colors.game.model.accessor.findWand
 import de.moyapro.colors.wand.getExampleGameState
@@ -56,7 +57,7 @@ class CombineActionTest {
         val (slotToInsert1, slotToInsert2) = wandToEdit.slots
         val magic1 = state.currentFight.magicToPlay.first { slotToInsert1.spell!!.magicSlots.first().requiredMagic.type == it.type }
         val magic2 = state.currentFight.magicToPlay.last { slotToInsert2.spell!!.magicSlots.first().requiredMagic.type == it.type }
-        val viewModel = GameViewModel(initialState = state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {})
+        val viewModel = GameViewModel(initialState = state, loadActions = { emptyList() }, saveState = { _, _ -> Unit }, saveActions = {}, loadState = { Initializer.createInitialGameState() })
         viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert1.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
         viewModel.uiState.value.getOrThrow().currentFight.wands.findWand(wandToEdit.id)!!.slots.findSlot(slotToInsert2.id)!!.spell?.magicSlots?.first()?.placedMagic shouldBe null
         viewModel

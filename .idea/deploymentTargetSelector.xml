@@ -5,13 +5,7 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="LoadSaveTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="start fight action only once()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="start fight action multiple times should throw exception()">
+      <SelectionState runConfigName="Tests in 'de.moyapro.colors'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
