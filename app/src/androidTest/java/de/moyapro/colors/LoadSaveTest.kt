@@ -32,7 +32,6 @@ import de.moyapro.colors.util.GAME_ACTIONS_KEY
 import de.moyapro.colors.util.GAME_OPTIONS_STATE_KEY
 import de.moyapro.colors.util.OVERALL_PROGRESSION_STATE_KEY
 import de.moyapro.colors.util.getConfiguredJson
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -102,11 +101,11 @@ class LoadSaveTest {
 
 
     @Test
-    fun `start fight action only once`(): Unit = runBlocking {
+    fun `start fight action multiple times should be ignored`(): Unit = runBlocking {
         val actions: List<GameAction> = listOf(StartFightAction())
         val initialGameState: GameState = Initializer.createInitialGameState()
         save(testDataStore, initialGameState, actions)
         val gameViewModel: GameViewModel = GameViewModelFactory(testDataStore).create(GameViewModel::class.java)
-        shouldThrow<Exception> { gameViewModel.addAction(StartFightAction()) }
+        gameViewModel.addAction(StartFightAction())
     }
 }

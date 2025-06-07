@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
 }
 object VERSIONS {
-    const val JACKSON = "2.18.2"
+    const val JACKSON = "2.18.3"
     const val COMPOSE_BOM = "2025.04.01"
 }
 

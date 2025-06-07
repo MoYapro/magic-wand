@@ -29,10 +29,11 @@ data class StartFightAction(override val randomSeed: Int = 1) : GameAction("Star
     }
 
     override fun onAddAction(actions: MutableList<GameAction>) {
+        // fight is added when rendering fightActivity. But sometimes it's rendered multiple times before applied so we just skip the additional adding here
         if (actions.any { it is StartFightAction }) {
             Log.w(TAG, "Cannot add multiple StartFightActions")
-            throw IllegalStateException("Cannot add multiple StartFightActions")
+        } else {
+            super.onAddAction(actions)
         }
-        super.onAddAction(actions)
     }
 }
