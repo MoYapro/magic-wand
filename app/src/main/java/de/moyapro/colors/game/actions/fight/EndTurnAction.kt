@@ -2,6 +2,7 @@ package de.moyapro.colors.game.actions.fight
 
 import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.applyAllActions
+import de.moyapro.colors.game.effect.applyPoison
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicGenerator
@@ -19,13 +20,19 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
 
     override fun apply(oldState: GameState): Result<GameState> {
         random = Random(randomSeed)
-        val stateAfterEnemyActions = executeAllEnemyActions(oldState)
-        val nextTurnState = stateAfterEnemyActions.map(this::prepareNextTurn)
-        return nextTurnState
+        return executeAllEnemyActions(oldState)
+            .map(::prepareNextTurn)
+            .map(::doPoisonEffects)
+
     }
 
     private fun executeAllEnemyActions(oldState: GameState) =
         oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
+
+    private fun doPoisonEffects(oldState: GameState): GameState {
+        oldState.currentFight.battleBoard.mapEnemies(::applyPoison)
+        return oldState
+    }
 
 
     private fun prepareNextTurn(gameState: GameState): GameState {
