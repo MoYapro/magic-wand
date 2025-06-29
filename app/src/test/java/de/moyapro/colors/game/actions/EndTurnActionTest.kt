@@ -3,9 +3,11 @@ package de.moyapro.colors.game.actions
 import android.util.Log
 import de.moyapro.colors.game.actions.fight.EndTurnAction
 import de.moyapro.colors.game.actions.stash.AddGeneratorAction
+import de.moyapro.colors.game.effect.Effect
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicGenerator
 import de.moyapro.colors.game.model.MagicType.*
+import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.wand.getExampleGameState
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.ints.shouldBeLessThan
@@ -49,6 +51,28 @@ class EndTurnActionTest {
         val stateWithGenerator = AddGeneratorAction().apply(state).getOrThrow()
         val stateAfterTurn = EndTurnAction().apply(stateWithGenerator).getOrThrow()
         stateWithGenerator.currentFight.magicToPlay.size shouldBeLessThan stateAfterTurn.currentFight.magicToPlay.size
+    }
+
+    @Test
+    fun `End turn applied poison damage`() {
+        val state = getExampleGameState()
+        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.POISONED to 1)) }
+        val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
+        val startHealth = stateWithPoison.currentFight.battleBoard.fields[6].enemy?.health
+        startHealth shouldBe 5
+        val stateAfterTurn = EndTurnAction().apply(stateWithPoison).getOrThrow()
+        val endHealth = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.health
+        endHealth shouldBe 4
+    }
+
+    @Test
+    fun `End turn makes poison fade`() {
+        val state = getExampleGameState()
+        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.POISONED to 2)) }
+        val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
+        val stateAfterTurn = EndTurnAction().apply(stateWithPoison).getOrThrow()
+        val poisonAfter = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.statusEffects[Effect.POISONED] ?: 0
+        poisonAfter shouldBe 1
     }
 
     @Test

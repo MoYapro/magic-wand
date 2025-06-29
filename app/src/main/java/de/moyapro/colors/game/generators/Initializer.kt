@@ -22,7 +22,7 @@ import de.moyapro.colors.game.model.gameState.ProgressionData
 import de.moyapro.colors.game.model.gameState.RunData
 import de.moyapro.colors.game.model.gameState.Terrain
 import de.moyapro.colors.game.model.gameState.notStartedFight
-import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Acid
 import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.getConfiguredJson
 import java.util.Random
@@ -102,7 +102,7 @@ object Initializer {
     )
 
     private fun createStarterWand(): Wand {
-        val spell1 = Bonk(
+        val spell1 = Acid(
             magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.RED)))
         )
         val spell2 = Splash(

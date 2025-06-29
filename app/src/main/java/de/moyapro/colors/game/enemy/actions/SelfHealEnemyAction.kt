@@ -25,7 +25,7 @@ data class SelfHealAction(val self: EnemyId) : GameAction("Self Heal") {
         val currentFight = oldState.currentFight
         val updatedBattleBoard = currentFight.battleBoard.mapEnemies { enemy -> enemy.copy(health = enemy.health + 3) }
         return Result.success(
-            oldState.updateCurrentFight(battlefield = updatedBattleBoard)
+            oldState.updateCurrentFight(battleBoard = updatedBattleBoard)
         )
     }
 

@@ -13,9 +13,9 @@ data class BattleBoard(
     }
 
     fun getEnemies(): List<Enemy> = fields.mapNotNull(Field::enemy)
-    fun mapEnemies(mf: (Enemy) -> Enemy?) = this.copy(fields = fields.map { field ->
+    fun mapEnemies(modifierFunction: (Enemy) -> Enemy?) = this.copy(fields = fields.map { field ->
         if (field.enemy == null) field
-        else field.copy(enemy = mf(field.enemy))
+        else field.copy(enemy = modifierFunction(field.enemy))
     })
 
     operator fun get(id: FieldId): Enemy? {

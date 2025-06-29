@@ -30,8 +30,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
         oldState.currentFight.battleBoard.getEnemies().map(Enemy::nextAction).fold(Result.success(oldState), ::applyAllActions)
 
     private fun doPoisonEffects(oldState: GameState): GameState {
-        oldState.currentFight.battleBoard.mapEnemies(::applyPoison)
-        return oldState
+        return oldState.updateCurrentFight(battleBoard = oldState.currentFight.battleBoard.mapEnemies(::applyPoison))
     }
 
 
@@ -40,7 +39,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
         return gameState.updateCurrentFight(
             currentTurn = nextTurn(gameState.currentFight.currentTurn),
             fightState = checkFightEnd(gameState.currentFight),
-            battlefield = calculateEnemyTurn(gameState),
+            battleBoard = calculateEnemyTurn(gameState),
             magicToPlay = refreshMagicToPlay(gameState.currentFight.magicToPlay, gameState.currentFight.generators, gameState.currentFight.currentTurn)
         )
     }
