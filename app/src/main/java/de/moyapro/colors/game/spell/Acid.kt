@@ -19,19 +19,9 @@ class Acid(
     override fun copy(magicSlots: List<MagicSlot>): Acid {
         return Acid(this.id, magicSlots, this.effects)
     }
- 
+
     override fun damage(enemy: Enemy, power: Int): Enemy {
         return enemy
     }
 
-    override fun applyEffect(enemy: Enemy, power: Int): Enemy {
-        val allEff = super.applyEffect(enemy, power)
-        val currentEff = allEff.statusEffects.mapNotNull { (effect, amount) ->
-            if (effect == Effect.POISONED) {
-                if (amount <= 1) null // to remove it
-                else Effect.POISONED to amount - 1
-            } else effect to amount
-        }
-        return allEff.copy(statusEffects = currentEff.associate { it })
-    }
 }
