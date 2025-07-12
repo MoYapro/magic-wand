@@ -54,7 +54,7 @@ class EndTurnActionTest {
     }
 
     @Test
-    fun `End turn applied poison damage`() {
+    fun `End turn applies poison damage`() {
         val state = getExampleGameState()
         val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.POISONED to 1)) }
         val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
@@ -68,11 +68,38 @@ class EndTurnActionTest {
     @Test
     fun `End turn makes poison fade`() {
         val state = getExampleGameState()
-        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.POISONED to 2)) }
+        val startPoison = 2
+        val startWet = 2
+        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.POISONED to startPoison, Effect.WET to startWet)) }
         val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
         val stateAfterTurn = EndTurnAction().apply(stateWithPoison).getOrThrow()
         val poisonAfter = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.statusEffects[Effect.POISONED] ?: 0
-        poisonAfter shouldBe 1
+        val wetAfter = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.statusEffects[Effect.WET] ?: 0
+        poisonAfter shouldBe startPoison - 1
+        wetAfter shouldBe startWet - 1
+    }
+
+    @Test
+    fun `End turn applies fire damage`() {
+        val state = getExampleGameState()
+        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.BURNING to 1)) }
+        val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
+        val startHealth = stateWithPoison.currentFight.battleBoard.fields[6].enemy?.health
+        startHealth shouldBe 5
+        val stateAfterTurn = EndTurnAction().apply(stateWithPoison).getOrThrow()
+        val endHealth = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.health
+        endHealth shouldBe 4
+    }
+
+    @Test
+    fun `End turn makes fire grow`() {
+        val state = getExampleGameState()
+        val startBurning = 2
+        val updatedBattleBoard: BattleBoard = state.currentFight.battleBoard.mapEnemies { it.copy(statusEffects = mapOf(Effect.BURNING to startBurning)) }
+        val stateWithPoison = state.updateCurrentFight(battleBoard = updatedBattleBoard)
+        val stateAfterTurn = EndTurnAction().apply(stateWithPoison).getOrThrow()
+        val burningAfter = stateAfterTurn.currentFight.battleBoard.fields[6].enemy?.statusEffects[Effect.BURNING] ?: 0
+        burningAfter shouldBe startBurning + 1
     }
 
     @Test
