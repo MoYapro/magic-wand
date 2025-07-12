@@ -66,7 +66,7 @@ class EndTurnActionTest {
     }
 
     @Test
-    fun `End turn makes poison fade`() {
+    fun `End turn makes poison + wet fade`() {
         val state = getExampleGameState()
         val startPoison = 2
         val startWet = 2
