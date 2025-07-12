@@ -4,6 +4,7 @@ import de.moyapro.colors.game.actions.GameAction
 import de.moyapro.colors.game.actions.applyAllActions
 import de.moyapro.colors.game.effect.applyFire
 import de.moyapro.colors.game.effect.applyPoison
+import de.moyapro.colors.game.effect.applyWet
 import de.moyapro.colors.game.enemy.Enemy
 import de.moyapro.colors.game.model.Magic
 import de.moyapro.colors.game.model.MagicGenerator
@@ -35,6 +36,7 @@ data class EndTurnAction(override val randomSeed: Int = 1) : GameAction("End tur
             battleBoard = oldState
                 .currentFight.battleBoard
                 .mapEnemies(::applyPoison)
+                .mapEnemies(::applyWet)
                 .mapEnemies(::applyFire)
         )
     }
