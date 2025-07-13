@@ -60,7 +60,7 @@ object Initializer {
         val wand3 = createStarterWand(listOf(Fizz(), Splash())).copy(mageId = mage3.id)
         val mages = listOf(
             mage1.copy(wandId = wand1.id),
-            mage2.copy(wandId = wand3.id),
+            mage2.copy(wandId = wand2.id),
             mage3.copy(wandId = wand3.id),
         )
         return RunData(
