@@ -15,10 +15,12 @@ import de.moyapro.colors.game.actions.fight.ZapAction
 import de.moyapro.colors.game.actions.loot.ClaimLootAction
 import de.moyapro.colors.game.actions.stash.AddGeneratorAction
 import de.moyapro.colors.game.actions.stash.AddWandAction
+import de.moyapro.colors.game.actions.stash.AddWandToStashAction
 import de.moyapro.colors.game.actions.stash.PlaceSpellAction
 import de.moyapro.colors.game.actions.stash.PlaceSpellInStashAction
 import de.moyapro.colors.game.actions.stash.RemoveSpellFromStashAction
 import de.moyapro.colors.game.actions.stash.RemoveSpellFromWandAction
+import de.moyapro.colors.game.actions.stash.RemoveWandAction
 import de.moyapro.colors.game.enemy.actions.AttackMageAction
 import de.moyapro.colors.game.enemy.actions.SelfHealAction
 import de.moyapro.colors.game.model.FieldId
@@ -50,6 +52,8 @@ import de.moyapro.colors.game.model.gameState.GameState
     JsonSubTypes.Type(value = SelfHealAction::class, name = "SelfHealAction"),
     JsonSubTypes.Type(value = AttackMageAction::class, name = "AttackMageAction"),
     JsonSubTypes.Type(value = ClaimLootAction::class, name = "ClaimLootAction"),
+    JsonSubTypes.Type(value = RemoveWandAction::class, name = "RemoveWandAction"),
+    JsonSubTypes.Type(value = AddWandToStashAction::class, name = "AddWandToStashAction"),
 )
 abstract class GameAction(
     val name: String,
