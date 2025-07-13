@@ -13,6 +13,7 @@ import de.moyapro.colors.game.model.MagicGenerator
 import de.moyapro.colors.game.model.MagicSlot
 import de.moyapro.colors.game.model.MagicType
 import de.moyapro.colors.game.model.Slot
+import de.moyapro.colors.game.model.Spell
 import de.moyapro.colors.game.model.Wand
 import de.moyapro.colors.game.model.gameState.BattleBoard
 import de.moyapro.colors.game.model.gameState.Field
@@ -23,6 +24,8 @@ import de.moyapro.colors.game.model.gameState.RunData
 import de.moyapro.colors.game.model.gameState.Terrain
 import de.moyapro.colors.game.model.gameState.notStartedFight
 import de.moyapro.colors.game.spell.Acid
+import de.moyapro.colors.game.spell.Bonk
+import de.moyapro.colors.game.spell.Fizz
 import de.moyapro.colors.game.spell.Splash
 import de.moyapro.colors.util.getConfiguredJson
 import java.util.Random
@@ -51,14 +54,18 @@ object Initializer {
     )
 
     private fun initialRunData(): RunData {
-        val wandsAndMages = getInitialMages().map { mage ->
-            val wand = createStarterWand().copy(mageId = mage.id)
-            val mageWithWand = mage.copy(wandId = wand.id)
-            Pair(mageWithWand, wand)
-        }
+        val (mage1, mage2, mage3) = getInitialMages()
+        val wand1 = createStarterWand().copy(mageId = mage1.id)
+        val wand2 = createStarterWand(listOf(Fizz(), Bonk())).copy(mageId = mage2.id)
+        val wand3 = createStarterWand(listOf(Fizz(), Splash())).copy(mageId = mage3.id)
+        val mages = listOf(
+            mage1.copy(wandId = wand1.id),
+            mage2.copy(wandId = wand3.id),
+            mage3.copy(wandId = wand3.id),
+        )
         return RunData(
-            activeWands = wandsAndMages.map { it.second },
-            mages = wandsAndMages.map { it.first },
+            activeWands = listOf(wand1, wand2, wand3),
+            mages = mages,
             spells = emptyList(),
             wandsInBag = listOf(createExampleWand()),
             generators = generateMagicGenerators(),
@@ -101,15 +108,16 @@ object Initializer {
         Mage(id = MageId(2), health = 7),
     )
 
-    private fun createStarterWand(): Wand {
-        val spell1 = Acid(
-            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.RED)))
-        )
-        val spell2 = Splash(
-            magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN)))
-        )
-        val slot1 = Slot(level = 0, power = 2, spell = spell1)
-        val slot2 = Slot(level = 1, power = 2, spell = spell2)
+    private val starterSpells: List<Spell<*>> = listOf(
+        Acid(magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.RED)))),
+        Splash(magicSlots = listOf(MagicSlot(requiredMagic = Magic(type = MagicType.GREEN))))
+    )
+
+
+    private fun createStarterWand(spells: List<Spell<*>> = starterSpells): Wand {
+        require(spells.size == 2) { "Starter wand must have exactly two spells" }
+        val slot1 = Slot(level = 0, power = 2, spell = spells[0])
+        val slot2 = Slot(level = 1, power = 2, spell = spells[1])
         return Wand(slots = listOf(slot1, slot2))
     }
 
